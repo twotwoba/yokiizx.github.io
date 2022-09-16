@@ -1,0 +1,96 @@
+baseurl: 'https://yokiizx.github.io'
+languageCode: 'en-us'
+title: 'Yokiizx'
+theme: 'hugo-tania'
+paginate: 6
+
+disqusShortname: https-hugo-tania-netlify-app
+
+params:
+  # Emoji will show before the blog title on site navbar.
+  # titleEmoji: "🍭"
+
+  # Logo will show before the blog title on site navbar.
+  titleLogo: favicon.ico
+
+  # Enable float footnotes.
+  # Default to true
+  enableFootnotes: true
+
+  siteName: 'yokiizx的小破站'
+  siteDesc: '前端 react vue typescript JavaScript'
+  author: 'yokiizx'
+
+  colorScheme:
+    # Enable toggle colorScheme
+    # Default to true
+    toggle: true
+    # Default colorScheme
+    # Default to auto
+    default: auto
+
+  # Limit how many categories filter show above search input.
+  # Default to 5
+  maxCategoryToShow: 5
+
+  # Show your socail information with icon on index bio with `_index.md` content.
+  socialOptions:
+    dev-to:
+    github: https://github.com/yokiizx
+    email: yokiizx@163.com
+    facebook:
+    instagram:
+    linkedin:
+    medium:
+    stack-overflow:
+    steam:
+    telegram:
+    twitter:
+    twitch:
+    whatsapp:
+
+  # Comments settings
+  comments:
+    enabled: true
+    provider: giscus
+
+    giscus:
+      repo: yokiizx/blog-comment
+      id: R_kgDOIAftXg
+      category:
+        name: Announcements
+        id: DIC_kwDOIAftXs4CRdqE
+  # theme native
+  # comments:
+  #   enabled: true
+  #   provider: giscus
+
+  #   giscus:
+  #     repo: WingLim/hugo-tania
+  #     id: MDEwOlJlcG9zaXRvcnkzMTYyNjQzMDc=
+  #     category:
+  #       name: Comments
+  #       id: DIC_kwDOEtnPc84B_WKP
+
+menu:
+  header:
+    - name: Articles
+      url: '/articles/'
+    - name: Tags
+      url: '/tags/'
+    - name: 
+  # footer:
+  #   - name: RSS
+  #     url: "/index.xml"
+
+markup:
+  highlight:
+    noClasses: false
+    lineNos: true
+  goldmark:
+    renderer:
+      unsafe: true
+
+outputs:
+  home: ['HTML', 'JSON']
+  # home: ["HTML", "RSS", "JSON"]
