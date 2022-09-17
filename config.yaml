@@ -60,25 +60,18 @@ params:
       category:
         name: Announcements
         id: DIC_kwDOIAftXs4CRdqE
-  # theme native
-  # comments:
-  #   enabled: true
-  #   provider: giscus
-
-  #   giscus:
-  #     repo: WingLim/hugo-tania
-  #     id: MDEwOlJlcG9zaXRvcnkzMTYyNjQzMDc=
-  #     category:
-  #       name: Comments
-  #       id: DIC_kwDOEtnPc84B_WKP
 
 menu:
   header:
     - name: Articles
       url: '/articles/'
+      weight: 1
     - name: Tags
       url: '/tags/'
-    - name: 
+      weight: 2
+    - name: Notes
+      url: 'notes'
+      weight: 3
   # footer:
   #   - name: RSS
   #     url: "/index.xml"
