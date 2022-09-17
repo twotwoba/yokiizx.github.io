@@ -25,7 +25,7 @@ function demo() {
 }
 ```
 
-## 显示绑定
+## 显式绑定
 
 其实我更愿意称其为`强制绑定`哈哈哈。三个流氓 `apply`、`call`、`bind` 强行霸占 `this` 小美女!
 这三个函数都会劫持 this，绑定到指定的对象上。
@@ -78,12 +78,14 @@ demo.learn() // yokiizx is learning JS
 
 > 箭头函数还有没有原型链，不能 new 实例化，没有 arguments 等特点。
 
+小结：
+
 ```JavaScript
 var name = 'outer_name'
 var obj = {
   name: 'inner_name',
   log1: function () {
-    console.log(this.name) // this 指向调用时的上下文 (谁调用指向谁)
+    console.log(this.name) // 普通函数自带上下文，this 指向调用时的上下文 (谁调用指向谁)
   },
   log2: () => {
     console.log(this.name) // window环境: this 指向 window   ||   node环境: this 指向空对象 {}
@@ -100,7 +102,7 @@ var obj = {
   }
 }
 
-/** 注意 */
+/******* 注意 *******/
 var log_4 = obj.log4()  // 让内部箭头函数确定了 this 指向的是obj
 var demo = {
   name: 'demo'
