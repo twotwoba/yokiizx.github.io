@@ -14,7 +14,7 @@ tags: [diff, JavaScript]
      > 注意索引都是左闭右开的：`[start, end)`
 
 2. 对于负值的处理不同
-   - slice 把所有的*负值加上长度转为正常的索引*，且只能从前往后截取  
+   - slice 把所有的<mark>负值加上长度转为正常的索引</mark>，且只能从前往后截取  
      (`start > end`则返回空串)
    - substring 负值全部转为 `0`，可以做到从后往前截取  
      (`substring(5, -3)` <==> `substring(0, 5)`)

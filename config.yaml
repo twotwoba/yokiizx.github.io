@@ -21,6 +21,9 @@ params:
   siteDesc: '前端 react vue typescript JavaScript'
   author: 'yokiizx'
 
+  busuanzi:
+        enable: false
+
   colorScheme:
     # Enable toggle colorScheme
     # Default to true
