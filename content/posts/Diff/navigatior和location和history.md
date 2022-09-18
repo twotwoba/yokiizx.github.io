@@ -1,7 +1,7 @@
 ---
 title: 'navigator | location | history'
 date: 2022-09-18T15:17:04+08:00
-tags: [diff, BOM]
+tags: [diff, BOM, nginx]
 ---
 
 本文着重区分一下这三个 BOM api 。
@@ -75,7 +75,7 @@ history 顾名思义，主要是对浏览器的浏览历史进行操作。
 
   解决方案很多，常用的解决方案的话就是后端配置 nginx
 
-  ```nginx
+  ```sh
   location / {
     root html;
     index index.html index.htm;
@@ -85,3 +85,6 @@ history 顾名思义，主要是对浏览器的浏览历史进行操作。
     try_files $uri $uri/ /index.html;
   }
   ```
+
+  增加一个前端需要了解的 nginx 知识，跨域配置：
+  [Nginx 跨域配置](https://www.cnblogs.com/itzgr/p/13343387.html)

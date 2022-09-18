@@ -43,3 +43,7 @@ DOM 查询的方式比较，目前推荐使用 querySelector。
 
 > HTMLCollection 比 NodeList 多了个 `namedItem(name)` 方法，根据 name 属性获取 dom
 > NodeList 相比 HTMLCollection 多了更多的信息，比如注释，文本等
+
+##### 参考
+
+- [现代 JavaScript 教程](https://zh.javascript.info/document)
