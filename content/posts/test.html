@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <div class="demo">First div</div>
+
+  <script>
+    let divs1 = document.getElementsByTagName('div');
+    let divs2 = document.querySelectorAll('div');
+    console.info(divs1.length); // 1
+    console.info(divs2.length); // 1
+  </script>
+
+  <div class="demo">Second div</div>
+
+  <script>
+    console.info(divs1.length); // 2
+    console.info(divs2.length); // 1
+
+    console.log(document.getElementsByClassName('demo'))
+    console.log(document.querySelectorAll('.demo'))
+  </script>
+</body>
+
+</html>

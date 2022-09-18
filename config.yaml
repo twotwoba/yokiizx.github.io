@@ -2,7 +2,7 @@ baseurl: 'https://yokiizx.site'
 languageCode: 'en-us'
 title: 'Yokiizx'
 theme: 'hugo-tania'
-paginate: 6
+paginate: 10
 
 disqusShortname: https-hugo-tania-netlify-app
 
