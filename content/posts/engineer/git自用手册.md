@@ -112,6 +112,11 @@ git checkout [filename] # 暂存区恢复到工作区
 # 撤销 staged 文件
 git reset HEAD [filename]
 
+# 2.23 版本引入了新命令对以上两个命令做了统一
+git restore [filename]
+git restore --staged [filename]
+
+
 # 指针回退到某个版本
 git checkout [commit] # HEAD 将处于 detached (游离) 状态
 git checkout [branchName] # 当希望HEAD回到分支最初状态，这样即可
@@ -119,9 +124,6 @@ git checkout [branchName] # 当希望HEAD回到分支最初状态，这样即可
 # 如果checkout的commit下修改了bug，提交了commit，签回分支末端时，会提示要不要建一个新分支
 # 这时候可以新建一个临时分支，然后你本地自己的开发主分支去合并它，合并完后删除临时分支
 
-# 2.23 版本引入了新命令对以上两个命令做了统一
-git restore [filename]
-git restore --staged [filename]
 
 # 把分支指针指向对应的commit，移除之后的提交
 git reset --hard [commit] # 还原暂存区和工作区
