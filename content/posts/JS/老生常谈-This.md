@@ -1,7 +1,7 @@
 ---
 title: '老生常谈 -- This'
 date: 2022-09-17T01:25:06+08:00
-tags: ['JavaScript']
+tags: [JavaScript]
 ---
 
 ![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/this.png)
