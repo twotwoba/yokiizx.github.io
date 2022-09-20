@@ -253,6 +253,8 @@ export LANG=en_US.UTF-8
 | git diff head     | 工作区 vs 版本库 |
 | git diff --cached | 暂存区 vs 版本库 |
 
+掌握上述内容，足以在工作中应对绝大部分的使用场景，如果有特殊的情景，还是要记得去 google。
+
 ## 参考
 
 - [Pro Git 2nd Edition](https://git-scm.com)
