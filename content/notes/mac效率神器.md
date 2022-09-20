@@ -12,9 +12,10 @@ tags: [mac, tool]
 一般用来做粘贴板（好用！）和打开软件等常用功能就不说了，说一下我常用的两三个工作流。
 
 - [有道翻译](https://github.com/whyliam/whyliam.workflows.youdao)，主要用来快速查看音标，截图划词翻译还是推荐 bob
+- [vscode 快速打开项目](https://github.com/alexchantastic/alfred-open-with-vscode-workflow)，别再用手拖了，直接`code + 文件夹名` 不香嘛 🍚 [^1]
 - [CodeVar](https://github.com/xudaolong/CodeVar)，作为程序员起名字是个头疼事，交给它 👈🏻
-- [Base64 Image](https://www.packal.org/workflow/base64-image)，有些小图片直接交给 base64 更好哦~
 - [markdown table](https://github.com/crispgm/alfred-markdown-table)，用 vscode 写 markdown 我想只有 table 最让人厌烦了吧哈哈
+- [Base64 Image](https://www.packal.org/workflow/base64-image)，有些小 image 直接交给 base64 更好哦~
 - [查看本机 ip](https://github.com/alexchantastic/alfred-ip-address-workflow)，别再 ifconfig 啦，这个更快 🚀
 
 欢迎留言推荐~
@@ -47,3 +48,5 @@ tags: [mac, tool]
 ---
 
 欢迎留言推荐!!!❤️❤️❤️
+
+[^1]: 需手动修改脚本搜索范围为桌面 `~/Desktop/{query}`
