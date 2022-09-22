@@ -2,7 +2,8 @@ baseurl: 'https://yokiizx.site'
 languageCode: 'en-us'
 title: 'Yokiizx'
 theme: 'hugo-tania'
-paginate: 10
+paginate: 6
+copyright: 'CopyRight © 2022-{year} yokiizx. All rights reserved.'
 
 disqusShortname: https-hugo-tania-netlify-app
 
@@ -22,7 +23,7 @@ params:
   author: 'yokiizx'
 
   busuanzi:
-        enable: false
+    enable: false
 
   colorScheme:
     # Enable toggle colorScheme
