@@ -1,5 +1,5 @@
 ---
-title: 'JS关于DOM部分2'
+title: 'JS关于DOM部分(事件)'
 date: 2022-09-22T21:51:51+08:00
 tags: [HTML, DOM]
 ---
