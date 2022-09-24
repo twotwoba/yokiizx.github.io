@@ -108,4 +108,5 @@ LFU（Least Frequently Used，最少频繁使用）。
    - 希望 freq 对应的 key 的列表是存在时序的，便于快速查找并删除最旧的 key。
    - 希望能够快速删除 key 列表中的任何一个 key，因为如果频次为 freq 的某个 key 被访问，那么它的频次就会变成 freq+1，就应该从 freq 对应的 key 列表中删除，加到 freq+1 对应的 key 的列表中。
 
-> 小提示：LinkedHashSet
+> 小提示：LinkedHashSet  
+> 这篇文章不错：https://halfrost.com/lru_lfu_interview/
