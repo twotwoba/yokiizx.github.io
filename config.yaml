@@ -59,11 +59,11 @@ params:
     provider: giscus
 
     giscus:
-      repo: yokiizx/blog-comment
-      id: R_kgDOIAftXg
+      repo: yokiizx/yokiizx.github.io
+      id: R_kgDOIAmvFA
       category:
-        name: Announcements
-        id: DIC_kwDOIAftXs4CRdqE
+        name: comment
+        id: DIC_kwDOIAmvFM4CRnAW
 
 menu:
   header:
