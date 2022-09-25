@@ -4,8 +4,6 @@ date: 2022-09-20T17:06:54+08:00
 tags: [HTML, DOM]
 ---
 
-TODO
-
 ## DOM 的大小
 
 ##### box-sizing
