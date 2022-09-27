@@ -5,3 +5,7 @@ tags: [JavaScript]
 ---
 
 TODO
+
+## 推荐
+
+- [几个常见的 promise 笔试题](https://mp.weixin.qq.com/s/3TDT61hk8JYdDgvQFzSmNA)
