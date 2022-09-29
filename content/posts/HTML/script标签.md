@@ -35,3 +35,12 @@ defer 的脚本不会阻塞 DOM 的渲染，总要等待 DOM 解析完成,但是
 在实际开发中，defer 用于需要整个 DOM 的脚本，和/或脚本的相对执行顺序很重要的时候。
 
 async 用于独立脚本，例如计数器或广告，这些脚本的相对执行顺序无关紧要。
+
+### 拓展阅读
+
+- [浅谈 script 标签中的 async 和 defer](https://blog.csdn.net/lhjuejiang/article/details/81428226)
+- [script 标签中的 crossorigin 属性详解](https://blog.csdn.net/qq_40028324/article/details/107076751)
+- [跨域资源共享 CORS 详解](https://www.ruanyifeng.com/blog/2016/04/cors.html)
+- [什么是 MIME](https://www.cnblogs.com/jsean/articles/1610265.html)
+- [script 新属性 integrity 与 web 安全，再谈 xss](https://www.zhoulujun.cn/html/webfront/ECMAScript/js6/2018_0521_8115.html)
+- [link preload](http://eux.baidu.com/blog/fe/link-preload-%E6%A0%87%E7%AD%BE)
