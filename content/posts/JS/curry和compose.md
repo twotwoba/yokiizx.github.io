@@ -73,8 +73,7 @@ console.log(partialSum(1)(2)) // 103
 
 ##### compose
 
-compose 合成函数是把多层函数嵌套调用扁平化，内部函数执行的结果作为外部面函数的参数。  
-有点像 koa 的洋葱模型有没有?
+compose 合成函数是把多层函数嵌套调用扁平化，内部函数执行的结果作为外部面函数的参数。
 
 ```JavaScript
 function compose() {
