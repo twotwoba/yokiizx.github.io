@@ -121,3 +121,4 @@ options: {
 ## 参考
 
 - [事件委托](https://zh.javascript.info/event-delegation)
+- [事件模型](https://javascript.ruanyifeng.com/dom/event.html#toc16)

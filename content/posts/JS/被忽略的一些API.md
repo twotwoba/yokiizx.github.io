@@ -178,4 +178,6 @@ window.addEventListener("message", function(event) {
 2. web worker
 3. service worker
 
-> 参考[postMessage 可太有用了](https://juejin.cn/post/6844903665694687240#heading-11)
+### 推荐阅读
+
+- [postMessage 可太有用了](https://juejin.cn/post/6844903665694687240#heading-11)
