@@ -50,10 +50,8 @@ console.log(a); // 100
 1. CommonJS ESM 是在编译时输出接口(处理各模块的关系)
 2. CommonJS 输出的是值的拷贝，ESM 输出的是值的引用
 3. 循环加载的处理不同
-   - CommonJS `只输出已经执行的部分`，加载时也只能加载到执行了的部分。因为加载时`Module`会对导入 `module` 进行缓存(注意 module 和 Module 是两个不同的概念)，然后把 `module 上的 loaded 属性`从 false 变为 true。
-   - ESM 不关心是不是引用加载，遇到 import 时不会去执行模块，只是生成一个指向被加载模块的引用，只要这个引用保证真正取值时能够取到值存在就行。
-
-> [CommonJS 循环加载案例](https://nodejs.org/api/modules.html#modules_cycles)
+   - CommonJS `只输出已经执行的部分`，加载时也只能加载到执行了的部分。因为加载时`Module`会对导入 `module` 进行缓存(注意 module 和 Module 是两个不同的概念)，然后把 `module 上的 loaded 属性`从 false 变为 true，再次被 require 时就不会去加载而是直接从缓存中获取了，数据的修改变动也会修改缓存中的数据。
+   - ESM 遇到 import 时不会去执行模块，只是生成一个指向被加载模块的引用，只要这个引用保证真正取值时能够取到值存在就行。使用 module map 来标记进入过的模块为‘获取中（fetching）’。
 
 ```JavaScript
  // id 为路径标识符
@@ -82,4 +80,6 @@ function require(id) {
 
 ## 参考
 
+- [为什么模块循环依赖不会死循环？](https://mp.weixin.qq.com/s/t-TUAzL0q0oK7HsDVQRNMw)
+- [CommonJS 循环加载案例](https://nodejs.org/api/modules.html#modules_cycles)
 - [JavaScript 模块的循环加载](http://www.ruanyifeng.com/blog/2015/11/circular-dependency.html)
