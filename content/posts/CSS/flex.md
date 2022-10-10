@@ -76,7 +76,7 @@ unit = rest / count
 total = unit * 1 + 0
 ```
 
-所以 `flex: 1` 就是占据剩下的所有空间。
+所以 `flex: 1` 就是占据剩下的所有空间，但是有时候会被内部空间撑开，此时需要加上 `overflow: hidden` 来解决。
 
 如果是下面这样的呢？
 
