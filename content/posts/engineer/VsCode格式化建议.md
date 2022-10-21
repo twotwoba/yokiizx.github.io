@@ -40,11 +40,12 @@ tags: [engineer, vscode]
       "trailingComma": "none",
       "bracketSpacing": true,
       "arrowParens": "always",
-      "htmlWhitespaceSensitivity": "ignore"
+      "htmlWhitespaceSensitivity": "ignore",
+      "endOfLine": "auto"
     }
     ```
 
-    > 当然了，如果你乐意也可以在本地 vscode 的 settings.json 中做一份配置，只是需要注意如果本地项目中有`.editorconfig` 文件，setting.json 中关于 prettier 的配置会失效。
+    > 当然了，如果你乐意也可以在本地 vscode 的 settings.json 中做一份配置，只是需要注意如果本地项目中有`.editorconfig` 文件，settings.json 中关于 prettier 的配置会失效。
 
 3.  解决冲突  
     prettier 是专门做代码格式化的，eslint 是用来控制代码质量的，但是 eslint 同时也做了一些代码格式化的工作，而 vscode 中，prettier 是在 eslint --fix 之后进行格式化的，这导致把 eslint 对格式化的一些操作改变为 prettier 的格式化，从而产生了冲突。
