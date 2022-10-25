@@ -1,7 +1,78 @@
 ---
-title: 'Http前世今生'
+title: 'HTTP的前世今生'
 date: 2022-09-21T23:22:07+08:00
 tags: [http]
 ---
 
-TODO
+Hypertext transfer protocol，超文本传输协议。
+
+- 1991 http 0.9
+- 1996 http 1.0
+- 1997 http/1.1
+- 2015 http/2
+  - 2010 Google SPDY，2.0 的基础
+- 2018 http 3.0
+
+##### http 0.9/1.0
+
+http 0.9 只支持 GET 请求，1.0 在其基础之上增加了：
+
+1. 版本号，位于 request GET 一行后
+2. 状态码
+3. header 请求头
+4. Content-Type，支持不同类型文件传输
+5. content-encoding,支持不同编码格式文件传输
+
+http 1.0 有巨大性能问题，每个请求都要创建 tcp 连接，而且是串行的。
+
+##### http/1.1
+
+http/1.1 主要解决了 1.0 的性能问题，同时增加了一些新东西：
+
+1. 长连接机制。`connection: keep-alive; keep-alive: timeout=5, max=1000`，可以复用 TCP，避免了每次新建 tcp 连接的开销
+2. Pipeline 机制。不必再等到上一个请求的响应返回再发起下一个请求，主流浏览器默认关闭，因为会有队头阻塞的问题。因为 http 是无状态协议，发起是可以不同等待，但是返回必须按照请求顺序返回，一旦一个阻塞，则全部阻塞了。
+   - 只有幂等的方法才能使用 pipeline，例如 GET 和 HEAD 请求
+   - 新建立的连接也不能使用 pipeline，因为不知道服务器是否支持 http1.1
+3. chunked 编码传输，服务器端需要在 header 中添加“Transfer-Encoding: chunked”头域来替代传统的“Content-Length”。因为随着发展，动态资源引入，传输之前服务器也不知道资源的大小，服务器可以一边动态产生资源，一边传递给用户，这种机制称为“分块传输编码”。没有说明 `Content-Length` 这样，客户端就不能断连接，直到收到服务端的 EOF 标识。
+4. 引入了 options, put, delete, tarce 和 connect 方法。其中 options 主要应用于 CORS。
+5. 增加了缓存机制，cache-control, etag, if-none-match
+6. 增加了 host 头，指定服务器的域名。这样在同一台服务器上就可以搭建不同的网站了
+
+http/1.1 的性能问题：
+
+- 无状态协议，要求 response 按照请求顺序串行返回，会产生*队头阻塞*的问题
+- 文本传输，借助耗 CPU 的 zip 压缩的方式减少网络带宽，但是耗了前端和后端的 CPU
+
+##### http/2
+
+http/2 是二进制协议。
+基本概念：
+
+- 流（stream）：一个 request 和对应的 response 组成一个流
+- 帧（frame）：每个流由多个帧组成。帧根据承载内容不同，分为控制帧和数据帧。控制帧根据作用不同，有：同步帧、设置帧、ping 帧、header 帧等  
+  每个帧都是二进制数据，有利于数据压缩
+
+特性：
+
+- 利用流和帧，http/2 解决了应用层的队头阻塞的问题。  
+  每个流都有 id，每个帧也被打上了流的 id，将多个流的帧"混在一起"，发送到服务端，服务端根据 id 还原出流，最后再以同样的方式返回响应。
+- 多路复用，一个 tcp 连接可以进行任意数量的 http 请求，解决了一个域名下的请求数量限制。
+  问题：TCP 层的队头阻塞问题并没有解决。一但 tcp 发生了丢包，那么这个 tcp 连接中的所有请求都将被阻塞，表现反而不如 http1.1。
+- [HPACK 头部压缩算法](https://zhuanlan.zhihu.com/p/51241802)  
+  HPACK 中会维护一张静态列表和一张动态列表，在静态列表中会预置一些常用的 header(详见 RFC)，当要发送的请求符合静态列表中的内容时，会使用其对应的 index 进行替换，这样就可以大大压缩头部的 size 了
+- 更完善的服务端推送。  
+  `Server Push` 通过在 header 中添加 `X-Associated-Content` 头域（X-开头的头域都属于非标准头域，为自定义头域）来告知客户端会有新的内容推送过来。一般当用户第一次打开网站首页的时候，server 端会将很多资源主动推送过来。  
+  实际上“Server Push”机制只是省去了浏览器发送请求的过程。只有当服务端认为某些资源存在一定的关联性，即用户申请了资源 A，势必会继续申请资源 B、资源 C、资源 D...的时候，服务端才会主动推送这些资源，以此来达到节省浏览器发送 request 请求的过程。
+
+##### http/3
+
+为了解决 http/2 中多路复用 TCP 层的队头阻塞问题，google 专家们又创建了一个 QUIC （Quick UDP Internet Connections）协议，http 3.0 破天荒的**把 http 底层从 TCP 换成了 UDP 协议。**
+
+> 在一条链接上可以有多个流，流与流之间是互不影响的，当一个流出现丢包影响范围非常小，从而解决队头阻塞问题
+
+目前看下来，HTTP/3 目前看上去没有太多的协议业务逻辑上的东西，更多是 HTTP/2 + QUIC 协议。但，HTTP/3 因为动到了底层协议，所以，在普及方面上可能会比 HTTP/2 要慢的多的多。
+
+## 参考
+
+- [HTTP 演进之路](https://www.zhihu.com/column/c_1050708448047706112)
+- [HTTP 的前世今生](https://coolshell.cn/articles/19840.html)

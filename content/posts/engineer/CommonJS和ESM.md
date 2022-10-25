@@ -80,6 +80,7 @@ function require(id) {
 
 ## 参考
 
+- [Commonjs 和 Es Module 到底有什么区别？](https://mp.weixin.qq.com/s/6VncXyYo_UKxymvsUJyY5w)
 - [为什么模块循环依赖不会死循环？](https://mp.weixin.qq.com/s/t-TUAzL0q0oK7HsDVQRNMw)
 - [CommonJS 循环加载案例](https://nodejs.org/api/modules.html#modules_cycles)
 - [JavaScript 模块的循环加载](http://www.ruanyifeng.com/blog/2015/11/circular-dependency.html)
