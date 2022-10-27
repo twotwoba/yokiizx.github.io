@@ -1,7 +1,7 @@
 ---
 title: 'navigator | location | history'
 date: 2022-09-18T15:17:04+08:00
-tags: [diff, BOM, nginx]
+tags: [diff, BOM]
 ---
 
 本文着重区分一下这三个 BOM api 。
