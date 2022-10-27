@@ -1,10 +1,8 @@
-
 Hi, here is my blog, I'm yokiizx~.
 
-
-Keep the love of learning 🔥  
-Keep the love of living ❤️  
-Keep the love of YoLing ❤️  
+Keep the love of learning 📚  
+Keep the love of living 🏡  
+Keep the love of YoLing ❤️
 
 ![html](https://img.shields.io/badge/_-HTML-C5654F?logo=html5&logoColor=white) ![css](https://img.shields.io/badge/_-CSS-397DBA?logo=css3&logoColor=white) ![js](https://img.shields.io/badge/_-JavaScript-yellow?logo=javascript&)
 
