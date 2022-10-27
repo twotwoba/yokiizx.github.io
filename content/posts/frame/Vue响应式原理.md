@@ -55,7 +55,7 @@ export function defineReactive(obj: object, key: string, val?: any, ...otehrs) {
 
 ```JavaScript
 /**
- * 被观察者，依赖收集，收集的是使用到了这个数组的组件对应的 watcher
+ * 被观察者，依赖收集，收集的是使用到了这个数据的组件对应的 watcher
  */
 export default class Dep {
   constructor() {
