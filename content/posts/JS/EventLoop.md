@@ -120,25 +120,31 @@ Node 中，会把一些异步操作放到系统内核中去。当一个操作完
 
 ```txt
    ┌───────────────────────────┐
-┌─>│           timers          │    -> 此阶段执行由 setTimeout 和 setInterval 设置的回调
+┌─>│           timers          │    -> 执行 setTimeout 和 setInterval 的回调
 │  └─────────────┬─────────────┘
 │  ┌─────────────┴─────────────┐
-│  │     pending callbacks     │    -> 执行延迟到下一个循环迭代的 I/O 回调
+│  │     pending callbacks     │    -> 上一个循环遗留的 I/O 回调
 │  └─────────────┬─────────────┘
 │  ┌─────────────┴─────────────┐
 │  │       idle, prepare       │    -> 仅系统内部使用
 │  └─────────────┬─────────────┘    ┌───────────────┐
-│  ┌─────────────┴─────────────┐    │   incoming:   │    取出新完成的 I/O 事件
-│  │           poll            │<───┤  connections, │ -> 执行与 I/O 相关的回调(除了计时器回调,关闭回调和setImmediate回调之外的几乎所有回调)
-│  └─────────────┬─────────────┘    │   data, etc.  │    适当时，node 将在此处阻塞
+│  ┌─────────────┴─────────────┐    │   incoming:   │
+│  │           poll            │<───┤  connections, │ -> 执行与 I/O 相关的回调
+│  └─────────────┬─────────────┘    │   data, etc.  │
 │  ┌─────────────┴─────────────┐    └───────────────┘
 │  │           check           │    -> 执行 setImmediate 的回调
 │  └─────────────┬─────────────┘
 │  ┌─────────────┴─────────────┐
-└──┤      close callbacks      │    -> 执行一些关闭的回调函数
+└──┤      close callbacks      │    -> 执行一些关闭的回调函数, socket.destroy等事件
    └───────────────────────────┘
 
 ```
+
+- pending callbacks  
+  根据 Libuv 文档的描述：大多数情况下，在轮询 I/O 后立即调用所有 I/O 回调，但是，某些情况下，调用此类回调会推迟到下一次循环迭代。
+- poll  
+  这个阶段有一些观察者，文件观察者、I/O 观察者等。观察是否有新的请求进入，包含读取文件等待响应，等待新的 socket 请求，这个阶段在某些情况下是会阻塞的。
+  (执行除了计时器回调,关闭回调和 setImmediate 回调之外的几乎所有回调)
 
 详细的见推荐文章，在底部，一定要看看。
 
@@ -153,10 +159,30 @@ Node 中，会把一些异步操作放到系统内核中去。当一个操作完
   - promise
   - MutationObeserve
   - process.nextTick - node
-  - queueMicroTask
+  - queueMicroTask (Node.js 11 后实现)
+
+setTimeout VS setImmediate  
+拿 setTimeout 和 setImmediate 对比，这是一个常见的例子，基于被调用的时机和定时器可能会受到计算机上其它正在运行的应用程序影响，它们的输出顺序，不总是固定的。  
+但是一旦把这两个函数放入一个 I/O 循环内调用，setImmediate 将总是会被优先调用。因为 setImmediate 属于 check 阶段，在事件循环中总是在 poll 阶段结束后运行，这个顺序是确定的。
+
+```JavaScript
+fs.readFile(__filename, () => {
+  setTimeout(() => log('setTimeout'));
+  setImmediate(() => log('setImmediate'));
+})
+```
+
+Node 中宏任务分为了六大阶段执行，微任务执行时机在 Node11 前后发生了改变。
+
+- 在 Node.js v11.x 之前，当前阶段如果存在多个可执行的 Task，先执行完毕，再开始执行微任务。
+- 在 Node.js v11.x 之后，当前阶段如果存在多个可执行的 Task，先取出一个 Task 执行，并清空对应的微任务队列，再次取出下一个可执行的任务，继续执行。
+
+`process.next()`，从技术上讲，它不是事件循环的一部分，同步代码执行完会立马执行 `proces.next()`。如果出现递归 `process.nextTick()` 会阻断事件循环，陷入无限循环中，与同步的递归不同的是，它不会触碰 v8 最大调用堆栈限制。但是会破坏事件循环调度，setTimeout 将永远得不到执行。  
+将 process.nextTick 改为 setImmediate 虽然是递归的，但它不会影响事件循环调度，setTimeout 在下一次事件循环中被执行。
 
 ## 推荐
 
 - [Node.js 事件循环，定时器和 process.nextTick()](https://nodejs.org/zh-cn/docs/guides/event-loop-timers-and-nexttick/)
 - [浏览器工作原理与实践](https://blog.poetries.top/browser-working-principle/)
 - [Node.js 事件循环-比官方更全面](https://learnku.com/articles/38802)
+- [说说你对 Node.js 事件循环的理解](https://mp.weixin.qq.com/s/xuaHarOMRp6tzfLYqrWFCw)

@@ -119,6 +119,7 @@ class _Promise {
 
     const promise2 = new _Promise((resolve, reject) => {
       const fulfilledTask = () => {
+        // Nodejs.11后实现的
         queueMicrotask(() => {
           try {
             const x = onFulfilled(this.value)

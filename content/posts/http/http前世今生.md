@@ -56,7 +56,7 @@ http/2 是二进制协议。
 
 - 利用流和帧，http/2 解决了应用层的队头阻塞的问题。  
   每个流都有 id，每个帧也被打上了流的 id，将多个流的帧"混在一起"，发送到服务端，服务端根据 id 还原出流，最后再以同样的方式返回响应。
-- 多路复用，一个 tcp 连接可以进行任意数量的 http 请求，解决了一个域名下的请求数量限制。
+- 多路复用，一个 tcp 连接可以进行任意数量的 http 请求，解决了一个域名下的请求数量限制。  
   问题：TCP 层的队头阻塞问题并没有解决。一但 tcp 发生了丢包，那么这个 tcp 连接中的所有请求都将被阻塞，表现反而不如 http1.1。
 - [HPACK 头部压缩算法](https://zhuanlan.zhihu.com/p/51241802)  
   HPACK 中会维护一张静态列表和一张动态列表，在静态列表中会预置一些常用的 header(详见 RFC)，当要发送的请求符合静态列表中的内容时，会使用其对应的 index 进行替换，这样就可以大大压缩头部的 size 了
@@ -76,7 +76,13 @@ QUIC 是一个在 UDP 之上的伪 TCP +TLS +HTTP/2 的多路复用的协议。
 
 目前看下来，HTTP/3 目前看上去没有太多的协议业务逻辑上的东西，更多是 HTTP/2 + QUIC 协议。但，HTTP/3 因为动到了底层协议，所以，在普及方面上可能会比 HTTP/2 要慢的多的多。
 
+##### https
+
+TODO
+
 ## 参考
 
 - [HTTP 演进之路](https://www.zhihu.com/column/c_1050708448047706112)
 - [HTTP 的前世今生](https://coolshell.cn/articles/19840.html)
+- [http2.0 协议](https://juejin.cn/post/6844903984524705800)
+- [HTTP3.0 和 QUIC 协议那些事](https://blog.csdn.net/wolfGuiDao/article/details/108729560)
