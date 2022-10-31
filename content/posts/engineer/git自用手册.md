@@ -102,6 +102,14 @@ git merge [brnameA]     # 主分支指针前进
 
 > 不要 rebase 存在于您的存储库之外并且人们可能已经基于工作的提交。
 
+更常用的可能是 `git reabse -i HEAD`：
+
+```shell
+# 执行下面的命令就能对 commit 进行一系列操作了
+# 常用的如 编辑，合并等
+git rebase -i [HEAD~3]
+```
+
 ##### 撤销相关
 
 注意，如果文件是 untracked 那么使用下面命令是无效的，使用`git add`让文件被追踪。
@@ -259,3 +267,4 @@ export LANG=en_US.UTF-8
 
 - [Pro Git 2nd Edition](https://git-scm.com)
 - [git 中 HEAD^和 HEAD~的区别](https://blog.csdn.net/sayoko06/article/details/79471173)
+- [“纸上谈兵”之 Git 原理](https://mp.weixin.qq.com/s/FSBEM2GqhpVJ6yw9FkxnGA)

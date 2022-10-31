@@ -239,7 +239,7 @@ class _Promise {
       for (const p of promises) {
         _Promise.resolve(p).then((v) => {
           res[count++] = v
-          if(count === max) resolve(x)
+          if(count === max) resolve(res)
         })
       }
     })
@@ -298,7 +298,7 @@ module.exports = _Promise;
 
 最后 `npm run test` 测试一下吧.
 
-## 推荐
+## 参考
 
 - [遵循 Promises/A+规范，深入分析 Promise 源码实现(基础篇)](https://developer.aliyun.com/article/904989)
 - [几个常见的 promise 笔试题](https://mp.weixin.qq.com/s/3TDT61hk8JYdDgvQFzSmNA)
