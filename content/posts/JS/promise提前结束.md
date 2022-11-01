@@ -72,4 +72,8 @@ function stopPromise(req) {
 }
 ```
 
-其实核心就是借助另一个 promise 的 execute 函数，来让人可以手动改变 handle 的状态，进而影响 `Promise.race` 的执行，主要注意的是，req 仍然会执行完成，但是已经无意义了。
+其实核心就是借助另一个 promise 的 execute 函数，来让人可以手动改变 handle 的状态，进而影响 `Promise.race` 的执行。值得注意的是，req 仍然会执行完成，但是已经无意义了。
+
+## 参考
+
+- [axios 文档-取消请求](https://www.axios-http.cn/docs/cancellation)

@@ -302,6 +302,3 @@ module.exports = _Promise;
 
 - [遵循 Promises/A+规范，深入分析 Promise 源码实现(基础篇)](https://developer.aliyun.com/article/904989)
 - [几个常见的 promise 笔试题](https://mp.weixin.qq.com/s/3TDT61hk8JYdDgvQFzSmNA)
-- [拓展阅读-深入理解 generator](https://github.com/Sunny-lucking/blog/issues/6)
-- [拓展阅读-手写 async await 核心原理](https://juejin.cn/post/7136424542238408718)
-- [co 函数库的含义和用法](https://www.ruanyifeng.com/blog/2015/05/co.html)
