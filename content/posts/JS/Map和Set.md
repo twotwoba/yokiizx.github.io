@@ -94,8 +94,8 @@ console.log(d2.getPriv(), '--', d2.priv) // 2 -- undefined
 
 想要让一个普通对象成为可迭代对象：
 
-- 可迭代对象，必须具有 `Symbol.iterator` 方法, 该方法返回迭代器。(方法加到原型上)
-- 迭代器是具有 `next()` 方法的对象，`next()` 方法返回 `{done:.., value :...}` 格式的对象
+- 必须具有 `Symbol.iterator` 方法, 该方法就是迭代器。(方法加到原型上)
+- 迭代器是具有 `next()` 方法的对象，`next()` 方法返回 `{done:.., value :...}` 格式的迭代器对象
 
 ```JavaScript
 const range = {
@@ -106,8 +106,8 @@ const range = {
 // 1. for..of 调用首先会调用这个：
 range[Symbol.iterator] = function() {
 
-  // ……它返回迭代器对象（iterator object）：
-  // 2. 接下来，for..of 仅与下面的迭代器对象一起工作，要求它提供下一个值
+  // 返回迭代器：
+  // 2. 接下来，for..of 仅与下面的迭代器一起工作，要求它提供下一个值
   return {
     current: this.from,
     last: this.to,

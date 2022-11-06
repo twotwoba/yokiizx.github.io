@@ -172,3 +172,11 @@ subs 中收集的是每个 watcher，有多少个组件使用到了目标数据�
 ![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202210270940977.png)
 
 现在再看开头官网的图应该就很清晰了吧~👻
+
+---
+
+至于 Vue3 的原理，由于目前还未使用过（我更倾向于使用 React，不香嘛~），只是大概了解是使用 Proxy 来解决 Object.defineProperty 的缺陷的。下面是他人写的总结，有时间可以看看
+
+## 参考
+
+- [这次终于把 Vue3 响应式原理搞懂了！](https://mp.weixin.qq.com/s/F2yYqXE_xTHl0d8j03I-UQ)
