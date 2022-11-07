@@ -168,6 +168,7 @@ export default to;
 
 ## 参考
 
+- [深入理解 generators](http://www.alloyteam.com/2016/02/generators-in-depth/)
 - [深入理解 generator](https://github.com/Sunny-lucking/blog/issues/6)
 - [co 函数库的含义和用法](https://www.ruanyifeng.com/blog/2015/05/co.html)
-- [拓展阅读-手写 async await 核心原理](https://juejin.cn/post/7136424542238408718)
+- [手写 async await 核心原理](https://juejin.cn/post/7136424542238408718)
