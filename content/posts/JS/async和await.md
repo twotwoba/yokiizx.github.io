@@ -146,6 +146,28 @@ function co(gen) {
 
 async/await 的原理挺简单的，要善于理解。
 
+再记录一个常用的 async/await 处理错误比较好的库，`await-to-js`，源码如下（短小精炼）：
+
+```JavaScript
+export function to<T, U = Error> (
+  promise: Promise<T>,
+  errorExt?: object
+): Promise<[U, undefined] | [null, T]> {
+  return promise
+    .then<[null, T]>((data: T) => [null, data])
+    .catch<[U, undefined]>((err: U) => {
+      if (errorExt) {
+        const parsedError = Object.assign({}, err, errorExt);
+        return [parsedError, undefined];
+      }
+
+      return [err, undefined];
+    });
+}
+
+export default to;
+```
+
 ## 参考
 
 - [深入理解 generator](https://github.com/Sunny-lucking/blog/issues/6)
