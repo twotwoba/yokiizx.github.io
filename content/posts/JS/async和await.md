@@ -70,8 +70,6 @@ function gen() {
 }
 ```
 
-TODO
-
 ##### async/await
 
 理解了上面 generator 的原理，理解 async/await 就容易得多了。

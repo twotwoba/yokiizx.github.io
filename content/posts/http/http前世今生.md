@@ -80,7 +80,7 @@ QUIC 是一个在 UDP 之上的伪 TCP +TLS +HTTP/2 的多路复用的协议。
 
 ##### https
 
-https 依赖于 SSL/TLS，端口号是 443，最大的特点就是安全了，先比 http 也更利于 SEO。
+https 依赖于 SSL/TLS，端口号是 443，最大的特点就是安全了，相比 http 也更利于 SEO。
 
 安全的 HTTP 最重要的三个需求：
 
