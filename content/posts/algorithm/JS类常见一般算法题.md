@@ -117,3 +117,52 @@ function arrToTree(arr) {
   return res
 }
 ```
+
+---
+
+##### 斐波那契数列
+
+核心就是滚动数组的思想。
+
+```JavaScript
+function fib(n) {
+  if(n <= 1) return n
+  let p = 0, q = 0, r = 1;
+  for(let i = 2; i <= n; ++i) {
+    p = q
+    q = r
+    r = p + q
+  }
+  return r
+}
+```
+
+---
+
+##### 大数相加
+
+JS 的数值是有范围的，超过范围后就会损失精度，大数相加往往是通过字符串来实现的。
+
+在相加的过程中考虑进位即可。
+
+```JavaScript
+function bigSum(a, b) {
+  // 先补齐长度
+  const maxLength = Math.max(a.length, b.length)
+  a = a.padStart(maxLength, 0)
+  b = b.padStart(maxLength, 0)
+
+  // 再从末尾开始相加
+  let c = 0 // 进位
+  let sum = ''
+  for (let i = maxLength - 1; i >= 0; --i) {
+    let t = parseInt(a[i]) + parseInt(b[i]) + c
+    c = Math.floor(t / 10)
+    sum = (t % 10) + sum
+  }
+  if (c == 1) sum = c + sum // 注意不要遗漏最后的进位
+  return sum
+}
+
+console.log(bigSum('9007199254740991', '1234567899999999999'))
+```
