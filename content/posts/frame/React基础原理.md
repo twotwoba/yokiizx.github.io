@@ -290,6 +290,14 @@ export function render(
   );
 }
 
+/**
+ * @desc    渲染子树到容器中
+ * @param   parentComponent - 父组件，ReactDom.render的时候传 null
+ * @param   children        - 待渲染 dom (经过解析后的 ReactElement)
+ * @param   container       - 容器 dom
+ * @param   forceHydrate    - true-服务端渲染; false-客户端渲染
+ * @param   callback        - 渲染完成后回调函数
+ */
 function legacyRenderSubtreeIntoContainer(
   parentComponent: ?React$Component<any, any>,
   children: ReactNodeList,
@@ -299,10 +307,11 @@ function legacyRenderSubtreeIntoContainer(
 ): React$Component<any, any> | PublicInstance | null {
 
   const maybeRoot = container._reactRootContainer;
+
   let root: FiberRoot;
   if (!maybeRoot) {
     // Initial mount
-    root = legacyCreateRootFromDOMContainer( // 创建 root
+    root = legacyCreateRootFromDOMContainer( // 创建 FiberRoot
       container,
       children,
       parentComponent,
@@ -324,6 +333,12 @@ function legacyRenderSubtreeIntoContainer(
   return getPublicRootInstance(root);
 }
 ```
+
+大致流程：`ReactDom.render` 返回 `legacyRenderSubtreeIntoContainer` 函数执行的结果。这个函数会先调用 `legacyCreateRootFromDOMContainer` 来创建 `FiberRoot`，在初始化过程中，调用 `createContainer` 方法，在更新过程中调用 `updateContainer`，最后返回 `getPublicRootInstance(root)` 的结果。
+
+`createContainer`,`updateContainer`,`getPublicRootInstance` 这三个方法都引自 `ReactFiberReconciler.old.js`。从源码中能看见最终调用的是 `createFiberRoot` 这个方法，接着调用 `new FiberRootNode()` 最终创建了这个 FiberRoot。
+
+> react-reconciler 有 xx.old.js 和 xx.new.js 之分，两个都在维护，由 ReactFeatureFlags 中的 enableNewReconciler 控制使用哪种。主要目的是为了向前兼容、并且不影响之前和之后代码的稳定性。
 
 ##### ReactDom.createRoot()
 

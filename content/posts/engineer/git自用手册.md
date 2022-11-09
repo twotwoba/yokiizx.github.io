@@ -106,7 +106,7 @@ git merge [brnameA]     # 主分支指针前进
 
 ```shell
 # 执行下面的命令就能对 commit 进行一系列操作了
-# 常用的如 编辑，合并等
+# 常用的如 编辑，合并, 删除commit等
 git rebase -i [HEAD~3]
 ```
 
