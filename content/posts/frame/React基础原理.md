@@ -1,16 +1,17 @@
 ---
-title: 'React基础原理'
+title: 'React基础原理1'
 date: 2022-11-07T16:29:27+08:00
 tags: [React]
 ---
 
 PS：阅读源码前，推荐一个 VsCode 插件，`bookmarks`，比较方便，谁用谁知道。
 
-以下代码基于 React v18.2.0
-
 ##### React 大事件
 
 - React 16 引入 fiber 架构
+  - 引入 Fiber
+  - 可以中途中断更新，Reconciler 和 Renderer 的交替工作在 v16 之前是递归不可中断的
+  - 生命周期变化
 - React 16.8 引入 hooks
 - React 17
   - 全新的 JSX 转换（源代码中无需引入 React 了)
@@ -165,7 +166,7 @@ export function isValidElement(object) {
 
 ---
 
-注意： React17 后添加了全新的 JSX 转换，不过 React.createElement 任然保留，所以了解一下也是挺好的。
+注意： React17 后添加了全新的 JSX 转换，不过 React.createElement 仍然保留，所以了解一下也是挺好的。
 
 全新的 JSX 转换方法使得无需每个组件都引入 React 就能解析 JSX，但是要使用 React 导出的其他方法或 hook 还是需要引入的。
 
@@ -189,25 +190,8 @@ function App() {
 看看源码：
 
 ```JavaScript
-// react/jsx/ReactJSXElement  与以前一样
-const ReactElement = function(type, key, ref, self, source, owner, props) {
-  const element = {
-    // This tag allows us to uniquely identify this as a React Element
-    $$typeof: REACT_ELEMENT_TYPE,
-
-    // Built-in properties that belong on the element
-    type,
-    key,
-    ref,
-    props,
-
-    // Record the component responsible for creating this element.
-    _owner: owner,
-  };
-
-  return element;
-};
-
+// 1.react/jsx/ReactJSXElement  ReactElement与上方的基本一样
+// 2.替代 React.createElement()的jsx()
 export function jsx(type, config, maybeKey) {
   let propName;
 
@@ -226,16 +210,14 @@ export function jsx(type, config, maybeKey) {
   if (maybeKey !== undefined) {
     key = '' + maybeKey;
   }
-
   if (hasValidKey(config)) {
     key = '' + config.key;
   }
-
   if (hasValidRef(config)) {
     ref = config.ref;
   }
 
-  // Remaining properties are added to a new props object
+  // 提取除key,ref的其他props和默认属性defaultProps到 props 中
   for (propName in config) {
     if (
       hasOwnProperty.call(config, propName) &&
@@ -244,8 +226,6 @@ export function jsx(type, config, maybeKey) {
       props[propName] = config[propName];
     }
   }
-
-  // Resolve default props
   if (type && type.defaultProps) {
     const defaultProps = type.defaultProps;
     for (propName in defaultProps) {
@@ -267,11 +247,12 @@ export function jsx(type, config, maybeKey) {
 }
 ```
 
-最大的差别就是 children 变成了 maybeKey，官网上说这个主要就是为了做一些:[性能优化和简化](https://github.com/reactjs/rfcs/blob/createlement-rfc/text/0000-create-element-changes.md#motivation)
+最大的差别就是 children 变成了 maybeKey，官网上说这个主要就是为了做一些:[性能优化和简化](https://github.com/reactjs/rfcs/blob/createlement-rfc/text/0000-create-element-changes.md#motivation)。  
+so, children 去哪了??? // TODO
 
 ##### ReactDom.render(el, container, cb)
 
-这个 api 在 React18 之前使用，学习一下。
+这个 api 在 React18 之前使用，也是有必要学习一下的。
 
 ```JavaScript
 // render 就是调用了 legacyRenderSubtreeIntoContainer 个方法
@@ -306,6 +287,8 @@ function legacyRenderSubtreeIntoContainer(
   callback: ?Function,
 ): React$Component<any, any> | PublicInstance | null {
 
+  // 在 legacyCreateRootFromDOMContainer 后续调用了几个api返回了 FiberRoot
+  // 这个  FiberRoot 被挂载在 container._reactRootContainer
   const maybeRoot = container._reactRootContainer;
 
   let root: FiberRoot;
@@ -338,13 +321,111 @@ function legacyRenderSubtreeIntoContainer(
 
 `createContainer`,`updateContainer`,`getPublicRootInstance` 这三个方法都引自 `ReactFiberReconciler.old.js`。从源码中能看见最终调用的是 `createFiberRoot` 这个方法，接着调用 `new FiberRootNode()` 最终创建了这个 FiberRoot。
 
-> react-reconciler 有 xx.old.js 和 xx.new.js 之分，两个都在维护，由 ReactFeatureFlags 中的 enableNewReconciler 控制使用哪种。主要目的是为了向前兼容、并且不影响之前和之后代码的稳定性。
+> react-reconciler 有 xx.old.js 和 xx.new.js 之分，两个都在维护，由 ReactFeatureFlags 中的 enableNewReconciler 变量来控制使用哪种(默认为 false 使用从 old 中导出的)。主要目的是为了向前兼容、并且不影响之前和之后代码的稳定性。
 
-##### ReactDom.createRoot()
+###### ReactDom.createRoot()
 
-TODO
+React18 引入的方法，取代了 `ReactDom.render`，在 `packages/react-dom/src/client/ReactDOMRoot.js` 文件中。
+
+---
+
+##### React.Element 和 React.Component 的关系
+
+1. ClassComponent 和 pureComponent，都导出自 ReactBaseClasses.js
+
+```JavaScript
+function Component(props, context, updater) {
+  this.props = props;
+  this.context = context;
+  // If a component has string refs, we will assign a different object later.
+  this.refs = emptyObject;
+  // We initialize the default updater but the real one gets injected by the renderer.
+  this.updater = updater || ReactNoopUpdateQueue;
+}
+Component.prototype.isReactComponent = {};
+
+/* ---------- pureComponent ---------- */
+// 这里就是用来做寄生组合基础的
+function ComponentDummy() {}
+ComponentDummy.prototype = Component.prototype;
+/**
+ * Convenience component with default shallow equality check for sCU.
+ */
+function PureComponent(props, context, updater) {
+  this.props = props;
+  this.context = context;
+  // If a component has string refs, we will assign a different object later.
+  this.refs = emptyObject;
+  this.updater = updater || ReactNoopUpdateQueue;
+}
+
+const pureComponentPrototype = (PureComponent.prototype = new ComponentDummy());
+pureComponentPrototype.constructor = PureComponent;
+// Avoid an extra prototype jump for these methods.
+assign(pureComponentPrototype, Component.prototype);
+pureComponentPrototype.isPureReactComponent = true;
+```
+
+> 注意，无法通过引用类型来判断一个组件是 class 组件还是 function 组件，因为他两都是 Funciton，所以源码中才添加了这个 `Component.prototype.isReactComponent = {};` 这个。
+
+##### ReactElement 如何转为真实 DOM
+
+上面知道了 react 是如何把我们写的 jsx 变成 ReactElement，那么究竟是怎么变成真实 DOM 的呢？这是一个比较精密的过程。
+
+JSX 转为的 ReactElement 只是一个简单的数据结构，携带着 key，ref 和其他的 dom 上的 attr，v17 以前还携带者 children。但是 ReactElement 始终不包含以下信息：
+
+- 组件在更新中的 `优先级`
+- 组件的 `state`
+- 组件被打上的用于 `Renderer 的标记`
+
+这些内容都包含在 Fiber 节点中。
+
+所以：
+
+- 在组件 mount 时，Reconciler 根据 JSX 描述的组件内容生成组件对应的 Fiber 节点。
+- 在组件 update 时，Reconciler 将 JSX 与 Fiber 节点保存的数据对比，生成组件对应的 Fiber 节点，并根据对比结果为 Fiber 节点打上标记。然后再进入 render 阶段。
+
+##### 三大件
+
+从上方清楚了 JSX 转为 ReactElement 的过程，剩下的就交给三大件吧：
+
+- <mark>Scheduler（调度器）</mark>—— 调度任务的优先级，高优任务优先进入 Reconciler
+  - 是独立于 React 单独的包，react16 后加入
+  - 功能类似于 `requestIdleCallback` 这个 api，但是兼容性更好，并且触发频率稳定
+  - 除了在空闲时触发回调的功能外，Scheduler 还提供了多种调度优先级供任务设置
+- <mark>Reconciler（协调器）</mark>—— 负责找出变化的组件
+  - React 15， 协调器是递归处理处理虚拟 DOM，16 后可以中断了，看代码：
+    ```JavaScript
+    function workLoopConcurrent() {
+      // Perform work until Scheduler asks us to yield
+      while (workInProgress !== null && !shouldYield()) {
+        performUnitOfWork(workInProgress);
+      }
+    }
+    ```
+  - React 16 解决中断更新时 DOM 渲染不完全的方法是，Reconciler 与 Renderer 不再是交替工作。当 Scheduler 将任务交给 Reconciler 后，Reconciler 会为变化的虚拟 DOM 打上代表增/删/更新的标记。
+    ```JavaScript
+    // ReactFiberFlags.js 中
+    export const Placement = /*             */ 0b0000000000010;
+    export const Update = /*                */ 0b0000000000100;
+    export const PlacementAndUpdate = /*    */ 0b0000000000110;
+    export const Deletion = /*              */ 0b0000000001000;
+    ```
+    整个 Scheduler 与 Reconciler 的工作都在内存中进行。只有当所有组件都完成 Reconciler 的工作，才会统一交给 Renderer。
+- <mark>Renderer（渲染器）</mark>—— 负责将变化的组件渲染到页面上
+  - 根据 Reconciler 打的标记对 DOM 进行操作
+
+![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202211111612280.png)
+其中红框中的步骤随时可能由于以下原因被中断：
+
+- 有其他更高优任务需要先更新
+- 当前帧没有剩余时间
+
+由于红框中的工作都在内存中进行，不会更新页面上的 DOM，所以即使反复中断，用户也不会看见更新不完全的 DOM。
 
 ## 参考
 
 - [十五分钟读懂 React 17](https://juejin.cn/post/6894204813970997256)
 - [React18 新特性解读 & 完整版升级指南](https://juejin.cn/post/7094037148088664078)
+- [深入理解 JSX](https://react.iamkasong.com/preparation/jsx.html)
+- [卡颂大佬的 React 技术揭秘](https://react.iamkasong.com/)
