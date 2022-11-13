@@ -1,5 +1,5 @@
 ---
-title: 'React基础原理1'
+title: 'React基础原理1 - JSX'
 date: 2022-11-07T16:29:27+08:00
 tags: [React]
 ---
@@ -394,7 +394,7 @@ JSX 转为的 ReactElement 只是一个简单的数据结构，携带着 key，r
   - 功能类似于 `requestIdleCallback` 这个 api，但是兼容性更好，并且触发频率稳定
   - 除了在空闲时触发回调的功能外，Scheduler 还提供了多种调度优先级供任务设置
 - <mark>Reconciler（协调器）</mark>—— 负责找出变化的组件
-  - React 15， 协调器是递归处理处理虚拟 DOM，16 后可以中断了，看代码：
+  - React 15， 协调器是递归处理处理虚拟 DOM，16 后可以中断/恢复了，看代码：
     ```JavaScript
     function workLoopConcurrent() {
       // Perform work until Scheduler asks us to yield
