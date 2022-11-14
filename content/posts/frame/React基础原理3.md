@@ -1,5 +1,5 @@
 ---
-title: 'React基础原理3 - Uupdate'
+title: 'React基础原理3 - Update'
 date: 2022-11-13T10:09:22+08:00
 tags: [React]
 ---
