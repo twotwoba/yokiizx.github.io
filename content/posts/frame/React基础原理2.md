@@ -93,13 +93,25 @@ function App() {
 2. `createFiberRoot` 内部创建了 `FiberRoot` 后，调用 `createHostRootFiber`，创建 `RootFiber`，并加入初始化更新队列去
 
    ```JavaScript
-   // createFiberRoot 方法内:
-   // 未初始化的 RootFiber
-   const uninitializedFiber = createHostRootFiber(tag);
-   root.current = uninitializedFiber;       // 修改 FiberRoot 指向 RootFiber
-   uninitializedFiber.stateNode = root;     // RootFiber 的 stateNode 指向 FiberRoot
-   // 把为初始化的RootFiber加入初始化更新队列
-   initializeUpdateQueue(uninitializedFiber);
+   export function createFiberRoot(
+    containerInfo: any,
+    tag: RootTag,
+    ...
+    ): FiberRoot {
+      const root: FiberRoot = (new FiberRootNode(containerInfo, tag, hydrate): any);
+      if (enableSuspenseCallback) {
+        root.hydrationCallbacks = hydrationCallbacks;
+      }
+
+      // 创建未初始化的 rootFiber 并且将 fiberRoot 和 rootFiber 联系起来
+      const uninitializedFiber = createHostRootFiber(tag);
+      root.current = uninitializedFiber;    // 修改 FiberRoot 指向 RootFiber
+      uninitializedFiber.stateNode = root;  // RootFiber 的 stateNode 指向 FiberRoot, stateNode is any.
+
+      // 把未初始化的RootFiber加入初始化更新队列
+      initializeUpdateQueue(uninitializedFiber);
+      return root;
+   }
 
    // ReactUpdateQueue.old.js
    export function initializeUpdateQueue<State>(fiber: Fiber): void {
@@ -134,4 +146,5 @@ function App() {
 
 ## 参考
 
+- [React 源码](https://github.com/facebook/react)
 - [卡颂大佬的 React 技术揭秘](https://react.iamkasong.com/)
