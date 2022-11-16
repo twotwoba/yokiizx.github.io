@@ -25,7 +25,7 @@ function FiberNode(
   this.key = key;           // ReactElement 里的 key
   this.elementType = null;  // ReactElement.type，也就是我们调用 createElement 的第一个参数，大部分情况同type，某些情况不同，比如FunctionComponent使用React.memo包裹
   this.type = null;         // 对于 FunctionComponent，指函数本身，对于ClassComponent，指class，对于HostComponent，指DOM节点tagName
-  this.stateNode = null;    // 跟当前Fiber相关本地状态（比如浏览器环境就是DOM节点）
+  this.stateNode = null;    // 跟当前Fiber相关的本地状态（比如浏览器环境就是原生DOM节点）
 
   /* Fiber 树 */
   this.return = null;       // 指向它在 Fiber 树中的 parent，用来在处理完这个节点之后向上返回
