@@ -402,3 +402,6 @@ rootFiber.firstEffect -----------> fiber -----------> fiber
 ```
 
 这样，在 commit 阶段只需要遍历 effectList 就能执行所有 effect 了。
+
+`completeWork` 大致流程图：
+![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202211170035027.png)
