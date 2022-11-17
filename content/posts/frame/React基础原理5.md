@@ -140,7 +140,7 @@ function beginWork(
         // 省略处理
       }
 
-      // 复用current
+      // 复用current，判断子树是否需要更新
       return bailoutOnAlreadyFinishedWork(
         current,
         workInProgress,
@@ -350,7 +350,7 @@ case HostComponent: {
     // Certain renderers require commit-time effects for initial mount.
     // (eg DOM renderer supports auto-focus for certain elements).
     // Make sure such renderers get scheduled for later work.
-    // 与update逻辑中的updateHostComponent类似的处理props的过程
+    // 初始化 DOM 对象的事件监听器和属性
     if (
       finalizeInitialChildren(
         instance,
@@ -382,7 +382,7 @@ case HostComponent: {
 - 如果进入 mount，主要干了这么几件事
   - 为 fiber 创建对应的 DOM 节点，并赋值给 fiber.stateNode
   - 把子孙 DOM 节点放入刚刚生成的 DOM 节点中（我们是”归“阶段所以能拿到所有子孙节点）
-  - 与 update 逻辑中的 updateHostComponent 类似的处理 props 的过程
+  - 初始化 DOM 对象的事件监听器和属性
 
 当 `completeWork` 归到 rootFiber 时，在内存中就已经有了一个构建好的 DOM 树了。
 
@@ -405,3 +405,27 @@ rootFiber.firstEffect -----------> fiber -----------> fiber
 
 `completeWork` 大致流程图：
 ![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202211170035027.png)
+
+## 总结
+
+至少大概要清楚 render 阶段都做了什么：
+
+- beginWork
+  - mount：根据 tag（组件类型） 生成了新的 fiber 节点
+  - update：根据 props 和 type 判断是否可以复用：
+    1. 可以复用再判断子树是否检查更新，需要返回 workInProgress.child，不需要返回 null；
+    2. 不可复用则根据 tag 不同做不同操作，然后调用 `reconcileChildFibers` 通过 diff 算法生成 effectTag 的新 fiber 节点
+- completeWork  
+   根据 tag 不同进入不同的组件处理逻辑：
+
+  - mount
+    1. createInstance 创建 DOM 实例，赋值给 fiber.stateNode
+    2. 将子孙节点插入新生成的 DOM 节点
+    3. 初始化 DOM 对象的事件监听器和内部属性
+  - update
+    - updateHostComponent 主要是 diff props，返回需要更新的属性名和值的数组，形式如 `[key1,value1,key2,value2,...]`，并把这个数组赋值给 workInProgress.updateQueue。
+
+- completeUnitOfWork 内 completeWork 执行之后
+  最终把带有 effectTag 的 fiber 通过 nextEffect 连接形成单链表，挂载到父级 effectList 的末尾，并返回下一个 workInProgress fiber。
+
+最后 `performSyncWorkOnRoot` 内调用 `commitRoot(root);` 进入 commit 阶段。
