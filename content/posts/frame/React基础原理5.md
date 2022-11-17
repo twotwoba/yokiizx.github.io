@@ -1,5 +1,5 @@
 ---
-title: 'React基础原理5 - render阶段'
+title: 'React基础原理5 - render 阶段'
 date: 2022-11-14T17:06:21+08:00
 tags: [React]
 ---
@@ -230,7 +230,7 @@ export function reconcileChildren(
     // If we had any progressed work already, that is invalid at this point so
     // let's throw it out.
 
-    // 这里将使用 diff 算法 创建新Fiber 并加上 effectTag
+    // 这里将使用 diff 算法 创建新Fiber 并加上 flags(v16叫effectTag)
     workInProgress.child = reconcileChildFibers(
       workInProgress,
       current.child,
@@ -243,9 +243,9 @@ export function reconcileChildren(
 
 这里与 beginWork 一样，也是根据 current 是否为 null 来判断是 mount 还是 update 阶段的，不论走哪个逻辑，最终他会生成新的子 Fiber 节点并赋值给 workInProgress.child，作为本次 beginWork 返回值，并作为下次 performUnitOfWork 执行时 workInProgress 的传参。
 
-mountChildFibers 和 reconcileChildFibers 逻辑基本相同，唯一不同的是：reconcileChildFibers 会为生成的 Fiber 节点带上 `effectTag` 属性。
+mountChildFibers 和 reconcileChildFibers 逻辑基本相同，唯一不同的是：reconcileChildFibers 会为生成的 Fiber 节点带上 `flags(v16叫effectTag)` 属性。
 
-`ReactFiberFlags.js` 这个文件中存储着 effectTag 对应的操作：
+`ReactFiberFlags.js` 这个文件中存储着 flags(v16叫effectTag) 对应的操作：
 
 ```JavaScript
 // DOM需要插入到页面中
@@ -259,7 +259,7 @@ export const Deletion = /*                 */ 0b00000000001000;
 
 ```
 
-> 通过二进制表示 effectTag，可以方便的使用位操作为 fiber.effectTag 赋值多个 effect。
+> 通过二进制表示 flags(v16叫effectTag)，可以方便的使用位操作为 fiber.flags(v16叫effectTag) 赋值多个 effect。
 
 beginWork 的流程图：
 ![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202211152222775.png)
@@ -392,7 +392,7 @@ case HostComponent: {
  commitRoot(root); // 进入 commit 阶段
 ```
 
-注意：commit 阶段需要找到所有具备 effectTag 的 fiber 节点，并依次执行对应的操作，为了不再 commit 阶段再遍历一次 fiberTree 来提高性能，React 在 fiber 中设置了类似 UpdateQueue 对象的 fisrt/lastBaseUpdate 属性，为 firstEffect 和 lastEffect，通过 nextEffect 将具有 effectTag 的 Fiber 连接起来，这部分操作发生在 `completeUnitOfWork` 执行完 `completeWork` 之后。
+注意：commit 阶段需要找到所有具备 flags(v16叫effectTag) 的 fiber 节点，并依次执行对应的操作，为了不再 commit 阶段再遍历一次 fiberTree 来提高性能，React 在 fiber 中设置了类似 UpdateQueue 对象的 fisrt/lastBaseUpdate 属性，为 firstEffect 和 lastEffect，通过 nextEffect 将具有 flags(v16叫effectTag) 的 Fiber 连接起来，这部分操作发生在 `completeUnitOfWork` 执行完 `completeWork` 之后。
 
 还是因为 在 "归" 阶段，最终就是会形成从 rootFiber 到最后一个 fiber 的 effectList：
 
@@ -414,7 +414,7 @@ rootFiber.firstEffect -----------> fiber -----------> fiber
   - mount：根据 tag（组件类型） 生成了新的 fiber 节点
   - update：根据 props 和 type 判断是否可以复用：
     1. 可以复用再判断子树是否检查更新，需要返回 workInProgress.child，不需要返回 null；
-    2. 不可复用则根据 tag 不同做不同操作，然后调用 `reconcileChildFibers` 通过 diff 算法生成 effectTag 的新 fiber 节点
+    2. 不可复用则根据 tag 不同做不同操作，然后调用 `reconcileChildFibers` 通过 diff 算法生成 flags(v16叫effectTag) 的新 fiber 节点
 - completeWork  
    根据 tag 不同进入不同的组件处理逻辑：
 
@@ -426,6 +426,6 @@ rootFiber.firstEffect -----------> fiber -----------> fiber
     - updateHostComponent 主要是 diff props，返回需要更新的属性名和值的数组，形式如 `[key1,value1,key2,value2,...]`，并把这个数组赋值给 workInProgress.updateQueue。
 
 - completeUnitOfWork 内 completeWork 执行之后
-  最终把带有 effectTag 的 fiber 通过 nextEffect 连接形成单链表，挂载到父级 effectList 的末尾，并返回下一个 workInProgress fiber。
+  最终把带有 flags(v16叫effectTag) 的 fiber 通过 nextEffect 连接形成单链表，挂载到父级 effectList 的末尾，并返回下一个 workInProgress fiber。
 
 最后 `performSyncWorkOnRoot` 内调用 `commitRoot(root);` 进入 commit 阶段。

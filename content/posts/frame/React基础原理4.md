@@ -1,5 +1,5 @@
 ---
-title: 'React基础原理4 - update至render之间'
+title: 'React基础原理4 - update 至 render 之间'
 date: 2022-11-14T16:33:10+08:00
 tags: [React]
 ---

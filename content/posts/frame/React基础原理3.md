@@ -304,7 +304,7 @@ export function processUpdateQueue<State>(
 }
 ```
 
-state 的变化在 render 阶段产生与上次更新不同的 JSX 对象，通过 Diff 算法产生 effectTag，在 commit 阶段渲染在页面上。
+state 的变化在 render 阶段产生与上次更新不同的 JSX 对象，通过 Diff 算法产生 flags(16叫effectTag)，在 commit 阶段渲染在页面上。
 
 ## 参考
 
