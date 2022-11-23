@@ -74,7 +74,9 @@ function commitBeforeMutationEffects() {
 
 提一嘴生命周期，`getSnapshotBeforeUpdate` 是 React16 新增的 api，主要是因为 render 阶段可能被中断，然后再接着执行，而旧的 `componentWillXxx` 生命周期也是在 render 阶段执行，就可能会导致此类生命周期被触发执行多次。为此，React 提供了替代的生命周期钩子 `getSnapshotBeforeUpdate`，如上，它是在 commit 阶段 -- 确切说是 `commit before mutation` 也称为 `pre-commit` 阶段执行的，而 commit 是同步执行的，不会出现多次调用的问题。
 
-[关于 useEffect](./React-useEffect.md)
+[详细见关于 useEffect](./React-useEffect.md)。  
+此处，只需要知道 `useEffect` 是异步调用的，为了防止阻塞浏览器渲染。  
+`flushPassiveEffect` 根据优先级调用 `flushPassiveEffectsImpl`，然后在 `flushPassiveEffectsImpl` 内部遍历 `rootWithPendingPassiveEffects`。一开始 `rootWithPendingPassiveEffects` 为 `null`，它是在上一轮 layout 阶段之后把 `effectList` 赋给 `rootWithPendingPassiveEffects` 的。
 
 ## mutation(执行 DOM 操作)
 
