@@ -392,9 +392,9 @@ case HostComponent: {
  commitRoot(root); // 进入 commit 阶段
 ```
 
-注意：commit 阶段需要找到所有具备 flags(v16叫effectTag) 的 fiber 节点，并依次执行对应的操作，为了不再 commit 阶段再遍历一次 fiberTree 来提高性能，React 在 fiber 中设置了类似 UpdateQueue 对象的 fisrt/lastBaseUpdate 属性，为 firstEffect 和 lastEffect，通过 nextEffect 将具有 flags(v16叫effectTag) 的 Fiber 连接起来，这部分操作发生在 `completeUnitOfWork` 执行完 `completeWork` 之后。
+注意：commit 阶段需要找到所有具备 flags(v16叫effectTag) 的 fiber 节点，并依次执行对应的操作，为了不再 commit 阶段再遍历一次 fiberTree 来提高性能，React 在 fiber 中设置了类似 UpdateQueue 对象的 fisrt/lastBaseUpdate 属性，为 firstEffect 和 lastEffect，通过 nextEffect 将具有 flags(v16叫effectTag) 的 Fiber 连接起来，这部分操作发生在 `completeUnitOfWork` 内执行完 `completeWork` 之后。
 
-还是因为 在 "归" 阶段，最终就是会形成从 rootFiber 到最后一个 fiber 的 effectList：
+还是因为在 "归" 阶段，最终就是会形成从 rootFiber 到最后一个 fiber 的 effectList：
 
 ```JavaScript
                        nextEffect         nextEffect
