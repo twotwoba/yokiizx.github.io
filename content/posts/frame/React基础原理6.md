@@ -66,7 +66,7 @@ function commitBeforeMutationEffects() {
 }
 ```
 
-整体可以分为三部分：
+整体可以分为三部分，遍历 effectList，依次执行：
 
 - 处理 DOM 节点渲染/删除后的 autoFocus、blur 逻辑。
 - 调用 `getSnapshotBeforeUpdate` 生命周期钩子。
@@ -74,7 +74,7 @@ function commitBeforeMutationEffects() {
 
 提一嘴生命周期，`getSnapshotBeforeUpdate` 是 React16 新增的 api，主要是因为 render 阶段可能被中断，然后再接着执行，而旧的 `componentWillXxx` 生命周期也是在 render 阶段执行，就可能会导致此类生命周期被触发执行多次。为此，React 提供了替代的生命周期钩子 `getSnapshotBeforeUpdate`，如上，它是在 commit 阶段 -- 确切说是 `commit before mutation` 也称为 `pre-commit` 阶段执行的，而 commit 是同步执行的，不会出现多次调用的问题。
 
-TODO effect
+[关于 useEffect](./React-useEffect.md)
 
 ## mutation(执行 DOM 操作)
 
