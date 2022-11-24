@@ -21,17 +21,17 @@ function FiberNode(
   mode: TypeOfMode,
 ) {
   /* 作为静态数据结构的属性 */
-  this.tag = tag;           // 标记不同组件类型 Function/Class/Host...
+  this.tag = tag;           // 标记 Fiber 类型 FunctionComponent/ClassComponent/HostRoot...共25种(17.0.2)
   this.key = key;           // ReactElement 里的 key
-  this.elementType = null;  // ReactElement.type，也就是我们调用 createElement 的第一个参数，大部分情况同type，某些情况不同，比如FunctionComponent使用React.memo包裹
+  this.elementType = null;  // ReactElement.type，也就是我们调用 createElement 的第一个参数
   this.type = null;         // 对于 FunctionComponent，指函数本身，对于ClassComponent，指class，对于HostComponent，指DOM节点tagName
-  this.stateNode = null;    // 跟当前Fiber相关的本地状态（比如浏览器环境就是原生DOM节点）
+  this.stateNode = null;    // 跟当前Fiber相关的本地状态（比如浏览器环境就是DOM节点）
 
   /* Fiber 树 */
   this.return = null;       // 指向它在 Fiber 树中的 parent，用来在处理完这个节点之后向上返回
   this.child = null;        // 指向自己的第一个子节点，单链表结构
   this.sibling = null;      // 指向自己的兄弟结构，兄弟节点的return指向同一个父节点
-  this.index = 0;
+  this.index = 0;           // 在多节点 diff 时会用到, 记录fiber在同级中的索引位置
 
   this.ref = null;          // ref 属性
 

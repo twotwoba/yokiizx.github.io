@@ -241,7 +241,7 @@ export function reconcileChildren(
 }
 ```
 
-这里与 beginWork 一样，也是根据 current 是否为 null 来判断是 mount 还是 update 阶段的，不论走哪个逻辑，最终他会生成新的子 Fiber 节点并赋值给 workInProgress.child，作为本次 beginWork 返回值，并作为下次 performUnitOfWork 执行时 workInProgress 的传参。
+这里也是根据 current 是否为 null 来判断是 mount 还是 update 阶段的，不论走哪个逻辑，最终他会生成新的子 Fiber 节点并赋值给 workInProgress.child，作为本次 beginWork 返回值，并作为下次 performUnitOfWork 执行时 workInProgress 的传参。
 
 mountChildFibers 和 reconcileChildFibers 逻辑基本相同，唯一不同的是：reconcileChildFibers 会为生成的 Fiber 节点带上 `flags(v16叫effectTag)` 属性。
 
