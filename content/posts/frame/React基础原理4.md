@@ -1,12 +1,12 @@
 ---
-title: 'React基础原理4 - update 至 render 之间'
+title: 'React基础原理4 - 获取fiberRoot&调度更新'
 date: 2022-11-14T16:33:10+08:00
 tags: [React]
 ---
 
 上文的 5 种触发更新使得被触发更新的 Fiber 对象上已经记录下了所有需要变化的 Update，那么接下来就是要调用 `markUpdateLaneFromFiberToRoot` 这个方法。
 
-##### markUpdateLaneFromFiberToRoot
+##### markUpdateLaneFromFiberToRoot (获取到 fiberRoot)
 
 ```JavaScript
 function markUpdateLaneFromFiberToRoot(sourceFiber: Fiber, lane: Lane): FiberRoot | null {
@@ -45,7 +45,7 @@ function markUpdateLaneFromFiberToRoot(sourceFiber: Fiber, lane: Lane): FiberRoo
 
 接下来做的就是去触发调度更新了。
 
-##### ensureRootIsScheduled
+##### ensureRootIsScheduled (调度更新)
 
 该方法的源码的注释比较清晰容易理解。
 

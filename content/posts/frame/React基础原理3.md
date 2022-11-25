@@ -4,6 +4,12 @@ date: 2022-11-13T10:09:22+08:00
 tags: [React]
 ---
 
+React 工作的整个流程：
+
+```txt
+触发状态更新 ---> 创建 Update 对象 ---> 
+```
+
 在 JSX 拥有了 ReactElement，ReactElement 进化为 Fiber 后（render 阶段），就要被渲染进入视野了（commit 阶段）。render 阶段是协调器 Reconciler 发挥作用，commit 阶段是渲染器 Renderer 发挥作用。
 
 但是在 render 阶段之前，我们需要一个阶段，去创建 update 对象。
@@ -304,7 +310,7 @@ export function processUpdateQueue<State>(
 }
 ```
 
-state 的变化在 render 阶段产生与上次更新不同的 JSX 对象，通过 Diff 算法产生 flags(16叫effectTag)，在 commit 阶段渲染在页面上。
+state 的变化在 render 阶段产生与上次更新不同的 JSX 对象，通过 Diff 算法产生 flags(16 叫 effectTag)，在 commit 阶段渲染在页面上。
 
 ## 参考
 
