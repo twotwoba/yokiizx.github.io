@@ -293,6 +293,217 @@ function reconcileChildrenArray(
 
 进入方法，官方注释就告诉我们，fiber 是单链表没有反向指针，所以一个单链表的 currentFiber tree 和 JSX 对象组成的数组做对比是做不到数组常用的双指针从两端往中间遍历的。现象：** `newChildren[0]` 与 `fiber` 比较，`newChildren[1] `与 `fiber.sibling` 比较。**
 
-当未知长度 oldFiber 单链表和未知大小的 newChildren 数组比较的时候，会出现四种情况：
+进入函数体内，当未知长度 oldFiber 单链表和未知大小的 newChildren 数组比较的时候，会出现四种情况：
+
+- oldFiber 单链表和 newChildren 数组同时遍历完了
+- oldFiber 单链表遍历完了，newChildren 数组没有遍历完
+- oldFiber 单链表没有遍历完，newChildren 数组遍历完了
+- oldFiber 单链表和 newCildren 数组都没有遍历完
+
+`reconcileChildrenArray` 巧妙的处理了上方的各种情况，大概说下流程：
+
+1. 第一次进入 for 循环的时候，遍历比较 `oldFiber` 和 `newChildren[newIdx]` 查看是否可以复用，**优先处理的是更新操作**。
+
+   - 可以复用就返回 `existing`。
+   - 不可复用返回 null。
+     - `updateSlot` 会先判断 key 是否相同，不相同直接返回 null，会 break 退出循环
+     - 如果 key 相同会再进入 `updateElement`等，这里会判断 type 是否相同，如果 type 不相同，会将 oldFiber 标记为 DELETION，并继续遍历
+
+2. 当 oldFiber 为 null 或 `newIdx === newChildren.length` 时(即 oldFiber 单链表遍历完/newChildren 遍历完/同时遍历完)，本轮循环结束，继续往下走~
+
+3. 当从第一轮循环退出时，上方说的四种情况就出现了。
+
+   - 都遍历完了，diff 结束
+
+   - newChildren 遍历完， oldFiber 没有遍历完，把剩下的所有 oldFiber 标记为 `DELETION`
+     ```JavaScript
+     if (newIdx === newChildren.length) {
+        // We've reached the end of the new children. We can delete the rest.
+        deleteRemainingChildren(returnFiber, oldFiber);
+        return resultingFirstChild;
+     }
+     ```
+   - oldFiber 遍历完，newChildren 没有遍历完，剩下的 newChildren 可以全部为插入
+     ```JavaScript
+     // oldFiber 遍历完了, 从newIndex的位置继续遍历剩下的 newChildren，
+     // 剩下的全部是可以直接 PLACEMENT 的
+     if (oldFiber === null) {
+        // for 循环，接着第一轮退出来时的 newIdx 位置开始，
+        return resultingFirstChild
+     }
+     ```
+   - 都未遍历完，找到移动的节点，并插入正确的位置，就是
+
+     ```JavaScript
+     // 能走到这里，说明单链和数组都没有遍历完，那么一定是发生了位置的变换
+     const existingChildren = mapRemainingChildren(returnFiber, oldFiber);
+     ```
+
+     为了复用仅仅是移动了位置的 fiber，`mapRemainingChildren` 用 key 作为 map 的 key，用 fiber 作为 value，返回了 `existingChildren` 这个 map 对象，这样查询的时候，就能做到 O(1)的时间复杂度了。  
+     接着对 newChildren 进行遍历， 通过`updateFromMap`找到位置变动但是可以复用的 fiber，若存在，同时从 `existingChildren` 中删除对应的 k-v 映射。
+
+     找到可复用节点之后要插入正确的位置，是通过比较 `lastPlacedIndex` 和 `oldIndex`。
+
+     ```JavaScript
+     // placeChild 主要逻辑
+     newFiber.index = newIndex;          // 把新的位置给newFiber
+     const current = newFiber.alternate;
+     if (current !== null) {
+      const oldIndex = current.index;    // 找到旧的索引
+      if (oldIndex < lastPlacedIndex) {  // 旧的索引和最后一个可复用节点的位置进行比较
+        // This is a move.
+        newFiber.flags = Placement;      // 需要移动到后面
+        return lastPlacedIndex;
+      } else {
+        // This item can stay in place.
+        return oldIndex;                 // 无需移动, 同时返回oldIndex
+      }
+     } else {
+      // This is an insertion.
+      newFiber.flags = Placement;
+      return lastPlacedIndex;
+     }
+     ```
+
+     最后，如果 `existingChildren` 不为空，说明剩下的 oldFiber 也都无用，需要被标记为 DELETION：
+
+     ```JavaScript
+     existingChildren.forEach((child) => deleteChild(returnFiber, child))
+     ```
+
+多节点举例巩固一下：
+
+1. abcd --> acdb (字母表示 key)
+
+```JavaScript
+===第一轮遍历开始===
+a（之后）vs a（之前）
+key不变，可复用
+此时 a 对应的oldFiber（之前的a）在之前的数组（abcd）中索引为0
+所以 lastPlacedIndex = 0;
+
+继续第一轮遍历...
+
+c（之后）vs b（之前）
+key改变，不能复用，跳出第一轮遍历
+此时 lastPlacedIndex === 0;
+===第一轮遍历结束===
+
+===第二轮遍历开始===
+newChildren === cdb，没用完，不需要执行删除旧节点
+oldFiber === bcd，没用完，不需要执行插入新节点
+
+将剩余oldFiber（bcd）保存为map
+
+// 当前oldFiber：bcd
+// 当前newChildren：cdb
+
+继续遍历剩余newChildren
+
+key === c 在 oldFiber中存在
+const oldIndex = c（之前）.index;
+此时 oldIndex === 2;  // 之前节点为 abcd，所以c.index === 2
+比较 oldIndex 与 lastPlacedIndex;
+
+如果 oldIndex >= lastPlacedIndex 代表该可复用节点不需要移动
+并将 lastPlacedIndex = oldIndex;
+如果 oldIndex < lastplacedIndex 该可复用节点之前插入的位置索引小于这次更新需要插入的位置索引，代表该节点需要向右移动
+
+在例子中，oldIndex 2 > lastPlacedIndex 0，
+则 lastPlacedIndex = 2;
+c节点位置不变
+
+继续遍历剩余newChildren
+
+// 当前oldFiber：bd
+// 当前newChildren：db
+
+key === d 在 oldFiber中存在
+const oldIndex = d（之前）.index;
+oldIndex 3 > lastPlacedIndex 2 // 之前节点为 abcd，所以d.index === 3
+则 lastPlacedIndex = 3;
+d节点位置不变
+
+继续遍历剩余newChildren
+
+// 当前oldFiber：b
+// 当前newChildren：b
+
+key === b 在 oldFiber中存在
+const oldIndex = b（之前）.index;
+oldIndex 1 < lastPlacedIndex 3 // 之前节点为 abcd，所以b.index === 1
+则 b节点需要向右移动
+===第二轮遍历结束===
 
 
+```
+
+最终 acd 3 个节点都没有移动，b 节点被标记为移动
+
+2. abcd --> dabc (字母表示 key)
+
+```JavaScript
+===第一轮遍历开始===
+d（之后）vs a（之前）
+key改变，不能复用，跳出遍历
+===第一轮遍历结束===
+
+===第二轮遍历开始===
+newChildren === dabc，没用完，不需要执行删除旧节点
+oldFiber === abcd，没用完，不需要执行插入新节点
+
+将剩余oldFiber（abcd）保存为map
+
+继续遍历剩余newChildren
+
+// 当前oldFiber：abcd
+// 当前newChildren dabc
+
+key === d 在 oldFiber中存在
+const oldIndex = d（之前）.index;
+此时 oldIndex === 3; // 之前节点为 abcd，所以d.index === 3
+比较 oldIndex 与 lastPlacedIndex;
+oldIndex 3 > lastPlacedIndex 0
+则 lastPlacedIndex = 3;
+d节点位置不变
+
+继续遍历剩余newChildren
+
+// 当前oldFiber：abc
+// 当前newChildren abc
+
+key === a 在 oldFiber中存在
+const oldIndex = a（之前）.index; // 之前节点为 abcd，所以a.index === 0
+此时 oldIndex === 0;
+比较 oldIndex 与 lastPlacedIndex;
+oldIndex 0 < lastPlacedIndex 3
+则 a节点需要向右移动
+
+继续遍历剩余newChildren
+
+// 当前oldFiber：bc
+// 当前newChildren bc
+
+key === b 在 oldFiber中存在
+const oldIndex = b（之前）.index; // 之前节点为 abcd，所以b.index === 1
+此时 oldIndex === 1;
+比较 oldIndex 与 lastPlacedIndex;
+oldIndex 1 < lastPlacedIndex 3
+则 b节点需要向右移动
+
+继续遍历剩余newChildren
+
+// 当前oldFiber：c
+// 当前newChildren c
+
+key === c 在 oldFiber中存在
+const oldIndex = c（之前）.index; // 之前节点为 abcd，所以c.index === 2
+此时 oldIndex === 2;
+比较 oldIndex 与 lastPlacedIndex;
+oldIndex 2 < lastPlacedIndex 3
+则 c节点需要向右移动
+
+===第二轮遍历结束===
+```
+
+- TODO 和 vue 的 diff 比较

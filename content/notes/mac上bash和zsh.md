@@ -1,13 +1,13 @@
 ---
-title: 'Mac上bash和zsh'
+title: 'Mac上bash/zsh及常用的shell命令'
 date: 2022-11-25T10:27:55+08:00
-tags: [mac]
+tags: [mac, shell]
 ---
 
 ## 基本概念
 
-- shell，就是人机交互的接口，就是一些 shell 命令
-- bash/zsh 是执行 shell 程序，输入 shell，输出结果
+- shell，就是人机交互的接口
+- bash/zsh 是执行 shell 程序，输入 shell 命令，输出结果
 
 在 mac 上，我们常用的就是 bash 和 zsh 了。其它还有 sh，csh 等。
 
@@ -61,4 +61,17 @@ chsh -s /bin/[bash/zsh...]
   )
   ```
 
-> 基于 zsh-autosuggestions，说一个 shell -- history，可以查看输入过的所有命令，想要清空可以使用 shell -- history -c
+> 基于 zsh-autosuggestions，说一个 shell 命令 ---> history，可以查看输入过的所有命令，想要清空可以使用 shell ---> history -c
+
+## 那么不如记录下常用的 shell 命令
+
+##### 基本知识
+
+shell 脚本 xxx.sh 以.sh 结尾，此类文件执行方式有两种：
+
+- 文件头使用 `#!` 指定 shell 程序，比如 `#! /bin/zsh`，然后带上目录执行 `./demo.sh`
+- 直接命令行中指定 shell 程序，比如 `/bin/zsh demo.sh`
+
+> 注意第一种方式，不能直接 `dmeo.sh`，得使用 `./demo.sh`，是因为这样系统会直接去 PATH 里寻找有没有叫 demo.sh 的，而 PATH 里一般只有 `/bin`,`/sbin`,`/usr/bin`,`/usr/sbin`。
+
+另外 .sh 脚本文件执行时如果出现 `permission denied` 是因为没有权限，`chmod +x [文件路径]` 即可。
