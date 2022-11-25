@@ -294,4 +294,5 @@ function reconcileChildrenArray(
 进入方法，官方注释就告诉我们，fiber 是单链表没有反向指针，所以一个单链表的 currentFiber tree 和 JSX 对象组成的数组做对比是做不到数组常用的双指针从两端往中间遍历的。现象：** `newChildren[0]` 与 `fiber` 比较，`newChildren[1] `与 `fiber.sibling` 比较。**
 
 当未知长度 oldFiber 单链表和未知大小的 newChildren 数组比较的时候，会出现四种情况：
-TODO
+
+

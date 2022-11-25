@@ -60,3 +60,5 @@ chsh -s /bin/[bash/zsh...]
     zsh-autosuggestions
   )
   ```
+
+> 基于 zsh-autosuggestions，说一个 shell -- history，可以查看输入过的所有命令，想要清空可以使用 shell -- history -c
