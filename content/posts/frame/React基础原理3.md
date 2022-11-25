@@ -7,7 +7,7 @@ tags: [React]
 React 工作的整个流程：
 
 ```txt
-触发状态更新 ---> 创建 Update 对象 ---> 
+触发状态更新 ---> 创建 Update 对象 --->
 ```
 
 在 JSX 拥有了 ReactElement，ReactElement 进化为 Fiber 后（render 阶段），就要被渲染进入视野了（commit 阶段）。render 阶段是协调器 Reconciler 发挥作用，commit 阶段是渲染器 Renderer 发挥作用。
@@ -183,6 +183,7 @@ export function processUpdateQueue<State>(
     // we need to transfer the updates to that queue, too. Because the base
     // queue is a singly-linked list with no cycles, we can append to both
     // lists and take advantage of structural sharing.
+    // 同时把 剪开后的 pendingQueue 也加在了 currentQueue.lastBaseUpdate 上
     const current = workInProgress.alternate
     if (current !== null) {
       // This is always non-null on a ClassComponent or HostRoot
@@ -311,6 +312,10 @@ export function processUpdateQueue<State>(
 ```
 
 state 的变化在 render 阶段产生与上次更新不同的 JSX 对象，通过 Diff 算法产生 flags(16 叫 effectTag)，在 commit 阶段渲染在页面上。
+
+注意： 剪开后的 pendingQueue 同时也加在了 currentQueue.lastBaseUpdate 上，这是为了，当低优先级的任务被打断后重新开始时，能够基于 current fiber 的 updateQueue 克隆出 workInProgress fiber 的 updateQueue。保证了所有 Update 不会丢失。
+
+当某个 Update 由于优先级低而被跳过时，保存在 baseUpdate 中的不仅是该 Update，还包括链表中该 Update 之后的所有 Update，从而保障状态依赖的连续性。
 
 ## 参考
 
