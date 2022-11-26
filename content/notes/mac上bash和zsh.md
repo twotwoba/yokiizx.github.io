@@ -38,6 +38,17 @@ chsh -s /bin/[bash/zsh...]
 
 > 在 `.zshrc` 中添加 `source ~/.bash_profile` 就可以直接使用 `.bash_profile` 中的配置，无需再配置一遍。
 
+---
+
+小技巧：  
+对于常用的命令，一定要配置别名，git 可以，所有 shell 命令都可以
+
+```sh
+# ~/.zshrc
+alias cra="npx create-react-app"
+alias nlg="npm list -g"
+```
+
 ##### oh-my-zsh
 
 都知道 zsh 推荐安装 [oh-my-zsh](https://ohmyz.sh/)，很强大。
@@ -75,3 +86,17 @@ shell 脚本 xxx.sh 以.sh 结尾，此类文件执行方式有两种：
 > 注意第一种方式，不能直接 `dmeo.sh`，得使用 `./demo.sh`，是因为这样系统会直接去 PATH 里寻找有没有叫 demo.sh 的，而 PATH 里一般只有 `/bin`,`/sbin`,`/usr/bin`,`/usr/sbin`。
 
 另外 .sh 脚本文件执行时如果出现 `permission denied` 是因为没有权限，`chmod +x [文件路径]` 即可。
+
+```sh
+# 比如 demo.sh 文件内容如下
+# ------------------------
+#! /bin/zsh
+echo "hello world"
+
+# 执行两步走
+chmod +x demo.sh
+./demo.sh
+
+# 如果是如下执行，内文件内的 第一行#！xxx 是无效的，写了也没用
+/bin/zsh demo.sh
+```

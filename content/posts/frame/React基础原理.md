@@ -247,8 +247,7 @@ export function jsx(type, config, maybeKey) {
 }
 ```
 
-最大的差别就是 children 变成了 maybeKey，官网上说这个主要就是为了做一些:[性能优化和简化](https://github.com/reactjs/rfcs/blob/createlement-rfc/text/0000-create-element-changes.md#motivation)。  
-so, children 去哪了??? // TODO
+最大的差别就是 children 变成了 maybeKey，官网上说这个主要就是为了做一些:[性能优化和简化](https://github.com/reactjs/rfcs/blob/createlement-rfc/text/0000-create-element-changes.md#motivation)。
 
 ##### ReactDom.render(el, container, cb)
 

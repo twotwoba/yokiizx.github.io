@@ -43,7 +43,7 @@ function reconcileChildFibers(
         if (enableLazyElements) {
           const payload = newChild._payload
           const init = newChild._init
-          // TODO: This function is supposed to be non-recursive.
+          // todo: This function is supposed to be non-recursive.
           return reconcileChildFibers(returnFiber, currentFirstChild, init(payload), lanes)
         }
     }
@@ -238,7 +238,6 @@ function reconcileChildrenArray(
       }
       lastPlacedIndex = placeChild(newFiber, lastPlacedIndex, newIdx)
       if (previousNewFiber === null) {
-        // TODO: Move out of the loop. This only happens for the first run.
         resultingFirstChild = newFiber
       } else {
         previousNewFiber.sibling = newFiber
