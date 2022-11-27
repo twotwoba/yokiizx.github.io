@@ -38,8 +38,8 @@ function FiberNode(
   /* 保存本次更新造成的状态改变相关信息  */
   this.pendingProps = pendingProps;   // 新的变动带来的新的props
   this.memoizedProps = null;          // 上一次渲染时的 props
-  this.updateQueue = null;            // 该Fiber对应的组件产生的Update会存放在这个队列里面
-  this.memoizedState = null;          // 上一次渲染时的 state
+  this.updateQueue = null;            // 该Fiber对应的组件产生的Update会存放在这个队列里面; classComponent的UpdateQueue
+  this.memoizedState = null;          // 上一次渲染时的 state; Hook组成的单链表,存这该hook下的UpdateQueue
   this.dependencies = null;
 
   this.mode = mode;

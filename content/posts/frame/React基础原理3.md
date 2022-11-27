@@ -87,7 +87,7 @@ export function createUpdate(eventTime: number, lane: Lane): Update<*> {
 }
 ```
 
-> 注意 Update 的 next 属性是连接这个节点的其他 Update 形成链表，最终保存在对应 Fiber 的 updateQueue 属性上（Fiber 见前一篇文章）。为什么一个节点会有多个 Update 对象呢？很简单，比如多次 setState 就好了呀。
+> 注意 Update 的 next 属性是连接这个节点的其他 Update 形成链表，最终保存在对应 Fiber 的 updateQueue 属性上（Fiber 见前一篇文章）。为什么一个节点会有多个 Update 对象呢？很简单，比如多次 setState。
 
 ## UpdateQueue 对象
 
@@ -144,7 +144,7 @@ export function enqueueUpdate<State>(fiber: Fiber, update: Update<State>) {
 }
 ```
 
-在进入 render 阶段后，`shared.pending` 会被剪开 接在 `lastBaseUpdate` 之后形成 `baseUpdate` 这个单链表。接下来遍历 · 这个单链表，`fiber.updateQueue.baseState` 为初始 state，依次与遍历到的每个 `Update` 计算并产生新的 `state`。这些步骤发生在 `processUpdateQueue` 里：
+在进入 render 阶段后，`shared.pending` 会被剪开 接在 `lastBaseUpdate` 之后形成 `baseUpdate` 这个单链表。接下来遍历这个单链表，`fiber.updateQueue.baseState` 为初始 state，依次与遍历到的每个 `Update` 计算并产生新的 `state`。这些步骤发生在 `processUpdateQueue` 里：
 
 ```JavaScript
 export function processUpdateQueue<State>(
