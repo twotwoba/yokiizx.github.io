@@ -23,7 +23,7 @@ PS：阅读源码前，推荐一个 VsCode 插件，`bookmarks`，比较方便�
   - ReactDome.render(<App />, root) 改为使用 ReactDom.createRoot(root).render(<App/>)
   - setState 自动批处理
 
-> 详细的见参考文章
+> 详细的见[React 官方博客](https://zh-hans.reactjs.org/blog/all.html)
 
 ##### JSX 怎么生成 Element
 
