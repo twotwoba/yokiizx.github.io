@@ -245,7 +245,7 @@ rootFiber -----> App -----> div -----> p
 
 节点更新调用 `commitWork`，会根据 fiber 的 tag 分别处理，重点关注 FunctionComponent 和 HostComponent。
 
-- tag 为 FunctionComponent，调用 `commitHookEffectListUnmount`，顾名思义就是遍历 effectList，执行所有 useLayoutEffect hook 的销毁函数。
+- tag 为 FunctionComponent，调用 `commitHookEffectListUnmount`，顾名思义就是遍历 effectList，执行所有 useLayoutEffect hook 的清理函数。
 
 - tag 为 HostComponent，会调用 `commitUpdate`，最终会调用 `updateDOMProperties`：
 
@@ -295,7 +295,7 @@ function commitDeletion(
 
 - 递归调用 Fiber 节点及其子孙 Fiber 节点中 fiber.tag 为 ClassComponent 的 componentWillUnmount 生命周期钩子，从页面移除 Fiber 节点对应 DOM 节点
 - 解绑 ref
-- 调度 `useEffect` 的销毁函数
+- 调度 `useEffect` 的清理函数
 
 ## layout(执行 DOM 操作后)
 
@@ -327,8 +327,8 @@ function commitLayoutEffects(root: FiberRoot, committedLanes: Lanes) {
 
 - 对于 ClassComponent，他会通过 current === null?区分是 mount 还是 update，调用 componentDidMount 或 componentDidUpdate。`this.setState` 如果有第二个参数，也会在此时调用。
 - 对于 FunctionComponent 及相关类型[^1]，他会调用 useLayoutEffect hook 的回调函数，调度 useEffect 的销毁与回调函数。
-  > useEffect 是在 beforeMutation 阶段调度，其销毁函数是在 mutation 调度，而他们的执行都是在 layout 阶段完成后才异步执行的。  
-  > useLayoutEffect 则是在 mutation 阶段 update 操作内执行上一轮更新的销毁函数，在 layout 阶段执行它的回调函数。相比之下没有调度这一步。
+  > useEffect 是在 beforeMutation 阶段调度，其清理函数是在 mutation 调度，而他们的执行都是在 layout 阶段完成后才异步执行的。  
+  > useLayoutEffect 则是在 mutation 阶段 update 操作内执行上一轮更新的清理函数，在 layout 阶段执行它的回调函数。相比之下没有调度这一步。
 - 对于 HostRoot，即 rootFiber，如果赋值了第三个参数回调函数，也会在此时调用。
   ```JSX
   ReactDOM.render(<App />, document.querySelector("#root"), function() {

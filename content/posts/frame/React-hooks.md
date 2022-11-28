@@ -333,8 +333,285 @@ function dispatchAction(fiber, queue, action) {
 
 ##### useEffect
 
-TODO
+先看一下 Effect 这个数据结构：
+
+```TS
+export type Effect = {|
+  tag: HookFlags,
+  create: () => (() => void) | void, // 返回的函数就是清理函数
+  destroy: (() => void) | void,
+  deps: Array<mixed> | null,
+  next: Effect,
+|};
+```
+
+当初一开始学 React，有人说可以类比 class 组件的生命周期，现在看来，这么理解实际上是不好的，不能帮我们认清真正的 React hook 逻辑。
+
+回顾之前的源码学习，`useEffect` 是在 `commit` 阶段执行相关逻辑的：
+
+- `beforeMutation` 阶段内 `调度useEffect`；遍历并执行上一轮 render 的清理函数
+  - 执行 `flushPassiveEffects`，该方法设置优先级，并执行 `flushPassiveEffectsImpl`
+  - `flushPassiveEffectsImpl` 方法内从全局变量 `rootWithPendingPassiveEffects` 获取 `effectList`
+- `mutation` 阶段内 `调度useEffect的清理函数`
+- `layout` 阶段之后 执行之前的调度后的回调函数和清理函数
+
+对比 `useLayoutEffect`：
+
+- `mutation` 阶段的 update 操作内执行上一轮更新的清理函数
+- `layout` 后执行回调函数
+
+**useEffect 清理函数和回调函数的执行：**  
+`useEffect|useLayoutEffect` 的执行需要保证所有组件 `useEffect` 的*清理函数必须都执行完后*才能执行任意一个组件的 `useEffect` 的回调函数 --- 否则其他组件可能会产生影响，比如多个组件间可能共用同一个 `ref`。如果不按照 `全销毁再--->全执行` 的顺序，假如某个清理函数内修改了 `ref.current`，会影响到其它组件中 `useEffect` 回调函数中相同 ref 的 current 属性。
+
+- 清理函数的执行
+
+```JavaScript
+// pendingPassiveHookEffectsUnmount 中保存了所有需要执行销毁的 useEffect
+const unmountEffects = pendingPassiveHookEffectsUnmount;
+  pendingPassiveHookEffectsUnmount = [];
+  for (let i = 0; i < unmountEffects.length; i += 2) {
+    const effect = ((unmountEffects[i]: any): HookEffect); // 偶数存 effect
+    const fiber = ((unmountEffects[i + 1]: any): Fiber);   // 奇数存 fiber
+    const destroy = effect.destroy;
+    effect.destroy = undefined;
+
+    if (typeof destroy === 'function') {
+      try {
+        startPassiveEffectTimer();
+        //销毁上一轮 render 的 effect
+        destroy();
+      } finally {
+        recordPassiveEffectDuration(fiber);
+      }
+    }
+  }
+```
+
+这里 `pendingPassiveHookEffectsUnmount` 是在 commit layout 阶段通过 `commitLayoutEffectOnFiber` 即 `commitLifeCycles` 中的`schedulePassiveEffects` 方法向其内 push 数据：
+
+```TS
+function schedulePassiveEffects(finishedWork: Fiber) {
+  const updateQueue: FunctionComponentUpdateQueue | null = (finishedWork.updateQueue: any);
+  const lastEffect = updateQueue !== null ? updateQueue.lastEffect : null;
+  if (lastEffect !== null) {
+    const firstEffect = lastEffect.next;
+    let effect = firstEffect;
+    do {
+      const {next, tag} = effect;
+      if (
+        (tag & HookPassive) !== NoHookEffect &&
+        (tag & HookHasEffect) !== NoHookEffect
+      ) {
+        // 向`pendingPassiveHookEffectsUnmount`数组内`push`要销毁的effect
+        enqueuePendingPassiveHookEffectUnmount(finishedWork, effect);
+        // 向`pendingPassiveHookEffectsMount`数组内`push`要执行回调的effect
+        enqueuePendingPassiveHookEffectMount(finishedWork, effect);
+      }
+      effect = next;
+    } while (effect !== firstEffect);
+  }
+}
+```
+
+- 回调函数的执行
+
+```JavaScript
+const mountEffects = pendingPassiveHookEffectsMount;
+pendingPassiveHookEffectsMount = [];
+for (let i = 0; i < mountEffects.length; i += 2) {
+  const effect = ((mountEffects[i]: any): HookEffect);
+  const fiber = ((mountEffects[i + 1]: any): Fiber);
+  try {
+    const create = effect.create;
+    if (
+      enableProfilerTimer &&
+      enableProfilerCommitHooks &&
+      fiber.mode & ProfileMode
+    ) {
+      try {
+        startPassiveEffectTimer();
+        effect.destroy = create(); // 执行回调函数并 创建 新的清理函数
+      } finally {
+        recordPassiveEffectDuration(fiber);
+      }
+    } else {
+      effect.destroy = create();
+    }
+  } catch (error) {
+    captureCommitPhaseError(fiber, error);
+  }
+}
+```
+
+##### useRef
+
+`ref` 是 `reference`(引用) 的缩写，在 Vue 和 React 中都有它的一席之地，最初的习惯是用它来保存 DOM，进而进行一些 DOM 操作。实际上，任何需要被引用的数据都可以保存到 `ref` 中。
+
+`useRef(state)` 对应 hook 的 `memoizedState` 保存的就是 `{current: state}`。
+
+```JavaScript
+function mountRef<T>(initialValue: T): {|current: T|} {
+  // 获取当前useRef hook
+  const hook = mountWorkInProgressHook();
+  // 创建ref
+  const ref = {current: initialValue};
+  hook.memoizedState = ref;
+  return ref;
+}
+
+function updateRef<T>(initialValue: T): {|current: T|} {
+  // 获取当前useRef hook
+  const hook = updateWorkInProgressHook();
+  // 返回保存的数据
+  return hook.memoizedState;
+}
+```
+
+可见，useRef 就是返回一个形如 `{current: state}` 这么个对象。
+
+**Ref 的工作流程**
+
+- render 阶段给 fiber 添加 Ref flags
+
+```JavaScript
+// beginWork
+function markRef(current: Fiber | null, workInProgress: Fiber) {
+  const ref = workInProgress.ref;
+  if (
+    (current === null && ref !== null) ||
+    (current !== null && current.ref !== ref)
+  ) {
+    // Schedule a Ref effect
+    workInProgress.flags |= Ref;
+  }
+}
+// completeWork
+function markRef(workInProgress: Fiber) {
+  workInProgress.flags |= Ref;
+}
+```
+
+- commit 阶段对具有 Ref flags 的 fiber 执行对应的操作
+
+```JavaScript
+// commit mutation 阶段对于ref属性改变的情况会先移除之前的 ref
+function commitDetachRef(current: Fiber) {
+  const currentRef = current.ref;
+  if (currentRef !== null) {
+    if (typeof currentRef === 'function') {
+      // function类型ref，调用他，传参为null
+      currentRef(null);
+    } else {
+      // 对象类型ref，current赋值为null
+      currentRef.current = null;
+    }
+  }
+}
+// commit layout阶段 会进行 ref 赋值
+function commitAttachRef(finishedWork: Fiber) {
+  const ref = finishedWork.ref;
+  if (ref !== null) {
+    // 获取ref属性对应的Component实例
+    const instance = finishedWork.stateNode;
+    let instanceToUse;
+    switch (finishedWork.tag) {
+      case HostComponent:
+        instanceToUse = getPublicInstance(instance);
+        break;
+      default:
+        instanceToUse = instance;
+    }
+
+    // 赋值ref
+    if (typeof ref === 'function') {
+      ref(instanceToUse);
+    } else {
+      ref.current = instanceToUse;
+    }
+  }
+}
+```
+
+##### useMemo 和 useCallback
+
+这两 hook，最大的区别从 hook.memoizedState 存储值就能看出区别：
+
+- useMemo：将回调函数的结果作为 value 保存
+- useCallback：将回调函数作为 value 保存
+
+```TS
+// mount
+function mountMemo<T>(
+  nextCreate: () => T,
+  deps: Array<mixed> | void | null,
+): T {
+  // 创建并返回当前hook
+  const hook = mountWorkInProgressHook();
+  const nextDeps = deps === undefined ? null : deps;
+  // 计算value
+  const nextValue = nextCreate();
+  // 将value与deps保存在hook.memoizedState
+  hook.memoizedState = [nextValue, nextDeps];
+  return nextValue;
+}
+function mountCallback<T>(callback: T, deps: Array<mixed> | void | null): T {
+  // 创建并返回当前hook
+  const hook = mountWorkInProgressHook();
+  const nextDeps = deps === undefined ? null : deps;
+  // 将value与deps保存在hook.memoizedState
+  hook.memoizedState = [callback, nextDeps];
+  return callback;
+}
+// update
+function updateMemo<T>(
+  nextCreate: () => T,
+  deps: Array<mixed> | void | null,
+): T {
+  // 返回当前hook
+  const hook = updateWorkInProgressHook();
+  const nextDeps = deps === undefined ? null : deps;
+  const prevState = hook.memoizedState;
+
+  if (prevState !== null) {
+    if (nextDeps !== null) {
+      const prevDeps: Array<mixed> | null = prevState[1];
+      // 判断update前后value是否变化
+      if (areHookInputsEqual(nextDeps, prevDeps)) {
+        // 未变化
+        return prevState[0];
+      }
+    }
+  }
+  // 变化，重新计算value
+  const nextValue = nextCreate();
+  hook.memoizedState = [nextValue, nextDeps];
+  return nextValue;
+}
+function updateCallback<T>(callback: T, deps: Array<mixed> | void | null): T {
+  // 返回当前hook
+  const hook = updateWorkInProgressHook();
+  const nextDeps = deps === undefined ? null : deps;
+  const prevState = hook.memoizedState;
+
+  if (prevState !== null) {
+    if (nextDeps !== null) {
+      const prevDeps: Array<mixed> | null = prevState[1];
+      // 判断update前后value是否变化
+      if (areHookInputsEqual(nextDeps, prevDeps)) {
+        // 未变化
+        return prevState[0];
+      }
+    }
+  }
+
+  // 变化，将新的callback作为value
+  hook.memoizedState = [callback, nextDeps];
+  return callback;
+}
+```
 
 ## 参考
 
 - [React 官网](https://zh-hans.reactjs.org/docs/hooks-intro.html)
+- [React 博客](https://zh-hans.reactjs.org/blog/2020/08/10/react-v17-rc.html#effect-cleanup-timing)
+- [Dan blog - A Complete Guide to useEffect](https://overreacted.io/a-complete-guide-to-useeffect/)
