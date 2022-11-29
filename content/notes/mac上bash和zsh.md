@@ -78,6 +78,8 @@ alias nlg="npm list -g"
 
 ##### 基本知识
 
+1. 脚本执行
+
 shell 脚本 xxx.sh 以.sh 结尾，此类文件执行方式有两种：
 
 - 文件头使用 `#!` 指定 shell 程序，比如 `#! /bin/zsh`，然后带上目录执行 `./demo.sh`
@@ -100,3 +102,56 @@ chmod +x demo.sh
 # 如果是如下执行，内文件内的 第一行#！xxx 是无效的，写了也没用
 /bin/zsh demo.sh
 ```
+
+2. 变量
+
+```sh
+# 声明
+variable_name='demo'
+readonly variable_name # 只读变量
+# 使用
+$variable_name # 可以加上{}来确认边界 ${variable_name}
+# 删除变量
+unset variable_name # 不能删除只读变量
+```
+
+3. 字符串
+
+```sh
+# 单引号
+str='hello world' # 单引号中变量是无效的
+# 双引号
+str="hello $world" # 可以识别变量
+
+# 字符串长度
+${#str}
+# 字符串查找
+$str[(I)ll] # 小i 从左往右 找不到返回 长度+1
+$str[(i)ll] # 大i 从右往左 找不到返回 0
+# 提取字符串
+${str:1:4} # 与js的subStr类似 1为索引,4为长度
+$str[1,4]  # 这个都是索引(注意是从第一位开始) 推荐这个吧
+
+# 遍历
+for i ({1..$#str}) {
+  # ...eg. echo $str[i]
+}
+```
+
+4. 数组
+
+```sh
+# 定义
+array_name=(value0 value1 value2 value3)
+# 读取
+${array_name[下标]} # 下标从 1 开始 @ 为获取所有
+# 获取长度
+${#array_name[@]}
+
+#  我个人习惯可能不带 {} 舒服点... 需要区分边界再加上吧
+```
+
+TODO
+## 参考
+
+- [](https://kennethfan.github.io/2017/09/20/zsh-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/)
