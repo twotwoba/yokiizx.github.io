@@ -47,7 +47,7 @@ function markUpdateLaneFromFiberToRoot(sourceFiber: Fiber, lane: Lane): FiberRoo
 
 ##### ensureRootIsScheduled (调度更新)
 
-该方法的源码的注释比较清晰容易理解。
+该方法的源码的注释需要认真理解，非常之重要。
 
 ```JavaScript
 // Use this function to schedule a task for a root. There's only one task per
@@ -60,7 +60,7 @@ function ensureRootIsScheduled(root: FiberRoot, currentTime: number) {
 
   // Check if any lanes are being starved by other work. If so, mark them as
   // expired so we know to work on those next.
-  markStarvedLanesAsExpired(root, currentTime);
+  markStarvedLanesAsExpired(root, currentTime);  // 把不断被打断任务的小可怜置为过期,让下回赶紧执行掉
 
   // Determine the next lanes to work on, and their priority.
   const nextLanes = getNextLanes(

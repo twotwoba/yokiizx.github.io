@@ -69,11 +69,46 @@ const classComponentUpdater = {
 - `setTimeout`、`setInterval`、`DOM2级事件回调`、`Promise.then()的回调` 中，`setState` 触发的状态更新是同步的
 - 其它直接处在 React 生命周期和 React 合成事件内的 `setState` 状态更新都是异步的
 
+```JavaScript
+// 老版的 批量更新
+export function batchedUpdates<A, R>(fn: A => R, a: A): R {
+  const prevExecutionContext = executionContext;
+  // 当脱离了 React 的环境，就获取不到 BatchedContext 上下文
+  executionContext |= BatchedContext;
+  try {
+    return fn(a);
+  } finally {
+    executionContext = prevExecutionContext;
+    // 所以下面就会同步执行
+    if (executionContext === NoContext) {
+      // Flush the immediate callbacks that were scheduled during this batch
+      resetRenderTimer();
+      flushSyncCallbackQueue();
+    }
+  }
+}
+```
+
 ##### v18 之后
 
 **结论：**
 
 - 默认所有的 `setState` 会自动进行批处理，表现都是异步渲染的。
+
+```JavaScript
+// 新版批量更新 依赖于 lane 模型：ensureRootIsScheduled 方法内
+// Check if there's an existing task. We may be able to reuse it.
+if (existingCallbackNode !== null) {
+  const existingCallbackPriority = root.callbackPriority;
+  if (existingCallbackPriority === newCallbackPriority) { // 相同级别的 setState 后续都给return掉了
+    // The priority hasn't changed. We can reuse the existing task. Exit.
+    return;
+  }
+  // The priority changed. Cancel the existing callback. We'll schedule a new
+  // one below.
+  cancelCallback(existingCallbackNode);
+}
+```
 
 ##### 各种现象的原因
 
@@ -131,28 +166,7 @@ newCallbackNode = scheduleSyncCallback(
 );
 ```
 
-当 `executionContext` 值为 `NoContext` 时，表示非批量，会同步执行同步更新策略，否则为异步更新。  
-这个变量的更改出现在 `ReactFiberWorkLoop` 文件中的很多方法内，如 `batchedUpdates`、`batchedEventUpdates` 等。
-
-```JavaScript
-// 看一下 batchedEventUpdates
-export function batchedEventUpdates<A, R>(fn: A => R, a: A): R {
-  const prevExecutionContext = executionContext;
-  executionContext |= EventContext;   /// 变为异步的
-  try {
-    return fn(a);
-  } finally {
-    executionContext = prevExecutionContext;
-    if (executionContext === NoContext) {
-      // Flush the immediate callbacks that were scheduled during this batch
-      resetRenderTimer();
-      flushSyncCallbackQueue();
-    }
-  }
-}
-```
-
-`batchedEventUpdates` 是当合成事件触发时，会调用这个方法，把 executionContext 变成异步更新的。
+当 `executionContext` 值为 `NoContext` 时，表示非批量，会同步执行同步更新策略，否则为异步更新。
 
 ---
 

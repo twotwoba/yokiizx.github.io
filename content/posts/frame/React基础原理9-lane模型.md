@@ -4,7 +4,7 @@ date: 2022-11-30T11:59:50+08:00
 tags: [React]
 ---
 
-React 与 Scheduler 是两套不同的优先级机制。
+React 与 Scheduler 是两套不同的优先级机制。它们之间是可以转换的`lanePriorityToSchedulerPriority/schedulerPriorityToLanePriority`。
 
 React 的优先级机制需要满足以下情况：
 
@@ -58,4 +58,3 @@ export const OffscreenLane: Lane = /*              */ 0b100000000000000000000000
   `a | b`
 - 从 a 的赛道 移除 b 的赛道
   `a & ~b`
-
