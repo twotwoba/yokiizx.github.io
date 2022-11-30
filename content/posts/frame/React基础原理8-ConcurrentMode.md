@@ -131,7 +131,230 @@ OK，到这里，`performUnitOfWork` 是怎么暂停的已经清除，主要是�
 
 ##### 优先级调度
 
-TODO
+`Scheduler` 是独立于 React 的包，**它的优先级也是独立于 React 的优先级**。
+
+```JavaScript
+// SchedulerPriorities.js
+export const NoPriority = 0;
+export const ImmediatePriority = 1;
+export const UserBlockingPriority = 2;
+export const NormalPriority = 3;
+export const LowPriority = 4;
+export const IdlePriority = 5;
+
+function unstable_runWithPriority(priorityLevel, eventHandler) {
+  switch (priorityLevel) {
+    case ImmediatePriority:      // 最高优先级会立即执行
+    case UserBlockingPriority:
+    case NormalPriority:
+    case LowPriority:
+    case IdlePriority:
+      break;
+    default:
+      priorityLevel = NormalPriority;
+  }
+
+  var previousPriorityLevel = currentPriorityLevel;
+  currentPriorityLevel = priorityLevel;
+
+  try {
+    return eventHandler();
+  } finally {
+    currentPriorityLevel = previousPriorityLevel;
+  }
+}
+```
+
+可见，`Scheduler` 有 5 种优先级，默认是 `NormalPriority`，`ImmediatePriority` 是最高优先级，会立即执行。
+
+```JavaScript
+function commitRoot(root) {
+   // 返回 scheduler 中的 currentPriorityLevel
+  const renderPriorityLevel = getCurrentPriorityLevel();
+  // 发起一个立即执行的任务,并指定这个任务的优先级
+  runWithPriority(
+    ImmediateSchedulerPriority,
+    commitRootImpl.bind(null, root, renderPriorityLevel),
+  );
+  return null;
+}
+```
+
+优先级的意义 --- 赋予不同优先级不同的过期时间~
+
+看一下 `scheduler` 的这个方法 `unstable_scheduleCallback`，对外抛出一般是 `schedulerCallback`，直译过来就是安排回调，也就可以理解为是调度任务：
+
+```JavaScript
+// Times out immediately
+var IMMEDIATE_PRIORITY_TIMEOUT = -1;
+// Eventually times out
+var USER_BLOCKING_PRIORITY_TIMEOUT = 250;
+var NORMAL_PRIORITY_TIMEOUT = 5000;
+var LOW_PRIORITY_TIMEOUT = 10000;
+// Never times out
+var IDLE_PRIORITY_TIMEOUT = maxSigned31BitInt;
+
+function unstable_scheduleCallback(priorityLevel, callback, options) {
+  var currentTime = getCurrentTime();
+
+  var startTime;
+  if (typeof options === 'object' && options !== null) {
+    var delay = options.delay;
+    if (typeof delay === 'number' && delay > 0) {
+      startTime = currentTime + delay;
+    } else {
+      startTime = currentTime;
+    }
+  } else {
+    startTime = currentTime;
+  }
+
+  var timeout;
+  switch (priorityLevel) {
+    case ImmediatePriority:
+      timeout = IMMEDIATE_PRIORITY_TIMEOUT;
+      break;
+    case UserBlockingPriority:
+      timeout = USER_BLOCKING_PRIORITY_TIMEOUT;
+      break;
+    case IdlePriority:
+      timeout = IDLE_PRIORITY_TIMEOUT;
+      break;
+    case LowPriority:
+      timeout = LOW_PRIORITY_TIMEOUT;
+      break;
+    case NormalPriority:
+    default:
+      timeout = NORMAL_PRIORITY_TIMEOUT;
+      break;
+  }
+
+  // 过期时间
+  var expirationTime = startTime + timeout;
+
+  var newTask = {
+    id: taskIdCounter++,
+    callback,
+    priorityLevel,
+    startTime,
+    expirationTime,
+    sortIndex: -1,
+  };
+  if (enableProfiling) {
+    newTask.isQueued = false;
+  }
+
+  if (startTime > currentTime) {
+    // This is a delayed task.
+    newTask.sortIndex = startTime;
+    push(timerQueue, newTask);
+    if (peek(taskQueue) === null && newTask === peek(timerQueue)) {
+      // All tasks are delayed, and this is the task with the earliest delay.
+      if (isHostTimeoutScheduled) {
+        // Cancel an existing timeout.
+        cancelHostTimeout();
+      } else {
+        isHostTimeoutScheduled = true;
+      }
+      // Schedule a timeout.
+      requestHostTimeout(handleTimeout, startTime - currentTime);
+    }
+  } else {
+    newTask.sortIndex = expirationTime;
+    push(taskQueue, newTask);
+    if (enableProfiling) {
+      markTaskStart(newTask, currentTime);
+      newTask.isQueued = true;
+    }
+    // Schedule a host callback, if needed. If we're already performing work,
+    // wait until the next time we yield.
+    if (!isHostCallbackScheduled && !isPerformingWork) {
+      isHostCallbackScheduled = true;
+      requestHostCallback(flushWork);
+    }
+  }
+
+  return newTask;
+}
+```
+
+首先，根据任务优先级得到了不同的任务过期时间，放到 `newTask` 中；`options` 可以设置 `delay` 时间，当设置了 `delay` 在下面入队列的时候就会进入 `timerQueue` 队列 `push(timerQueue, newTask);`，否则进入的是 `taskQueue` 队列。
+
+上方的 push、peek 都是 scheculer 实现的优先队列的方法，之所以自己实现了一个小顶堆优先队列，是为了`O(1)`复杂度找到上方 `timerQueue` 和 `taskQueue` 中时间最早的那个任务。
+
+继续往下走，任务的重启就在 `requestHostCallback` 这个方法，这个方法根据是否支持 `MessageChannel` 也有两种实现，暂且不关注，主要关注它后面的流程，`requestHostCallback` 调用了 `flushWork`，再调用 `workLoop`：
+
+```JavaScript
+function workLoop(hasTimeRemaining, initialTime) {
+  let currentTime = initialTime;
+  advanceTimers(currentTime);
+  currentTask = peek(taskQueue);
+  while (
+    currentTask !== null &&
+    !(enableSchedulerDebugging && isSchedulerPaused)
+  ) {
+    if (
+      currentTask.expirationTime > currentTime &&
+      (!hasTimeRemaining || shouldYieldToHost())
+    ) {
+      // This currentTask hasn't expired, and we've reached the deadline.
+      break;
+    }
+    const callback = currentTask.callback; // 注册任务的回调函数
+    if (typeof callback === 'function') {
+      currentTask.callback = null;
+      currentPriorityLevel = currentTask.priorityLevel;
+      const didUserCallbackTimeout = currentTask.expirationTime <= currentTime;
+      if (enableProfiling) {
+        markTaskRun(currentTask, currentTime);
+      }
+      /* ---------- 关注这里 ---------- */
+      const continuationCallback = callback(didUserCallbackTimeout);
+      currentTime = getCurrentTime();
+      if (typeof continuationCallback === 'function') {
+        currentTask.callback = continuationCallback;
+        if (enableProfiling) {
+          markTaskYield(currentTask, currentTime);
+        }
+      } else {
+        if (enableProfiling) {
+          markTaskCompleted(currentTask, currentTime);
+          currentTask.isQueued = false;
+        }
+        if (currentTask === peek(taskQueue)) {
+          pop(taskQueue);
+        }
+      }
+      advanceTimers(currentTime);
+    } else {
+      pop(taskQueue);
+    }
+    currentTask = peek(taskQueue);
+  }
+  // Return whether there's additional work
+  if (currentTask !== null) {
+    return true;
+  } else {
+    const firstTimer = peek(timerQueue);
+    if (firstTimer !== null) {
+      requestHostTimeout(handleTimeout, firstTimer.startTime - currentTime);
+    }
+    return false;
+  }
+}
+```
+
+重点是：如果 `continuationCallback` 即调度注册的回调函数，它的返回值为 `function` 时，会把 `continuationCallback` 作为当前任务的回调函数，否则 `pop(taskQueue);` 把当前执行的任务清除 `taskQueue`，而在 `render` 阶段 `performConcurrentWorkOnRoot` 函数的末尾有这么段代码：
+
+```JavaScript
+if (root.callbackNode === originalCallbackNode) {
+  // The task node scheduled for this root is the same one that's
+  // currently executed. Need to return a continuation.
+  return performConcurrentWorkOnRoot.bind(null, root);
+}
+```
+
+这里就是返回了一个函数 `continuation`。
 
 <!-- ```flow
 st=>start: start
