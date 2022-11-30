@@ -1,5 +1,5 @@
 ---
-title: 'React基础原理8 - ConcurrentMode'
+title: 'React基础原理8 - Scheduler'
 date: 2022-11-28T23:23:21+08:00
 tags: [React]
 ---
