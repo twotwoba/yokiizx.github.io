@@ -14,7 +14,9 @@ tags: [React]
 
 今天重点说一下 `setState`：
 
-setState 最终调用的是 `this.updater.enqueueSetState(this, partialState, callback, 'setState')`
+setState 最终调用的是 `this.updater.enqueueSetState(this, partialState, callback, 'setState')`。
+
+首先要明确一点，针对 React 中的 state，不像 vue 那样，是没有做任何数据绑定的，当 state 发生变化时，是发生了一次重新渲染，**每一次渲染都能拿到独立的 state 状态，这个状态值是函数中的一个常量**。
 
 ```JavaScript
 const classComponentUpdater = {
