@@ -62,6 +62,42 @@ drwxr-xr-x  4 yokiizx  staff   128B Aug  7  2021 Public
   chmod [-R] xyz 文件或目录
   ```
 
-##### linux 目录与文件常用命令
+##### linux 常用命令
 
-TODO
+- ls（英文全拼：list files）: 列出目录及文件名
+- cd（英文全拼：change directory）：切换目录
+- pwd（英文全拼：print work directory）：显示目前的目录
+- mkdir（英文全拼：make directory）：创建一个新的目录
+- rmdir（英文全拼：remove directory）：删除一个空的目录
+- cp（英文全拼：copy file）: 复制文件或目录
+- scp 是 secure copy 的缩写, scp 是 linux 系统下基于 ssh 登陆进行安全的远程文件拷贝命令。
+- rm（英文全拼：remove）: 删除文件或目录
+- mv（英文全拼：move file）: 移动文件与目录，或修改文件与目录的名称
+- cat 由第一行开始显示文件内容
+- touch 创建文件
+- which 指令会在环境变量$PATH 设置的目录里查找符合条件的文件
+- ping 检测远端主机的网络功能
+
+> 全是常用的就不赘述，真要是忘了，查看具体使用方式使用命令`man`，如： `man cp`
+
+---
+
+系统控制相关的：
+
+- ps （英文全拼：process status）命令用于显示当前进程的状态
+  - `ps au` 显示当前使用者的进程
+  - `ps aux` 显示所有包含其他使用者的进程
+  - `ps -ef | grep 关键字` 查找指定进程格式，可以添加 `grep -v grep` 来屏蔽 grep 这个进程本身（`ps -ef | grep hugo | grep -v grep`）
+- kill [信号] PID 本质是向进程发送信号
+  - HUP 1 终端挂断
+  - INT 2 中断（同 Ctrl + C）
+  - QUIT 3 退出（同 Ctrl + \）
+  - KILL 9 强制终止
+  - TERM 15 终止
+  - CONT 18 继续（与 STOP 相反，fg/bg 命令）
+  - STOP 19 暂停（同 Ctrl + Z）
+
+## 参考
+
+- [linux 命令 which,whereis,locate,find 的区别](https://zhuanlan.zhihu.com/p/35727707)
+- [ps -ef 和 ps aux 的区别及格式详解](https://www.cnblogs.com/5201351/p/4206461.html)
