@@ -12,7 +12,13 @@
                             {{ $author = .Site.Params.author }}
                             {{ end }}
                             By {{ $author }} | <time>{{ .Date.Format "January 02, 2006" }}</time>
-                            | {{ .ReadingTime }} minutes
+                            | {{ .ReadingTime }} minutes |
+                            <!-- busuanzi -->
+                            {{ if .Site.Params.busuanzi.enable -}}
+                            <span  class="meta-item">
+                                <span id="busuanzi_container_page_pv">本文阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+                            </span>
+                            {{- end }}
                         </div>
                         <div class="tags">
                             {{ range (.GetTerms "tags") }}
