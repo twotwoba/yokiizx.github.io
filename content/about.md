@@ -7,25 +7,17 @@ statistics: 'false'
 
 ##### 基本信息
 
-<!--
-| **姓名**：袁凯            | **性别**：男                  |
-| ------------------------- | ----------------------------- |
-| **出生**：1994.4          | **学历**：统招本科 211/双一流 |
-| **手机**：130\*\*\*\*9668 | **邮箱**：yokiizx@163.com     |
-| **工作时间**：5 年        | **求职意向**：高级前端工程师  | -->
-<div style="float: left;display: flex;flex-wrap: wrap;width: 75%;justify-content: space-between;">
-    <div style="width: 45%;font-weight: 500;color: #4c4c4c;font-size: 14px;margin: 5px;">姓名： 吴彦祖</div>
-    <div style="width: 45%;font-weight: 500;color: #4c4c4c;font-size: 14px;margin: 5px;">毕业院校： 蓝翔</div>
-    <div style="width: 45%;font-weight: 500;color: #4c4c4c;font-size: 14px;margin: 5px;">出生年月： 1988-8</div>
-    <div style="width: 45%;font-weight: 500;color: #4c4c4c;font-size: 14px;margin: 5px;">电话： 13888888888</div>
-    <div style="width: 45%;font-weight: 500;color: #4c4c4c;font-size: 14px;margin: 5px;">籍贯： 中国香港</div>
-    <div style="width: 45%;font-weight: 500;color: #4c4c4c;font-size: 14px;margin: 5px;">邮箱： wuyanzu@qq.com</div>
-    <div style="width: 45%;font-weight: 500;color: #4c4c4c;font-size: 14px;margin: 5px;">专业： 挖掘机</div>
-    <div style="width: 45%;font-weight: 500;color: #4c4c4c;font-size: 14px;margin: 5px;">期望工作地： 成都</div>
-</div>
-<div>
-    <div style="float: right;margin-right: 10px;">
-        <img src="https://img-blog.csdnimg.cn/2020071713464647.png" width="120px" height="150px" style="box-shadow: 5px 5px 5px rgba(0,0,0,.5);">
+<div class='me-basic__info'>
+    <div class="me-basic__info--item">姓名： 袁凯</div>
+    <div class="me-basic__info--item">学历： 统招本科 &nbsp; 211/双一流</div>
+    <div class="me-basic__info--item">出生： 1994/04</div>
+    <div class="me-basic__info--item">电话： 13057539668</div>
+    <div class="me-basic__info--item">籍贯： 江苏苏州</div>
+    <div class="me-basic__info--item">邮箱： yokiizx@163.com</div>
+    <div class="me-basic__info--item">工作时间： 4年半</div>
+    <div class="me-basic__info--item">期望工作地： 苏州、上海</div>
+    <div class="me-basic__info--avatar">
+        <img src="https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202212182320591.png" width="120px" height="150px">
     </div>
 </div>
 
@@ -33,11 +25,12 @@ statistics: 'false'
 
 ##### 工作经历
 
-| 上海欧电云信息科技有限公司 | 高级开发工程师/小组长 | 2019.3 - 2021.11  |
-| -------------------------- | --------------------- | ----------------- |
-| AAA 有限公司               | 中级开发工程师        | 2018.4 - 2018.11  |
-| BBB 有限公司               | 中级开发工程师        | 2017.11 - 2018.3  |
-| CCC 信息技术有限公司       | 初级/中级开发工程师   | 2015.10 - 2017.10 |
+| 公司                       | 部门(职位)                 | 时间              |
+| -------------------------- | -------------------------- | ----------------- |
+| 江苏云学堂科技有限公司     | 软件事业部(前端工程师)     | 2021.09 - 至今    |
+| 浩鲸云计算科技股份有限公司 | 交通事业部(高级前端工程师) | 2021.03 - 2021.08 |
+| 创新奇智(南京)科技有限公司 | NDC(web 前端工程师)        | 2020.06 - 2021.03 |
+| 南京仁苏软件科技有限公司   | 大数据研发部(前端工程师)   | 2018.07 - 2020.06 |
 
 ##### 专业技能
 
@@ -60,32 +53,52 @@ statistics: 'false'
 | 责任描述             | 1.负责 xxx 的方案设计与开发。<br/>2.负责 xxx 的开发。<br/>4.参与 xxx 的开发。 |
 
 <style>
-    /* “个人信息”和“工作经历” 第一行不加粗 */
-    /* div figure:nth-of-type(1) table th,
-    div figure:nth-of-type(2) table th {
-        font-weight: normal;
-    } */
-    /* “项目经历”的表格宽度设定 */
-    div figure:nth-of-type(3) table th:nth-of-type(1),
-    div figure:nth-of-type(4) table th:nth-of-type(1),
-    div figure:nth-of-type(5) table th:nth-of-type(1),
-    div figure:nth-of-type(6) table th:nth-of-type(1) {
-		width: 20% !important;
-        font-size: 1.2em;
-        color: black;
+  /* “项目经历”的表格宽度设定 */
+  div figure:nth-of-type(3) table th:nth-of-type(1),
+  div figure:nth-of-type(4) table th:nth-of-type(1),
+  div figure:nth-of-type(5) table th:nth-of-type(1),
+  div figure:nth-of-type(6) table th:nth-of-type(1) {
+    width: 20% !important;
+    font-size: 1.2em;
+    color: black;
 	}
-    div figure:nth-of-type(3) table th:nth-of-type(2),
-    div figure:nth-of-type(4) table th:nth-of-type(2),
-    div figure:nth-of-type(5) table th:nth-of-type(2),
-    div figure:nth-of-type(6) table th:nth-of-type(2) {
+  div figure:nth-of-type(3) table th:nth-of-type(2),
+  div figure:nth-of-type(4) table th:nth-of-type(2),
+  div figure:nth-of-type(5) table th:nth-of-type(2),
+  div figure:nth-of-type(6) table th:nth-of-type(2) {
 		width: 80% !important;
 	}
     /* “个人简介”距离顶部调整 */
-    #write h2:first-of-type {
-		margin-top: 0em;
-        color: black;
+  #write h2:first-of-type {
+    margin-top: 0em;
+    color: black;
 	}
   h4 {
     border-bottom: 0
+  }
+
+  .me-basic__info {
+    position: relative;
+    display: flex;
+    width: 70%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .me-basic__info--item {
+    width: 45%;
+    color: var(--font-color);
+    font-weight: 500;
+    font-size: 1.06rem;
+    line-height: 1.8;
+  }
+  .me-basic__info--avatar {
+    position: absolute;
+    right: -13.25rem;
+  }
+  img {
+    width: 120px;
+    height: 150px;
+    object-fit: cover;
+    box-shadow: 5px 5px 5px rgba(0,0,0,.5);
   }
 </style>
