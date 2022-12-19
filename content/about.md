@@ -12,7 +12,7 @@ statistics: 'false'
     <div class="me-basic__info--item">学历： 统招本科 &nbsp; 211/双一流</div>
     <div class="me-basic__info--item">出生： 1994/04</div>
     <div class="me-basic__info--item">电话： 13057539668</div>
-    <div class="me-basic__info--item">籍贯： 江苏苏州</div>
+    <div class="me-basic__info--item">籍贯： 江苏</div>
     <div class="me-basic__info--item">邮箱： yokiizx@163.com</div>
     <div class="me-basic__info--item">工作时间： 4年半</div>
     <div class="me-basic__info--item">期望工作地： 苏州、上海</div>
