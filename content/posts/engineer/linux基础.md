@@ -1,7 +1,7 @@
 ---
 title: 'Linux基础'
 date: 2022-12-03T16:08:31+08:00
-tags: [mac, linux, shell]
+tags: [mac, linux, engineer]
 ---
 
 ## 前言
@@ -25,7 +25,7 @@ tags: [mac, linux, shell]
 
 ## linux 文件属性
 
-查看完整属性命令
+查看文件完整属性命令
 
 ```sh
 ls -l
@@ -77,6 +77,9 @@ drwxr-xr-x  4 yokiizx  staff   128B Aug  7  2021 Public
 - touch 创建文件
 - which 指令会在环境变量$PATH 设置的目录里查找符合条件的文件
 - ping 检测远端主机的网络功能
+- exit [状态值]：0 - 成功；1 - 失败，退出终端
+
+一个目录常用的命令：`mkdir xxx && cd $_`
 
 > 全是常用的就不赘述，真要是忘了，查看具体使用方式使用命令`man`，如： `man cp`
 
@@ -97,7 +100,16 @@ drwxr-xr-x  4 yokiizx  staff   128B Aug  7  2021 Public
   - CONT 18 继续（与 STOP 相反，fg/bg 命令）
   - STOP 19 暂停（同 Ctrl + Z）
 
+##### linux 常见符号
+
+- &：如果命令后加上了 &，表示命令在后台执行
+- &&： 前一条命令执行成功后才执行后面的命令
+- |：前一条命令的输出作为后一条命令的输入
+- ||：前一条命令执行失败后才执行后面的命令
+- ; 多个命令按照顺序执行，但不管前面的命令是否执行成功
+
 ## 参考
 
 - [linux 命令 which,whereis,locate,find 的区别](https://zhuanlan.zhihu.com/p/35727707)
 - [ps -ef 和 ps aux 的区别及格式详解](https://www.cnblogs.com/5201351/p/4206461.html)
+- [linux 中的分号&&和&，|和||说明与用法](https://cloud.tencent.com/developer/article/1722164)

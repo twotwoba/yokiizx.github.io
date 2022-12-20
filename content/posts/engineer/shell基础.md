@@ -1,7 +1,7 @@
 ---
 title: 'Shell 基础'
 date: 2022-11-24T11:31:39+08:00
-tags: [mac, shell]
+tags: [mac, engineer]
 ---
 
 ## 前言
