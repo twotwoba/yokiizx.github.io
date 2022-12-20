@@ -5,9 +5,43 @@ tags: [engineer, git]
 ---
 
 **本文基于 git version 2.32.0**
+<<<<<<< HEAD
+=======
 
 ---
 
+我知道有很多人在使用 SourceTree 之类的图形界面进行版本管理，但是从入行就习惯使用命令行和喜欢简约风的我还是喜欢在 terminal 内敲命令行来进行 git 的相关操作，本文把这几年来常用的命令和经验分享一下。
+
+##### 初始化必配
+
+换电脑或者重做系统后，需要重新配置 git 命令别名，这是帮助简化的方法。
+
+```sh
+# 常规工作流
+git config --global alias.g git
+git config --global alias.ad 'add -A'
+git config --global alias.cm 'commit -m'
+git config --global alias.cam 'commit --amend -m'
+git config --global alias.can 'commit --amend --no-edit'
+git config --global alias.ps push
+git config --global alias.pl pull
+
+git config --global alias.ck checkout
+git config --global alias.cb 'checkout -b'
+git config --global alias.ci commit
+git config --global alias.br branch
+git config --global alias.st status
+git config --global alias.ss 'status -s'
+git config --global alias.re restore
+git config --global alias.rs 'restore --staged'
+git config --global alias.find 'log --grep'
+git config --global alias.cp cherry-pick
+```
+>>>>>>> 85525b9694b7aae96a37e5306b702d9117eb55bd
+
+---
+
+<<<<<<< HEAD
 我知道有很多人在使用 SourceTree 之类的图形界面进行版本管理，但是从入行就习惯使用命令行和喜欢简约风的我还是喜欢在 terminal 内敲命令行来进行 git 的相关操作，本文把这几年来常用的命令和经验分享一下。
 
 鉴于是老生常谈的东西了，分为老手和新手两块。
@@ -66,6 +100,10 @@ git config --global alias.findby "log --color --graph --pretty=format:'%Cred%h%C
 ```
 
 命令简化完后，需要配置下个人信息，我个人习惯是公司的项目都单独配置，全局给自己用。
+=======
+1. 用户名和邮箱
+   ceshi
+>>>>>>> 85525b9694b7aae96a37e5306b702d9117eb55bd
 
 ```sh
 # 全局配置
