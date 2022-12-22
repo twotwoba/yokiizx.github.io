@@ -12,7 +12,7 @@ weight: 1
 
 ##### 工程化
 
-- [ ] npx 原理
+- [ ] npm script
 - [ ] babel
 - [ ] webpack
 - [ ] rollup

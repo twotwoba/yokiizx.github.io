@@ -1,5 +1,5 @@
 ---
-title: 'Mac上bash/zsh及常用的shell命令'
+title: 'Mac上bash/zsh'
 date: 2022-11-25T10:27:55+08:00
 tags: [mac, shell]
 ---

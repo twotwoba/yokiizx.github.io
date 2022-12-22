@@ -1,7 +1,7 @@
 ---
 title: 'Vim基础配置'
 date: 2022-11-27T01:03:28+08:00
-tags: [tool]
+tags: [mac, tool]
 ---
 
 ##### 痛点
