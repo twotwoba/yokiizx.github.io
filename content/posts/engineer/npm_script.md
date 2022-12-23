@@ -97,21 +97,18 @@ npm run test -- --grep="pattern"
 #> echo "Error: no test specified" && exit 1 "--grep=pattern"
 ```
 
-正如 shell 脚本执行需要指定 shell 程序一样，`run-script` 从 `package.json`的 script 对象中解析出的 shell 命令在执行之前会有一步 “装箱” 的操作：**把 `node_modules/.bin` 加在环境变量 `$PATH` 的前面**，这意味着，我们就不需要每次都输入可执行文件的完整路径了。
+正如 shell 脚本执行需要指定 shell 程序一样，`run-script` 从 `package.json`的 script 对象中解析出的 shell 命令在执行之前会有一步 “装箱” 的操作：**把 `node_modules/.bin` 加在环境变量 `$PATH` 的中**，这意味着，我们就不需要每次都输入可执行文件的完整路径了。
 
-`node_modules/.bin` 目录下存着所有安装包的脚本文件，文件开头都有 `#!/usr/bin/env node`。
+`node_modules/.bin` 目录下存着所有安装包的脚本文件，文件开头都有 `#!/usr/bin/env node`，这个东西叫 [Shebang](<https://en.wikipedia.org/wiki/Shebang_(Unix)>)。
 
 ```sh
-# 指定 /bin/zsh 来执行 demo.sh
-/bin/zsh demo.sh
-
 # "scripts": {
-#   "eslint": "eslint **.js"
+#   "eslint": "eslint ./src/**/*.js"
 # }
-npm run eslint # ==> ./node_modules/.bin eslint **.js
+npm run eslint # ==>node ./node_modules/.bin/eslint *.js
 ```
 
-`node_modules/.bin` 中的文件，实际上是在 `npm i` 安装时根据安装库的源代码中的 `package.json` 创建软链指向 bin 中的地址。
+`node_modules/.bin` 中的文件，实际上是在 `npm i` 安装时根据安装库的源代码中`package.json` 的 `bin` 指向的路径创建软链。
 
 ```JSON
 "node_modules/eslint": {
@@ -125,11 +122,155 @@ npm run eslint # ==> ./node_modules/.bin eslint **.js
 }
 ```
 
-如果 `node_modules/.bin` 中没有对应的执行脚本，那么会去全局目录下查找，如果还没有再从环境变量 $PATH 下查找是否有同名的可执行程序，否则就报错啦。
+如果 `node_modules/.bin` 中没有对应的执行脚本，那么会去全局目录下查找，如果还没有再从环境变量 `$PATH` 下查找是否有同名的可执行程序，否则就报错啦。
 
-## todo
+PS: `npm run` 后不带参数直接执行，可以查看 `package.json` 中所有可执行的命令，就没必要再去点开文件看了。
 
-TODO
+## npm script 传参
+
+直接举个常用的打印日志例子：
+
+```sh
+# 日志输出 精简日志和较全日志
+npm run [key] -s # 全称是 --loglevel silent 也可简写为 --silent
+npm run [key] -d # 全称是 --loglevel verbose 也可简写为 --verbose
+```
+
+两个常用的内置变量 `npm_config_xxx` 和 `npm_package_xxx`，eg：
+
+```JSON
+"view": "echo $npm_config_host && echo $npm_package_name"
+```
+
+当执行命令 `npm run view --host=123`，就会输出 123 和 package.json 的 name 属性值。
+
+如果上方 [key] 指向的是另一个 `npm run` 命令，想传参给真正指向的命令该怎么做呢？又得依靠 `--`的能力了。下面两条命令对比，就是可以把 `--fix` 传递到 `eslint ./src/**/*.js` 之后。
+
+```diff
+"eslint": "eslint ./src/**/*.js",
+- "eslint:fix": "npm run eslint --fix",
++ "eslint:fix": "npm run eslint -- --fix"
+```
+
+在脚本文件中，也可以获取命令的传参：
+
+```JSON
+"go": "node test.js --key=val --host=123"
+```
+
+```js
+// test.js
+const args = process.argv;
+console.log('📌📌📌 ~ args', args);
+
+const env = process.env.NODE_ENV;
+console.log('📌📌📌 ~ env', env);
+```
+
+此外，`process.env` 可以获取到本机的环境变量配置，常用的如：
+
+- NODE_ENV
+- npm_lifecycle_event，正在运行的脚本名称
+- npm_package\_[xxx]
+- npm_config\_[xxx]
+- ...等等
+
+其中 `process.env.NODE_ENV` 也可以通过命令来设置，在 \*NIX 系统下可以这么使用：
+
+```sh
+"go": "export NODE_ENV=123 && node test.js --key=val --host=123"
+```
+
+为了抹除平台的差异，常常使用的是 `cross-env` 这个库。
+
+## npm script 钩子
+
+npm 提供 `pre`和`post`两种钩子机制，分别在对应的脚本前后执行。
+
+## npm script 命令自动补全
+
+官网提供了集成方法：
+
+```sh
+npm completion >> ~/.zshrc # 本地 shell 设置的是哪个就是哪个
+```
+
+把 `npm completion` 的输出注入 `.zshrc` 之后就可以通过 tab 来自动补全命令了。
+
+## npm 配置
+
+```sh
+npm config set <key> <value>
+npm config get <key>
+npm config delete <key>
+```
+
+## node_modules 的扁平结构
+
+npm 3 之前：
+
+```txt
++-------------------------------------------+
+|                   app/                    |
++----------+------------------------+-------+
+           |                        |
+           |                        |
++----------v------+       +---------v-------+
+|                 |       |                 |
+|  webpack@1.15.0 |       |  nconf@0.8.5    |
+|                 |       |                 |
++--------+--------+       +--------+--------+
+         |                         |
+   +-----v-----+             +-----v-----+
+   |async@1.5.2|             |async@1.5.2|
+   +-----------+             +-----------+
+```
+
+npm 3 之后：
+
+```txt
+         +-------------------------------------------+
+         |                   app/                    |
+         +-+---------------------------------------+-+
+           |                                       |
+           |                                       |
++----------v------+    +-------------+   +---------v-------+
+|                 |    |             |   |                 |
+|  webpack@1.15.0 |    | async@1.5.2 |   |  nconf@0.8.5    |
+|                 |    |             |   |                 |
++-----------------+    +-------------+   +-----------------+
+```
+
+优势很明显，相同的包不会再被重复安装，同时也防止树过深，导致触发 windows 文件系统中的文件路径长度限制错误。
+
+能这么做的原因：得益于 node 的模块加载机制，[node 之 require 加载顺序及规则](https://www.jianshu.com/p/7cf8fdd3d2bf)。
+
+## npm link
+
+当我们开发一个 npm 模块或者调试某个开源库时，`npm link` 就发挥本事了，主要分为两步：
+
+1. 作为包的目标文件下执行 `npm link`。它会在创建一个全局软链 `{prefix}/lib/node_modules/<package>` 指向该命令执行时所处的文件夹。  
+   这里的 `prefix` 可以通过 `npm prefix -g` 来查看
+2. `npm link <pkgName>` 然后把刚刚创建的全局链接目标链接到项目的 `node_modules` 文件夹中。  
+   注意 这里的 <pkgName> 是 `package.json` 的 `name` 属性而不是文件夹名
+
+举个例子吧，对 `react v17.0.2` 源码打包，然后在自己项目中链接打包的代码进行调试：
+
+```sh
+# 安装完依赖后对核心打包
+yarn build react/index,react/jsx,react-dom/index,scheduler --type=NODE
+
+# 分别进入react react-dom scheduler 创建软链
+cd ./build/react
+npm link
+cd ./build/react-dom
+npm link
+cd ./build/scheduler
+npm link
+
+# 在创建项目中
+npm link raect react-dom scheduler # 此优先级是高于本地安装的依赖的
+```
 
 ## 脚本执行顺序符号
 
@@ -140,11 +281,14 @@ TODO
 - &&： 前一条命令执行成功后才执行后面的命令
 - |：前一条命令的输出作为后一条命令的输入
 - ||：前一条命令执行失败后才执行后面的命令
-- ; 多个命令按照顺序执行，但不管前面的命令是否执行成功
+- ; 多个命令按照顺序执行，但不管前面的命令是否执行成功 d
 
 > npm-run-all 这个库也实现了以上的执行逻辑，不过我是不建议使用，写命令就老老实实写不好嘛，越写越熟练哈哈~
 
 ## 参考
 
 - [npm 官方文档](https://docs.npmjs.com/)
-- [w3c npm 教程](https://www.w3cschool.cn/npmjs/npmjs-ykuj3kmb.html)
+- [Node.js process 模块解读](https://juejin.cn/post/6844903614784225287)
+- [node_modules 扁平结构](https://juejin.cn/post/6844903582337237006#heading-8)
+- [模块加载官网伪代码](https://nodejs.org/dist/latest-v12.x/docs/api/modules.html#modules_all_together)
+- [npm 发包流程](https://segmentfault.com/a/1190000023075167)

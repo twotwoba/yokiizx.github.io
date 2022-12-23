@@ -152,30 +152,9 @@ HEAD 是特殊的分支指针，指向的是当前所在分支。这里得说一
 - HEAD^^^ 等价于 HEAD~3 表示父父父提交
 - HEAD^3 表示的是父提交的第三个提交，即合并进来的其他提交
 
-## 补充：提交规范
+## 提交规范
 
-```sh
-# 全局安装
-yarn global add commitizen cz-conventional-changelog
-# 项目内安装
-yarn add @commitlint/config-conventional @commitlint/cli -D
-
-# 进入项目内初始化cz; 之后所有的git commit 变为 git cz
-commitizen init cz-conventional-changelog --save-dev --save-exact
-
-# 在package.json同级目录下 新建 commitlint.config.js文件, 写入
-module.exports = { extends: ["@commitlint/config-conventional"] };
-# 项目内安装husky  防止不规范代码被提交
-yarn add husky -D
-# package.json中配置
-"husky": {
- "hooks": {
-   "commit-msg": "commitlint -e $GIT_PARAMS"
- }
-}
-```
-
-ps：这部分配置好久之前写的，需要用的时候还是去对应 github 仓库看文档更稳妥哈~ 👻
+通过 `husky` + `lint-staged` 配合来进行约束，详细配置根据项目来设定。
 
 ##### 解决 vscode git log 中文字符乱码
 
