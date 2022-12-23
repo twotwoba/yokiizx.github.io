@@ -12,15 +12,17 @@ weight: 1
 
 ##### 工程化
 
-- [ ] npm script
+- [x] npm script
+- [ ] 手撕一个命令行工具
 - [ ] babel
 - [ ] webpack
+- [ ] 手撕一个 react 脚手架
 - [ ] rollup
 - [ ] lerna
-- [ ] 从 0 到 1 搭建脚手架
 
 ##### 框架
 
+- [x] react diff 原理
 - [ ] vue diff 原理
 - [ ] 各类状态管理器原理
 
