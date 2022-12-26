@@ -50,7 +50,7 @@ tags: [engineer]
 
      词法转换的基本原理就是：tokenizer 函数内部使用指针去循环遍历源码字符串，根据正则等去匹配生成对应的一个个 token 对象
 
-   - 语法分析：把词法分析后的 tokens 数组转换成 AST(抽象语法树)，形式如下：
+   - 语法分析：把词法分析后的 tokens 数组(令牌流)转换成 AST(抽象语法树)，形式如下：
 
      ```JavaScript
       {
@@ -86,9 +86,80 @@ tags: [engineer]
 
      与 tokenlizer 不同的是 parser 内部使用的是递归+循环而不仅仅是循环。
 
-2. `Transformation`，该阶段将抽象语法树转换成我们想要的目标抽象语法树。  
-   这一步重点是需要一个自定义遍历器 `traverser(ast, visitor)`，visitor 作用是访问旧 ast 每个 node 节点时根据 type 字段配置相应的处理方法，这些方法将生成新的 AST。
-3. `code generotion` 阶段就是将新 AST 转换成最终我们想要的代码。
+2. `Transformation`，该阶段将抽象语法树转换成我们想要的目标抽象语法树，这是最复杂的地方，会使用到 **访问者模式**。  
+   这一步重点是需要一个自定义遍历器 `traverser(ast, visitor)`，`visitor` 作用是访问旧 `ast` 每个 `node 节点` 时根据 type 字段配置相应的处理方法，进行添加、更新、移除等操作，最终生成新的 AST。
+3. `code generotion` 阶段比较简单就是深度遍历(dfs) AST，构建转换后代码的字符串。  
+   同时还会创建代码映射(source maps)
+
+###### 重点
+
+访问者模式遍历器的 `visitor` 是一个对象，其对应的是设定标识的应使用各种方法，由于我们是 dfs，所以每个节点都会经历 `进入` 和 `退出` 两个动作。
+
+```diff
+- const MyVisitor = {
+-   Identifier() {
+-     console.log("Called!");
+-   }
+- };
++ const MyVisitor = {
++   Identifier: {
++     enter(path) {
++       console.log("Entered!");
++     },
++     exit(path) {
++       console.log("Exited!");
++     }
++   }
++ };
+```
+
+visitor 内方法访问的实际上是 `path` ---> `path` 是表示两个节点之间连接的对象，这个对象还有很多其他的元数据，如：
+
+```JavaScript
+/* ------ 节点 ------ */
+{
+  type: "FunctionDeclaration",
+  id: {
+    type: "Identifier",
+    name: "square"
+  },
+  ...
+}
+/* ------ path ------ */
+{
+  "parent": {
+    "type": "FunctionDeclaration",
+    "id": {...},
+    ...
+  },
+  "node": {
+    "type": "Identifier",
+    "name": "square"
+  },
+  "hub": {...},
+  "contexts": [],
+  "data": {},
+  "shouldSkip": false,
+  "shouldStop": false,
+  "removed": false,
+  "state": null,
+  "opts": null,
+  "skipKeys": null,
+  "parentPath": null,
+  "context": null,
+  "container": null,
+  "listKey": null,
+  "inList": false,
+  "parentKey": null,
+  "key": null,
+  "scope": null,
+  "type": null,
+  "typeAnnotation": null,
+  // 添加,更新,移动和删除节点有关的其他方法
+}
+```
+
+某种意义上，`path` 是一个节点在树中的位置以及关于该节点各种信息的 `响应式 Reactive` 表示
 
 ---
 
@@ -373,11 +444,19 @@ var Foo =
 
 ## babel plugin
 
-插件是我们进行 DIY 的一个好方式，一起来学学。
+插件是我们进行 DIY 的一个好方式，一起来学学。[babel handlebook - plugin](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md)
 
+上方已经介绍过 babel 的基本原理就不赘述了，也可以点击上方链接进去细看，下面介绍一下 Babel 内部模块的 API。
+
+##### babylon
+
+Babylon 是 babel 的解释器。
+
+TODO 
 ## 参考
 
 - [babel 官网](https://babeljs.io/)
 - [the super tiny compiler](https://github.com/jamiebuilds/the-super-tiny-compiler/blob/master/the-super-tiny-compiler.js)
 - [babel book(有些已过时)](https://github.com/jamiebuilds/babel-handbook)
 - [带你在 Babel 的世界中畅游](https://mp.weixin.qq.com/s/4thcIAZ4CYwQRB265vjd6w)
+- [generator-babel-plugin](https://github.com/babel/generator-babel-plugin)
