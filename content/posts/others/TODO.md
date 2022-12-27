@@ -13,8 +13,9 @@ weight: 1
 ##### 工程化
 
 - [x] npm script
-- [ ] 手撕一个命令行工具
-- [ ] babel
+- [ ] 开发一个命令行工具
+- [x] babel
+- [ ] log-shiny babel 插件开发
 - [ ] webpack
 - [ ] 手撕一个 react 脚手架
 - [ ] rollup
