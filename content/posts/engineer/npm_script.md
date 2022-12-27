@@ -273,6 +273,25 @@ npm link
 npm link raect react-dom scheduler # 此优先级是高于本地安装的依赖的
 ```
 
+## npm 发布
+
+首先得有 npm 账号，直接去官网注册就好，其次有一个可以发布的包，然后：
+
+```sh
+# ------ terminal ------
+# 1. 登录 npm 账号
+npm adduser 或者 npm login
+# npm whoami 可以查看登录的账号
+# 2. 发布
+npm publish
+# 3. 带有 @scope 的发布需要跟上如下参数
+npm publish --access=public
+# 4. 更新版本
+npm version [semver]
+```
+
+> [sermver 版本规范](https://semver.org/lang/zh-CN/)
+
 ## 脚本执行顺序符号
 
 这里与 shell 的符号是一样的：

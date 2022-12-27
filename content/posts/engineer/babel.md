@@ -639,7 +639,8 @@ const hello = () => {}
  *  "name": "hello"
  * },
  */
-// plugin-hello.js
+// plugin-hello.js，在本地这么写是ok的
+// 但是想要发布为一个包并应用配置则得按照官方插件的样式去写
 export default function ({ types: t }) {
   return {
     visitor: {
