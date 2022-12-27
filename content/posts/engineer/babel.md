@@ -16,7 +16,8 @@ tags: [engineer]
 
 1. `parsing` 有两个阶段，词法分析和语法分析，最终得到 AST（抽象语法树）：
 
-   - 词法分析：把源代码转换成 tokens 数组(令牌流)，形式如下：
+   - 词法分析：把源代码转换成 tokens 数组(令牌流)，形式如下：  
+     PS： 旧的`babylon`中解析完是有 tokens 的，新的`@babel/parser`中没了这个字段，如有大佬知道原因，请留言告知，感谢~
 
      ```JavaScript
       [
@@ -48,7 +49,7 @@ tags: [engineer]
       }
      ```
 
-     词法转换的基本原理就是：tokenizer 函数内部使用指针去循环遍历源码字符串，根据正则等去匹配生成对应的一个个 token 对象
+     词法转换的基本原理就是：tokenizer 函数内部使用指针去循环遍历源码字符串，根据正则等去匹配生成对应的一个个 token 对象。
 
    - 语法分析：把词法分析后的 tokens 数组(令牌流)转换成 AST(抽象语法树)，形式如下：
 
@@ -84,7 +85,7 @@ tags: [engineer]
       }
      ```
 
-     与 tokenlizer 不同的是 parser 内部使用的是递归+循环而不仅仅是循环。
+     与 tokenlizer 不同， parser 内部使用的是递归+循环而不仅仅是循环。
 
 2. `Transformation`，该阶段将抽象语法树转换成我们想要的目标抽象语法树，这是最复杂的地方，会使用到 **访问者模式**。  
    这一步重点是需要一个自定义遍历器 `traverser(ast, visitor)`，`visitor` 作用是访问旧 `ast` 每个 `node 节点` 时根据 type 字段配置相应的处理方法，进行添加、更新、移除等操作，最终生成新的 AST。
@@ -177,12 +178,12 @@ visitor 内方法访问的实际上是 `path` ---> `path` 是表示两个节点�
 
 ##### babel runner
 
-- `@babel/cli`，使用命令行编译文件
+- `@babel/cli`，从命令行使用 babel 编译文件
   ```sh
-  # 安装，也可随项目，更可以配置script脚本命令
+  # 全局安装，也可随项目安装
   npm i @babel/cli -g
-  # 使用，可以通过命令行注入一下配置
-  babel [file]
+  # 基本使用，可选是否导出到文件 --out-file或-o
+  babel [file] -o [file]
   ```
 - `babel-loader`，前端项目中 `webpack` 更常用的是 `babel-loader`  
    在 webpack 中，loader 本质上就是一个函数：
@@ -448,15 +449,263 @@ var Foo =
 
 上方已经介绍过 babel 的基本原理就不赘述了，也可以点击上方链接进去细看，下面介绍一下 Babel 内部模块的 API。
 
-##### babylon
+##### @babel/parser(babylon)
 
-Babylon 是 babel 的解释器。
+`Babylon` 是 babel 的解释器，是 `@babel/parser` 的前生，关于 babylon 可以看[这里](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#toc-babylon)。
 
-TODO 
+```sh
+npm i @babel/parser -s
+```
+
+```JavaScript
+/* ------- test.js -------*/
+import * as babelParser from '@babel/parser';
+
+const code = `function sum(a, b){
+  return a + b
+}`;
+
+const AST = babelParser.parse(code);
+console.log(AST);
+/* ------- 执行 -------*/
+// 小tip，执行js脚本此类错误 SyntaxError: Cannot use import statement outside a module
+// 需要去 package.json 中添加 "type": "module"
+node test.js
+/* ------- babylon 转换后的结果 -------*/
+Node {
+  type: 'File',
+  start: 0,
+  end: 36,
+  loc: SourceLocation {
+    start: Position { line: 1, column: 0, index: 0 },
+    end: Position { line: 3, column: 1, index: 36 },
+    filename: undefined,
+    identifierName: undefined
+  },
+  errors: [],
+  program: Node {
+    type: 'Program',
+    start: 0,
+    end: 36,
+    loc: SourceLocation {
+      start: [Position],
+      end: [Position],
+      filename: undefined,
+      identifierName: undefined
+    },
+    sourceType: 'script',
+    interpreter: null,
+    body: [ [Node] ],
+    directives: []
+  },
+  comments: []
+  /*  tokens 是babylon解析后的产物，放这里是为了做个对比，why？ */
+  // tokens: [
+  //   Token {
+  //     type: [KeywordTokenType],
+  //     value: 'function',
+  //     start: 0,
+  //     end: 8,
+  //     loc: [SourceLocation]
+  //   },
+  //   // ... other tokens
+  // ]
+}
+```
+
+> @babel/parser 也可以传参，见[参数配置](https://babeljs.io/docs/en/babel-parser#options)
+
+##### @babel/traverse
+
+`@babel/traverse` 即上方原理部分 `transformation` 中最重要那一环，通过 `访问者模式` 去修改 node 节点。
+
+```sh
+npm i @babel/traverse -D
+```
+
+```JavaScript
+import * as babelParser from '@babel/parser';
+import _traverse from '@babel/traverse';
+const traverse = _traverse.default;
+
+const code = `function sum(a, b){
+  return a + b
+}`;
+
+const AST = babelParser.parse(code);
+
+traverse(AST, {
+  enter(path) {
+    if (path.isIdentifier({ name: 'a' })) {
+      path.node.name = 'c';
+    }
+  }
+});
+```
+
+> 注意：官网示例实际上有个 bug：`import traverse from '@babel/traverse';`，ESM 下这样子直接用 `traverse` 会报错，将会在 babel8 修复。
+
+##### @babel/types
+
+Babel Types 模块是一个用于 AST 节点的 Lodash 式工具库，它包含了构造、验证以及变换 AST 节点的方法。 该工具库包含考虑周到的工具方法，对编写处理 AST 逻辑非常有用。详细 API 见[@babel/types doc](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#babel-types)
+
+```sh
+npm i @babel/types -s
+```
+
+```JavaScript
+// ...
+import * as t from "babel-types";
+
+// ...
+traverse(AST, {
+  enter(path) {
+    if (t.isIdentifier(path.node, { name: 'a' })) {
+      path.node.name = 'c';
+    }
+  }
+});
+```
+
+> API 很多，具体见[@babel/types](https://babeljs.io/docs/en/babel-types)
+
+##### @babel/generator
+
+最后将 AST 还原成我们想要的代码。
+
+```sh
+npm install @babel/generator -D
+```
+
+一个完整的例子：
+
+```JavaScript
+import generate from "@babel/generator";
+import * as babelParser from '@babel/parser';
+import _traverse from '@babel/traverse';
+import _generate from '@babel/generator';
+
+const traverse = _traverse.default;
+const generate = _generate.default;
+
+const code = `function sum(a, b){
+  return a + b
+}`;
+
+const AST = babelParser.parse(code);
+
+traverse(AST, {
+  enter(path) {
+    if (path.isIdentifier({ name: 'a' })) {
+      path.node.name = 'c';
+    }
+  }
+});
+
+const output = generate(
+  AST,
+  {
+    /*options*/
+  },
+  code
+);
+console.log('📌📌📌 ~ output', output);
+/* ----------- output ---------- */
+📌📌📌 ~ output {
+  code: 'function sum(c, b) {\n  return c + b;\n}',
+  decodedMap: undefined,
+  map: [Getter/Setter],
+  rawMappings: [Getter/Setter]
+}
+```
+
+## [编写你的第一个 Babel 插件](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#%E7%BC%96%E5%86%99%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA-babel-%E6%8F%92%E4%BB%B6)
+
+实践第一步先小试牛刀把一个 `hello` 方法，改名为 `world` 方法：
+
+```JavaScript
+const hello = () => {}
+```
+
+> 前期不熟悉 AST 各种标识的情况下，可以去[AST 在线平台转换(基于 acorn)](https://astexplorer.net/)查看对应的 AST。
+
+```JavaScript
+/**
+ * 从上方的网站找到了 hello 的节点位置：
+ * "id": {
+ *  "type": "Identifier",
+ *  "start": 6,
+ *  "end": 11,
+ *  "name": "hello"
+ * },
+ */
+// plugin-hello.js
+export default function ({ types: t }) {
+  return {
+    visitor: {
+      Identifier(path, state) {
+        if (path.node.name === 'hello') {
+          path.replaceWith(t.Identifier('world'));
+        }
+      }
+    }
+  };
+}
+
+// 在插件中配置 "plugins": [["./plugin-hello.js"]]，编译后结果:
+/**
+ * "use strict";
+ *
+ *  var world = function world() {};
+ */
+```
+
+解释一下：
+
+1. `export default function(api, options, dirname){}`的三个参数：
+   - `api`：就是 babel 对象，可以从中获取 `types(@babel/types)`、`traverse(@babel/traverse)` 等很多实用的方法
+   - `options`：插件入参，即在配置文件中跟随在插件名后面的配置
+   - `dirname`：文件路径
+2. 这个函数必须返回一个对象，对象内有一些内置方法和属性：
+   - `name`，babel 插件名字，遵循一定的[命名规则](https://babeljs.io/docs/en/options#name-normalization)
+   - `pre(state)`，在遍历节点之前调用
+   - `visitor`对象，前面说的访问者模式，真正对 AST 动手术的部分，其内部根据各种标识符比如 `"type": "Identifier"`，决定对 AST 使用哪种手术刀 `Identifier(path, state)`，也可以写成带`enter(path,state)`和`exit(path, state)` 方法的对象。`path` 之前讲过是两个节点之间连接的对象，这是一个可操作和访问的巨大可变对象，是动手术的原材料；`state` 则是告知手术进行到了哪一步，因为每个 `visitor` 属性之间互不关联，`state` 可以帮助传递状态
+   - `post(state)`，在遍历节点之后调用
+   - `inherits`，指定继承某个插件，通过 Object.assign 的方式，和当前插件的 options 合并。
+   - `manipulateOptions`：用于修改 options，是在插件里面修改配置的方式，[参考此插件](https://github.com/babel/babel/blob/main/packages/babel-plugin-syntax-explicit-resource-management/src/index.ts)
+
+##### babel-plugin-log-shiny
+
+来个实践，平时我们 `console.log()` 打印信息总是会淹没在各种打印里，因此简单开发一个插件，让我们能及时找到我们需要的打印信息，这是我的插件地址 [babel-plugin-log-shiny](https://github.com/yokiizx/babel-plugin-log-shiny.git)，欢迎试用和提问题~
+
+安装：
+
+```sh
+npm i @babel/plugin-log-shiny -D
+```
+
+配置：
+
+```json
+{
+  "plugins": [
+    [
+      "@babel/plugin-log-shiny",
+      {
+        "prefix": "whatever you want~ like 🔥"
+      }
+    ]
+  ]
+}
+```
+
 ## 参考
 
 - [babel 官网](https://babeljs.io/)
 - [the super tiny compiler](https://github.com/jamiebuilds/the-super-tiny-compiler/blob/master/the-super-tiny-compiler.js)
 - [babel book(有些已过时)](https://github.com/jamiebuilds/babel-handbook)
 - [带你在 Babel 的世界中畅游](https://mp.weixin.qq.com/s/4thcIAZ4CYwQRB265vjd6w)
+- [Babel 插件入门](https://blog.csdn.net/ByteDanceTech/article/details/126900235)
+- [@babel/types 深度应用](https://juejin.cn/post/6984945589859385358#heading-6)
 - [generator-babel-plugin](https://github.com/babel/generator-babel-plugin)
+- [AST 在线平台转换(基于 acorn)](https://astexplorer.net/)

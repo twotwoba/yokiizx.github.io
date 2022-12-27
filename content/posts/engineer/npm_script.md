@@ -10,7 +10,8 @@ tags: [engineer]
 
 下文是我认为前端人至少需要掌握的知识点。
 
-> [关于 package.json](https://docs.npmjs.com/cli/v7/configuring-npm/package-json)
+> [关于 package.json](https://docs.npmjs.com/cli/v7/configuring-npm/package-json)，  
+> 开发一个包时，[需要注意的字段](https://es6.ruanyifeng.com/#docs/module-loader#Node-js-%E7%9A%84%E6%A8%A1%E5%9D%97%E5%8A%A0%E8%BD%BD%E6%96%B9%E6%B3%95)
 
 ## npm init
 
