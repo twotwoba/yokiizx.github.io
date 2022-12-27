@@ -682,7 +682,7 @@ export default function ({ types: t }) {
 安装：
 
 ```sh
-npm i @babel/plugin-log-shiny -D
+npm i babel-plugin-log-shiny -D
 ```
 
 配置：
@@ -691,7 +691,7 @@ npm i @babel/plugin-log-shiny -D
 {
   "plugins": [
     [
-      "@babel/plugin-log-shiny",
+      "log-shiny",
       {
         "prefix": "whatever you want~ like 🔥"
       }
