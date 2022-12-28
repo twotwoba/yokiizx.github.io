@@ -286,7 +286,7 @@ npm adduser 或者 npm login
 npm publish
 # 3. 带有 @scope 的发布需要跟上如下参数
 npm publish --access=public
-# 4. 更新版本
+# 4. 更新版本 直接手动指定版本，也可以 npm version [major | minor | patch],自动升对应版本
 npm version [semver]
 ```
 
