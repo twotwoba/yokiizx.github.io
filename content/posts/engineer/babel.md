@@ -253,7 +253,8 @@ module.exports = function () {
     require("babel-plugin-transform-flow-strip-types")
   ]
 };
-// 与 webpack loader 一样，多个 preset 执行顺序也是从右到左。
+// 与 webpack loader 一样，多个 preset 执行顺序也是从右到左，
+// 而babel插件则是正序的且在preset前运行。
 ```
 
 之后发布到 npm 仓库即可。
