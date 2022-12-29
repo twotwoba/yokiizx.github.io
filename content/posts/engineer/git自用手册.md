@@ -135,8 +135,8 @@ git 目录下的所有文件一共有四种状态：
 
 本地三个 git 分区：
 
-- 工作区：存放着`untracked`、`unmodified`、`modified`的文件
-- 暂存区：当工作区文件被`git add` 后加入
+- 工作区：存放着`untracked`、`unmodified`、`unstaged`的文件
+- 暂存区：当工作区文件被`git add` 后加入，文件状态为 `unstaged`
 - 仓库区：当暂存区文件被`commit` 后加入
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/017fb508b89d45a88c33383cdc4681eb~tplv-k3u1fbpfcp-zoom-1.image)

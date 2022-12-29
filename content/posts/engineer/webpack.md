@@ -14,9 +14,17 @@ webpack - JS 静态模块打包工具。
 
 武林高手比的是内功而非招法，万变不离其宗，以无招胜有招，从 webpack 构建的核心流程、loader、plugin 三方面来重点学习一下。
 
+开始之前，默认对 [webpack 基础概念](https://webpack.docschina.org/concepts/) 有一定的了解。
+
 ## 核心流程
 
+极简流程：创建依赖图 ---> 根据依赖图打包 bundle 产出。
+
+TODO
+
 ## loader
+
+打包非 JS 和 JSON 格式的文件，需要使用 loader 来转换一下。
 
 ## plugin
 
