@@ -1,7 +1,7 @@
 ---
 title: '百度UEditor拖拽问题'
 date: 2022-09-20T16:49:09+08:00
-tags: [experience]
+tags: [exp]
 ---
 
 富文本被禁用后，无法拖拽，覆盖一层 div 去实现拖拽。
