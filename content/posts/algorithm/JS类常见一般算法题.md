@@ -166,3 +166,61 @@ function bigSum(a, b) {
 
 console.log(bigSum('9007199254740991', '1234567899999999999'))
 ```
+
+##### 给数字每三位加逗号
+
+可以通过一个 counter 变量计数，也可以每次从末尾截取 3 个。
+
+```JavaScript
+const num = 20230102 // expect: 20,230,102
+
+function toThousand(num) {
+  let counter = 0;
+  let temp = num.toString();
+  let res = '';
+  for (let i = temp.length - 1; i >= 0; --i) {
+    counter++;
+    res = temp[i] + res;
+    if (counter % 3 === 0 && i !== 0) {
+      res = ',' + res;
+    }
+  }
+  return res;
+}
+
+function toThousand2(num) {
+  let temp = num.toString();
+  let res = '';
+  while (temp.length) {
+    res = ',' + temp.slice(-3) + res;
+    temp = temp.slice(0, -3);
+  }
+  return res.slice(1);
+}
+```
+
+##### faltten 多种实现
+
+```JavaScript
+// 1. api
+arr.flat(Infinity)
+// 2. 递归
+const arr = [1, 2, 3, [4, [5, 6], [7, [8, [9]]]], 10];
+const flatten = (arr) => {
+  const res = [];
+  // 定义递归遍历 入参为数组 过程中加入 res
+  const traverse = (arr) => {
+    for (let i = 0; i < arr.length; ++i) {
+      if (Array.isArray(arr[i])) {
+        traverse(arr[i]);
+      } else {
+        res.push(arr[i]);
+      }
+    }
+  };
+  traverse(arr);
+  return res;
+};
+// 3. reduce
+const flatten = (arr) => arr.reduce((t, v) => (Array.isArray(v) ? t.push(...flatten(v)) : t.push(v), t), []);
+```

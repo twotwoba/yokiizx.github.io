@@ -18,6 +18,8 @@ webpack - JS 静态模块打包工具。
 
 ## 核心流程
 
+![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301031450002.png)
+
 webpack 的主要目的是根据依赖图打包 bundle 产出，主要分为以下阶段：
 
 1. 初始化阶段
@@ -78,7 +80,9 @@ compile(callback) {
 
 ## plugin
 
-webpack 插件通常是一个带有 `apply` 方法的类：
+webpack 构建过程中，会在特定的时机广播对应的事件，插件监听这些事件，在特定时间点介入编译过程。
+
+通常，webpack 插件是一个带有 `apply` 方法的类：
 
 ```JavaScript
 class SomePlugin {
@@ -121,8 +125,55 @@ const {
  } = require("tapable");
 ```
 
+常用插件：
+
+- webpack-dev-server
+- SplitChunksPlugin
+
+## 易混淆知识点
+
+1. module, chunk, bundle
+
+   - module：构建阶段，通过 `handleModuleCreate` 创建的，简单点来说也可以认为是每个文件
+   - chunk：打包阶段生成的对象，遍历 `compilation.modules` 后，每个 chunk 都被分配了相应的 module
+   - bundle：最终输出的代码，是可以直接在浏览器中执行的
+     ![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301030941740.png)
+
+     > 一般来讲，一个 chunk 产生一个 bundle，产生 chunk 的途径：
+     >
+     > 1. entry，注意数组的 entry 只会产生一个，以对象形式，一个入口文件链路一个 chunk
+     > 2. 异步加载模块
+     > 3. 代码分割
+     >
+     > Webpack 5 之后，如果 entry 配置中包含 runtime 值，则在 entry 之外再增加一个专门容纳 runtime 的 chunk 对象，此时可以称之为 runtime chunk。
+
+2. filename, chunkFilename
+   - output.filename：列在 entry 中，打包后输出的文件的名称，是根据 entry 配置推断出的
+   - output.chunkFilename：未列在 entry 中，却又需要被打包出来的文件的名称，如果没有显示指定，默认为 chunk 的 id，往往需要配合魔法注释使用，如`import(/* webpackChunkName: "lodash" */ 'lodash')`
+3. hash, chunkhash, contenthash
+   这个可以顾名思义。首先 hash 是随机唯一的，它的作用是一般是用来结合 CDN 处理缓存的，当文件发生改变，hash 也就变化，触发 CDN 服务器去源服务器拉取数据，更新本地缓存。它们三个就是触发文件 hash 变化的条件不同：`[name].[hash].js` 计算的是整个项目的构建；chunkhash 计算的是 chunk；contenthash 计算的是内容。
+
+## HMR
+
+webpack-dev-server 启动服务后，当文件发生了变动，会触发重新构建，让我们专注于 coding，但是如果不做任何配置，它会刷新页面导致丢失掉应用状态，为此，webpack 提供了 hot module replacement 即 HMR 热更新。
+![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301031437536.png)
+
+- webpack compiler： watch 打包文件，写入内存
+- bundle server：启动本地服务，供浏览器使用
+- HMR server：将热更新的文件输出给 HMR runtime
+- HMR runtime：把生成的问加你注入到浏览器内存
+- Bundle：构建输出文件
+
+## split chunk
+
+## tree shaking
+
 ## 参考
 
 - [webpack 官网](https://webpack.js.org/)
 - [webpack 核心原理](https://mp.weixin.qq.com/s/_Hyn_sb8mki6aYTXwVZe6g)
 - [webpack5 知识体系](https://gitmind.cn/app/docs/m1foeg1o)
+- [webpack 中容易混淆的 5 个知识点](https://mp.weixin.qq.com/s/kPGEyQO63NkpcJZGMD05jQ)
+- [手把手入门 webpack 插件](https://mp.weixin.qq.com/s/sbrTQb5BCtStsu54WZlPbQ)
+- [HMR 机制](https://mp.weixin.qq.com/s/GlwGJ4cEe-1FgWW4EVpG_w)
+- [split chunk 分包机制](https://mp.weixin.qq.com/s/YjzcmwjI-6D8gyIkZF0tVw)
