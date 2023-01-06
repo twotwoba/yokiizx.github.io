@@ -204,6 +204,11 @@ npm completion >> ~/.zshrc # 本地 shell 设置的是哪个就是哪个
 npm config set <key> <value>
 npm config get <key>
 npm config delete <key>
+
+# 查看配置
+npm config list
+# 查看全局安装包和全局软链
+npm ls -g
 ```
 
 ## node_modules 的扁平结构
@@ -268,8 +273,15 @@ cd ./build/react-dom
 npm link
 cd ./build/scheduler
 npm link
+```
 
-# 在创建项目中
+对三个包 link 后，本地全局就会多了这三个包，如图：
+
+![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301062356149.png)
+
+然后在项目中使用这三个包：
+
+```sh
 npm link raect react-dom scheduler # 此优先级是高于本地安装的依赖的
 ```
 

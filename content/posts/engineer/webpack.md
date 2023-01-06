@@ -1,30 +1,55 @@
 ---
-title: 'Webpack'
-date: 2022-09-21T17:15:44+08:00
+title: 'Webpack核心流程'
+date: 2022-01-04T17:15:44+08:00
 tags: [engineer]
 ---
 
-**本文基于 webpack5**
+**本文基于 webpack5，不说废话**
 
-## 前言
+> [webpack 官网](https://webpack.js.org/)
 
-webpack - JS 静态模块打包工具。
+## 调试
 
-痛点：难学~，因为它现在真的太庞大了 👻，知识点：模块打包、代码分割、按需加载、HMR、Tree-shaking、文件监听、sourcemap、Module Federation、devServer、DLL、多进程等等，学习成本比较高。
+一般调试 npm 包，使用 `npm link` 创建软链的方式进行 debug。这里单纯调试 Node， 一般也有两种方式：
 
-武林高手比的是内功而非招法，万变不离其宗，以无招胜有招，从 webpack 构建的核心流程、loader、plugin 三方面来重点学习一下。
+- Chrome devtools -- [Node 官网 debugger](https://nodejs.org/dist/latest-v14.x/docs/api/debugger.html#debugger_debugger)
+  1. terminal 输入命令： `node inspect xxx.js`
+  2. chrome 浏览器输入：`chrome://inspect`
+  3. 点击 `Open dedicated DevTools for Node` 就能进行 node 的调试了
+- VsCode debugger（推荐） -- [microsoft/vscode-js-debug](https://github.com/microsoft/vscode-js-debug)；[VsCode 官网 debugger](https://code.visualstudio.com/docs/nodejs/nodejs-debugging)
+  1. 禁用插件 `@builtin @id:ms-vscode.js-debug`
+  2. 启用插件 `@id:ms-vscode.js-debug-nightly`
+  3. `cmd + shift + p`：输入 `debug`，选择合适的 debug 策略即可
 
-开始之前，默认对 [webpack 基础概念](https://webpack.docschina.org/concepts/) 有一定的了解。
+---
+
+克隆 webpack 的 main 分支到本地：
+
+```sh
+g cloneb main https://github.com/webpack/webpack.git
+```
+
+安装依赖：`yarn`，之后就可以调试了。
 
 ## 核心流程
 
+webpack 导出的一个函数：
+
+```JavaScript
+
+```
+
+> 你可以在这里看到 webpack.js 的源码 -- [./lib/webpack.js](https://github.com/webpack/webpack/blob/main/lib/webpack.js#L102)
+
+---
+
 ![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301031450002.png)
 
-webpack 的主要目的是根据依赖图打包 bundle 产出，主要分为以下阶段：
+webpack 的主要目的是根据依赖图打包产出，有以下阶段：
 
 1. 初始化阶段
 
-   - 从配置文件,shell 命令中读取配置参数与默认配置合并，然后用来创建 `complier` 对象。
+   - 从配置文件或 shell 命令中读取配置参数并与默认配置合并，然后用来创建 `complier` 对象。
    - 遍历用户自定义配置的插件集合，执行插件的 `apply` 方法
    - `new WebpackOptionsApply().process`，加载内置插件，比如处理 entry 配置、devtool 配置的插件等
    - 至此创建完了 `coompiler` 对象，接着调用 `complier.compile` 来开始编译
@@ -51,9 +76,11 @@ webpack 的主要目的是根据依赖图打包 bundle 产出，主要分为以�
 - entry 及 entry 触达到的模块，组合成一个 chunk
 - 使用动态引入语句引入的模块，各自组合成一个 chunk
 
+---
+
+`webpack/lib/compiler.js`
+
 ```JavaScript
-// webpack/lib/compiler.js
-// 此方法由 compiler.run 和 compiler.watch 触发，分别对应初始化和更新阶段
 compile(callback) {
     const params = this.newCompilationParams();
     this.hooks.beforeCompile.callAsync(params, err => {
@@ -74,9 +101,30 @@ compile(callback) {
   }
 ```
 
+> 此方法在 `compiler.run` 和 `compiler.watch` 内触发，分别对应 初始化 和 更新 阶段
+
 ## loader
 
-打包非 JS 和 JSON 格式的文件，需要使用 loader 来转换一下，在构建阶段，所有 module 都会被对应的 loader 转成可以被 `acorn` 转译的 JS 脚本。
+打包非 JS 和 JSON 格式的文件，需要使用 `loader` 来转换一下，在构建阶段，所有 module 都会被对应的 loader 转成可以被 `acorn` 转译的 JS 脚本。
+
+所以这也是为什么在配置时，loader 的配置是在 module 内的：
+
+```JavaScript
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: ['loaderA', 'loaderB', 'loaderC']
+      }
+    ]
+  }
+}
+```
+
+一个小知识点，loader 总是从右往左调用的，但是，在实际执行之前，会先**从左到右**调用 loader 的 `pitch` 方法，如果某个 loader 在 pitch 方法中给出一个结果，那么这个过程会回过身来，并跳过剩下的 loader，详细见[Loader Interface](https://webpack.docschina.org/api/loaders/)。
+
+![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301051444588.png)
 
 ## plugin
 
@@ -125,11 +173,6 @@ const {
  } = require("tapable");
 ```
 
-常用插件：
-
-- webpack-dev-server
-- SplitChunksPlugin
-
 ## 易混淆知识点
 
 1. module, chunk, bundle
@@ -158,22 +201,35 @@ const {
 webpack-dev-server 启动服务后，当文件发生了变动，会触发重新构建，让我们专注于 coding，但是如果不做任何配置，它会刷新页面导致丢失掉应用状态，为此，webpack 提供了 hot module replacement 即 HMR 热更新。
 ![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301031437536.png)
 
-- webpack compiler： watch 打包文件，写入内存
+TODO
+
+<!-- - webpack compiler： watch 打包文件，写入内存
 - bundle server：启动本地服务，供浏览器使用
 - HMR server：将热更新的文件输出给 HMR runtime
 - HMR runtime：把生成的问加你注入到浏览器内存
-- Bundle：构建输出文件
+- Bundle：构建输出文件 -->
 
-## split chunk
+> [模块热替换(hot module replacement)](https://webpack.docschina.org/concepts/hot-module-replacement/)
+
+## 代码分割 split chunk
 
 ## tree shaking
+
+## externals
+
+抽离框架、库之类的依赖到 CDN，相比抽离成 dll 文件，CDN 更加优秀。
+
+## 一套基本配置
+
+TODO，想了想，好像没必要写这个...根据自己的业务去配，不清楚的官网或者 google，这没什么难度，就暂时不写了，有闲余时间再整理一下吧 👻
 
 ## 参考
 
 - [webpack 官网](https://webpack.js.org/)
-- [webpack 核心原理](https://mp.weixin.qq.com/s/_Hyn_sb8mki6aYTXwVZe6g)
-- [webpack5 知识体系](https://gitmind.cn/app/docs/m1foeg1o)
+- [Tecvan webpack 专栏](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg3OTYwMjcxMA==&action=getalbum&album_id=1856066636768722949&scene=173&from_msgid=2247483744&from_itemidx=1&count=3&nolastread=1#wechat_redirect)
+- [webpack5 知识体系图谱](https://gitmind.cn/app/docs/m1foeg1o)
 - [webpack 中容易混淆的 5 个知识点](https://mp.weixin.qq.com/s/kPGEyQO63NkpcJZGMD05jQ)
-- [手把手入门 webpack 插件](https://mp.weixin.qq.com/s/sbrTQb5BCtStsu54WZlPbQ)
 - [HMR 机制](https://mp.weixin.qq.com/s/GlwGJ4cEe-1FgWW4EVpG_w)
 - [split chunk 分包机制](https://mp.weixin.qq.com/s/YjzcmwjI-6D8gyIkZF0tVw)
+- [手把手入门 webpack 插件](https://mp.weixin.qq.com/s/sbrTQb5BCtStsu54WZlPbQ)
+- [深度剖析 VS Code JavaScript Debugger 功能及实现原理](https://juejin.cn/post/7109006440039350303#heading-4)
