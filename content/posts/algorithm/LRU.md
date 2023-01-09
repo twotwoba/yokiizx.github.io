@@ -9,13 +9,13 @@ tags: [algorithm, JavaScript]
 ## LRU
 
 LRU（Least recently used，最近最少使用）。  
-其实少了几个字，让人理解起来怪怪的，缓存淘汰算法嘛，最近最少使用的将被淘汰。
+其实少了几个字，让人理解起来怪怪的，缓存淘汰算法嘛，**最近最少使用的将被淘汰**。
 
 核心思想：如果数据最近被访问过，那么将来被访问的几率也更高。
 
 ##### 实现
 
-一般使用双向链表可以实现，我们在 JavaScript 中使用 Map 这个数据结构来实现缓存，它可以保证加入的先后顺序。
+一般使用双向链表可以实现，我们在 JavaScript 中使用 Map 这个数据结构来实现缓存，它可以保证加入缓存的先后顺序。
 
 ```JavaScript
 class LRU {
@@ -110,3 +110,7 @@ LFU（Least Frequently Used，最少频繁使用）。
 
 > 小提示：LinkedHashSet  
 > 这篇文章不错：https://halfrost.com/lru_lfu_interview/
+
+如果你也对算法有兴趣，欢迎加入我们 👏🏻👏🏻👏🏻~
+
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/395888fd7a2f4958988b8a4acbaaec59~tplv-k3u1fbpfcp-watermark.image?" width='150' height='200'>
