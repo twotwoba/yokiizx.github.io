@@ -4,4 +4,56 @@ date: 2022-10-06T23:29:05+08:00
 tags: [http, browser]
 ---
 
-TODO
+XSS 和 CSRF 问题是很基础、传统的安全问题，本文不做安全拓展，仅学习这两个知识点，对安全感兴趣的大佬，各种“帽子”书看起来 😄。
+
+专业的话术请见参考，我个人喜欢用土话，起码我自己能理解的话来学习这两个知识点。
+
+## XSS - Cross Site Script
+
+顾名思义，跨站脚本攻击。  
+说白了 --- 就是想方设法把恶意脚本搞到你的网页上，脚本执行后获取敏感信息，如 cookie，session id 等。
+
+##### XSS 分类
+
+- 存储型：攻击者通过发帖，评论等方式把恶意代码提交到数据库中，用户打开网站后恶意代码从数据库中取出并拼接到 HTML 中返回，浏览器接收后执行执行。
+- 反射型：攻击者构造包含恶意代码的 url，用户打开后(发起请求或跳转页面)，把恶意代码从 url 中取出并拼接到 HTML 中返回，浏览器接收后执行。
+  ```js
+  // 比如:
+  http://xxx/search?keyword="><script>alert('XSS');</script>
+  http://xxx/?redirect=%20javascript:alert('XSS')
+  ```
+- DOM 型：攻击者构造包含恶意代码的 url，用户打开后，浏览器直接解析恶意代码，发起攻击。
+
+前两个属于服务端的安全漏洞，往往也是服务端渲染，DOM 型属于纯前端的安全漏洞，即取出和执行恶意代码都是由浏览器端完成。
+
+##### XSS 预防
+
+对症下药：
+
+- 存储型和反射型的 XSS
+  1. 如果不需要 SEO 的网站，完全可以做前后端分离
+  2. 如果需要 SEO，那么还是服务端渲染，就需要对 HTML 进行转义
+- DOM 型 XSS
+  1. 在使用 `.innerHTML`、`.outerHTML`、`document.write()` 时要特别小心，不要把不可信的数据作为 HTML 插到页面上，而应尽量使用 `.textContent`、`.setAttribute() `等
+  2. vue/react 不 v-html/dangerouslySetInnerHTML，使用替代方案
+
+其他预防措施：
+
+- HTTP 头：`Set-Cookie: HttpOnly`，禁止脚本读取敏感 cookie
+- 验证码，防止脚本冒充用户提交危险操作
+- HTTP 头/meta: `Content-Security-Policy: [policy]`，具体 policy 见 [MDN CSP](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy#%E8%A7%84%E8%8C%83)
+
+  ```http
+  Content-Security-Policy: connect-src http://yokiizx.site/;
+                         script-src http://yokiizx.site/
+  ```
+
+## CSRF - Cross Site Request Forgery
+
+顾名思义，跨站请求伪造（学好英语的重要性 👻）。  
+说白了 --- 就是在**登录后**，被诱惑去第三方网站，在第三方网站中向被攻击网站发起跨站请求。这个攻击请求会携带被攻击网站的 cookie，绕过用户验证，冒充用户进行一系列危险操作。常见于各种垃圾邮件中~
+
+## 参考
+
+- [如何防止 XSS 攻击？](https://tech.meituan.com/2018/09/27/fe-security.html)
+- [如何防止 CSRF 攻击？](https://tech.meituan.com/2018/10/11/fe-security-csrf.html)
