@@ -5,19 +5,14 @@ tags: [TODO]
 weight: 1
 ---
 
-##### 基础
-
-- [x] shell 脚本复习巩固
-- [ ] XSS 和 CSRF
-
 ##### 工程化
 
+- [x] shell 脚本复习巩固
 - [x] npm script
 - [ ] 开发一个命令行工具
 - [x] babel
 - [x] log-shiny babel 插件开发
 - [ ] webpack
-- [ ] 手撕一个 react 脚手架
 - [ ] rollup
 - [ ] lerna
 
@@ -38,3 +33,7 @@ weight: 1
 - [ ] 单调栈
 - [ ] 单调队列
 - [ ] kmp
+
+##### 其他
+
+- [x] XSS 和 CSRF

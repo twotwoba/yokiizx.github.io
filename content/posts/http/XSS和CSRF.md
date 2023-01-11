@@ -51,9 +51,87 @@ XSS 和 CSRF 问题是很基础、传统的安全问题，本文不做安全拓�
 ## CSRF - Cross Site Request Forgery
 
 顾名思义，跨站请求伪造（学好英语的重要性 👻）。  
-说白了 --- 就是在**登录后**，被诱惑去第三方网站，在第三方网站中向被攻击网站发起跨站请求。这个攻击请求会携带被攻击网站的 cookie，绕过用户验证，冒充用户进行一系列危险操作。常见于各种垃圾邮件中~
+说白了 --- 就是在**登录后**，被诱导去第三方网站，在第三方网站中向被攻击网站发起跨站请求。这个攻击请求会携带被攻击网站的 cookie，绕过用户验证，冒充用户进行一系列危险操作。
+
+常见于各种垃圾邮件中 --- [真实事件](https://www.davidairey.com/google-gmail-security-hijack/)
+
+##### CSRF 分类
+
+- GET 请求
+  ```html
+  <!-- 仅是举例, 实际上用get进行非幂等操作已经是违规的 -->
+  <img src=http://www.bank.com/withdraw?account=yokiizx&money=1000&for=hacker>
+  ```
+- POST 请求
+
+  ```html
+  <form action="http://bank.example/withdraw" method="POST">
+    <input type="hidden" name="account" value="xiaoming" />
+    <input type="hidden" name="amount" value="10000" />
+    <input type="hidden" name="for" value="hacker" />
+  </form>
+  <script>
+    document.forms[0].submit();
+  </script>
+  ```
+
+- 诱导操作类，这类往往需要用户操作后才会触发，比如点击个链接或者
+
+  ```html
+  <a href="http://test.com/csrf/withdraw.php?amount=1000&for=hacker" taget="_blank">重磅消息！！</a>
+  ```
+
+- 脚本类
+  ```html
+  <html>
+    <head>
+      <script type="text/javascript">
+        function steal() {
+          iframe = document.frames['steal'];
+          iframe.document.Submit('transfer');
+        }
+      </script>
+    </head>
+    　　
+    <body onload="steal()">
+      <iframe name="steal" display="none">
+        <form method="POST" name="transfer" 　action="http://www.myBank.com/Transfer.php">
+          <input type="hidden" name="toBankId" value="11" />
+          <input type="hidden" name="money" value="1000" />
+        </form>
+      </iframe>
+    </body>
+  </html>
+  ```
+
+##### CSRF 预防
+
+CSRF 通常从第三方网站发起，被攻击的网站无法防止攻击发生，只能通过增强自己网站针对 CSRF 的防护能力来提升安全性。
+
+- CSRF（通常）发生在第三方域名
+- CSRF 攻击者不能获取到 Cookie 等信息，**只是使用**
+
+对症下药：
+
+- 阻止不明外域的访问
+  - 同源检测
+    1. `origin` 和 `referer` 这两个请求头一般会自动带上，且不能由前端自定义内容，服务端可以解析这两个 header 中的域名，来确定请求的来源域。
+    2. `origin` 不会包含在 IE 11 的 CORS 请求 和 302 重定向请求中
+    3. `referer` 见 [MDN Referrer-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy)
+       ```html
+       <!-- Referrer-Policy: same-origin 或 html: -->
+       <meta name="referrer" content="origin" />
+       ```
+  - SameSite Cookie
+    ```http
+    Set-Cookie: CookieName=CookieValue; SameSite=Strict|Lax|None;
+    ```
+- 提交时要求附加本域才能获取的信息
+  - CSRF Token，由于 cookie 能被冒用，使用 token 来进行身份认证
+  - 双重 Cookie 验证
 
 ## 参考
 
 - [如何防止 XSS 攻击？](https://tech.meituan.com/2018/09/27/fe-security.html)
 - [如何防止 CSRF 攻击？](https://tech.meituan.com/2018/10/11/fe-security-csrf.html)
+- [Cookie 的 SameSite 属性](https://www.ruanyifeng.com/blog/2019/09/cookie-samesite.html)
