@@ -23,13 +23,59 @@ tags: [engineer]
 
 ---
 
-克隆 webpack 的 main 分支到本地：
+前期准备：
 
 ```sh
+# 克隆 webpack 的 main 分支到本地，cloneb 是我配置的别名
 g cloneb main https://github.com/webpack/webpack.git
+# yarn 安装依赖
+yarn
+# ------ 创建调试目录并初始化 -----
+cd webpack && mkdir debug_webpack1; cd $_ && npm init -y
+# 进入文件夹创建测试文件和配置文件
+touch index.js a.js b.js debugger.js webpack.config.js
 ```
 
-安装依赖：`yarn`，之后就可以调试了。
+其中 `index.js` 为入口文件，`a.js`，`b.js` 都是平时写的代码，主要用来进行测试打包过程的，可以随意发挥。
+debugger.js:
+
+```js
+const webpack = require('../lib/webpack.js');
+const config = require('./webpack.config,js');
+// 创建一个complier对象
+const complier = webpack(config);
+// 执行compiler.run方法开始编译代码，回调方法用于反馈编译的状态
+complier.run((err, stats) => {
+  // 如果运行时报错输出报错
+  if (err) {
+    console.error(err);
+  } else {
+    // stats webpack内置的编译信息对象
+    console.log(stats);
+  }
+});
+```
+
+webpack.config.js:
+
+```js
+const path = require('path');
+
+module.exports = {
+  mode: 'development',
+  devtool: 'eval-cheap-module-source-map',
+  entry: './index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+    publicPath: '/'
+  }
+};
+```
+
+在 webpack 源码任意你想了解的地方打断点，就可以进入调试流程了，需要注意的是，最好 watch 以下三个对象：`compiler`,`compilation`,`options`，帮助定位触发钩子的回调函数。
+
+这是最最最基础的配置，主要关注核心流程，后续会根据需求逐步完善，let‘s go🔥
 
 ## 核心流程
 
