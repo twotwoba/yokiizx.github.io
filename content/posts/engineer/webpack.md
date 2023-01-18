@@ -37,7 +37,8 @@ touch index.js a.js b.js debugger.js webpack.config.js
 ```
 
 其中 `index.js` 为入口文件，`a.js`，`b.js` 都是平时写的代码，主要用来进行测试打包过程的，可以随意发挥。
-debugger.js:
+
+`debugger.js`:
 
 ```js
 const webpack = require('../lib/webpack.js');
@@ -56,7 +57,7 @@ complier.run((err, stats) => {
 });
 ```
 
-webpack.config.js:
+`webpack.config.js`:
 
 ```js
 const path = require('path');
@@ -75,39 +76,267 @@ module.exports = {
 
 在 webpack 源码任意你想了解的地方打断点，就可以进入调试流程了，需要注意的是，最好 watch 以下三个对象：`compiler`,`compilation`,`options`，帮助定位触发钩子的回调函数。
 
-这是最最最基础的配置，主要关注核心流程，后续会根据需求逐步完善，let‘s go🔥
+这是最最最基础的配置，主要关注核心流程，后续会根据需求逐步完善，Let‘s go🔥
 
 ## 核心流程
 
-webpack 导出的一个函数：
+##### 初始化阶段
+
+`const complier = webpack(config)`，[./lib/webpack.js](https://github.com/webpack/webpack/blob/main/lib/webpack.js#L102)：
 
 ```JavaScript
+// 部分代码省略
+const webpack = (options, callback) => {
+  const create = () => {
+    let compiler;
+    // 当callback为函数 且 watch为true 时 compiler.watch(watchOptions, callback);
+    // cli 配置为 webpack --watch，作用就是检测到文件变更就会重新执行编译
+    let watch = false;
+    let watchOptions;
+    /* MultiCompiler 部分省略，只关注核心主流程 */
+    const webpackOptions = options;
+    compiler = createCompiler(webpackOptions);
+    watch = webpackOptions.watch;
+    watchOptions = webpackOptions.watchOptions || {};
+    return { compiler, watch, watchOptions };
+  }
+  const { compiler, watch } = create()
+  return compiler;
+}
 
+
+const createCompiler = rawOptions => {
+  const options = getNormalizedWebpackOptions(rawOptions); // 初始化基础配置,默认格式,防止后续报错
+  applyWebpackOptionsBaseDefaults(options);                // 给 options 添加 context --> process.cwd()
+  const compiler = new Compiler(options.context, options); // 创建 compiler
+  /**
+   * NodeEnvironmentPlugin 插件：主要是把 node 的文件系统 fs 做了增强并挂载到 compiler 实例上
+   * 绑定 compiler.hooks.beforeRun.tap("NodeEnvironmentPlugin") 钩子执行 inputFileSystem.purge()
+   */
+  new NodeEnvironmentPlugin({
+    infrastructureLogging: options.infrastructureLogging
+  }).apply(compiler);
+  /** 加载自定义配置的插件 */
+  if (Array.isArray(options.plugins)) {
+    for (const plugin of options.plugins) {
+      if (typeof plugin === "function") {
+        plugin.call(compiler, compiler);
+      } else {
+        plugin.apply(compiler);
+      }
+    }
+  }
+
+  applyWebpackOptionsDefaults(options);   // 添加各种默认配置到options上
+  compiler.hooks.environment.call();      // 触发这两个钩子，绑定的回调函数执行
+  compiler.hooks.afterEnvironment.call(); // watchFileSystem 插件在这个时机添加到compiler上
+
+  /**
+   * 这里做的事情非常多：./lib/WebpackOptionsApply.js
+   * 主要用于 挂载内置插件 和 注册对应时机的钩子
+   */
+  new WebpackOptionsApply().process(options, compiler);
+  compiler.hooks.initialize.call();
+  return compiler;
+};
 ```
 
-> 你可以在这里看到 webpack.js 的源码 -- [./lib/webpack.js](https://github.com/webpack/webpack/blob/main/lib/webpack.js#L102)
+简单小结：初始化阶段，就是整合配置参数，创建出 `compiler` 实例，并挂载插件，注册一系列的钩子回调等。
+
+##### 构建阶段
+
+`compiler.run()`，[./lib/Compiler](https://github.com/webpack/webpack/blob/main/lib/Compiler.js)
+
+```JavaScript
+class Compiler {
+  constructor(context, options = {}) {
+    this.hooks = Object.freeze({
+      initialize: new SyncHook([]),
+      beforeRun: new AsyncSeriesHook(["compiler"]),
+      run: new AsyncSeriesHook(["compiler"]),
+      emit: new AsyncSeriesHook(["compilation"]),
+      /*  other hooks ... */
+    })
+    this.webpack = webpack;
+    this.root = this;
+    this.options = options;
+    this.context = context;
+    this.idle = false;
+    this.cache = new Cache();
+    /*  other props ... */
+  }
+  run(callback) {
+    if (this.running) return callback(new ConcurrentCompilationError());
+
+    // 最终的回调，内部处理一些逻辑，如果callback存在，则会执行它并透传err和stats
+    const finalCallback = (err, stats) => { /** ... */}
+
+    const startTime = Date.now();
+    this.running = true;
+
+    // this.compile 的回调函数
+    const onCompiled = () => { /** todo */ }
+
+    const run = () => {
+      this.hooks.beforeRun.callAsync(this, err => {
+        if (err) return finalCallback(err);
+
+        this.hooks.run.callAsync(this, err => {
+          if (err) return finalCallback(err);
+
+          this.readRecords(err => {
+            if (err) return finalCallback(err);
+            /** 调用 compile 并且把 onCompiled 作为回调函数 */
+            this.compile(onCompiled);
+          });
+        });
+      });
+    };
+
+    if (this.idle) {
+      this.cache.endIdle(err => {
+        if (err) return finalCallback(err);
+
+        this.idle = false;
+        run();
+      });
+    } else {
+      run();
+    }
+  }
+  /** 省略了错误处理和部分代码简化... */
+  compile(callback) {
+    // 工厂函数给后续创建module使用
+    const params = {
+        normalModuleFactory: this.createNormalModuleFactory(),
+        contextModuleFactory: this.createContextModuleFactory()
+    }
+    this.hooks.beforeCompile.callAsync(params, err => {
+      this.hooks.compile.call(params);
+      // 创建 compilation 最终调用的是 Compilation 构造器
+      const compilation = this.newCompilation(params);
+      /** -------进入构建(make)阶段 ------ */
+      // 触发 make 钩子 并且传入 compilation
+      this.hooks.make.callAsync(compilation, err => {
+        // 触发 finishMake 钩子
+        this.hooks.finishMake.callAsync(compilation, err => {
+          process.nextTick(() => {
+            // 执行 compilation 实例上的finish方法
+            compilation.finish(err => {
+              // 执行 compilation 实例上的seal方法
+              compilation.seal(err => {
+                // 触发afterCompile函数钩子执行绑定的回调函，传入compilation实例 回调函数
+                this.hooks.afterCompile.callAsync(compilation, err => {
+                  // 执行传入的onCompiled回调函数，并且传入compilation实例，返回执行结果
+                  return callback(null, compilation);
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  }
+  /*  other funtions ... */
+}
+```
+
+目前知道：`compiler.run()` 触发了 `this.compile(onCompiled)`，在 `compile` 内先获取了两个围绕 `module` 的工厂函数存为 params 变量，接着创建了单次构建的 `compilation` 实例：`new Compilation(this, params)`，然后触发 make 钩子，把 `compilation` 实例传递下去。
+
+这部分到现在还没有看到我们的入口在哪...不得不说，webpack 把回调函数真的是玩的炉火纯青，同时注册了大量的 hooks 钩子，关于 hooks 钩子的原理稍后详细记录一下。
+
+从 VsCode 的调用栈来看，之后进入到了 `EntryPlugin`，在这里注册了 make 钩子的回调，这个是在初始化阶段 `webpack(config)` 内 `new WebpackOptionsApply().process(options, compiler)` 时就已经注册好的，当 make 钩子被触发时进入：
+
+```JavaScript
+compiler.hooks.make.tapAsync("EntryPlugin", (compilation, callback) => {
+  compilation.addEntry(context, dep, options, err => {
+    callback(err);
+  });
+});
+```
+
+来看看 `addEntry`，[./lib/Compilation.js](https://github.com/webpack/webpack/blob/main/lib/Compilation.js)
+
+```JavaScript
+class Compilation {
+  constructor(compiler, params) {
+    this.hooks = Object.freeze({
+      addEntry: new SyncHook(["entry", "options"]),
+      seal: new SyncHook([]),
+      /** other hooks ... */
+    })
+		this.compiler = compiler;
+		this.params = params;
+
+		const options = compiler.options;
+		this.options = options;
+
+		this.moduleGraph = new ModuleGraph(); // 存储各个module之间的关系，对于后面生成chunkGraph也要用到
+		this.chunkGraph = undefined;          // 用于储存 module、chunk、chunkGroup 三者之间的关系
+		this.chunkGroups = [];
+
+		this.modules = new Set();  // module 集合, module 是由 handleModuleCreation 生成的对象，对应的是各个文件
+		this.chunks = new Set();   // chunk 集合，chunk 是由一个或者多个 module 组成
+    /** other props ... */
+  }
+  // 省略...
+  // 这里的 entry 是通过 EntryPlugin.createDependency 转为的 dep
+  addEntry(context, entry, optionsOrName, callback) {
+    // TODO webpack 6 remove
+    const options =
+      typeof optionsOrName === "object"
+        ? optionsOrName
+        : { name: optionsOrName };
+
+    this._addEntryItem(context, entry, "dependencies", options, callback);
+  }
+  /**
+   * 进入 addEntry 后之后的流程大致如下：
+   * compilation.addEntry => compilation._addEntryItem => compilation.addModuleTree
+   * => compilation.handleModuleCreation => compilation.factorizeModule => compilation._factorizeModule
+   * => NormalModuleFactory.create => compilation.addModule => compilation._addModule
+   * => compilation.buildModule => compilation._buildModule
+   * => normalModule.build => normalModule.doBuild => runLoaders(normalModule中的执行) => this.parser.parse(normalModule中的执行)
+   */
+}
+```
+
+进入 addEntry 后的流水线代码就不贴了，建议调试源码自己跑一遍才印象深刻。
+
+简单小结：`compiler.run() `开始编译，创建 `compilation` 实例，触发 `compiler.make` 钩子让 `compilation` 开始工作；`compilation.addEntry` 将在初始化阶段通过 `EntryPlugin.createDependency` 生成的 dep 对象转成 dependencies 属性值，然后调用 `handleModuleCreation` 创建 `module`，接着 `addModule`、`buildModule`，`buildModule` 内调用 `module.build` 方法，此方法内先调用 `_doBuild` 选用合适的 loader，通过 `runLoaders` 运行相关 loader，最后执行 `this.parser.parse` 源码进行 AST 的转换，继续执行到 `this.processModuleDependencies(module, callback)` 对 module 递归进行依赖收集，循环执行 `handleModuleCreation`。
+
+至此，make 核心就差不多了，可以看见，构建阶段主要就是围绕 module 来做一系列处理的，最终得到 modules，moduleGraph 等信息。
+
+##### 生成阶段
+
+构建阶段结束，我们可以得到 modules 了，接下来对这些 module 进行组装，然后输出。
+
+`compilation.seal` 是先封闭模块，再生成资源，这些资源保存在 `compilation.assets`。[./lib/Compilation.js](https://github.com/webpack/webpack/blob/main/lib/Compilation.js#L2780)。这部分代码比较长也是相当复杂的，感兴趣的去 dubug 以下最好，此处只记录重点。
 
 ---
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301031450002.png)
+##### 总结
 
-webpack 的主要目的是根据依赖图打包产出，有以下阶段：
+三个阶段：
 
 1. 初始化阶段
 
-   - 从配置文件或 shell 命令中读取配置参数并与默认配置合并，然后用来创建 `complier` 对象。
-   - 遍历用户自定义配置的插件集合，执行插件的 `apply` 方法
-   - `new WebpackOptionsApply().process`，加载内置插件，比如处理 entry 配置、devtool 配置的插件等
-   - 至此创建完了 `coompiler` 对象，接着调用 `complier.compile` 来开始编译
+   - `webpack(config)` 接收配置参数(来自配置文件或 shell 传参，用 yargs 解析并合并) 来创建 `compiler` 实例
+   - 挂载 NodeEnvironmentPlugin 插件，fs 文件系统到 `compiler` 实例上
+   - 挂载 options 中的 **自定义配置** 的插件到 `compiler` 实例上
+   - 挂载 webpack 的基础内置插件，同时注册一系列的钩子回调，比如在 `EntryPlugin` 中注册了 `make` 钩子。详细见`new WebpackOptionsApply().process(options, compiler);`
 
-2. 构建(make)阶段 - 围绕 module
+[ ] Tapable 原理
 
-   - 根据 entry 确定入口文件，调用 `complier.addEntry` 将入口文件转为 `dependence对象`，之后调用 `handleModuleCreate` 来创建 `module`
-   - 使用相应的 `loader` 把刚创建的 `module` 进行转义成可以被 `acorn` 编译的 JavaScript 脚本(babel 用的那个)
-   - 对转译后的 AST 进行遍历，触发各种钩子
+2. 构建(make)阶段
+
+   - `compiler.run()` 进入模块编译阶段
+   - 创建 `compilation` 实例，触发 hooks.make 钩子，`compilation` 开始工作，调用 `compilation.addEntry` 从入口文件依赖开始构建 module
+   - 通过 `handleModuleCreation` 来创建的 `module`
+   - 有了 `module` 后调用工厂函数的 `build` 方法，期间会先后调用 `doBuild` 调用 `loader`，然后调用 `parser.parse` 转为 AST 并进行依赖收集
      - 在 `HarmonyExportDependencyParserPlugin` 插件监听 `exportImportSpecifier` 钩子(识别 require/import 语句)，解读 JS 文本对应的资源依赖
      - 调用 module 对象的 addDependency 方法将依赖对象加入到 module 依赖列表中
-   - 把经由 AST 遍历后新增的依赖调用 module 的`handleParseResult`函数， `handleModuleCreate` 回到了第一步，递归这个流程，直到所有依赖都被处理记过，构建出 `ModuleDependencyGraph`
+   - 继续执行到 `this.processModuleDependencies(module)` 看 module 是否还有其他的依赖，如果有，递归执行 `handleModuleCreation`
 
 3. 生成(emit)阶段 - 围绕 chunk
    - `compilation.seal` 生成 chunk
@@ -115,7 +344,28 @@ webpack 的主要目的是根据依赖图打包产出，有以下阶段：
      - 遍历 `compilation.modules` 集合，记录 module 与 chunk 的关系，按照 `entry/动态引入` 的规则把 module 分配给不同的 chunk 对象
      - 调用 `createModuleAssets/createChunkAssets` 分别遍历 `module/chunk` 把 `assets` 信息记录到 `compilation.assets` 对象中
    - 触发 seal 回调后，调用`compilation.emitAsset`，根据配置路径和文件名，写入文件系统
-     ![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301021511242.png)
+
+---
+
+附上两张图，便于理解：
+
+![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301031450002.png)
+
+![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301171730205.png)
+
+用于总结 module 和 chunk
+
+![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301021511242.png)
+
+这个图需要整理
+![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301181152629.png)
+
+3. 生成(emit)阶段 - 围绕 chunk
+   - `compilation.seal` 生成 chunk
+     - 构建 `ChunkGraph` 对象
+     - 遍历 `compilation.modules` 集合，记录 module 与 chunk 的关系，按照 `entry/动态引入` 的规则把 module 分配给不同的 chunk 对象
+     - 调用 `createModuleAssets/createChunkAssets` 分别遍历 `module/chunk` 把 `assets` 信息记录到 `compilation.assets` 对象中
+   - 触发 seal 回调后，调用`compilation.emitAsset`，根据配置路径和文件名，写入文件系统
 
 将 moudle 组织成 chunk 的默认规则：
 
@@ -123,31 +373,6 @@ webpack 的主要目的是根据依赖图打包产出，有以下阶段：
 - 使用动态引入语句引入的模块，各自组合成一个 chunk
 
 ---
-
-`webpack/lib/compiler.js`
-
-```JavaScript
-compile(callback) {
-    const params = this.newCompilationParams();
-    this.hooks.beforeCompile.callAsync(params, err => {
-      // ...
-      const compilation = this.newCompilation(params);
-      this.hooks.make.callAsync(compilation, err => {
-        // ...
-        this.hooks.finishMake.callAsync(compilation, err => {
-          // ...
-          process.nextTick(() => {
-            compilation.finish(err => {
-              compilation.seal(err => {...});
-            });
-          });
-        });
-      });
-    });
-  }
-```
-
-> 此方法在 `compiler.run` 和 `compiler.watch` 内触发，分别对应 初始化 和 更新 阶段
 
 ## loader
 
@@ -187,7 +412,7 @@ class SomePlugin {
 
 apply 虽然是一个函数，但是从设计上就只有输入，webpack 不 care 输出，所以在插件中只能通过调用类型实体的各种方法来或者更改实体的配置信息，变更编译行为。例如：
 
-- compilation.addModule ：添加模块，可以在原有的 module 构建规则之外，添加自定义模块
+- compilation.addModule：添加模块，可以在原有的 module 构建规则之外，添加自定义模块
 - compilation.emitAsset：直译是“提交资产”，功能可以理解将内容写入到特定路径
 - ...
 
@@ -219,11 +444,15 @@ const {
  } = require("tapable");
 ```
 
+##### 基础常用插件
+
+- [clean-webpack-plugin](https://github.com/johnagan/clean-webpack-plugin)，每次打包前先清空上一轮的打包，防止有缓存干扰。
+
 ## 易混淆知识点
 
 1. module, chunk, bundle
 
-   - module：构建阶段，通过 `handleModuleCreate` 创建的，简单点来说也可以认为是每个文件
+   - module：构建阶段，通过 `handleModuleCreation` 创建的，对应的是每个文件
    - chunk：打包阶段生成的对象，遍历 `compilation.modules` 后，每个 chunk 都被分配了相应的 module
    - bundle：最终输出的代码，是可以直接在浏览器中执行的
      ![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301030941740.png)
@@ -265,17 +494,15 @@ TODO
 
 抽离框架、库之类的依赖到 CDN，相比抽离成 dll 文件，CDN 更加优秀。
 
-## 一套基本配置
-
-TODO，想了想，好像没必要写这个...根据自己的业务去配，不清楚的官网或者 google，这没什么难度，就暂时不写了，有闲余时间再整理一下吧 👻
-
 ## 参考
 
 - [webpack 官网](https://webpack.js.org/)
-- [Tecvan webpack 专栏](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg3OTYwMjcxMA==&action=getalbum&album_id=1856066636768722949&scene=173&from_msgid=2247483744&from_itemidx=1&count=3&nolastread=1#wechat_redirect)
+- [Tecvan webpack 总结](https://zhuanlan.zhihu.com/p/363928061)
 - [webpack5 知识体系图谱](https://gitmind.cn/app/docs/m1foeg1o)
 - [webpack 中容易混淆的 5 个知识点](https://mp.weixin.qq.com/s/kPGEyQO63NkpcJZGMD05jQ)
 - [HMR 机制](https://mp.weixin.qq.com/s/GlwGJ4cEe-1FgWW4EVpG_w)
 - [split chunk 分包机制](https://mp.weixin.qq.com/s/YjzcmwjI-6D8gyIkZF0tVw)
 - [手把手入门 webpack 插件](https://mp.weixin.qq.com/s/sbrTQb5BCtStsu54WZlPbQ)
 - [深度剖析 VS Code JavaScript Debugger 功能及实现原理](https://juejin.cn/post/7109006440039350303#heading-4)
+- [yargs](https://github.com/yargs/yargs)
+- [webpack 编译流程详解](https://juejin.cn/post/6948950633814687758)

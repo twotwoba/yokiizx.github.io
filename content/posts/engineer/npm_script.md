@@ -10,8 +10,7 @@ tags: [engineer]
 
 下文是我认为前端人至少需要掌握的知识点。
 
-> [关于 package.json](https://docs.npmjs.com/cli/v7/configuring-npm/package-json)，  
-> 开发一个包时，[需要注意的字段](https://es6.ruanyifeng.com/#docs/module-loader#Node-js-%E7%9A%84%E6%A8%A1%E5%9D%97%E5%8A%A0%E8%BD%BD%E6%96%B9%E6%B3%95)
+> [关于 package.json](https://docs.npmjs.com/cli/v7/configuring-npm/package-json)，
 
 ## npm init
 
@@ -317,6 +316,12 @@ npm version [semver]
 
 > npm-run-all 这个库也实现了以上的执行逻辑，不过我是不建议使用，写命令就老老实实写不好嘛，越写越熟练哈哈~
 
+## package.json 查漏补缺
+
+- devDependencies，首先无论 dependencies 还是 devDependencies，npm i 都会被安装上的，区别是被安装包的 devDependencies 不会被安装，也就是说一个包作为第三方包被安装时，devDependencies 里的依赖不会被安装，目的就是为了减少一些不必要的依赖。`npm install --production`或`NODE_ENV` 被设置为 `production` 即生产环境，也不会下载 `devDependencies` 的依赖
+- peerDependencies，就是对等依赖，在 monorepo 和 npm 包中很常见。  
+  提示宿主环境去安装满足 peerDependencies 所指定依赖的包，然后在 import 或者 require 所依赖的包的时候，永远都是引用宿主环境统一安装的 npm 包，最终解决插件与所依赖包不一致的问题。
+
 ## 参考
 
 - [npm 官方文档](https://docs.npmjs.com/)
@@ -324,3 +329,4 @@ npm version [semver]
 - [node_modules 扁平结构](https://juejin.cn/post/6844903582337237006#heading-8)
 - [模块加载官网伪代码](https://nodejs.org/dist/latest-v12.x/docs/api/modules.html#modules_all_together)
 - [npm 发包流程](https://segmentfault.com/a/1190000023075167)
+- [探讨 npm 依赖管理之 peerDependencies](https://segmentfault.com/a/1190000022435060)
