@@ -345,7 +345,7 @@ npm i @babel/runtime -s # 注意这里是 生产依赖
 npm i @babel/plugin-transform-runtime -D
 ```
 
-`@babel/plugin-transform-runtime` 的作用是，将 `helper` 函数，都转换成为对` @babel/runtime` 内 `modules` 的引用。
+`@babel/plugin-transform-runtime` 的作用是，将 `helper` 函数，都转换成为对` @babel/runtime` 内模块的引用。
 
 ```JavaScript
 // @babel/runtime 配置

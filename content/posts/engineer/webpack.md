@@ -116,7 +116,7 @@ const createCompiler = rawOptions => {
   new NodeEnvironmentPlugin({
     infrastructureLogging: options.infrastructureLogging
   }).apply(compiler);
-  /** 加载自定义配置的插件 */
+  /** 加载自定义配置的插件 注意这就是为什么插件都有apply方法 */
   if (Array.isArray(options.plugins)) {
     for (const plugin of options.plugins) {
       if (typeof plugin === "function") {
@@ -141,9 +141,9 @@ const createCompiler = rawOptions => {
 };
 ```
 
-简单小结：初始化阶段，就是整合配置参数，创建出 `compiler` 实例，并挂载插件，注册一系列的钩子回调等。
+简单小结：初始化阶段比较简单，就是整合配置参数，创建出 `compiler` 实例，并挂载插件，注册一系列的钩子回调等。
 
-##### 构建阶段
+##### 构建(make)阶段
 
 `compiler.run()`，[./lib/Compiler](https://github.com/webpack/webpack/blob/main/lib/Compiler.js)
 
@@ -305,17 +305,188 @@ class Compilation {
 
 简单小结：`compiler.run() `开始编译，创建 `compilation` 实例，触发 `compiler.make` 钩子让 `compilation` 开始工作；`compilation.addEntry` 将在初始化阶段通过 `EntryPlugin.createDependency` 生成的 dep 对象转成 dependencies 属性值，然后调用 `handleModuleCreation` 创建 `module`，接着 `addModule`、`buildModule`，`buildModule` 内调用 `module.build` 方法，此方法内先调用 `_doBuild` 选用合适的 loader，通过 `runLoaders` 运行相关 loader，最后执行 `this.parser.parse` 源码进行 AST 的转换，继续执行到 `this.processModuleDependencies(module, callback)` 对 module 递归进行依赖收集，循环执行 `handleModuleCreation`。
 
-至此，make 核心就差不多了，可以看见，构建阶段主要就是围绕 module 来做一系列处理的，最终得到 modules，moduleGraph 等信息。
+至此，make 核心就差不多了，可以看见，构建阶段主要就是围绕 module 来做一系列处理的，最终得到 `compilation.modules` 等信息。
 
-##### 生成阶段
+##### 生成(seal)阶段
 
-构建阶段结束，我们可以得到 modules 了，接下来对这些 module 进行组装，然后输出。
+构建阶段结束，我们可以得到 `compilation.modules` 了，接下来对这些 `modules` 进行组装变成 `chunks`，然后输出资源。
 
-`compilation.seal` 是先封闭模块，再生成资源，这些资源保存在 `compilation.assets`。[./lib/Compilation.js](https://github.com/webpack/webpack/blob/main/lib/Compilation.js#L2780)。这部分代码比较长也是相当复杂的，感兴趣的去 dubug 以下最好，此处只记录重点。
+`compilation.seal` 是先封闭模块，再生成资源，这些资源保存在 `compilation.chunks` 和 `compilation.assets`。[./lib/Compilation.js](https://github.com/webpack/webpack/blob/main/lib/Compilation.js#L2780)。  
+这部分代码比较长也是相当复杂的，感兴趣的去 dubug 以下最好，此处只记录重点。以下参考[compilation.seal(callback)](https://juejin.cn/post/6948950633814687758#heading-9)
+
+```js
+  // lib/compilation.js --- seal 简化代码
+  class Compilation {
+    seal (callback) {
+      // 创建 ChunkGraph 实例
+      const chunkGraph = new ChunkGraph(this.moduleGraph);
+      // 触发 compilation.hooks.seal 钩子
+      this.hooks.seal.call();
+      // ...
+      // 遍历 this.entries 入口文件创建 chunks
+      for (const [name, { dependencies, includeDependencies, options }] of this.entries) {/** ... */}
+      // 创建 chunkGraph moduleGraph
+      buildChunkGraph(this, chunkGraphInit);
+      // 触发优化钩子
+      this.hooks.optimize.call();
+
+      // 执行各种优化modules钩子
+      while (this.hooks.optimizeModules.call(this.modules)) {
+        /* empty */
+      }
+      // 执行各种优化chunks钩子
+      while (this.hooks.optimizeChunks.call(this.chunks, this.chunkGroups)) {
+        // 触发几个比较重要的钩子
+        // 触发压缩 chunks  MinChunkSizePlugin 插件
+        compilation.hooks.optimizeChunks.tap( { name: "MinChunkSizePlugin", stage: STAGE_ADVANCED }, chunks => {})
+        // 触发根据 split 切割 chunks 插件
+        compilation.hooks.optimizeChunks.tap( { name: "SplitChunksPlugin", stage: STAGE_ADVANCED }, chunks => {})
+        /* empty */
+      }
+      // ...省略代码
+
+      // 优化modules树状结构
+      this.hooks.optimizeTree.callAsync(this.chunks, this.modules, err => {
+        this.hooks.optimizeChunkModules.callAsync(this.chunks, this.modules, err => {
+          // 各种优化钩子
+
+          // 生成module的hash 分为 hash、contentHash、chunkHash
+          this.createModuleHashes();
+          // 调用codeGeneration方法用于生成编译好的代码
+          this.codeGeneration(err => {
+            // 生成chunk的Hash
+            const codeGenerationJobs = this.createHash();
+
+            // 执行生成代码方法
+            this._runCodeGenerationJobs(codeGenerationJobs, err => {
+              // 执行 (NormalModule)module.codeGeneration 生成源码
+              // 这个其中又会涉及到 大致5模板用于生成代码
+              // Template.js
+              // MainTemplate.js
+              // ModuleTemplate.js
+              // RuntimeTemplate
+              // ChunkTemplate.js
+              this._codeGenerationModule(module, runtime, runtimes, hash, dependencyTemplates, chunkGraph, moduleGraph, runtimeTemplate, errors, results, callback)
+
+              // 清除资源
+              this.clearAssets();
+
+              // 创建module资源
+              this.createModuleAssets() {
+                compilation.hooks.moduleAsset.call(module, fileName);
+              };
+
+              // 创建chunk资源
+              this.createChunkAssets(callback) {
+                // 开始输出资源
+                this.emitAsset(file, source, assetInfo);
+              }
+            })
+          })
+        })
+      })
+    }
+  }
+```
+
+在执行完成 `compilation.emitAsset` 后会回到 `compiler` 文件中执行代码如下：
+
+```JavaScript
+// lib/compiler.js
+class Compiler {
+  /** 最终执行这个方法 */
+  emitAssets () {
+    let outputPath;
+    // 输出打包结果文件的方法
+    const emitFiles = err => {
+      // ...
+    };
+    // 触发compiler.hooks.emit钩子
+    // 触发CleanPlugin中绑定的函数
+    // 触发LibManifestPlugin中绑定的函数 生成lib包
+    this.hooks.emit.callAsync(compilation, err => {
+      if (err) return callback(err);
+      // 获取输出路径
+      outputPath = compilation.getPath(this.outputPath, {});
+      // 递归创建输出目录，并输出资源
+      mkdirp(this.outputFileSystem, outputPath, emitFiles);
+    });
+  }
+  compile(callback) {
+    // 省略代码
+    // 执行完成seal 代码封装，就要输出封装好的文件
+    compilation.seal(err => {
+      // 触发钩子
+      this.hooks.afterCompile.callAsync(compilation, err => {
+        // 执行run函数中传入的onCompiled
+        return callback(null, compilation);
+      });
+    });
+  }
+  run (callback) {
+    // 省略代码
+    // emit入口
+    const onCompiled = (err, compilation) => {
+      process.nextTick(() => {
+        // 执行shouldEmit钩子上的方法，若返回false则不输出构建资源
+        if (this.hooks.shouldEmit.call(compilation) === false) {
+          // stats包含了本次构建过程中的一些数据信息
+          const stats = new Stats(compilation);
+          stats.startTime = startTime;
+          stats.endTime = Date.now();
+          // 执行done钩子上的方法，并传入stats
+          this.hooks.done.callAsync(stats, err => {
+            if (err) return finalCallback(err);
+            return finalCallback(null, stats);
+          });
+          return;
+        }
+        // 执行 Compiler.emitAssets 输出资源
+        this.emitAssets(compilation, err => {
+          // 执行shouldEmit钩子上的方法，若返回false则不输出构建资源
+          if (compilation.hooks.needAdditionalPass.call()) {
+            // compilation上添加属性
+            compilation.needAdditionalPass = true;
+            compilation.startTime = startTime;
+            compilation.endTime = Date.now();
+            // 实例化Stats类
+            const stats = new Stats(compilation);
+            // 触发compiler.hooks.done钩子
+            this.hooks.done.callAsync(stats, err => {
+              this.hooks.additionalPass.callAsync(err => {
+                this.compile(onCompiled);
+              });
+            });
+          }
+          // 输出构建记录
+          this.emitRecords(err => {
+            const stats = new Stats(compilation);
+            // 执行compiler.hooks.done钩子
+            this.hooks.done.callAsync(stats, err => {
+              if (err) return finalCallback(err);
+              this.cache.storeBuildDependencies(
+                compilation.buildDependencies,
+                err => {
+                  if (err) return finalCallback(err);
+                  return finalCallback(null, stats);
+                }
+              );
+            });
+          });
+        });
+      });
+    };
+    // 运行compiler.run
+    const run = () => {
+      this.compile(onCompiled);
+    }
+  }
+}
+```
 
 ---
 
-##### 总结
+## 总结
 
 三个阶段：
 
@@ -326,14 +497,12 @@ class Compilation {
    - 挂载 options 中的 **自定义配置** 的插件到 `compiler` 实例上
    - 挂载 webpack 的基础内置插件，同时注册一系列的钩子回调，比如在 `EntryPlugin` 中注册了 `make` 钩子。详细见`new WebpackOptionsApply().process(options, compiler);`
 
-[ ] Tapable 原理
-
 2. 构建(make)阶段
 
    - `compiler.run()` 进入模块编译阶段
-   - 创建 `compilation` 实例，触发 hooks.make 钩子，`compilation` 开始工作，调用 `compilation.addEntry` 从入口文件依赖开始构建 module
+   - 创建 `compilation` 实例，触发 `hooks.make` 钩子，`compilation` 开始工作，调用 `compilation.addEntry` 从入口文件依赖开始构建 module
    - 通过 `handleModuleCreation` 来创建的 `module`
-   - 有了 `module` 后调用工厂函数的 `build` 方法，期间会先后调用 `doBuild` 调用 `loader`，然后调用 `parser.parse` 转为 AST 并进行依赖收集
+   - 有了 `module` 后调用工厂函数的 `build` 方法，期间执行 `doBuild` 调用 loader 解析模块为 js 脚本，然后调用 `parser.parse` 转为 AST 并进行依赖收集
      - 在 `HarmonyExportDependencyParserPlugin` 插件监听 `exportImportSpecifier` 钩子(识别 require/import 语句)，解读 JS 文本对应的资源依赖
      - 调用 module 对象的 addDependency 方法将依赖对象加入到 module 依赖列表中
    - 继续执行到 `this.processModuleDependencies(module)` 看 module 是否还有其他的依赖，如果有，递归执行 `handleModuleCreation`
@@ -347,7 +516,7 @@ class Compilation {
 
 ---
 
-附上两张图，便于理解：
+附上两张网上的图，便于理解：
 
 ![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301031450002.png)
 
@@ -357,98 +526,7 @@ class Compilation {
 
 ![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301021511242.png)
 
-这个图需要整理
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301181152629.png)
-
-3. 生成(emit)阶段 - 围绕 chunk
-   - `compilation.seal` 生成 chunk
-     - 构建 `ChunkGraph` 对象
-     - 遍历 `compilation.modules` 集合，记录 module 与 chunk 的关系，按照 `entry/动态引入` 的规则把 module 分配给不同的 chunk 对象
-     - 调用 `createModuleAssets/createChunkAssets` 分别遍历 `module/chunk` 把 `assets` 信息记录到 `compilation.assets` 对象中
-   - 触发 seal 回调后，调用`compilation.emitAsset`，根据配置路径和文件名，写入文件系统
-
-将 moudle 组织成 chunk 的默认规则：
-
-- entry 及 entry 触达到的模块，组合成一个 chunk
-- 使用动态引入语句引入的模块，各自组合成一个 chunk
-
----
-
-## loader
-
-打包非 JS 和 JSON 格式的文件，需要使用 `loader` 来转换一下，在构建阶段，所有 module 都会被对应的 loader 转成可以被 `acorn` 转译的 JS 脚本。
-
-所以这也是为什么在配置时，loader 的配置是在 module 内的：
-
-```JavaScript
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        use: ['loaderA', 'loaderB', 'loaderC']
-      }
-    ]
-  }
-}
-```
-
-一个小知识点，loader 总是从右往左调用的，但是，在实际执行之前，会先**从左到右**调用 loader 的 `pitch` 方法，如果某个 loader 在 pitch 方法中给出一个结果，那么这个过程会回过身来，并跳过剩下的 loader，详细见[Loader Interface](https://webpack.docschina.org/api/loaders/)。
-
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301051444588.png)
-
-## plugin
-
-webpack 构建过程中，会在特定的时机广播对应的事件，插件监听这些事件，在特定时间点介入编译过程。
-
-通常，webpack 插件是一个带有 `apply` 方法的类：
-
-```JavaScript
-class SomePlugin {
-    apply(compiler) {
-    }
-}
-```
-
-apply 虽然是一个函数，但是从设计上就只有输入，webpack 不 care 输出，所以在插件中只能通过调用类型实体的各种方法来或者更改实体的配置信息，变更编译行为。例如：
-
-- compilation.addModule：添加模块，可以在原有的 module 构建规则之外，添加自定义模块
-- compilation.emitAsset：直译是“提交资产”，功能可以理解将内容写入到特定路径
-- ...
-
-apply 函数运行时会得到参数 compiler ，以此为起点可以调用 hook 对象注册各种钩子回调，例如：compiler.hooks.make.tapAsync ，这里面 make 是钩子名称，tapAsync 定义了钩子的调用方式，webpack 的插件架构基于这种模式构建而成，插件开发者可以使用这种模式在钩子回调中，插入特定代码。webpack 各种内置对象都带有 hooks 属性，比如 compilation 对象：
-
-```JavaScript
-class SomePlugin {
-    apply(compiler) {
-        compiler.hooks.thisCompilation.tap('SomePlugin', (compilation) => {
-            compilation.hooks.optimizeChunkAssets.tapAsync('SomePlugin', ()=>{});
-        })
-    }
-}
-```
-
-钩子的核心逻辑定义在 Tapable 仓库，内部定义了如下类型的钩子：
-
-```JavaScript
-const {
-    SyncHook,
-    SyncBailHook,
-    SyncWaterfallHook,
-    SyncLoopHook,
-    AsyncParallelHook,
-    AsyncParallelBailHook,
-    AsyncSeriesHook,
-    AsyncSeriesBailHook,
-    AsyncSeriesWaterfallHook
- } = require("tapable");
-```
-
-##### 基础常用插件
-
-- [clean-webpack-plugin](https://github.com/johnagan/clean-webpack-plugin)，每次打包前先清空上一轮的打包，防止有缓存干扰。
-
-## 易混淆知识点
+## 补充：易混淆知识点
 
 1. module, chunk, bundle
 
@@ -460,49 +538,26 @@ const {
      > 一般来讲，一个 chunk 产生一个 bundle，产生 chunk 的途径：
      >
      > 1. entry，注意数组的 entry 只会产生一个，以对象形式，一个入口文件链路一个 chunk
-     > 2. 异步加载模块
+     > 2. 异步加载模块(动态加载)
      > 3. 代码分割
      >
      > Webpack 5 之后，如果 entry 配置中包含 runtime 值，则在 entry 之外再增加一个专门容纳 runtime 的 chunk 对象，此时可以称之为 runtime chunk。
 
 2. filename, chunkFilename
    - output.filename：列在 entry 中，打包后输出的文件的名称，是根据 entry 配置推断出的
-   - output.chunkFilename：未列在 entry 中，却又需要被打包出来的文件的名称，如果没有显示指定，默认为 chunk 的 id，往往需要配合魔法注释使用，如`import(/* webpackChunkName: "lodash" */ 'lodash')`
+   - output.chunkFilename：未列在 entry 中，却又需要被打包出来的文件的名称，如果没有显示指定，默认为 chunk 的 id，往往需要配合魔法注释使用，如：  
+     `import(/* webpackChunkName: "lodash" */ 'lodash')`
 3. hash, chunkhash, contenthash
    这个可以顾名思义。首先 hash 是随机唯一的，它的作用是一般是用来结合 CDN 处理缓存的，当文件发生改变，hash 也就变化，触发 CDN 服务器去源服务器拉取数据，更新本地缓存。它们三个就是触发文件 hash 变化的条件不同：`[name].[hash].js` 计算的是整个项目的构建；chunkhash 计算的是 chunk；contenthash 计算的是内容。
 
-## HMR
-
-webpack-dev-server 启动服务后，当文件发生了变动，会触发重新构建，让我们专注于 coding，但是如果不做任何配置，它会刷新页面导致丢失掉应用状态，为此，webpack 提供了 hot module replacement 即 HMR 热更新。
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301031437536.png)
-
-TODO
-
-<!-- - webpack compiler： watch 打包文件，写入内存
-- bundle server：启动本地服务，供浏览器使用
-- HMR server：将热更新的文件输出给 HMR runtime
-- HMR runtime：把生成的问加你注入到浏览器内存
-- Bundle：构建输出文件 -->
-
-> [模块热替换(hot module replacement)](https://webpack.docschina.org/concepts/hot-module-replacement/)
-
-## 代码分割 split chunk
-
-## tree shaking
-
-## externals
-
-抽离框架、库之类的依赖到 CDN，相比抽离成 dll 文件，CDN 更加优秀。
+## 补充: Tapable 见 [webpack 之 plugin](https://yokiizx.site/posts/engineer/webpack%E4%B9%8Bplugin/)
 
 ## 参考
 
 - [webpack 官网](https://webpack.js.org/)
-- [Tecvan webpack 总结](https://zhuanlan.zhihu.com/p/363928061)
 - [webpack5 知识体系图谱](https://gitmind.cn/app/docs/m1foeg1o)
 - [webpack 中容易混淆的 5 个知识点](https://mp.weixin.qq.com/s/kPGEyQO63NkpcJZGMD05jQ)
-- [HMR 机制](https://mp.weixin.qq.com/s/GlwGJ4cEe-1FgWW4EVpG_w)
-- [split chunk 分包机制](https://mp.weixin.qq.com/s/YjzcmwjI-6D8gyIkZF0tVw)
-- [手把手入门 webpack 插件](https://mp.weixin.qq.com/s/sbrTQb5BCtStsu54WZlPbQ)
 - [深度剖析 VS Code JavaScript Debugger 功能及实现原理](https://juejin.cn/post/7109006440039350303#heading-4)
 - [yargs](https://github.com/yargs/yargs)
 - [webpack 编译流程详解](https://juejin.cn/post/6948950633814687758)
+- [webpack 总结](https://xie.infoq.cn/article/ddca4caa394241447fa0aa3c0)
