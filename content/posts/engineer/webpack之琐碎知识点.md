@@ -10,13 +10,13 @@ tags: [engineer]
 
 webpack-dev-server 启动服务后，当文件发生了变动，会触发重新构建，让我们专注于 coding，但是如果不做任何配置，它会刷新页面导致丢失掉应用状态，为此，webpack 提供了 hot module replacement 即 HMR 热更新。
 
-1、当文件发生变化后，`webpack` 会重新打包，打包完成后，发布 `done` 事件。
-`2、done` 回调函数执行，通过服务端与客户端建立的长连接发送 `hash` 值到客户端。
-3、客户端收到 `hash` 值之后，确认是否要更新。如果更新，则会通过 `Ajax` 去请求 `manifest.json` 文件，该文件记录了所有发生变动的模块。
-4、通过 `manifest.json` 文件，客户端使用 `jsonp` 方式去拉取每一个变动模块的最新代码。
-5、客户端更新模块，加入了 3 个属性：`parents、children、hot`。
-6、通过模块 `id` 找到父模块中所有依赖该模块的回调函数并执行。
-7、页面自动更新，热替换完成
+1. 当文件发生变化后，`webpack` 会重新打包，打包完成后，发布 `done` 事件。
+2. done`回调函数执行，通过服务端与客户端建立的长连接发送`hash` 值到客户端。
+3. 客户端收到 `hash` 值之后，确认是否要更新。如果更新，则会通过 `Ajax` 去请求 `manifest.json` 文件，该文件记录了所有发生变动的模块。
+4. 通过 `manifest.json` 文件，客户端使用 `jsonp` 方式去拉取每一个变动模块的最新代码。
+5. 客户端更新模块，加入了 3 个属性：`parents、children、hot`。
+6. 通过模块 `id` 找到父模块中所有依赖该模块的回调函数并执行。
+7. 页面自动更新，热替换完成
 
 > [manifest](https://webpack.docschina.org/concepts/manifest/#manifest)  
 > [模块热替换(hot module replacement)](https://webpack.docschina.org/concepts/hot-module-replacement/)
