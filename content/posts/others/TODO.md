@@ -12,7 +12,7 @@ weight: 1
 - [ ] 开发一个命令行工具
 - [x] babel
 - [x] log-shiny babel 插件开发
-- [ ] webpack
+- [x] webpack
 - [ ] rollup
 - [ ] lerna
 
