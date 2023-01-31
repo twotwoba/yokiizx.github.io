@@ -9,15 +9,15 @@ statistics: 'false'
 
 <div class='me-basic__info'>
     <div class="me-basic__info--item">姓名： 袁凯</div>
-    <div class="me-basic__info--item">学历： 统招本科 &nbsp; 211/双一流</div>
+    <div class="me-basic__info--item">学历： 统招本科 &nbsp; 211、双一流</div>
     <div class="me-basic__info--item">出生： 1994/04</div>
     <div class="me-basic__info--item">电话： 13057539668</div>
     <div class="me-basic__info--item">籍贯： 江苏</div>
     <div class="me-basic__info--item">邮箱： yokiizx@163.com</div>
-    <div class="me-basic__info--item">工作时间： 4年半</div>
+    <div class="me-basic__info--item">工作经验： 4年半</div>
     <div class="me-basic__info--item">期望工作地： 苏州、上海</div>
     <div class="me-basic__info--avatar">
-        <img src="https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202212182320591.png" width="120px" height="150px">
+        <img src="https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301311756745.png" width="120px" height="150px">
     </div>
 </div>
 
@@ -34,23 +34,29 @@ statistics: 'false'
 
 ##### 专业技能
 
-- Java 基础扎实，熟悉 JUC、IO、多线程、集合框架等，了解 JVM 内存模型、垃圾回收，有良好的编码和调试习惯。
-- 熟悉常用的设计模式、数据结构和算法，并有实际应用。
-- xxx 等。
+- 主要编程语言：HTML、CSS、JavaScript
+- 熟悉的前端库/框架：Vue、Vue Router、Vuex、React、React Router、Redux、mobx、echarts、element ui、Ant design、emotionjs
+- 熟悉的开发工具：Git、VsCode、Chrome devtool
+- 熟悉的构建工具：webpack、babel
+- 熟悉的服务端技能：Node.js、Koa.js
+- 熟悉的操作系统：Mac OS、Linux
+- 略了解(用过)的技能：TypeScript、Nginx、Docker、Jenkins、MySQL/sql、rollup
+- 有良好的编码和调试习惯，eslint、prettier 结合规范开发代码
+- 熟悉常用的设计模式、数据结构和算法，并有实际应用
 
 ##### 项目经历
 
-| AAA 项目 | XXX 有限公司 / 2020.4 ～ 2021.8                                                                                                     |
-| -------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| 技术框架 | SpringBoot、Spring Cloud、Mybaits、MySQL、ElasticSearch、RabbitMQ、Redis、Kafka、<br />Zookeeper、Vue 等。                          |
-| 项目简介 | XXX 项目是一个 XXX 平台...                                                                                                          |
-| 责任描述 | 1.负责 xxx 组件的封装和维护。<br/>2.负责 xxx 的设计、接口文档。<br/>3.负责 xxx 等接口。<br/>4.负责 xxx 任务等。<br/>5.负责 xxx 等。 |
+| 项目名称 | 智慧门店 ———— 江苏云学堂科技有限公司                                                                                                                                                                                                                                                                       |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 技术框架 | Vue 全家桶、 yxt-ui                                                                                                                                                                                                                                                                                        |
+| 项目简介 | 智慧门店是一个基于公司绚星云学习平台为连锁零售行业量身定制的门店数字化运营解决方案，提供了门店管理、巡检 SOP、巡检任务、问题工单、数据统计等功能，帮助企业实实现数字化运营管理，助力企业提高经营效能                                                                                                       |
+| 责任描述 | 1. 负责业务组件的封装和维护。<br/>2. 负责 web 端和 h5 端的开发，涉及模块包括：门店管理、巡检表管理、巡检任务等。<br/>3. 负责 LCP 优化，业务组件拆包，图片压缩，preload 图片等 <br/>4. 基于 Eslint+prettier 实现保存自动格式化代码统一规范。 <br /> <br /> 目前已经有九牧、奇瑞汽车、新希望乳业等客户使用。 |
 
-| BBB-bbbbbbbbbbb 项目 | XXX 有限公司 / 2019.7 ～ 2020.4                                               |
-| -------------------- | ----------------------------------------------------------------------------- |
-| 技术框架             | SpringBoot、SpringCloud 等。                                                  |
-| 项目简介             | xxx 是 xxx 的。                                                               |
-| 责任描述             | 1.负责 xxx 的方案设计与开发。<br/>2.负责 xxx 的开发。<br/>4.参与 xxx 的开发。 |
+| 项目名称 | SRM 供应商管理系统 ———— 江苏云学堂科技有限公司                                                                    |
+| -------- | ----------------------------------------------------------------------------------------------------------------- |
+| 技术框架 | Vue 全家桶                                                                                                        |
+| 项目简介 | 是从公司内部 CRM 系统单独抽离出来的一个独立系统，主要是便于供应商的管理。<br />目前在公司的运营管理平台上正常使用 |
+| 责任描述 | 1. 负责项目的整体开发。<br/>2. 接手前的任务分配原因导致大量重复代码，为此进行了重构。                             |
 
 <style>
   /* “项目经历”的表格宽度设定 */
