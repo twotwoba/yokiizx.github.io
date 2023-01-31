@@ -146,6 +146,7 @@ class SomePlugin {
 - [mini-css-extract-plugin]() 抽离 css
 - [optimize-css-assets-webpack-plugin]() 压缩 css
 - [SplitChunksPlugin](https://webpack.docschina.org/plugins/split-chunks-plugin) 代码分割
+- [page-skeleton-webpack-plugin](https://github.com/ElemeFE/page-skeleton-webpack-plugin) 饿了么开源的自身生成骨架屏的 webpack 插件
 - ... 见官网吧~
 
 ## 参考
