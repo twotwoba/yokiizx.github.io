@@ -174,10 +174,14 @@ HEAD 是特殊的分支指针，指向的是当前所在分支。这里得说一
     # status引用路径不再是八进制（反过来说就是允许显示中文了）
 
 # 解决 vscode terminal git log 中文乱码
-export LC_ALL=en_US.UTF-8 
+export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-export LESSHARESET=utf-8 
+export LESSHARESET=utf-8
 ```
+
+##### 补充
+- [Git Tools - Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
+- [Git submodule 子模块的管理和使用](https://www.jianshu.com/p/9000cd49822c)
 
 ## 参考
 
