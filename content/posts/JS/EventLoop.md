@@ -123,7 +123,7 @@ Node 中，会把一些异步操作放到系统内核中去。当一个操作完
 ┌─>│           timers          │    -> 执行 setTimeout 和 setInterval 的回调
 │  └─────────────┬─────────────┘
 │  ┌─────────────┴─────────────┐
-│  │     pending callbacks     │    -> I/O 回调
+│  │     pending callbacks     │    -> 执行延迟到下一个循环迭代的 I/O 回调
 │  └─────────────┬─────────────┘
 │  ┌─────────────┴─────────────┐
 │  │       idle, prepare       │    -> 仅系统内部使用
@@ -162,7 +162,7 @@ Node 中，会把一些异步操作放到系统内核中去。当一个操作完
   - queueMicroTask (Node.js 11 后实现)
 
 setTimeout VS setImmediate  
-拿 setTimeout 和 setImmediate 对比，这是一个常见的例子，基于被调用的时机和定时器可能会受到计算机上其它正在运行的应用程序影响，它们的输出顺序，不总是固定的。  
+拿 `setTimeout` 和 `setImmediate` 对比，这是一个常见的例子，基于被调用的时机和定时器可能会受到计算机上其它正在运行的应用程序影响，它们的输出顺序，不总是固定的。具体可以见文末参考文章。  
 但是一旦把这两个函数放入一个 I/O 循环内调用，setImmediate 将总是会被优先调用。因为 setImmediate 属于 check 阶段，在事件循环中总是在 poll 阶段结束后运行，这个顺序是确定的。
 
 ```JavaScript
@@ -218,9 +218,13 @@ nextTick
 setTimeout
 ```
 
+> 关于 setImmediate 与 process.nextTick 的历史可以看[这篇小结](https://www.yuque.com/sunluyong/node/timer#IqNr1)
+
 ## 推荐
 
 - [Node.js 事件循环，定时器和 process.nextTick()](https://nodejs.org/zh-cn/docs/guides/event-loop-timers-and-nexttick/)
 - [浏览器工作原理与实践](https://blog.poetries.top/browser-working-principle/)
 - [Node.js 事件循环-比官方更全面](https://learnku.com/articles/38802)
 - [说说你对 Node.js 事件循环的理解](https://mp.weixin.qq.com/s/xuaHarOMRp6tzfLYqrWFCw)
+- [极简 Node.js 入门](https://www.yuque.com/sunluyong/node)
+- [setTimeout 和 setImmediate 到底谁先执行](https://juejin.cn/post/6844904100195205133)

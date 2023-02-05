@@ -78,6 +78,96 @@ process 对象是一个全局变量，是一个 EventEmitter 实例，提供了�
 
 ##### fs
 
+Node 中的异步默认是回调风格，`callback(err, returnValue)`：
+
+```JavaScript
+const fs = require('fs')
+fs.stat('.', (err, stats) => {
+  // ...
+});
+```
+
+v14 之后，文件系统提供了 `fs/promises` 支持 promise 风格的使用方法：
+
+```JavaScript
+const fs = require('fs/promises');
+fs.stat('.').then((stats) => {}).catch((err) => {});
+```
+
+为了统一，内置的 `util` 模块提供了 `promisify` 方法可以把所有标准 callback 风格方法转成 promise 风格方法：
+
+```JavaScript
+const fs = require('fs');
+const { promisify } = require('util');
+
+const stat = promisify(fs.stat);
+stat('.').then((stats) => {
+  console.log('📌📌📌 ~ stat ~ stats', stats);
+});
+
+// 对应的同步方法就是在其后添加 Sync 标识
+const syncInfo = fs.statSync()
+```
+
+> 几乎大部分的异步 api 都有对应的 同步方法，常规的 API 不在本文赘述，直接看官网，孰能生巧。
+
+关于 `fs.watch/fs.watchFile` 都有不足，日常在监视文件变化可以选择社区的优秀方案：
+
+1. node-watch
+2. chokidar
+
+##### Buffer 和 stream
+
+这两个概念比较重要，在于理解，看以下参考文章吧：
+
+Buffer 类的实例类似于 0 到 255 之间的整型数组（其他整数会通过 ＆ 255 操作强制转换到此范围），Buffer 是一个 JavaScript 和 C++ 结合的模块，对象内存不经 V8 分配，而是由 C++ 申请、JavaScript 分配。缓冲区的大小在创建时确定，不能调整。
+
+> Buffer 对象用于表示固定长度的字节序列。
+> Buffer 类是 JavaScript 的 `Uint8Array` 类的子类，且继承时带上了涵盖额外用例的方法。 只要支持 Buffer 的地方，Node.js API 都可以接受普通的 `Uint8Array`。 -- 官方文档
+
+> 数据的移动是为了处理或读取它，如果**数据到达的速度比进程消耗的速度快**，那么少数早到达的数据会处于等待区等候被处理。 《Node.js 中的缓冲区（Buffer）究竟是什么？》
+
+- [理解 Node 中的 Buffer 与 stream](https://juejin.cn/post/6955331683499376676)
+- [Node.js 语法基础 —— Buffter & Stream](https://zhaomenghuan.js.org/note/nodejs/nodejs-buffer-stream.html)
+- [Buffer 和 stream](https://www.yuque.com/sunluyong/node/buffer)
+
+补充：为了比较 Buffer 与 String 的效率，顺便学习呀一下 ab 这个命令，见[使用 Apache Bench 对网站性能进行测试](https://blog.csdn.net/dongdong9223/article/details/49248979)
+
+```JavaScript
+const http = require('http');
+let s = '';
+for (let i=0; i<1024*10; i++) {
+    s+='a'
+}
+
+const str = s;
+const bufStr = Buffer.from(s);
+const server = http.createServer((req, res) => {
+    console.log(req.url);
+
+    if (req.url === '/buffer') {
+        res.end(bufStr);
+    } else if (req.url === '/string') {
+        res.end(str);
+    }
+});
+
+server.listen(3000);
+```
+
+```sh
+ab -n 1000 -c 100 http://localhost:3000/buffer
+ab -n 1000 -c 100 http://localhost:3000/string
+# 从跑出来的结果能清晰的看出消耗时间和传输效率 buffer > string
+```
+
 ##### http
 
 ##### url
+
+## 参考
+
+- [Node.js 中文网](http://nodejs.cn/)
+- [七天学会 NodeJS](https://nqdeng.github.io/7-days-nodejs/)
+- [Node.js 资源](https://cnodejs.org/getstart)
+- [setTimeout 和 setImmediate 到底谁先执行](https://juejin.cn/post/6844904100195205133)

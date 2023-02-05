@@ -243,6 +243,20 @@ cmd < file
 source ./demo.sh
 ```
 
+14. 测压命令 ab
+
+比如我们可以用 node 启动一个服务，然后用 ab 去测试性能：
+
+```sh
+ab -n 1000 -c 200 -t 60 url
+```
+
+- -n，用于指定压力测试总共的执行次数。
+- -c，用于指定的并发数。
+- -t，等待响应的最大时间(单位：秒)。
+- ...更多的件下文总结
+
 ## 参考
 
 - [zsh-字符串常用操作](https://kennethfan.github.io/2017/09/20/zsh-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/)
+- [构建高效工作环境 | Shell 命令篇：curl & ab 命令使用](https://blog.csdn.net/mickjoust/article/details/101049899)
