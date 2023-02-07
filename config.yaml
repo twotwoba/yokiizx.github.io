@@ -74,9 +74,9 @@ menu:
     - name: Tags
       url: '/tags/'
       weight: 2
-    - name: About
-      url: '/about'
-      weight: 3
+    # - name: About
+    #   url: '/about'
+    #   weight: 3
   # footer:
   #   - name: RSS
   #     url: "/index.xml"
