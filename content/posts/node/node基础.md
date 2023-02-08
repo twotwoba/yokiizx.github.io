@@ -163,7 +163,56 @@ ab -n 1000 -c 100 http://localhost:3000/string
 
 ##### http
 
-##### url
+`http.createServer()`. 详细见官网。
+
+##### 进程
+
+Node.js 本身就使用的事件驱动模型，为了解决单进程单线程对多核使用不足问题，可以按照 CPU 数目多进程启动，理想情况下一个每个进程利用一个 CPU。
+
+Node.js 提供了 child_process 模块支持多进程，通过 child_process.fork(modulePath) 方法可以调用指定模块，衍生新的 Node.js 进程 。
+
+```JavaScript
+const { fork } = require('child_process');
+const os = require('os');
+
+for (let i = 0, len = os.cpus().length; i < len; i++) {
+  fork('./server.js'); // 每个进程启动一个http服务器
+}
+```
+
+进程之间的通信，使用 WebWorker API。
+
+node 内置模块`cluster` 基于 child_process.fork 实现.
+
+```JavaScript
+const cluster = require('cluster');            // | |
+const http = require('http');                  // | |
+const numCPUs = require('os').cpus().length;   // | |    都执行了
+                                               // | |
+if (cluster.isMaster) {                        // |-|-----------------
+  // Fork workers.                             //   |
+  for (var i = 0; i < numCPUs; i++) {          //   |
+    cluster.fork();                            //   |
+  }                                            //   | 仅父进程执行
+  cluster.on('exit', (worker) => {             //   |
+    console.log(`${worker.process.pid} died`); //   |
+  });                                          //   |
+} else {                                       // |-------------------
+  // Workers can share any TCP connection      // |
+  // In this case it is an HTTP server         // |
+  http.createServer((req, res) => {            // |
+    res.writeHead(200);                        // |   仅子进程执行
+    res.end('hello world\n');                  // |
+  }).listen(8000);                             // |
+}                                              // |-------------------
+                                               // | |
+console.log('hello');                          // | |    都执行了
+```
+
+推荐两篇文章：
+
+- [多进程 & Node.js 实现](https://www.yuque.com/sunluyong/node/cluster)
+- [Node.js cluster 踩坑小结](https://zhuanlan.zhihu.com/p/27069865)
 
 ## 参考
 
@@ -171,3 +220,4 @@ ab -n 1000 -c 100 http://localhost:3000/string
 - [七天学会 NodeJS](https://nqdeng.github.io/7-days-nodejs/)
 - [Node.js 资源](https://cnodejs.org/getstart)
 - [setTimeout 和 setImmediate 到底谁先执行](https://juejin.cn/post/6844904100195205133)
+- [Node.js cluster 踩坑小结](https://zhuanlan.zhihu.com/p/27069865)
