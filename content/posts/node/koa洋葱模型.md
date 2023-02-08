@@ -9,7 +9,7 @@ tags: [node]
 
 ## 简单 demo
 
-```
+```javascript
 // 执行顺序
 const Koa = require('koa');
 const app = new Koa();
