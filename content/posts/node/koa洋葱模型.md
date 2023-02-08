@@ -7,6 +7,8 @@ tags: [node]
 > 目前 Node.js 社区较为流行的一个 Web 框架，书写比较优雅。
 > [koa 常用中间件](https://www.npmjs.com/package/koa-middlewares)
 
+![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202302081832987.jpg)
+
 ## 简单 demo
 
 ```javascript
@@ -16,24 +18,23 @@ const app = new Koa();
 
 // logger
 app.use(async (ctx, next) => {
-  await next();                                    // 1
-  const rt = ctx.response.get('X-Response-Time');  // 7
-  if(ctx.url === '/favicon.ico') return            // 8
+  await next(); // 1
+  const rt = ctx.response.get('X-Response-Time'); // 7
+  if (ctx.url === '/favicon.ico') return; // 8
   console.log(`${ctx.method} ${ctx.url} - ${rt}`); // 9
 });
 
 // x-response-time
 app.use(async (ctx, next) => {
-  const start = Date.now();                       // 2
-  await next();                                   // 3
-  const ms = Date.now() - start;                  // 5
-  ctx.set('X-Response-Time', `${ms}ms`);          // 6
+  const start = Date.now(); // 2
+  await next(); // 3
+  const ms = Date.now() - start; // 5
+  ctx.set('X-Response-Time', `${ms}ms`); // 6
 });
-
 
 // response
 app.use(async (ctx) => {
-  ctx.body = 'Hello World';                       // 4
+  ctx.body = 'Hello World'; // 4
 });
 
 app.listen(3000);
