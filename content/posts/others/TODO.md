@@ -8,7 +8,6 @@ tags: [TODO]
 
 - [x] shell 脚本复习巩固
 - [x] npm script
-- [ ] 开发一个命令行工具
 - [x] babel
 - [x] log-shiny babel 插件开发
 - [x] webpack
@@ -19,7 +18,7 @@ tags: [TODO]
 
 - [x] react diff 原理
 - [ ] vue diff 原理
-- [ ] 各类状态管理器原理
+- [x] 各类状态管理器原理
 
 ##### 算法
 
@@ -36,3 +35,4 @@ tags: [TODO]
 ##### 其他
 
 - [x] XSS 和 CSRF
+- [ ] 开发一个命令行工具
