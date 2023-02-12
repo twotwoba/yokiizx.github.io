@@ -29,10 +29,12 @@ git config --global alias.pl pull
 git config --global alias.cam 'commit --amend -m'
 # 追加修改，不加新commit
 git config --global alias.can 'commit --amend --no-edit'
+# 任意commit删/改 git ri cmid
+git config --global alias.ri 'rebase -i'
 
 # 分支相关
 git config --global alias.br branch
-git config --global alias.mbr 'branch --move' # g mbr oldname newname
+git config --global alias.rename 'branch --move' # g rename oldname newname
 git config --global alias.ck checkout # 常用命令 g ck -, 快速返回上一个分支
 git config --global alias.cb 'checkout -b'
 git config --global alias.cp cherry-pick # g cp [commit/brname] 如果是brname则是把该分支最新commit合并
@@ -54,8 +56,9 @@ git config --global alias.res restore
 git config --global alias.rss 'restore --staged'
 
 # 查看配置
-git config --global alias.gl 'config --global  --list'
-git config --global alias.ll 'config --local  --list'
+git config --global alias.gcl 'config --list'
+git config --global alias.gcgl 'config --global --list'
+git config --global alias.gcll 'config --local  --list'
 
 # log 美化
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
@@ -180,6 +183,7 @@ export LESSHARESET=utf-8
 ```
 
 ##### 补充
+
 - [Git Tools - Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
 - [Git submodule 子模块的管理和使用](https://www.jianshu.com/p/9000cd49822c)
 
