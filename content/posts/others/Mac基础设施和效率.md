@@ -12,7 +12,17 @@ _文章取自本人日常使用习惯，不一定适合每个人，如您有更�
 
 ##### [Homebrew](https://brew.sh/)
 
-懂得都懂，mac 的包管理器，可以直接去官网按照提示安装即可。
+懂得都懂，mac 的包管理器，可以直接去官网按照提示安装即可。安装完成后记得替换一下镜像源，推荐腾讯[镜像源](https://mirrors.cloud.tencent.com/)。
+
+```sh
+# 替换brew.git
+cd "$(brew --repo)"
+git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/brew.git
+
+# 替换homebrew-core.git
+cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
+git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/homebrew-core.git
+```
 
 <details> 
 <summary>如果没有 🪜，可以使用国内大神的脚本傻瓜式安装：</summary>
@@ -38,10 +48,15 @@ plugins=(
   # 默认的,配置了很多别名 ~/.oh-my-zsh/plugins/git/git.plugin.zsh
   git
   # 语法高亮
+  # https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh
   zsh-syntax-highlighting
   # 输入命令的时候给出提示
+  # https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh
   zsh-autosuggestions
 )
+
+# 让terminal标题干净
+DISABLE_AUTO_TITLE="true"
 ```
 
 <details> 
@@ -105,6 +120,12 @@ touch ~/.vimrc
 2. 写入配置（更多配置请自查）
 
 ```sh
+syntax on      "语法高亮"
+set number     "显示行号"
+set cursorline "高亮光标所在行"
+set autoindent "回车缩进跟随上一行"
+set showmatch  "高亮显示匹配的括号([{和}])"
+
 "配置插入模式快捷键"
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
@@ -114,17 +135,6 @@ inoremap <C-k> <Up>
 inoremap <C-l> <Down>
 inoremap <C-q> <PageUp>
 inoremap <C-z> <PageDown>
-
-"语法高亮"
-syntax on
-"显示行号"
-set number
-"高亮光标所在行"
-set cursorline
-"回车缩进跟随上一行"
-set autoindent
-"高亮显示匹配的括号([{和}])"
-set showmatch
 ```
 
 ## 前端开发环境配置
