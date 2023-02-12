@@ -66,8 +66,9 @@ export LESSHARESET=utf-8
 - [CodeVar](https://github.com/xudaolong/CodeVar)，作为程序员起名字是个头疼事，交给它 👈🏻
 - [markdown table](https://github.com/crispgm/alfred-markdown-table)，用 vscode 写 markdown 我想只有 table 最让人厌烦了吧哈哈
 - [alfred-github-repos](https://github.com/edgarjs/alfred-github-repos)，github 快捷搜索
-- [alfred-emoji](https://github.com/jsumners/alfred-emoji)
-  欢迎留言补充 👏🏻
+- [alfred-emoji](https://github.com/jsumners/alfred-emoji) emoji 表情
+
+欢迎留言补充 👏🏻
 
 ##### 其他软件
 
