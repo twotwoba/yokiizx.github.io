@@ -15,31 +15,30 @@ LRU（Least recently used，最近最少使用）。
 
 ##### 实现
 
-一般使用双向链表可以实现，我们在 JavaScript 中使用 Map 这个数据结构来实现缓存，它可以保证加入缓存的先后顺序。
+一般使用双向链表可以实现，我们在 JavaScript 中使用 Map 这个数据结构来实现缓存，它可以保证加入缓存的先后顺序，（不过不同的是，这里是把 map 的尾当头，头当尾）。
 
 ```JavaScript
 class LRU {
-  constructor(capcity) {
-    this.capcity = capcity
-    this.cache = new Map()
+  constructor(size) {
+    this.cache = new Map();
+    this.size = size;
   }
-
+  // 进入池, 如果已经存在先删除
+  put(key, value) {
+    if (!this.cache.has(key)) this.cache.delete(key);
+    this.cache.set(key, value);
+    // 检查是否超出容量
+    if (this.cache.size > this.size) {
+      this.cache.delete(this.cache.keys().next().value);
+    }
+  }
+  // 每次访问时, 附加推到前面的动作
   get(key) {
-    if(!this.cache.has(key)) return null
-    const val = this.map.get(key)
-    this.cache.delete(key)
-    this.cache.set(key, val)
-    return val
-  }
-
-  put(key, value){
-    if(this.cache.has(key)) {
-      this.cache.delete(key)
-    }
-    this.cache.set(key, value)
-    if(this.cache.size > this.capcity) {
-      this.cache.delete(this.cache.keys().next().value)
-    }
+    if (!this.cache.has(key)) return -1;
+    const temp = this.cache.get(key);
+    this.cache.delete(key);
+    this.cache.set(key, temp);
+    return temp;
   }
 }
 ```

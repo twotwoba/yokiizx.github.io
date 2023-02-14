@@ -56,9 +56,9 @@ git config --global alias.res restore
 git config --global alias.rss 'restore --staged'
 
 # 查看配置
-git config --global alias.gcl 'config --list'
-git config --global alias.gcgl 'config --global --list'
-git config --global alias.gcll 'config --local  --list'
+git config --global alias.cl 'config --list'
+git config --global alias.cgl 'config --global --list'
+git config --global alias.cll 'config --local  --list'
 
 # log 美化
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
