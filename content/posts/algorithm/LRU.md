@@ -111,5 +111,3 @@ LFU（Least Frequently Used，最少频繁使用）。
 > 这篇文章不错：https://halfrost.com/lru_lfu_interview/
 
 如果你也对算法有兴趣，欢迎加入我们 👏🏻👏🏻👏🏻~
-
-<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/395888fd7a2f4958988b8a4acbaaec59~tplv-k3u1fbpfcp-watermark.image?" width='150' height='200'>
