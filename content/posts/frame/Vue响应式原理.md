@@ -173,6 +173,12 @@ subs 中收集的是每个 watcher，有多少个组件使用到了目标数据�
 
 现在再看开头官网的图应该就很清晰了吧~👻
 
+##### 小结
+
+![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202302221241366.png)
+
+简单小结一下： vue 中的数据会被 Object.defineProperty() 拦截，添加 getter/setter 函数，其中 getter 中会把组件的 watcher 对象添加进依赖 Dep 对象的订阅列表里，setter 则负责当数据发生变化时触发订阅列表里的 watcher 的 update，最终会调用 vm.render 触发重新渲染，并重新收集依赖。
+
 ---
 
 至于 Vue3 的原理，由于目前还未使用过（我更倾向于使用 React，不香嘛~），只是大概了解是使用 `Proxy` 来解决 `Object.defineProperty` 的缺陷的。下面是他人写的总结，有时间可以看看
