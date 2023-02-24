@@ -20,3 +20,4 @@ TODO
 
 - [Chrome 浏览器架构](https://xie.infoq.cn/article/5d36d123bfd1c56688e125ad3)
 - [Inside look at modern web browser](https://developer.chrome.com/blog/inside-browser-part1/)
+- [从输入URL到页面加载的过程？如何由一道题完善自己的前端知识体系](http://www.dailichun.com/2018/03/12/whenyouenteraurl.html)
