@@ -84,28 +84,28 @@ function test3() {
   new Promise(function (resolve) {
     console.log(6);
     resolve();
+    console.log(7)
   }).then(function () {
-    console.log(7);
+    console.log(8);
     setTimeout(function () {
-      console.log(8);
-    });
+      console.log(9);
+    },500);
   });
 
   setTimeout(function () {
-    console.log(9);
+    console.log(10);
     new Promise(function (resolve) {
-      console.log(10);
+      console.log(11);
       resolve();
     }).then(function () {
-      console.log(11);
+      console.log(12);
     });
   }, 100);
 
-  console.log(12);
+  console.log(13);
 }
 
-test3();
-// 1 6 12 7 8 9 10 11 2 3 5 4
+test3(); // 试一试~
 ```
 
 > 注意：
