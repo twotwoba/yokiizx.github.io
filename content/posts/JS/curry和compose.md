@@ -30,39 +30,42 @@ tags: [JavaScript]
 实现也比较简单：
 
 ```javascript
-function curry(func) {
+function curry(fn) {
   return function curried(...args) {
-    if (args.length < func.length) {
+    if (args.length >= fn.length) {
+      return fn.apply(this, args);
+    } else {
       return function (...args2) {
-        return curried.apply(this, args.concat(args2)) // 借助 curried 累加参数
-      }
+        return curried.apply(this, args.concat(args2)); // 借助curried累加参数
+      };
     }
-    return func.apply(this, args)
-  }
+  };
 }
 
 // test
-const sum = (a, b, c) => a + b + c
-const currySum = curry(sum)
-console.log(currySum(1, 2, 3)) // 6
-console.log(currySum(1)(2, 3)) // 6
-console.log(currySum(1, 2)(3)) // 6
+const sum = (a, b, c) => a + b + c;
+const currySum = curry(sum);
+console.log(currySum(1, 2, 3)); // 6
+console.log(currySum(1)(2, 3)); // 6
+console.log(currySum(1, 2)(3)); // 6
 ```
 
 柯里化的孪生兄弟 -- 偏函数，个人见解：  
 就是在 curry 之上，初始化时固定了部分的参数，注意两者累加参数的方式不太一样哦。
 
 ```JavaScript
-function partial(func) {
-  // 可以加个判断参数是否合格, 此处省略
-  const fixedArgs = [...arguments].slice(1) // 固定的参数复用
-  return function () {
-    const args = fixedArgs.concat(...arguments)
-    if (args.length < func.length) {
-      return partial.call(this, func, ...args) // 借助 partial 累加参数
+/**
+ * args 为固定的参数
+ */
+function partial(fn, ...args) {
+  return function (...args2) {
+    const _args = args.concat(args2);
+    if (_args.length >= fn.length) {
+      return fn.apply(this, _args);
+    } else {
+      return partial.call(this, fn, ..._args); // 借助 partial 累加参数
     }
-    return func.apply(this, args)
-  }
+  };
 }
 
 // test
@@ -95,6 +98,18 @@ const fn2 = (x, y) => x + y
 
 const test = compose(fn1, fn2)
 console.log(test(10, 20)) // 40
+```
+
+也可以使用 reduceRight 来实现 compose
+
+与之对应的是 pipe 函数，只不过是从左往右执行。这里就用 reduce 来实现一下吧：
+
+```JavaScript
+function pipe(...fns) {
+  return function (args) {
+    return fns.reduce((t, cb) => cb(t), args);
+  };
+}
 ```
 
 ## 参考

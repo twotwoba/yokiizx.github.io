@@ -63,16 +63,28 @@ controller.abort()
 首先我在"中断"上打了引号，因为 promise 一旦创建是无法取消的，所谓的”中断“，只是在合适的时候，提前结束 pending 状态而已，所以本文题目才是提前结束而不是“中断”。
 
 ```JavaScript
-function stopPromise(req) {
-  let abort = null
-  let handle = new Promise((resovle,reject) => (abort = reject))
-  let p = Promise.race(req, handle)
-  p.abort = abort
-  return p
-}
+const mockReq = function (time) {
+  const req = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(time);
+    }, time);
+  });
+  let abort = null;
+  const stopHandler = new Promise((resolve, reject) => {
+    abort = reject;
+  });
+  const p = Promise.race([req, stopHandler]);
+  p.abort = abort;
+  return p;
+};
+
+mockReq(2000).then((res) => console.log(res));
+mockReq().abort();
 ```
 
-其实核心就是借助另一个 promise 的 execute 函数，来让人可以手动改变 handle 的状态，进而影响 `Promise.race` 的执行。值得注意的是，req 仍然会执行完成，但是已经无意义了。
+其实核心就是借助另一个永远不会成功或失败的 promise 的 execute 函数，来让人可以手动改变 handle 的状态，进而影响 `Promise.race` 的执行。值得注意的是，req 仍然会执行完成，但是已经无意义了。
+
+promise 超时控制原理一样，把一个设定超时时间的 promise 和正常的请求放到 Promise.race()中即可。
 
 ## 参考
 

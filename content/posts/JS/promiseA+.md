@@ -232,17 +232,17 @@ class _Promise {
   // 返回一个promise，其value是入参所有promise的value集合数组,
   // 内部调用Promsie.resolve把结果存入数组, 需要一个计数器, 监听全部完成后，改变返回promise的状态
   static all(promises) {
-    let count = 0
-    const max = promises.length
-    const res = []
-    return new _Promise((resolve, reject) => {
-      for (const p of promises) {
-        _Promise.resolve(p).then((v) => {
-          res[count++] = v
-          if(count === max) resolve(res)
-        })
-      }
-    })
+    let count = 0;
+    const res = [];
+    return new Promise((resolve, reject) => {
+      promises.forEach((p, index) => {
+        Promise.resolve(p).then((r) => {
+          count++;
+          res[index] = r;
+          if (count === promises.length) resolve(res);
+        });
+      });
+    });
   }
   // 这个简单, 也给完成了就直接改变返回promise的状态即可
   static race(promises) {
