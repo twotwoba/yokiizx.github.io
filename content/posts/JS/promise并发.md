@@ -12,62 +12,36 @@ tags: [JavaScript, promise]
 关键点，一个限定数量的请求池，一个 promise 有结果后，再去加入下一个请求，递归直到所有结束。
 
 ```JavaScript
+const mockReq = function (time) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(time);
+    }, time);
+  });
+};
+const reqList = [1000, 2000, 2000, 3000, 3000, 5000];
+const res = [];
+
 /**
- * @desc    控制并发请求，注意请求池内的是 promise 实例，而不是请求函数
- * @param   {Promise[]} ajaxFns - 请求函数集合
- * @param   {Number}    limit   - 请求池限制
+ * 核心就是利用递归调用请求，在then回调中自动加入请求池
  */
-const concurrentPromise = (ajaxFns, limit) => {
-  // if (limit >= ajaxFns.length) return Promise.all(ajaxFns.map(fn => fn()))
-  const pool = []
-  const ret = []
+function concurrentPromise(limit) {
+  const pool = [];
   for (let i = 0; i < limit; ++i) {
-    const promise = ajaxFns.shift()()
-    // pool.push(promise) // 由于 后续需要递归的更新请求池，所以提取一个递归函数
-    managePool(pool, promise, ret, ajaxFns)
+    // pool.push(mockReq(reqList.shift());
+    managePool(pool, mockReq(reqList.shift()));
   }
 }
-
-/**
- * 递归调用请求，利用then的回调
- */
-function managePool(pool, promise, ret, ajaxFns) {
-  pool.push(promise)
-  promise.then(res => {
-    ret.push(res)
-    pool.splice(pool.indexOf(promise), 1)
-    const next = ajaxFns.shift()
-    next !== undefined && managePool(pool, next(), ret, ajaxFns)
-    pool.length === 0 && console.log('ret', ret)
-  })
+function managePool(pool, promise) {
+  pool.push(promise);
+  promise.then((r) => {
+    res.push(r);
+    pool.splice(pool.indexOf(promise), 1);
+    if (reqList.length) managePool(pool, mockReq(reqList.shift()));
+    pool.length === 0 && console.log('ret', res);
+  });
 }
-
-/* ---------- 测试 ---------- */
-const test = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-/**
- * 创建模拟请求函数
- */
-const imitateAjax = i => {
-  return () => {
-    console.log('start --: ', i)
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(i)
-        console.log('end ==: ', i)
-      }, (Math.random() + 1) * i * 100)
-    })
-  }
-}
-function run(params) {
-  const requests = []
-  for (let i = 0; i < params.length; i++) {
-    requests.push(imitateAjax(test[i]))
-  }
-  return requests
-}
-
-concurrentPromise(run(test), 3)
+concurrentPromise(3);
 ```
 
 重点是：
@@ -80,22 +54,22 @@ concurrentPromise(run(test), 3)
 通过 aync + promise.race 能更简单的控制。
 
 ```JavaScript
-const asyncPool = async (ajaxFns, limit) => {
-  const res = []
-  const pool = []
-  for (const fn of ajaxFns) {
-    const p = fn()
-    res.push(p)
-    if (limit < ajaxFns.length) {
-      const e = p.then(() => pool.splice(pool.indexOf(e), 1))
-      pool.push(e)
-      if (pool.length === limit) {
-        await Promise.race(pool)
-      }
+async function concurrentPromise(limit) {
+  const pool = [];
+  for (let i = 0; i < reqList.length; ++i) {
+    const req = mockReq(reqList[i]);
+    pool.push(req);
+    req.then((r) => {
+      res.push(r);
+      pool.splice(pool.indexOf(req), 1);
+      if (pool.length === 0) console.log(res);
+    });
+    if (pool.length === limit) {
+      await Promise.race(pool);
     }
   }
-  return Promise.all(res)
 }
+concurrentPromise(3);
 ```
 
 关键点：与原生 promise 维护一个请求池不同的是，直接通过**普通 for** 循环添加 await 和 Promise.race 来实现等待效果。
@@ -106,4 +80,4 @@ const asyncPool = async (ajaxFns, limit) => {
 
 ## 参考
 
-- [async-pool](https://github.com/rxaviers/async-pool/blob/master/lib/es6.js)
+- [async-pool](https://github.com/rxaviers/async-pool/blob/master/lib/es9.js)
