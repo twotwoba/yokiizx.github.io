@@ -1,7 +1,8 @@
 ---
 title: 'Git自用手册'
-date: 2022-09-18T20:36:01+08:00
+date: 2022-09-19T20:36:01+08:00
 tags: [engineer, git]
+weight: 2
 ---
 
 **本文基于 git version 2.32.0**
