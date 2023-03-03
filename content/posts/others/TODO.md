@@ -12,7 +12,7 @@ tags: [TODO]
 - [x] log-shiny babel 插件开发
 - [x] webpack
 - [ ] rollup
-- [ ] lerna
+- [x] lerna
 
 ##### 框架
 
