@@ -1,5 +1,5 @@
 ---
-title: '重学TypeScript'
+title: 'TypeScript自用手册'
 date: 2023-03-07T11:39:43+08:00
 tags: [TypeScript]
 ---
@@ -11,6 +11,9 @@ tags: [TypeScript]
 ---
 
 ## 基础
+
+<details>
+<summary>点击查看详细内容</summary>
 
 ##### 两个基础配置
 
@@ -93,6 +96,153 @@ const req = { url: "https://example.com", method: "GET"} as const
 const req = { url: "https://example.com", method: "GET" as "GET"}
 ```
 
+`as const` 类似的断言也出现在 rest arguments
+
+```TS
+// Inferred as 2-length tuple
+const args = [8, 5] as const;
+const angle = Math.atan2(...args);
+```
+
+---
+
+##### 函数类型
+
+- 函数表达式
+  ```TS
+  type Fn = (p: string) => void
+  ```
+- 调用签名
+  ```TS
+  type DescribableFunction = {
+    description: string;
+    (someArg: number): boolean;
+  };
+  interface CallOrConstruct {
+    new (s: string): Date; // 构造函数类型
+    (n?: number): number;
+  }
+  ```
+
+##### 函数的泛型
+
+当函数的『输入、输出有关联』或者『输入的参数之间』有关联，那么就可以考虑到使用泛型了。
+
+```TS
+// 这样函数调用后的返回数据的类型会被 「自动推断」 出来
+function firstEl<T>(arr: T[]): T | undefined {
+  return arr[0];
+}
+
+// 「泛型约束」 也使用 extends 关键字, 下方T必须具有一个length属性
+function first<T extends {length: number}>(p: T[]): T | undefined {
+  return p[0];
+}
+
+// 有时候泛型不确定可能有不同值，那么在--调用的时候--需要 「手动指明」
+function combine<Type>(arr1: Type[], arr2: Type[]): Type[] {
+  return arr1.concat(arr2);
+}
+const demo = combine<string | number>([1,2,3], ['hello'])
+```
+
+##### 函数重载
+
+```TS
+function fn(x: boolean): void;
+function fn(x: string): void;
+// Note, implementation signature needs to cover all overloads
+function fn(x: boolean | string) {
+  console.log(x)
+}
+```
+
+##### unknown | void | never
+
+- unknown，相比 any 更加安全，比如：
+  ```TS
+  function demo(a: unknown) {
+    a.b() // ts 会提示 'a' is of type 'unknown'
+  }
+  ```
+- void， 不是表示不返回值，而是会忽略返回值
+
+  ```TS
+  type voidFunc = () => void;
+  const fn: voidFunc = () => true; // is ok
+  const a = fn() // a is void type
+
+  // but! 如果直接字面量function声明的话 机会报错
+  function f2(): void {
+    // @ts-expect-error
+    return true; // 没有上方注释就会报错了
+  }
+  ```
+
+- never，表示不存在的类型
+
+---
+
+##### 索引签名
+
+预先不清楚具体属性名，但是知道数据结构就可以使用这个了。
+
+能做索引签名的有这几种：
+
+- string
+- number
+- symbol
+- 模板字符串
+- 以上四种的组合的联合类型
+
+需要注意的是，如果对象中同时存在两个索引，那么其他索引的返回类型必须是 string 索引的子集：
+
+```TS
+interface Animal {
+  name: string;
+}
+interface Dog extends Animal {
+  age: string;
+}
+// Animal 和 Dog 交换一下才对
+interface Demo {
+  [x: number]: Animal;
+  [x: string]: Dog;
+}
+```
+
+##### 对象的泛型
+
+更优雅的处理对象类型，这可以帮助我们避免写函数重载。
+
+```TS
+interface Demo<T> {
+  type: T;
+}
+const a: Demo<string> = {
+  type: 'hello'
+}
+```
+
+`type` 别名表示范围比 `interface` 接口更大，所以对于泛型的使用范围更广：
+
+```TS
+type OrNull<Type> = Type | null;
+
+type OneOrMany<Type> = Type | Type[];
+
+type OneOrManyOrNull<Type> = OrNull<OneOrMany<Type>>; // 等价于 OneOrMany<Type> | null
+
+type OneOrManyOrNullStrings = OneOrManyOrNull<string>; // 等价于 string | string[] | null
+```
+
+---
+
+</details>
+
+## 类型操控
+
+TODO
 ##### 常见报错
 
 - `Cannot redeclare block-scoped variable 'xxx'` || `Duplicate function implementation` 这种错误除了在自身文件中有重复声明，也有可能是因为在上下文中被声明了，比如你 tsc 一个 ts 文件后，ts 文件内的代码就会飘出此类报错~
