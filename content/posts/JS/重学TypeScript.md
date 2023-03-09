@@ -238,11 +238,266 @@ type OneOrManyOrNullStrings = OneOrManyOrNull<string>; // 等价于 string | str
 
 ---
 
+##### class 相关
+
+`strictPropertyInitialization` 控制 class 中的属性必须初始化。
+
+[classes 基础](https://www.typescriptlang.org/docs/handbook/2/classes.html)
+
+<details>
+<summary>一个高阶知识：1. 父类构造器总是会使用它自己字段的值，而不是被重写的那一个，2. 但是它会使用被重写的方法。这是类字段和类方法一大区别，另一大区别就是this的指向问题了，类字段赋值的方法可以保证this不丢失。</summary>
+
+```JavaScript
+class Animal {
+  showName = () => {
+    console.log('animal');
+  };
+
+  constructor() {
+    this.showName();
+  }
+}
+
+class Rabbit extends Animal {
+  showName = () => {
+    console.log('rabbit');
+  };
+}
+
+new Animal(); // animal
+new Rabbit(); // animal
+/* ---------- 因为上方都是类字段，父构造器只使用自己的字段值而不是重写的---------- */
+class Animal {
+  showName() {
+    console.log('animal');
+  }
+  constructor() {
+    this.showName();
+  }
+}
+
+class Rabbit extends Animal {
+  showName() {
+    console.log('rabbit');
+  }
+}
+
+new Animal(); // animal
+new Rabbit(); // rabbit
+```
+
+另一个知识点就是为什么子类构造器中想要使用 this 必须先调用 `super()`？
+
+在 JavaScript 中，继承类（所谓的“派生构造器”，英文为 “derived constructor”）的构造函数与其他函数之间是有区别的。派生构造器具有特殊的内部属性 [[ConstructorKind]]:"derived"。这是一个特殊的内部标签。该标签会影响它的 new 行为：
+
+- 当通过 new 执行一个常规函数时，它将创建一个空对象，并将这个空对象赋值给 this。
+- 但是当继承的 constructor 执行时，它不会执行此操作。它期望父类的 constructor 来完成这项工作
+
+因此，派生的 constructor 必须调用 super 才能执行其父类（base）的 constructor，否则 this 指向的那个对象将不会被创建。并且我们会收到一个报错。
+
 </details>
+
+</details>
+
+- public，默认值
+- protected，父类自身和子类可以访问，实例不行
+- private，只有父类自身访问，实例不行
+
+抽象类，(abstract) 不能被实例化，可以被继承，抽象属性和方法在子类中必须被实现。
+
+##### enum 枚举类型
+
+枚举比较特别，它不是一个 type-level 的 JS 拓展。
+
+```TS
+enum Direction {
+  Up = 'up',
+  Down = 'down',
+  Left = 'left',
+  Right = 'right'
+}
+/* ---------- 编译后 ---------- */
+var Direction;
+(function (Direction) {
+    Direction["Up"] = "up";
+    Direction["Down"] = "down";
+    Direction["Left"] = "left";
+    Direction["Right"] = "right";
+})(Direction || (Direction = {}));
+```
+
+可以看见，枚举类型编译后实际上是创建了一个完完整整的对象的。
+
+如果枚举类型未被初始化，默认从 0 开始。值为数字的枚举会被编译成如下模式：
+
+```TS
+enum Type {
+  key
+}
+Type[Type["key"] = 0] = "key";
+// 这样 Type[0] == key || Type[key] == 0
+
+// 如果想要只能通过 key 访问，可以设置为常量枚举:
+const enum Type {
+  key
+}
+```
 
 ## 类型操控
 
-TODO
+##### keyof
+
+获取其他类型的 「键」 收集起来 组合成联合类型。
+
+```TS
+type Point = { x: number; 1: number };
+type P = keyof Point;
+
+const d: P = 'x'
+const d: P = 1
+
+// 对于索引签名 keyof 获取到其类型，特殊的：索引签名为字符串时，keyof拿到的类型是 string|number
+type Mapish = { [k: string]: boolean };
+type M = keyof Mapish;
+
+const a: M = '1234';
+const b: M = 1234;
+```
+
+##### typeof
+
+对应基本类型，typeof 和 js 没什么区别。主要应用在引用类型。
+
+```TS
+type fn = () => boolean;
+type x = ReturnType<fn>; // x: boolean
+
+/* ---------- 如果想直接对一个函数进行返回类型的获取就得用到typeof了 ---------- */
+const demo = () => true;
+type y = ReturnType<typeof demo>; // y: boolean
+```
+
+##### 索引访问类型
+
+```TS
+type Person = { age: number; name: string; alive: boolean };
+type Age = Person["age"];
+// 注意: 不能通过设置变量 x 为 'age'，然后通过 Person[x] 来获取
+// 但是，可以通过设置type x = ‘age'，再通过 Person[x] 来获取
+```
+
+特殊的，针对数组，可以通过 `number` 和 `typeof` 来获取到数组每个元素类型组成的联合类型：
+
+```TS
+const Arr = [
+  'hello',
+  18,
+  {
+    man: true
+  }
+];
+
+type demo = typeof Arr[number];
+
+// type demo = string | number | {
+//     name: boolean;
+// }
+```
+
+##### 映射类型
+
+如果当两种类型 key 一样，只是改变了其对应的类型，那么就可以考虑基于索引类型的类型转换了。
+
+```TS
+type FeatureFlags = {
+  darkMode: () => void;
+  newUserProfile: () => void;
+};
+type OptionsFlags<Type> = {
+  [Property in keyof Type]: boolean;
+};
+
+type FeatureOptions = OptionsFlags<FeatureFlags>;
+
+// type FeatureOptions = {
+//     darkMode: boolean;
+//     newUserProfile: boolean;
+// }
+
+// 可以通过 -readonly -? 来去除原来的描述符
+```
+
+TS4.1 版本之后，可以通过 `as` 关键字来重命名获取到的 key。
+
+```TS
+type MappedTypeWithNewProperties<Type> = {
+    [Properties in keyof Type as NewKeyType]: Type[Properties]
+}
+
+// NewKeyType 往往是使用 模板字符串
+type Getters<Type> = {
+    [Property in keyof Type as `get${Capitalize<string & Property>}`]: () => Type[Property]
+};
+
+interface Person {
+    name: string;
+    age: number;
+    location: string;
+}
+
+type LazyPerson = Getters<Person>;
+
+// type LazyPerson = {
+//     getName: () => string;
+//     getAge: () => number;
+//     getLocation: () => string;
+// }
+```
+
+## 有用内置类型操作
+
+参见 [Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html)
+
+记几个常用的吧：
+
+- Awaited<Type>
+- Partial<Type>
+- Required<Type>
+- Readonly<Type>
+- Record<Keys, Type>
+
+  ```TS
+  // keyof any  === string | number | symbol
+  type Record<K extends keyof any, T> = {
+    [P in K]: T;
+  };
+  ```
+
+- Pick<Type, keys>
+  ```TS
+  type Pick<T, K extends keyof T> = {
+    [P in K]: T[P];
+  };
+  ```
+- Omit<Type, keys>
+  ```TS
+  // omit 忽略
+  type Omit<T , K extends keyof any> = Pick<T, Exclude<keyof T, K>>
+  ```
+- Exclude<UnionType，ExcludedMembers>
+  ```TS
+  // 注意：这个是针对联合类型的，当 T 为联合类型时，会触发自动分发
+  // 1 | 2 extends 3 === 1 extends 3 | 2 extends 3
+  type Exclude<T, U> = T extends U ? never : T;
+  ```
+- Extract<Type, Union>
+  ```TS
+  // 提取
+  type Extract<T, U> = T extends U ? T : never;
+  ```
+- NonNullable<Type>
+- ReturnType<Type>
+
 ##### 常见报错
 
 - `Cannot redeclare block-scoped variable 'xxx'` || `Duplicate function implementation` 这种错误除了在自身文件中有重复声明，也有可能是因为在上下文中被声明了，比如你 tsc 一个 ts 文件后，ts 文件内的代码就会飘出此类报错~

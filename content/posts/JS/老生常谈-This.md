@@ -47,7 +47,7 @@ var demo = {
 demo.learn(); // 上下文为demo
 // 94yk is learning JS
 
-/* ---------- 用一个变量去引用对象的方法 ---------- */
+/* ---------- 对象方法被传递到了某处，这里为learn ---------- */
 var learn = demo.learn;
 learn(); // 上下文为window
 // yokiizx is learning JS   (注意是浏览器环境下)
@@ -55,8 +55,8 @@ learn(); // 上下文为window
 
 有些人喜欢把上方第二种情况称为 `this 丢失`，其实在我看来，`无非就是上下文的不同而已`。
 
-> 注意：变量是使用`var`关键字进行声明的而非`let/const`；
-> 若是 `name` 用 `let/const` 声明，则最后在浏览器中的输出是'undefined is learning JS'；
+> 注意：变量是使用`var`关键字进行声明的而非`let/const`；  
+> 若是 `name` 用 `let/const` 声明，则最后在浏览器中的输出是'undefined is learning JS'；  
 > 原因是：只有 var 声明的变量才会被加到它所在的上下文的变量对象上，详细见前文--闭包
 
 ## 箭头函数
@@ -126,6 +126,53 @@ function _new(fn, ...args) {
   return res instanceof Object ? res : obj;
 }
 ```
+
+## Class
+
+```JavaScript
+class Button {
+  constructor(value) {
+    this.value = value;
+  }
+  // 类方法，不可枚举
+  click() {
+    alert(this.value);
+  }
+}
+
+let button = new Button("hello");
+setTimeout(button.click, 1000); // undefined，因为变更了上下文，this指向到了全局上下文
+```
+
+没错，类中也会产生 `this丢失` 的问题，解决方法：
+
+1. 将方法绑定到 `constructor` 中
+   ```TS
+   class Button {
+      constructor(value) {
+        this.value = value;
+        this.click = this.click.bind(this);
+      }
+      click() {
+        console.log(this.value);
+      }
+   }
+   ```
+2. 把方法赋值给类字段（推荐，更优雅），因为类字段不是加在 `类.prototype`，而是在每个独立对象中。
+   ```JavaScript
+   class Button {
+     constructor(value) {
+       this.value = value;
+     }
+     click = () => {
+       console.log(this.value)
+     }
+   }
+   ```
+
+用过 React 类组件的兄弟应该对上方两种处理方式很熟悉吧~
+
+当然了，对于上方代码，也可以仅修改 setTimeout 即可 `setTimeout(() => { /** button.click() */})`
 
 ## 总结
 
