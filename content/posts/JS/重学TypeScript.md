@@ -17,6 +17,8 @@ tags: [TypeScript]
 npm i typescript ts-node -g
 ```
 
+- [Type Challenge](https://github.com/type-challenges/type-challenges/blob/main/README.md)，TS 类型中的 leetcode👻
+
 <details>
 <summary>点击查看详细内容</summary>
 
@@ -151,6 +153,54 @@ function combine<Type>(arr1: Type[], arr2: Type[]): Type[] {
 const demo = combine<string | number>([1,2,3], ['hello'])
 ```
 
+##### 函数约束
+
+两个函数类型之间约束涉及到两个概念：
+
+- 协变：子类型赋值给父类型
+- 逆变：父类型赋值给子类型。
+
+```TS
+interface Animal {
+  name: string;
+}
+interface Dog extends Animal {
+  bark: 'wang';
+}
+
+type a = (value: Animal) => Dog
+type b = (value: Dog) => Animal
+
+type c = a extends b ? true : false // true
+
+type e = (value: Dog) => Dog;
+type f = (value: Animal) => Animal;
+
+type g = e extends f ? true : false; // false
+```
+
+结论：入参逆变，返回值协变。
+
+逆变的一大特性是在逆变位置时的推断类型为交叉类型。
+
+```TS
+type Demo<T> = T extends { a: (x: infer U) => void, b: (x: infer U) => void } ? U : never;
+
+type SSS = Demo<{a: (x: string) => void, b: (x:number) => void}> // string & number ==> never
+```
+
+这一特性在把对象联合类型转变为对象交叉类型还是挺好用的。
+
+```TS
+type Value = { a: string } | { b: number }
+// extends 分发联合类型
+type ToUnionFunction<T> = T extends unknown ? (x: T) => void : never;
+type UnionToIntersection<T> = ToUnionFunction<T> extends (x: infer R) => unknown
+        ? R
+        : never
+type Res = UnionToIntersection<Value> // type Res= {  a: string } & { b: number };
+```
+
 ##### 函数重载
 
 ```TS
@@ -247,6 +297,12 @@ type OneOrManyOrNullStrings = OneOrManyOrNull<string>; // 等价于 string | str
 
 `strictPropertyInitialization` 控制 class 中的属性必须初始化。
 
+- public，默认值
+- protected，父类自身和子类可以访问，实例不行
+- private，只有父类自身访问，实例不行
+
+抽象类，(abstract) 不能被实例化，可以被继承，抽象属性和方法在子类中必须被实现。
+
 [classes 基础](https://www.typescriptlang.org/docs/handbook/2/classes.html)
 
 <details>
@@ -302,14 +358,6 @@ new Rabbit(); // rabbit
 
 </details>
 
-</details>
-
-- public，默认值
-- protected，父类自身和子类可以访问，实例不行
-- private，只有父类自身访问，实例不行
-
-抽象类，(abstract) 不能被实例化，可以被继承，抽象属性和方法在子类中必须被实现。
-
 ##### enum 枚举类型
 
 枚举比较特别，它不是一个 type-level 的 JS 拓展。
@@ -349,6 +397,8 @@ const enum Type {
 
 const A: Type = Type.key // A === 0
 ```
+
+</details>
 
 ## 类型操控
 
@@ -472,12 +522,22 @@ type LazyPerson = Getters<Person>;
 - Required<Type>
 - Readonly<Type>
 - Record<Keys, Type>
+  类型约束时，`object` 不能接收原始类型，而 `{}`和 `Object` 都可以，这是它们的区别。
+
+  而 `object` 一般会用 `Record<string, any>` 代替，约束索引类型更加语义化
 
   ```TS
   // keyof any  === string | number | symbol
   type Record<K extends keyof any, T> = {
     [P in K]: T;
   };
+  // 定义对象类型很方便
+  type keys = 'A' | 'B' | 'C'
+  const result: Record<keys, number> = {
+    A: 1,
+    B: 2,
+    C: 3
+  }
   ```
 
 - Pick<Type, keys>
@@ -587,3 +647,18 @@ type LazyPerson = Getters<Person>;
 
 - [TypeScript 官网](https://www.typescriptlang.org/)
 - [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/)
+
+其他：
+
+- [React + TypeScript 实践](https://mp.weixin.qq.com/s/Uw5FzVCopxi4uDM1VmjukA)
+- [TypeScript 类型中的逆变协变](https://mp.weixin.qq.com/s/KuR-_CCYE2qkg2AV8RWcAw)
+- [接近天花板的 TS 类型体操，看懂你就能玩转 TS 了](https://mp.weixin.qq.com/s/CweuipYoHwOL2tpQpKlYLg)
+
+周边：
+
+- ts-node - node 端直接运行 ts 文件
+- typedoc - ts 项目自动生成 API 文档
+- DefinitelyTyped - @types 仓库
+- type-coverage - 静态类型覆盖率检测
+- ts-loader、rollup-plugin-typescript2 - rollup、webpack 插件
+- typeorm - 一个 ts 支持度非常高的、易用的数据库 orm 库
