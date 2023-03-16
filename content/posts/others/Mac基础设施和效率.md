@@ -98,14 +98,20 @@ export LESSHARESET=utf-8
 - `Downie 4`，下载视频神器，[下载地址](https://software.charliemonroe.net/downie/)，这个我支持了正版~
 - `Dash`，汇集了计算机的各种文档，配合 Alfred 查起来特别方便，[下载地址](https://kapeli.com/dash)，这个我也支持了正版~
 
-##### 字体设置选择使用 Fira Code
+##### 字体
 
+强迫症，个人目前最喜欢的字体是 `inconsolata`，点击[inconsolata](https://fonts.google.com/specimen/Inconsolata)进去下载安装即可。
+
+<details>
+<summary>另外，连体字可以选择 Fira Code</summary>
 如果使用下方命令安装不上，建议去 [github 地址](https://github.com/tonsky/FiraCode) 下载下来后手动安装。
 
 ```sh
 brew tap homebrew/cask-fonts
 brew install --cask font-fira-code
 ```
+
+</details>
 
 ## 配置 .vimrc
 
