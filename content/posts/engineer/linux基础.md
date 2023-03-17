@@ -109,6 +109,10 @@ drwxr-xr-x  4 yokiizx  staff   128B Aug  7  2021 Public
 - ||：前一条命令执行失败后才执行后面的命令
 - ; 多个命令按照顺序执行，但不管前面的命令是否执行成功
 
+##### 创建软链
+
+`ln -s source target`，创建软链时路径问题需要注意，「原始文件路径」如果为相对路径，那么相对的是目标文件的相对路径，或者直接使用绝对路径。
+
 ## 参考
 
 - [linux 命令 which,whereis,locate,find 的区别](https://zhuanlan.zhihu.com/p/35727707)
