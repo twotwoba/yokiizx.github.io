@@ -653,6 +653,7 @@ type LazyPerson = Getters<Person>;
 - [React + TypeScript 实践](https://mp.weixin.qq.com/s/Uw5FzVCopxi4uDM1VmjukA)
 - [TypeScript 类型中的逆变协变](https://mp.weixin.qq.com/s/KuR-_CCYE2qkg2AV8RWcAw)
 - [接近天花板的 TS 类型体操，看懂你就能玩转 TS 了](https://mp.weixin.qq.com/s/CweuipYoHwOL2tpQpKlYLg)
+- [细数这些年被困扰过的 TS 问题](https://mp.weixin.qq.com/s/Bo3Z8vzFkCvfDJDoKzxr8w)
 
 周边：
 
