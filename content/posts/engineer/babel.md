@@ -307,13 +307,13 @@ const p = new Promise()
 
 这个例子中，箭头函数和 const 都被转换了，但是 Promise 没什么变化，因为 `useBuiltIns` 被设置为了 false。`useBuiltIns` 一共有三个值：
 
-- false，说简单点就是不使用 polyfill
-- entry，全量引入 polyfill，同时需要项目入口文件的头部引入:
+- `false`，说简单点就是不使用 polyfill
+- `entry`，全量引入 polyfill，同时需要项目入口文件的头部引入:
   ```JavaScript
   import "@babel/polyfill"
   // babel 7.4 后被拆成了 core-js/stable 和 regenerator-runtime/runtime
   ```
-- usage，按需添加 polyfill，根据配置的浏览器兼容，以及代码中 使用到的 Api 添加，不需要去项目入口文件引入：
+- `usage`，按需添加 polyfill，根据配置的浏览器兼容，以及代码中 使用到的 Api 添加，不需要去项目入口文件引入：
 
   ```JavaScript
   {
