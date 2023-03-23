@@ -10,7 +10,8 @@ tags: [engineer]
 
 下文是我认为前端人至少需要掌握的知识点。
 
-> [关于 package.json](https://docs.npmjs.com/cli/v7/configuring-npm/package-json)，
+> [官网关于 package.json](https://docs.npmjs.com/cli/v7/configuring-npm/package-json)  
+> [或者掘金这篇](https://juejin.cn/post/7099041402771734559)
 
 ## npm init
 
@@ -160,11 +161,11 @@ npm run [key] -d # 全称是 --loglevel verbose 也可简写为 --verbose
 
 ```js
 // test.js
-const args = process.argv;
-console.log('📌📌📌 ~ args', args);
+const args = process.argv
+console.log('📌📌📌 ~ args', args)
 
-const env = process.env.NODE_ENV;
-console.log('📌📌📌 ~ env', env);
+const env = process.env.NODE_ENV
+console.log('📌📌📌 ~ env', env)
 ```
 
 此外，`process.env` 可以获取到本机的环境变量配置，常用的如：
