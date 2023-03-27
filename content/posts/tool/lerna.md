@@ -1,7 +1,7 @@
 ---
 title: 'Lerna'
 date: 2022-09-21T17:16:09+08:00
-tags: [engineer]
+tags: [tool]
 ---
 
 > Lerna is a fast, modern build system for managing and publishing multiple JavaScript/TypeScript packages from the same repository.

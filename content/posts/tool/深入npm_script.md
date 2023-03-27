@@ -1,7 +1,7 @@
 ---
-title: 'npm script'
+title: '深入npm script'
 date: 2022-12-02T20:40:32+08:00
-tags: [engineer]
+tags: [npm, script]
 ---
 
 **npm script 是一个前端人必须得掌握的技能之一。本文基于 npm v7 版本**
@@ -10,8 +10,7 @@ tags: [engineer]
 
 下文是我认为前端人至少需要掌握的知识点。
 
-> [官网关于 package.json](https://docs.npmjs.com/cli/v7/configuring-npm/package-json)  
-> [或者掘金这篇](https://juejin.cn/post/7099041402771734559)
+> [npm - package.json](https://docs.npmjs.com/cli/v7/configuring-npm/package-json)
 
 ## npm init
 

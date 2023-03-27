@@ -1,7 +1,7 @@
 ---
 title: 'Mac基础设施和效率'
 date: 2022-09-13T11:24:00+08:00
-tags: [mac, engineer]
+tags: [mac, tool]
 weight: 1
 ---
 

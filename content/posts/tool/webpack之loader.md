@@ -1,7 +1,7 @@
 ---
 title: 'Webpack之loader'
 date: 2023-01-05T22:12:13+08:00
-tags: [engineer]
+tags: [tool]
 ---
 
 Loader 就像一个翻译员，能将源文件经过转化后输出新的结果，并且一个文件还可以链式地经过多个翻译员翻译。

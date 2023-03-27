@@ -1,7 +1,7 @@
 ---
 title: 'Webpack核心流程'
 date: 2023-01-04T17:15:44+08:00
-tags: [engineer]
+tags: [tool]
 ---
 
 **本文基于 webpack5，不说废话**
@@ -550,7 +550,7 @@ class Compiler {
 3. hash, chunkhash, contenthash
    这个可以顾名思义。首先 hash 是随机唯一的，它的作用是一般是用来结合 CDN 处理缓存的，当文件发生改变，hash 也就变化，触发 CDN 服务器去源服务器拉取数据，更新本地缓存。它们三个就是触发文件 hash 变化的条件不同：`[name].[hash].js` 计算的是整个项目的构建；chunkhash 计算的是 chunk；contenthash 计算的是内容。
 
-## 补充: Tapable 见 [webpack 之 plugin](https://yokiizx.site/posts/engineer/webpack%E4%B9%8Bplugin/)
+## 补充: Tapable 见 [webpack 之 plugin](https://yokiizx.site/posts/tool/webpack%E4%B9%8Bplugin/)
 
 ## 参考
 

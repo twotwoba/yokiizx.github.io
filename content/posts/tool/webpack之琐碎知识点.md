@@ -1,7 +1,7 @@
 ---
 title: 'Webpack之琐碎知识点'
 date: 2023-01-30T10:54:44+08:00
-tags: [engineer]
+tags: [tool]
 ---
 
 ## HMR

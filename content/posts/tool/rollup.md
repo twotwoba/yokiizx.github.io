@@ -1,7 +1,7 @@
 ---
 title: 'Rollup'
 date: 2022-09-21T17:15:49+08:00
-tags: [engineer]
+tags: [tool]
 ---
 
 ## Rollup 的六种输出
