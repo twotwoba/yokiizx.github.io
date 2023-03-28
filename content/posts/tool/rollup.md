@@ -65,6 +65,11 @@ tags: [tool]
 
 - [rollup-template](https://github.com/yokiizx/rollup-template)
 
+> 注意：
+>
+> - 一般 esm 格式，为了支持按需引入，构建过程只编译，不打包；需要 `.d.ts` 文件；可以使用ESB
+> - umd 格式更多的被用在 cdn 加载，所以构建物不仅需要编译，还需要打包；无需 `.d.ts` 文件
+
 ## reference
 
 - [打包工具 rollup.js 入门教程](https://www.ruanyifeng.com/blog/2022/05/rollup.html)

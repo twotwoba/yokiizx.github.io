@@ -1,7 +1,6 @@
 ---
 title: 'TODO'
 date: 2022-08-08T17:34:15+08:00
-tags: [TODO]
 ---
 
 ##### 工程化
@@ -11,7 +10,7 @@ tags: [TODO]
 - [x] babel
 - [x] log-shiny babel 插件开发
 - [x] webpack
-- [X] rollup
+- [x] rollup
 - [x] lerna
 
 ##### 框架

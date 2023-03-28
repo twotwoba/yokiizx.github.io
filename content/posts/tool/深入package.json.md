@@ -86,9 +86,17 @@ tags: [npm, module]
 
 指定该 npm 包内文件都遵循 type 的模块化规范。
 
+##### typs 和 typings
+
+`types` 属性指定了该包所提供的 TypeScript 类型的入口文件（.d.ts 文件）。
+
+`typings` 属性是 `types` 属性的旧版别名，如果需要向后兼容，都写上即可。
+
 ##### files
 
-控制哪些文件进入安装包中，如果不配置，默认打包所有文件，`.gitignore`文件中
+包发布时，需要将哪些文件上传。
+
+即控制哪些文件进入 npm 安装包中，如果不配置，默认打包所有文件，`.gitignore`文件中
 
 ##### peerDependencies
 
@@ -119,6 +127,21 @@ tags: [npm, module]
 ```
 
 作用：当 `npm install` 的时候，就会去检查 `workspaces` 中的配置，然后创建软链到顶层 `node_modules`中。
+
+##### repository
+
+描述包源代码的位置，指定包代码的存储库类型（如 git，svn 等）和其位置（URL）。
+
+`repository` 字段的格式通常为一个对象，其中包含了 `type` 和 `url` 字段。`type` 指定代码仓库的类型，通常为 `git`。`url` 指定代码仓库的 `Web` 地址。
+
+```JSON
+"repository": {
+  "type": "git",
+  "url": "https://github.com/example/my-project.git"
+}
+```
+
+如果一个项目没有在 `package.json` 文件中指定 `repository` 字段，则无法通过 `npm` 安装该项目。
 
 ## Reference
 
