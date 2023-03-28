@@ -55,13 +55,14 @@ arr[i] = base_address + （i -1）* type_size
 - 二维数组初始化：
 
   ```JavaScript
-  const dp = Array.from(new Array(m), () => new Array(n).fill(0))
+  const dp = Array.from(Array(m), () => Array(n).fill(0))
   ```
 
 - 索引区间长度：
   - `[i..j]`，闭区间索引之间的长度是`j - i + 1`
   - `(i..j)`，开区间索引之间的长度是`j - i - 1`
   - `[i..j)`，表示从 i 到 j 需要多少步，`j - i`
+
 
 ## 链表
 

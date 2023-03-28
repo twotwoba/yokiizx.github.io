@@ -45,13 +45,27 @@ tags: [tool]
 - [@rollup/plugin-strip](https://www.npmjs.com/package/@rollup/plugin-strip)，移出 `debugger` 类的语句，如：`console.log()`
 
 <details>
-<summary>@rollup/plugin-run和rollup-plugin-serve和rollup-plugin-liveload的区别</summary>
+<summary>@rollup/plugin-run和rollup-plugin-serve和rollup-plugin-liveload</summary>
 
 1. `@rollup/plugin-run `：用于在打包完成后自动运行生成的代码（包括命令行工具和服务等），可以帮助开发者快速地运行和测试项目。比如，你可以在 npm script 中使用这个插件来启动构建后的打包文件。
 2. `rollup-plugin-serve` ：用于在开发过程中实时地提供一个 Web 服务器，可以使开发者在本地预览调试代码，具有文件监听、自动刷新等功能。
 3. `rollup-plugin-liveload` ：也是用于实现实时预览和自动刷新的插件，但与 rollup-plugin-serve 不同的是，它并不包含 Web 服务器，而是会打开指定的 HTML 文件，并在其中注入一个 WebSocket 客户端来实现实时刷新的效果。
 
 因此，这三个插件的主要区别在于它们的作用和使用方式。`@rollup/plugin-run` 是一个命令行工具，可以在打包后自动运行生成的代码，`rollup-plugin-serve` 和 `rollup-plugin-liveload` 则都是用于开发过程中的实时预览和自动刷新，但 `rollup-plugin-serve` 提供了一个 Web 服务器，而 `rollup-plugin-liveload` 则需要手动在 HTML 文件中添加 WebSocket 客户端代码。
+
+举个例子：
+
+```JS
+const isProduction = process.env.NODE_ENV === 'production'
+const pluginsWithEnv = isProduction ? [] : [serve({
+  open: true,
+  openPage: '/base/',
+  port: 8888,
+  contentBase: ['dist', 'examples']
+}), livereload('dist/umd')]
+
+// 最后可以把 pluginsWithEnv 解构到 plugins 中.
+```
 
 </details>
 
@@ -67,7 +81,7 @@ tags: [tool]
 
 > 注意：
 >
-> - 一般 esm 格式，为了支持按需引入，构建过程只编译，不打包；需要 `.d.ts` 文件；可以使用ESB
+> - 一般 esm 格式，为了支持按需引入，构建过程只编译，不打包；需要 `.d.ts` 文件；可以使用 ESB
 > - umd 格式更多的被用在 cdn 加载，所以构建物不仅需要编译，还需要打包；无需 `.d.ts` 文件
 
 ## reference
