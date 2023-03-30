@@ -1,8 +1,8 @@
-Hi, here is my blog, I'm yokiizx~.
+Hi~ here is my blog, I'm Kai Yuan.
 
-Keep the love of Learning 📚  
-Keep the love of Living 🏡  
-Keep the love of YoLing ❤️
+Keep the love of coding 💻  
+Keep the love of living 🏖  
+Keep the love of learning 📖
 
 ![html](https://img.shields.io/badge/_-HTML-C5654F?logo=html5&logoColor=white) ![css](https://img.shields.io/badge/_-CSS-397DBA?logo=css3&logoColor=white) ![js](https://img.shields.io/badge/_-JavaScript-yellow?logo=javascript&)
 
