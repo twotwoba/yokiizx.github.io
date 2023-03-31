@@ -96,7 +96,19 @@ tags: [npm, module]
 
 包发布时，需要将哪些文件上传。
 
-即控制哪些文件进入 npm 安装包中，如果不配置，默认打包所有文件，`.gitignore`文件中
+```JSON
+{
+  "name": "my-package",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "files": [
+    "dist/",
+    "README.md"
+  ]
+}
+```
+
+注意：`dist/` 写法是上传 `dist` 文件夹下的所有文件，如果整个 dist 需要加入发包，改为 `dist` 即可。
 
 ##### peerDependencies
 
