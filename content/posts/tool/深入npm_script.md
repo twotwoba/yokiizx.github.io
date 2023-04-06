@@ -284,6 +284,8 @@ npm link
 npm link raect react-dom scheduler # 此优先级是高于本地安装的依赖的
 ```
 
+> 解除包是注意：如果是开发 cli 这样的全局包时，需要使用 `npm unlink <pkgName> -g` 才能生效.
+
 ## npm 发布
 
 首先得有 npm 账号，直接去官网注册就好，其次有一个可以发布的包，然后：
