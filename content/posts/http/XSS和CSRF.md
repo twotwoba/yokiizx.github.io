@@ -22,7 +22,7 @@ XSS 和 CSRF 问题是很基础、传统的安全问题，本文不做安全拓�
   http://xxx/search?keyword="><script>alert('XSS');</script>
   http://xxx/?redirect=%20javascript:alert('XSS')
   ```
-- DOM 型：攻击者构造包含恶意代码的 url，用户打开后，浏览器直接解析恶意代码，发起攻击。
+- DOM 型：攻击者构造包含恶意代码的 url，用户打开后，浏览器直接解析恶意代码，发起攻击。比如直接使用 `document.write()`、`.innerHTML` 这种不安全的 api。
 
 前两个属于服务端的安全漏洞，往往也是服务端渲染，DOM 型属于纯前端的安全漏洞，即取出和执行恶意代码都是由浏览器端完成。
 
@@ -71,7 +71,7 @@ XSS 和 CSRF 问题是很基础、传统的安全问题，本文不做安全拓�
     <input type="hidden" name="for" value="hacker" />
   </form>
   <script>
-    document.forms[0].submit();
+    document.forms[0].submit()
   </script>
   ```
 
@@ -87,8 +87,8 @@ XSS 和 CSRF 问题是很基础、传统的安全问题，本文不做安全拓�
     <head>
       <script type="text/javascript">
         function steal() {
-          iframe = document.frames['steal'];
-          iframe.document.Submit('transfer');
+          iframe = document.frames['steal']
+          iframe.document.Submit('transfer')
         }
       </script>
     </head>
