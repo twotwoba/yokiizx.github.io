@@ -52,6 +52,11 @@ scrollTo(pageX,pageY) // 滚动到绝对坐标
 scrollToView() // 滚到视野里
 ```
 
+## 常用的操作
+
+- 判断是否触底（无限加载之类）：`offsetHeight + scrollTop >= scollHeight`
+- 判断是否进入可视区域（懒加载图片之类）：`offsetTop < clientHeight + scrollTop`
+
 ## 坐标
 
 - clientX/clientY 相对于窗口
