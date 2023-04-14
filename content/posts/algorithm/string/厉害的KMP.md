@@ -16,9 +16,7 @@ so，那就搞懂它。
 
 KMP 算法的核心思想是：利用模式串中的重复子串来进行匹配。在匹配过程中，如果遇到重复子串，就跳过它，只匹配后面的部分。这样可以避免在匹配过程中多次重复处理同一个子串，从而提高匹配效率。
 
-现象就是：在 txt 中寻找 pat，永不回退在 txt 上移动的指针 i，不走回头路（不会重复扫描 txt），而是借助 `dp 数组`中储存的信息把 pat 移到正确的位置继续匹配，时间复杂度只需 O(N)，用空间换时间。
-
-> 之所以说 dp 数组，是因为这里需要动态规划的思路来推导，见下方。
+现象就是：在 txt 中寻找 pat，永不回退在 txt 上移动的指针 i，不走回头路（不会重复扫描 txt），而是借是前缀函数 `π(i)` (网上很多也称为 `next 数组`)中储存的信息把 pat 移到正确的位置继续匹配，时间复杂度只需 `O(N)`，用空间换时间。
 
 ## 两种实现
 
@@ -55,12 +53,12 @@ c
 > 按照定义去求前缀函数时间复杂度将达到 `O(n^3)`，所以需要利用到性质。
 >
 > 1. π(0) = 0
-> 2. π(i) 最大为 π(i-1) + 1
->
-> 解释：假设已知 `π(0...i-1)`，求 `π(i)`，定义指针 `j = π(i-1)`，
->
-> - 如果 `s[i] === s[j]` ，那么 `π(i) = j + 1`;
-> - 如果 `s[i] !== s[j]`，挪动指针 `j` 到下一个最长的可能匹配的位置
+> 2. π(i) 最大为 π(i-1) + 1，即每次最大只能 +1
+
+解释：假设已知 `π(0...i-1)`，求 `π(i)`，定义指针 `j = π(i-1)`，`j` 指针含义———— **在 j 对应的字符前已经有 j 个元素 与 i 对应的字符的前 j 个元素相等**
+
+- 如果 `s[i] === s[j]` ，那么 `π(i) = j + 1`;
+- 如果 `s[i] !== s[j]`，那么挪动指针 `j` 到下一个最长的可能匹配的位置，即 j 指针的前一位（重难点！！！）
 
 ##### 试一试：[28. 找出字符串中第一个匹配项的下标](https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/)
 
@@ -69,11 +67,12 @@ var strStr = function (haystack, needle) {
   const m = haystack.length
   const n = needle.length
   const pi = new Array(n).fill(0)
-  // 对pat求前缀函数, 利用前缀函数的性质, 用j指针来处理前缀
-  for (let j = 0, i = 1; i < n; ++i) { // π(0) == 0; 求 π(1-n-1)
-    while (j > 0 && needle[j] !== needle[i]) j = pi[j - 1] // 不等
-    if (needle[j] === needle[i]) j++ // 相等
-    pi[i] = j
+  // 对pat求前缀函数
+  for (let j = 0, i = 1; i < n; ++i) { // π(0) == 0; 求 π(1...n-1)
+    // 不等, 找已匹配的字符中最长的前后缀长度,即 j 指针的前一位的长度，这部分带点动态规划的思想
+    while (j > 0 && needle[j] !== needle[i]) j = pi[j - 1]
+    if (needle[j] === needle[i]) j++ // 相等, j 指针和 i 指针同时往后移动一位
+    pi[i] = j                        // 更新 pi[i] 的最长相等 「真前/后缀」长度
   }
   console.log(pi)
   // i txt指针, j pat指针
@@ -81,19 +80,17 @@ var strStr = function (haystack, needle) {
     while (j > 0 && haystack[i] !== needle[j]) j = pi[j - 1]
     if (haystack[i] === needle[j]) j++
     if (j === n) {
-      return i - n + 1 // 遍历完了patten, 起始索引位置为i - n +1
+      return i - n + 1 // 遍历完了patten, 起始索引位置为i - n + 1
     }
   }
   return -1
 }
 ```
 
-> 当字符串与模式串匹配失败时：  
-> `移动位数 = 已匹配的字符数 - 对应的部分匹配值(即 pi(i))`。
-
-此题主要使用前缀函数的性质，假想把 pat 和 txt 通过特殊符号#连接起来。然后求前缀函数，分别遍历 pat, txt.  
-对 pat 保存前缀函数值, 对 txt 无需保存,当前缀值等于 pat 的长度时，就是匹配上了，返回索引为 `j - m + 1`
+假想把 pat 和 txt 通过特殊符号#连接起来。然后求前缀函数，当前缀值等于 pat 的长度时，就是匹配上了，返回索引为 `j - m + 1`
 
 ## 参考
 
 - [前缀函数与 KMP 算法](https://oi-wiki.org/string/kmp/)
+- [KMP 算法 next 数组推导详解](https://blog.csdn.net/weixin_50168558/article/details/121318627)
+- [最浅显易懂的 KMP 算法讲解(视频)](https://www.bilibili.com/video/BV1AY4y157yL/?share_source=weixin_web&vd_source=55aa8441b3f5438f746a87f0ac946d08&wxfid=o7omF0bo1aj3AH8fOHTxGWdFxrdM&share_times=1)
