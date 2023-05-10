@@ -89,8 +89,6 @@ export LESSHARESET=utf-8
 
 </details>
 
-欢迎留言补充 👏🏻
-
 ##### [Raycast](https://www.raycast.com/)
 
 对比 **alfred**, 我感觉 **Raycast** 更加现代化，同时也更加符合我的需求，插件也都比较新，集成了 **chatgpt**。so，我毫不犹豫的投入了它的怀抱。
@@ -124,6 +122,8 @@ export LESSHARESET=utf-8
 - `AppCleaner`，干净卸载软件，这个更较小，支持 M1（推荐），[下载地址](https://freemacsoft.net/appcleaner/)。AppDelete 是另一款，但是不支持 M1
 - `Downie 4`，下载视频神器，[下载地址](https://software.charliemonroe.net/downie/)，这个我支持了正版~
 - `Dash`，汇集了计算机的各种文档，配合 Alfred 查起来特别方便，[下载地址](https://kapeli.com/dash)，这个我也支持了正版~
+
+欢迎路过的兄弟留言补充 👏🏻👏🏻👏🏻
 
 ##### 字体
 
