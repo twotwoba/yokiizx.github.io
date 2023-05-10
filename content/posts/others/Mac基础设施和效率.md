@@ -72,19 +72,40 @@ export LESSHARESET=utf-8
 
 </details>
 
-##### [alfred](https://www.alfredapp.com/)
+##### [alfred](https://www.alfredapp.com/)(废弃)
 
-懂得都懂，这个是 mac 上的效率神器了，剪贴板、搜索引擎、自动化工作流等等就不多说了，网上教程很多。
+<details>
+<summary>选择使用 raycast 平替 alfred</summary>
 
-分享一下平时使用的脚本吧：
+~~懂得都懂，这个是 mac 上的效率神器了，剪贴板、搜索引擎、自动化工作流等等就不多说了，网上教程很多。~~
 
-- [VsCode 快速打开项目](https://github.com/alexchantastic/alfred-open-with-vscode-workflow)，别再用手拖了，直接`code 文件夹名` 不香嘛 🍚
-- [CodeVar](https://github.com/xudaolong/CodeVar)，作为程序员起名字是个头疼事，交给它 👈🏻
-- [markdown table](https://github.com/crispgm/alfred-markdown-table)，用 vscode 写 markdown 我想只有 table 最让人厌烦了吧哈哈
-- [alfred-github-repos](https://github.com/edgarjs/alfred-github-repos)，github 快捷搜索
-- [alfred-emoji](https://github.com/jsumners/alfred-emoji) emoji 表情
+~~分享一下平时使用的脚本吧：~~
+
+~~- [VsCode 快速打开项目](https://github.com/alexchantastic/alfred-open-with-vscode-workflow)，别再用手拖了，直接`code 文件夹名` 不香嘛 🍚~~
+~~- [CodeVar](https://github.com/xudaolong/CodeVar)，作为程序员起名字是个头疼事，交给它 👈🏻~~
+~~- [markdown table](https://github.com/crispgm/alfred-markdown-table)，用 vscode 写 markdown 我想只有 table 最让人厌烦了吧哈哈~~
+~~- [alfred-github-repos](https://github.com/edgarjs/alfred-github-repos)，github 快捷搜索~~
+~~- [alfred-emoji](https://github.com/jsumners/alfred-emoji) emoji 表情~~
+
+</details>
 
 欢迎留言补充 👏🏻
+
+##### [Raycast](https://www.raycast.com/)
+
+对比 **alfred**, 我感觉 **Raycast** 更加现代化，同时也更加符合我的需求，插件也都比较新，集成了 **chatgpt**。so，我毫不犹豫的投入了它的怀抱。
+
+它的插件生态较好，使用起来也相当简单，安装完成后，可以去设置中设置 **别名** 或者 **快捷键**。
+
+插件推荐（直接 store 里搜即可）：
+
+- Visual Studio Code Recent Projects，vscode 快读打开项目
+- Easy Dictionary，翻译单词
+- emoji
+- IP-Geolocation 查询 IP
+- Github
+
+不得不说体验真的完美啊~~~ 🥳
 
 ##### 其他软件
 
