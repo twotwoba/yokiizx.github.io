@@ -105,6 +105,12 @@ export LESSHARESET=utf-8
 - IP-Geolocation 查询 IP
 - Github
 
+##### [Karabiner Elements]()
+
+用这个软件我是为了使用 F19 键，来丰富我的快捷键操作~💘
+
+点击 [Change right_command to F19](https://ke-complex-modifications.pqrs.org/?q=F19)。进入页面后，直接 `import`，然后到 `Karabiner Elements` 的 `complex modifications` 内添加规则即可。
+
 不得不说体验真的完美啊~~~ 🥳
 
 ##### 其他软件
@@ -121,7 +127,8 @@ export LESSHARESET=utf-8
 
 ##### 字体
 
-强迫症，个人目前最喜欢的字体是 `inconsolata`，点击[inconsolata](https://fonts.google.com/specimen/Inconsolata)进去下载安装即可。
+强迫症，个人目前最喜欢的字体是 `inconsolata`，可以保证两个英文和一个汉字对齐。  
+点击[inconsolata](https://fonts.google.com/specimen/Inconsolata)进去下载安装即可。
 
 <details>
 <summary>另外，连体字可以选择 Fira Code</summary>
