@@ -74,9 +74,15 @@ menu:
     - name: Tags
       url: '/tags/'
       weight: 2
+    - name: Algorithm
+      url: '/algorithm/'
+      weight: 3
+    - name: English
+      url: '/english/'
+      weight: 4
     # - name: About
     #   url: '/about'
-    #   weight: 3
+    #   weight:
   # footer:
   #   - name: RSS
   #     url: "/index.xml"
