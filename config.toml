@@ -1,5 +1,5 @@
-baseURL = "https://yokiizx.site"
-title = "yk的小破站"
+baseURL = "https://yokiizx.site" # 部署
+title = "Hello World" # 标签上的title 会被params.header.title覆盖 悬浮的时候也会出现
 defaultContentLanguage = "zh-cn"
 languageCode = "zh-CN"
 theme = "DoIt"
@@ -7,23 +7,20 @@ theme = "DoIt"
 [menu]
   [[menu.main]]
     identifier = "posts"
-    # 你可以在名称 (允许 HTML 格式) 之前添加其他信息, 例如图标
     pre = ""
-    # 你可以在名称 (允许 HTML 格式) 之后添加其他信息, 例如图标
     post = ""
     name = "文章"
     url = "/posts/"
-    # 当你将鼠标悬停在此菜单链接上时, 将显示的标题
-    title = ""
+    title = "" # 当你将鼠标悬停在此菜单链接上时, 将显示的标题
     weight = 1
-  [[menu.main]]
-    identifier = "tags"
-    pre = ""
-    post = ""
-    name = "标签"
-    url = "/tags/"
-    title = ""
-    weight = 2
+  # [[menu.main]]
+  #   identifier = "tags"
+  #   pre = ""
+  #   post = ""
+  #   name = "标签"
+  #   url = "/tags/"
+  #   title = ""
+  #   weight = 2
   [[menu.main]]
     identifier = "categories"
     pre = ""
@@ -44,12 +41,12 @@ theme = "DoIt"
 [params]
   #  DoIt 主题版本
   version = "0.3.X"
-  # 网站名称
-  title = "yk的小破站"
+  # 网站名称 (好像设置了没用)
+  title = ""
   # 网站描述
   description = "A website documenting front-end technology and everyday life"
   # 网站关键词
-  keywords = ["yokiizx", "front end", "前端", '算法', 'algorithm', 'html', 'css', 'javascript']
+  keywords = ["yokiizx",  "前端", '算法', "front end", 'algorithm', 'html', 'css', 'javascript', 'react', 'vue']
   #  网站默认主题样式 ("light", "dark", "black", "auto")
   defaultTheme = "dark"
   # 公共 git 仓库路径, 仅在 enableGitInfo 设为 true 时有效
@@ -66,11 +63,12 @@ theme = "DoIt"
   # [试验性功能] 缓存图床图片，详情请见：https://github.com/HEIGE-PCloud/DoIt/pull/860#issue-1574342372
   cacheRemoteImages = false
   #  版权信息
-  # license = '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC NC 4.0</a>'
+  # <a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC NC 4.0</a>
+  license = 'All rights reserved'
   #  应用图标配置
   [params.app]
     # 当添加到 iOS 主屏幕或者 Android 启动器时的标题, 覆盖默认标题
-    title = "yokiizx"
+    title = "前端后花园"
     # 是否隐藏网站图标资源链接
     noFavicon = false
     # 更现代的 SVG 网站图标, 可替代旧的 .png 和 .ico 文件
@@ -86,15 +84,15 @@ theme = "DoIt"
     # 搜索引擎的类型 ("algolia", "fuse")
     type = "fuse"
     # 文章内容最长索引长度
-    contentLength = 4000
+    contentLength = 1000
     # 搜索框的占位提示语
     placeholder = ""
     #  最大结果数目
-    maxResultLength = 10
+    maxResultLength = 8
     #  结果内容片段长度
     snippetLength = 50
     #  搜索结果中高亮部分的 HTML 标签
-    highlightTag = "em"
+    # highlightTag = "em"
     #  是否在搜索索引中使用基于 baseURL 的绝对路径
     absoluteURL = false
     # [params.search.algolia]
@@ -104,7 +102,7 @@ theme = "DoIt"
     [params.search.fuse]
       #  https://fusejs.io/api/options.html
       isCaseSensitive = false
-      minMatchCharLength = 2
+      minMatchCharLength = 3 # 设置为2有bug 输入s会报错
       findAllMatches = false
       location = 0
       threshold = 0.3
@@ -124,9 +122,9 @@ theme = "DoIt"
     #  页面头部导航栏标题配置
     [params.header.title]
       # LOGO 的 URL
-      logo = "/images/dark.svg"
+      logo = "/favicon.ico"
       # 标题名称
-      name = "yk的小破站"
+      name = "Yokiizx"
       # 你可以在名称 (允许 HTML 格式) 之前添加其他信息, 例如图标
       pre = ""
       # 你可以在名称 (允许 HTML 格式) 之后添加其他信息, 例如图标
@@ -153,7 +151,7 @@ theme = "DoIt"
     # ICP 备案信息, 仅在中国使用 (支持 HTML 格式)
     icp = ""
     # 许可协议信息 (支持 HTML 格式)
-    # license = '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
+    license = 'All rights reserved'
 
   #  Section (所有文章) 页面配置
   [params.section]
@@ -191,7 +189,7 @@ theme = "DoIt"
       # 主页显示头像的 URL
       # 将你的头像文件放置于 static 或者 assets 目录下
       # 文件路径是相对于 static 或者 assets 目录的
-      avatarURL = "/images/tn.png"
+      avatarURL = "/images/dog.jpeg"
       #  主页头像下显示的标题 (支持 HTML 格式)
       title = ""
       # 主页显示的网站副标题
@@ -301,6 +299,7 @@ theme = "DoIt"
     #  是否使用 fraction 扩展语法
     fraction = true
     #  是否使用 fontawesome 扩展语法
+    #  注意只能使用 v5 版本 https://fontawesome.com/v5/search
     fontawesome = true
     # 是否在文章页面显示原始 Markdown 文档链接
     linkToMarkdown = true
@@ -333,7 +332,7 @@ theme = "DoIt"
       #  是否保持使用文章前面的静态目录 false 放置右侧
       keepStatic = false
       # 是否使侧边目录自动折叠展开
-      auto = true
+      auto = false
     #  代码配置
     [params.page.code]
       # 是否显示代码块的复制按钮
