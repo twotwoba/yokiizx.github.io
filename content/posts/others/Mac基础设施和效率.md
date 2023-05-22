@@ -1,20 +1,23 @@
 ---
-title: 'Mac基础设施和效率'
+title: 'Mac上的高效软件与配置'
 date: 2022-09-13T11:24:00+08:00
-tags: [mac, tool]
+tags: [mac]
+categories: [mac]
 weight: 1
-toc: true
 ---
 
-工欲善其事，必先利其器
+**工欲善其事，必先利其器 🥷**
 
 _文章取自本人日常使用习惯，不一定适合每个人，如您有更好的提效工具或技巧，欢迎留言 👏🏻_
 
-## 基础设施
+## 软件推荐
 
-##### [Homebrew](https://brew.sh/)
+### Homebrew
 
-懂得都懂，mac 的包管理器，可以直接去官网按照提示安装即可。安装完成后记得替换一下镜像源，推荐腾讯[镜像源](https://mirrors.cloud.tencent.com/)。
+[下载地址](https://brew.sh/)
+
+懂得都懂，mac 的包管理器，可以直接去官网按照提示安装即可。  
+安装完成后记得替换一下镜像源，推荐腾讯[镜像源](https://mirrors.cloud.tencent.com/)。
 
 ```sh
 # 替换brew.git
@@ -36,7 +39,7 @@ git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/homebrew-co
 
 </details>
 
-##### [oh-my-zsh](https://ohmyz.sh/)
+### [oh-my-zsh](https://ohmyz.sh/)
 
 直接点击官网进入首页安装即可。
 
@@ -73,7 +76,7 @@ export LESSHARESET=utf-8
 
 </details>
 
-##### [alfred](https://www.alfredapp.com/)(废弃)
+### [alfred](https://www.alfredapp.com/)(废弃)
 
 <details>
 <summary>选择使用 raycast 平替 alfred</summary>
@@ -90,7 +93,7 @@ export LESSHARESET=utf-8
 
 </details>
 
-##### [Raycast](https://www.raycast.com/)
+### [Raycast](https://www.raycast.com/)
 
 对比 **alfred**, 我感觉 **Raycast** 更加现代化，同时也更加符合我的需求，插件也都比较新，集成了 **chatgpt**。so，我毫不犹豫的投入了它的怀抱。
 
@@ -104,7 +107,7 @@ export LESSHARESET=utf-8
 - IP-Geolocation 查询 IP
 - Github
 
-##### [Karabiner Elements]()
+### [Karabiner Elements]()
 
 用这个软件我是为了使用 F19 键，来丰富我的快捷键操作~💘
 
@@ -112,7 +115,7 @@ export LESSHARESET=utf-8
 
 不得不说体验真的完美啊~~~ 🥳
 
-##### 其他软件
+### 其他软件
 
 - `clashX`，🪜 工具，[github 地址](https://github.com/yichengchen/clashX)，选择它是因为好用，而且支持了 apple chip  
   [clasX 科学上网教程](https://merlinblog.xyz/wiki/ClashX.html)，很简单，但是需要提前购买 🪜 哦。
@@ -126,7 +129,7 @@ export LESSHARESET=utf-8
 
 欢迎路过的兄弟留言补充 👏🏻👏🏻👏🏻
 
-##### 字体
+### 字体
 
 强迫症，个人目前最喜欢的字体是 `inconsolata`，可以保证两个英文和一个汉字对齐。  
 点击[inconsolata](https://fonts.google.com/specimen/Inconsolata)进去下载安装即可。
@@ -175,7 +178,7 @@ inoremap <C-z> <PageDown>
 
 ## 前端开发环境配置
 
-##### fnm & nrm
+### fnm & nrm
 
 之前有用过一段时间 `nvm`，咋说呢，慢。。。后来发现了 `fnm` 这个好东西，Rust 打造，相信前端一听到这个大名就一个反应，快！
 

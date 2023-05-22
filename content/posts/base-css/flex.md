@@ -8,17 +8,17 @@ flex 是 css 界的宠儿，基础的就不记录了，直接参考[Flex 布局�
 
 主要记录下需要注意的地方。
 
-##### 上下文影响
+### 上下文影响
 
 1. flex 会让元素变成 BFC
 2. 会让具有 z-index 且值不为 auto 的子元素成为 SC
 
-##### align-items 和 align-content
+### align-items 和 align-content
 
 - align-items 针对 单行，作用于行内所有盒子的对齐行为
 - align-content 针对 多行，对于 `flex-wrap: no-wrap` 无效，作用于行的对齐行为
 
-##### flex 的计算
+### flex 的计算
 
 flex 能完美自适应大小，是因为有一套计算逻辑，学习一下。
 
@@ -106,7 +106,7 @@ item3: 200 + 70 270
 
 关于缩小的，可以参考 - [这篇文章](https://www.cnblogs.com/liyan-web/p/11217330.html)
 
-##### flex: 1 滚动条不生效
+### flex: 1 滚动条不生效
 
 当发生 flex 嵌套，多个 flex： 1 时，会产生 flex1 内的元素滚动失效，往往需要加上 `height: 0` 来解决。
 

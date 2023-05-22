@@ -23,7 +23,7 @@ tags: [JavaScript]
 
 柯里化与合成函数是函数式编程的典范，必须牢牢掌握。
 
-##### curry
+### curry
 
 柯里化，其实就是针对函数多个参数的处理，把多个参数变为可以分步接收计算的方式。形如`f(a,b,c) -> f(a)(b)(c)`
 
@@ -74,7 +74,7 @@ console.log(partialSum(1, 1)) // 102
 console.log(partialSum(1)(2)) // 103
 ```
 
-##### compose
+### compose
 
 compose 合成函数是把多层函数嵌套调用扁平化，内部函数执行的结果作为外部面函数的参数。
 

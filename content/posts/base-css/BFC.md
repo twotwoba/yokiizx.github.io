@@ -8,7 +8,7 @@ tags: [CSS]
 
 其实我个人的理解呢，就是独立的容器，是页面中的一块渲染区域，并且有一套渲染规则，它决定了其子元素将如何定位，以及与其他元素的关系和相互作用。
 
-##### 创建 BFC
+### 创建 BFC
 
 常见的：
 
@@ -20,7 +20,7 @@ tags: [CSS]
 
 > 最新见 [MDN](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context)
 
-##### BFC 特性
+### BFC 特性
 
 - 同一个 BFC 内的元素 `上下 margin` 会发生重叠
 - BFC 元素会计算子浮动元素的高度

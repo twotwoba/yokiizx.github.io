@@ -13,7 +13,7 @@ tags: [tool]
 
 - [Plugin Development](https://rollupjs.org/plugin-development/)
 
-##### 常用插件
+### 常用插件
 
 > [官方推荐插件列表](https://github.com/rollup/awesome)
 
@@ -69,7 +69,7 @@ const pluginsWithEnv = isProduction ? [] : [serve({
 
 </details>
 
-##### 集成 esbuild （只支持转换成 es6 及以后）
+### 集成 esbuild （只支持转换成 es6 及以后）
 
 - [rollup-plugin-esbuild](https://github.com/egoist/rollup-plugin-esbuild)，这个插件可以取代上面的: `@babel/preset-typescript` & `@rollup/plugin-terser`。
 

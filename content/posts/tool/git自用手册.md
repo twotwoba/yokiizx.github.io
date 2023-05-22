@@ -128,7 +128,7 @@ git restore --staged [filename]
 
 ## 新手概念
 
-##### 四态三区
+### 四态三区
 
 git 目录下的所有文件一共有四种状态：
 
@@ -145,7 +145,7 @@ git 目录下的所有文件一共有四种状态：
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/017fb508b89d45a88c33383cdc4681eb~tplv-k3u1fbpfcp-zoom-1.image)
 
-##### 分支
+### 分支
 
 分支是很重要的一个概念，其实就是一个快照，创建的分支名只不过是指针而已，每一次提交就是指针往前移动。
 
@@ -160,7 +160,7 @@ HEAD 是特殊的分支指针，指向的是当前所在分支。这里得说一
 
 通过 `husky` + `lint-staged` 配合来进行约束，详细配置根据项目来设定。
 
-##### 解决 vscode git log 中文字符乱码
+### 解决 vscode git log 中文字符乱码
 
 ```yml
 #.gitconfig
@@ -183,7 +183,7 @@ export LANG=en_US.UTF-8
 export LESSHARESET=utf-8
 ```
 
-##### 补充
+### 补充
 
 - [Git Tools - Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
 - [Git submodule 子模块的管理和使用](https://www.jianshu.com/p/9000cd49822c)

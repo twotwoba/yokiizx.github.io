@@ -8,7 +8,7 @@ tags: [JavaScript, promise]
 
 以前学习的时候，就知道这个流行 api 是 promise 和 generator 函数的语法糖，但是没有详细的审视过因为 generator 用的不多，在重新认识一下 async/await 之前还是先去看看 generator 的原理吧。
 
-##### generator
+### generator
 
 `generator` 生成器函数使用 `function*` 语法，这种函数在调用时并不会执行任何代码，而是返回一个 `Generator` 的迭代器（关于迭代器在[这篇](https://yokiizx.site/posts/js/map%E5%92%8Cset/)文章中我有提到），且迭代器之间互不影响，调用迭代器的 `next` 方法，返回一个形如 `{value: .., done: Boolean}` 的对象。  
 另一个需要知道的点是，next 方法参数的作用，是`为上一个 yield 语句赋值`。其他详细的用法见参考中第一篇文章。
@@ -70,7 +70,7 @@ function gen() {
 }
 ```
 
-##### async/await
+### async/await
 
 理解了上面 generator 的原理，理解 async/await 就容易得多了。
 

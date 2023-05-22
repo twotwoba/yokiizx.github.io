@@ -6,13 +6,13 @@ tags: [HTML, DOM]
 
 ## DOM 的大小
 
-##### box-sizing
+### box-sizing
 
 `content-box` | `border-box` 控制 css 中 width 设置的是 content 还是 content + padding（根据属性名很容易区分）。
 
 > 文字会溢出到`padding-bottom`
 
-##### offsetTop/offsetLeft offsetParent
+### offsetTop/offsetLeft offsetParent
 
 offsetParent: 获取最近的祖先：
 
@@ -22,25 +22,25 @@ offsetParent: 获取最近的祖先：
 
 offsetTop/offsetLeft： 元素带 border 相对于最近的祖先偏移距离
 
-##### offsetWidth/offsetHeight
+### offsetWidth/offsetHeight
 
 包含 boder 的完整大小
 
-##### clientTop/clientLeft
+### clientTop/clientLeft
 
 content 相对于 border 外侧的宽度
 
 > 当系统为阿拉伯语滚动条在左侧时，client 就变成了 border-left + 滚动条的宽度
 
-##### clientWidth/clientHeight
+### clientWidth/clientHeight
 
 content + padding 的宽度，不包括滚动条
 
-##### scrollTop/scrollLeft
+### scrollTop/scrollLeft
 
 元素超出 contentHeight/conentWidth 的部分
 
-##### scrollWidth/scrollHeight
+### scrollWidth/scrollHeight
 
 元素实际的宽高
 

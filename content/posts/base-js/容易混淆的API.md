@@ -46,13 +46,13 @@ tags: [JavaScript, DOM]
 
 ![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/20220918151505.png)
 
-##### navigator
+### navigator
 
 提供了有关浏览器和操作系统的背景信息，api 有很多，记两个常用的
 `navigator.userAgent` —— 关于当前浏览器
 `navigator.platform` —— 关于平台（有助于区分 Windows/Linux/Mac 等）
 
-##### location
+### location
 
 location 顾名思义，主要是对地址栏 URL 的操作。
 
@@ -66,11 +66,11 @@ location 顾名思义，主要是对地址栏 URL 的操作。
 2. protocol -- 不要漏了最后的冒号`:`
 3. 还有一种带 password 的，很少用就不记录了
 
-##### history
+### history
 
 history 顾名思义，主要是对浏览器的浏览历史进行操作。
 
-##### vue-router/react-router 原理
+### vue-router/react-router 原理
 
 都有两种模式 hash 模式和 history 模式，分别基于 location.hash 和 history 的 api: `pushState`,`replaceState`
 

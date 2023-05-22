@@ -60,7 +60,7 @@ function require(id) {
 }
 ```
 
-##### module.exports 和 exports
+### module.exports 和 exports
 
 这两默认实际上是指向同一块内存的，exports 是 `module.exports` 的引用。注意上方，编译后 exports 是以形参的方式传入的，形参被赋值后会改变形参的引用，但并不能改变作用域外的值，也就是说 `module.exports` 此时实际上是没有挂载上值的。这也是为什么`exports = {...}` 无效的原因。
 

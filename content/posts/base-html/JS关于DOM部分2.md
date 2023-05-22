@@ -13,7 +13,7 @@ tags: [HTML, DOM]
 - event.currentTarget —— 处理事件的当前元素（具有处理程序的元素）
 - event.eventPhase —— 当前阶段（capturing=1，target=2，bubbling=3）。
 
-##### DOM0 和 DOM2 事件模型
+### DOM0 和 DOM2 事件模型
 
 有三种事件绑定方式：
 
@@ -44,7 +44,7 @@ DOM3 在 DOM2 的基础上添加了更多事件类型。
 
 ---
 
-##### 事件委托 (react 旧版本中的事件处理方式)
+### 事件委托 (react 旧版本中的事件处理方式)
 
 利用冒泡机制。
 

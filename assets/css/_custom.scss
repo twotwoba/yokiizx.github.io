@@ -6,3 +6,11 @@
 ::-webkit-scrollbar {
   display: none !important;
 }
+
+.custom-sponsor-tip {
+  margin-bottom: 60px;
+  text-align: right;
+  strong {
+    color: #07a5df !important;
+  }
+}

@@ -92,7 +92,7 @@ tags: [tool]
 3. `code generotion` 阶段比较简单就是深度遍历(dfs) AST，构建转换后代码的字符串。  
    同时还会创建代码映射(source maps)
 
-###### 重点
+#### 重点
 
 访问者模式遍历器的 `visitor` 是一个对象，其对应的是设定标识的应使用各种方法，由于我们是 dfs，所以每个节点都会经历 `进入` 和 `退出` 两个动作。
 
@@ -168,7 +168,7 @@ visitor 内方法访问的实际上是 `path` ---> `path` 是表示两个节点�
 
 知道了基础原理之后，来看看在前端项目中，究竟是怎么使用 babel 的。
 
-##### 基础
+### 基础
 
 首先一个项目使用 babel 的基础条件至少有以下三包：
 
@@ -176,7 +176,7 @@ visitor 内方法访问的实际上是 `path` ---> `path` 是表示两个节点�
 - @babel/core
 - @babel/preset-env
 
-##### babel runner
+### babel runner
 
 - `@babel/cli`，从命令行使用 babel 编译文件
   ```sh
@@ -207,17 +207,17 @@ visitor 内方法访问的实际上是 `path` ---> `path` 是表示两个节点�
   ```
   > babel-loader 的配置既可以通过 options 参数注入，也可以在 loader 函数内部读取 `.babelrc`/`babel.config.js`/`babel.config.json` 等文件中读取后注入。
 
-##### @babel/core
+### @babel/core
 
 通过 `babel runner` 识别到了文件和注入参数后，`@babel/core` 闪亮登场，这是 babel 最核心的一环 --- 对代码进行转译。
 
-##### @babel/preset-env
+### @babel/preset-env
 
 现在识别了文件，注入了参数（babel runner），也有了转换器（@babel/core），但是还不知道按照什么样的规则转换，好在 babel 预置了一些配置：`@babel/preset-env`、`@babel/preset-react`、`@babel/preset-typescript`等。
 
 `@babel/preset-env` 内部集成了绝大多数 plugin（State > 3）的转译插件，它会根据对应的参数进行代码转译。[具体配置见官网](https://babeljs.io/docs/en/babel-preset-env)
 
-###### 创建自己的 `preset`
+#### 创建自己的 `preset`
 
 如果我们的项目频繁使用某一个 babel 配置，就好比一个配方，那么固定下来作为一个自定义的 `preset` 以后直接安装这个预设是比较好的方案。 比如 `.babelrc` 如下：
 
@@ -259,7 +259,7 @@ module.exports = function () {
 
 之后发布到 npm 仓库即可。
 
-##### polyfill
+### polyfill
 
 以上三个是 babel 有意义运行的最基本的条件，一般项目中需要的更多，先看以下三个概念：
 
@@ -450,7 +450,7 @@ var Foo =
 
 上方已经介绍过 babel 的基本原理就不赘述了，也可以点击上方链接进去细看，下面介绍一下 Babel 内部模块的 API。
 
-##### @babel/parser(babylon)
+### @babel/parser(babylon)
 
 `Babylon` 是 babel 的解释器，是 `@babel/parser` 的前生，关于 babylon 可以看[这里](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#toc-babylon)。
 
@@ -516,7 +516,7 @@ Node {
 
 > @babel/parser 也可以传参，见[参数配置](https://babeljs.io/docs/en/babel-parser#options)
 
-##### @babel/traverse
+### @babel/traverse
 
 `@babel/traverse` 即上方原理部分 `transformation` 中最重要那一环，通过 `访问者模式` 去修改 node 节点。
 
@@ -546,7 +546,7 @@ traverse(AST, {
 
 > 注意：官网示例实际上有个 bug：`import traverse from '@babel/traverse';`，ESM 下这样子直接用 `traverse` 会报错，将会在 babel8 修复。
 
-##### @babel/types
+### @babel/types
 
 Babel Types 模块是一个用于 AST 节点的 Lodash 式工具库，它包含了构造、验证以及变换 AST 节点的方法。 该工具库包含考虑周到的工具方法，对编写处理 AST 逻辑非常有用。详细 API 见[@babel/types doc](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#babel-types)
 
@@ -570,7 +570,7 @@ traverse(AST, {
 
 > API 很多，具体见[@babel/types](https://babeljs.io/docs/en/babel-types)
 
-##### @babel/generator
+### @babel/generator
 
 最后将 AST 还原成我们想要的代码。
 
@@ -676,7 +676,7 @@ export default function ({ types: t }) {
    - `inherits`，指定继承某个插件，通过 Object.assign 的方式，和当前插件的 options 合并。
    - `manipulateOptions`：用于修改 options，是在插件里面修改配置的方式，[参考此插件](https://github.com/babel/babel/blob/main/packages/babel-plugin-syntax-explicit-resource-management/src/index.ts)
 
-##### babel-plugin-log-shiny
+### babel-plugin-log-shiny
 
 来个实践，平时我们 `console.log()` 打印信息总是会淹没在各种打印里，因此简单开发一个插件，让我们能及时找到我们需要的打印信息，这是我的插件地址 [babel-plugin-log-shiny](https://github.com/yokiizx/babel-plugin-log-shiny.git)，欢迎试用和提问题~
 

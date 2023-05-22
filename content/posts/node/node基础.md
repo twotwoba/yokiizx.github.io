@@ -6,7 +6,7 @@ tags: [node]
 
 > [Node.js 中文网](http://nodejs.cn/)。Node 有大量的 api，关键时刻还是得查文档，但是一些常用的基础的东西还是得牢记的。
 
-##### path
+### path
 
 常用属性：
 
@@ -23,7 +23,7 @@ tags: [node]
 - path.resolve(path1,path2,...)，将路径或路径片段的序列解析为绝对路径
 - path.relative(from, to)，返回 from 到 to 的相对路径
 
-##### events
+### events
 
 所有触发事件的对象都是 EventEmitter 类的实例
 
@@ -43,7 +43,7 @@ event.on('demo', (a, b) => {
 event.emit()
 ```
 
-##### process
+### process
 
 process 对象是一个全局变量，是一个 EventEmitter 实例，提供了当前 Node.js 进程的信息和操作方法。
 
@@ -76,7 +76,7 @@ process 对象是一个全局变量，是一个 EventEmitter 实例，提供了�
 - process.on('message', (m) => {})
 - process.on('uncaught', (err) => {})
 
-##### fs
+### fs
 
 Node 中的异步默认是回调风格，`callback(err, returnValue)`：
 
@@ -116,7 +116,7 @@ const syncInfo = fs.statSync()
 1. node-watch
 2. chokidar
 
-##### Buffer 和 stream
+### Buffer 和 stream
 
 这两个概念比较重要，在于理解，看以下参考文章吧：
 
@@ -161,11 +161,11 @@ ab -n 1000 -c 100 http://localhost:3000/string
 # 从跑出来的结果能清晰的看出消耗时间和传输效率 buffer > string
 ```
 
-##### http
+### http
 
 `http.createServer()`. 详细见官网。
 
-##### 进程
+### 进程
 
 Node.js 本身就使用的事件驱动模型，为了解决单进程单线程对多核使用不足问题，可以按照 CPU 数目多进程启动，理想情况下一个每个进程利用一个 CPU。
 

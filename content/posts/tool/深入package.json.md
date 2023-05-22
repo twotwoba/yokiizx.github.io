@@ -25,7 +25,7 @@ tags: [npm, module]
 
 没错，但还不够。
 
-##### main & browser & module & exports
+### main & browser & module & exports
 
 - `main`：这个是众所周知的，就是指定主入口文件，默认为 `index.js`
 - `browser`：这个顾名思义，作用就是指定浏览器环境下加载的文件，比如：`"axios": "node_modules/axios/dist/axios.min.js"`
@@ -58,13 +58,13 @@ tags: [npm, module]
 
 ## other props
 
-##### scripts
+### scripts
 
 指定脚本，详细的在 `npm scripts` 中已经讲过，`npm run <script-name>` 实际上调用的是 `run-script` 命令，`run` 是它的别名。
 
 原理就是执行命令时会把 `node_modules/.bin` 加到环境变量 `PATH` 中，以便在执行命令时能够正确找到本地安装的可执行文件
 
-##### bin
+### bin
 
 上面说到了命令文件都在 `.bin` 目录下，而 `pacakge.json` 中的 `bin` 字段是指定可执行文件的路径。
 
@@ -80,19 +80,19 @@ tags: [npm, module]
 
 全局安装后就可以通过 `my-cli` 命令来执行脚本。
 
-##### type
+### type
 
 `type: "module"||"commonjs"`
 
 指定该 npm 包内文件都遵循 type 的模块化规范。
 
-##### typs 和 typings
+### typs 和 typings
 
 `types` 属性指定了该包所提供的 TypeScript 类型的入口文件（.d.ts 文件）。
 
 `typings` 属性是 `types` 属性的旧版别名，如果需要向后兼容，都写上即可。
 
-##### files
+### files
 
 包发布时，需要将哪些文件上传。
 
@@ -110,7 +110,7 @@ tags: [npm, module]
 
 注意：`dist/` 写法是上传 `dist` 文件夹下的所有文件，如果整个 dist 需要加入发包，改为 `dist` 即可。
 
-##### peerDependencies
+### peerDependencies
 
 解决 npm 包被下载多次，以及统一包版本的问题。
 
@@ -125,7 +125,7 @@ tags: [npm, module]
 
 上方配置：如果某个 `package` 把我列为依赖的话，那么那个 `package` 也必需应该有对 PackageOther 的依赖。
 
-##### workspaces
+### workspaces
 
 `monorepo` 绕不开 `workspaces`.
 
@@ -140,7 +140,7 @@ tags: [npm, module]
 
 作用：当 `npm install` 的时候，就会去检查 `workspaces` 中的配置，然后创建软链到顶层 `node_modules`中。
 
-##### repository
+### repository
 
 描述包源代码的位置，指定包代码的存储库类型（如 git，svn 等）和其位置（URL）。
 

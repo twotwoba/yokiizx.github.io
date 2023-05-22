@@ -22,12 +22,12 @@ npm i typescript ts-node -g
 <details>
 <summary>点击查看详细内容</summary>
 
-##### 两个基础配置
+### 两个基础配置
 
 - noImplicitAny，开启后，类型被推断为 any 将会报错
 - strictNullChecks，开启后，null 和 undefined 只能被赋值给对应的自身类型了
 
-##### 联合类型
+### 联合类型
 
 注意点是：在调用联合类型的方法前，除非这个方法在联合类型的所有类型上都有，否则必须明确指定是哪个类型，才能调用。
 
@@ -73,7 +73,7 @@ function getArea(shape: Shape) {
 }
 ```
 
-##### type 和 interface
+### type 和 interface
 
 - type
   - 其他类型的别名，可以是任何类型。
@@ -84,7 +84,7 @@ function getArea(shape: Shape) {
   - 重复声明会合并
   - 对象类型通过 `extends` 实现拓展
 
-##### 类型断言
+### 类型断言
 
 有 `as` 和 `<T>var` 两种方式。在 `tsx`中只能使用`as`的方式。遇到复杂类型断言，可以先断言为`any`或`unknown`：
 
@@ -92,7 +92,7 @@ function getArea(shape: Shape) {
 const demo = (variable as any) as T
 ```
 
-##### 对象中的字面量类型
+### 对象中的字面量类型
 
 ```TS
 // 此处的method会被推断为 string
@@ -113,7 +113,7 @@ const angle = Math.atan2(...args);
 
 ---
 
-##### 函数类型
+### 函数类型
 
 - 函数表达式
   ```TS
@@ -131,7 +131,7 @@ const angle = Math.atan2(...args);
   }
   ```
 
-##### 函数的泛型
+### 函数的泛型
 
 当函数的『输入、输出有关联』或者『输入的参数之间』有关联，那么就可以考虑到使用泛型了。
 
@@ -153,7 +153,7 @@ function combine<Type>(arr1: Type[], arr2: Type[]): Type[] {
 const demo = combine<string | number>([1,2,3], ['hello'])
 ```
 
-##### 函数约束
+### 函数约束
 
 两个函数类型之间约束涉及到两个概念：
 
@@ -201,7 +201,7 @@ type UnionToIntersection<T> = ToUnionFunction<T> extends (x: infer R) => unknown
 type Res = UnionToIntersection<Value> // type Res= {  a: string } & { b: number };
 ```
 
-##### 函数重载
+### 函数重载
 
 ```TS
 function fn(x: boolean): void;
@@ -212,7 +212,7 @@ function fn(x: boolean | string) {
 }
 ```
 
-##### unknown | void | never
+### unknown | void | never
 
 - unknown，相比 any 更加安全，比如：
   ```TS
@@ -238,7 +238,7 @@ function fn(x: boolean | string) {
 
 ---
 
-##### 索引签名
+### 索引签名
 
 预先不清楚具体属性名，但是知道数据结构就可以使用这个了。
 
@@ -266,7 +266,7 @@ interface Demo {
 }
 ```
 
-##### 对象的泛型
+### 对象的泛型
 
 更优雅的处理对象类型，这可以帮助我们避免写函数重载。
 
@@ -293,7 +293,7 @@ type OneOrManyOrNullStrings = OneOrManyOrNull<string>; // 等价于 string | str
 
 ---
 
-##### class 相关
+### class 相关
 
 `strictPropertyInitialization` 控制 class 中的属性必须初始化。
 
@@ -358,7 +358,7 @@ new Rabbit(); // rabbit
 
 </details>
 
-##### enum 枚举类型
+### enum 枚举类型
 
 枚举比较特别，它不是一个 type-level 的 JS 拓展。
 
@@ -402,7 +402,7 @@ const A: Type = Type.key // A === 0
 
 ## 类型操控
 
-##### keyof
+### keyof
 
 获取其他类型的 「键」 收集起来 组合成联合类型。
 
@@ -421,7 +421,7 @@ const a: M = '1234';
 const b: M = 1234;
 ```
 
-##### typeof
+### typeof
 
 对应基本类型，typeof 和 js 没什么区别。主要应用在引用类型。
 
@@ -434,7 +434,7 @@ const demo = () => true;
 type y = ReturnType<typeof demo>; // y: boolean
 ```
 
-##### 索引访问类型
+### 索引访问类型
 
 ```TS
 type Person = { age: number; name: string; alive: boolean };
@@ -461,7 +461,7 @@ type demo = typeof Arr[number];
 // }
 ```
 
-##### 映射类型
+### 映射类型
 
 如果当两种类型 key 一样，只是改变了其对应的类型，那么就可以考虑基于索引类型的类型转换了。
 
@@ -571,13 +571,13 @@ type LazyPerson = Getters<Person>;
   // 如果 T 能赋值给 (arg: infer P) => any，则结果是 (arg: infer P) => any 类型中的参数 P，否则返回为 T
   ```
 
-##### infer 关键字
+### infer 关键字
 
 个人理解，可以把 `infer` 理解为一个占位符，往往用在泛型约束中，只有确定了泛型的类型后，才能把这个 `infer` 的占位类型也确定。
 
 - [理解 TypeScript 中的 infer 关键字](https://juejin.cn/post/6844904170353328135)
 
-##### declare
+### declare
 
 - [Typescript 书写声明文件](https://juejin.cn/post/6844904034621456398)
 

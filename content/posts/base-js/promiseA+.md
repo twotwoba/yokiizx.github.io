@@ -10,12 +10,12 @@ tags: [JavaScript, promise]
 
 ## 解读规范
 
-##### promise state
+### promise state
 
 三种状态：` pending`、`fulfilled`、`rejected`。  
 `pending ` 最终转为 `fulfilled`或 `rejected` 且是不可逆的。
 
-##### then
+### then
 
 一个 `promise` 必须有个 `then` 方法。
 
@@ -52,7 +52,7 @@ promise.then(onFulfilled, onRejected)
      // 验证上方6.1，最终 PromiseState 都是 fulfilled 而不是第二个为 rejected
      ```
 
-##### [[reslove]](poromise2, x)
+### [[reslove]](poromise2, x)
 
 首先这是一个抽象的操作程序，就是把 `then 返回的 promise` 与 `then的两个参数onFulfilled/onRejected返回的值 value` (即 x) 作为程序的输入。
 
@@ -74,7 +74,7 @@ promise.then(onFulfilled, onRejected)
 
 > 有的地方我感觉英语更好理解，比如第一条，意思就是让 promise 进入 rejected 状态，并且返回一个 TypeError 作为 reason，后续此类表达都将使用英语，真的简练也更好理解 😂
 
-##### 代码实现
+### 代码实现
 
 ```JavaScript
 /**
@@ -194,7 +194,7 @@ function resolvePromise(promise, x, resolve, reject) {
 
 > 上面代码就是 promise 的核心了，跑完下面的测试，完美通过
 
-##### 其他方法的实现
+### 其他方法的实现
 
 ```JavaScript
 class _Promise {
@@ -266,7 +266,7 @@ class _Promise {
 }
 ```
 
-##### 测试 promise A+
+### 测试 promise A+
 
 1. npm 初始化, 依赖安装
 

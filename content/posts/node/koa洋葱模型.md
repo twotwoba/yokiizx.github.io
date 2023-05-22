@@ -58,7 +58,7 @@ async function customMiddleware(ctx, next) {
 
 ## koa/application.js
 
-##### [use](https://github.com/koajs/koa/blob/master/lib/application.js#L141)
+### [use](https://github.com/koajs/koa/blob/master/lib/application.js#L141)
 
 核心代码如下，很简单，就是往 `Application` 实例 即 `new Koa` 的属性 `middleware` 中推入函数 `fn`：
 
@@ -69,7 +69,7 @@ use (fn) {
 }
 ```
 
-##### [listen](https://github.com/koajs/koa/blob/master/lib/application.js#L98)
+### [listen](https://github.com/koajs/koa/blob/master/lib/application.js#L98)
 
 再来看下 `listen` 方法：
 
@@ -82,7 +82,7 @@ listen (...args) {
 
 其实就是 http.createServer 的语法糖，只不过传入的是自身的 callback 方法。
 
-##### [callback](https://github.com/koajs/koa/blob/master/lib/application.js#L156)
+### [callback](https://github.com/koajs/koa/blob/master/lib/application.js#L156)
 
 ```JavaScript
 callback () {
@@ -104,7 +104,7 @@ handleRequest(ctx, fnMiddleware) {
 
 这里 `this.compose` 默认引用的是 `const compose = require('koa-compose')`。
 
-##### [koa-compose](https://github.com/koajs/compose)
+### [koa-compose](https://github.com/koajs/compose)
 
 ```JavaScript
 function compose (middleware) {
@@ -179,7 +179,7 @@ fn();
 
 ```
 
-##### co 原理
+### co 原理
 
 通过不断调用 generator 函数的 next 方法来达到自动执行 generator 函数的，类似 async、await 函数自动执行。
 
