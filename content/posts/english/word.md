@@ -12,6 +12,8 @@ series: [English]
 
 ---
 
+## 最最最基础的单词
+
 从 Youtube 上找了个【从零开始】掌握这 625 个单词，让你的英语水平突飞猛进~
 
 {{<youtube zc3UQQVgQ1s>}}
@@ -20,6 +22,12 @@ series: [English]
 
 ---
 
-英语兔的介词攻略
+## 以听为主记单词
+
+{{<youtube -UuLXXQn5jA>}}
+
+---
+
+## 英语兔的介词攻略
 
 {{<bilibili BV1E64y1m75Z>}}

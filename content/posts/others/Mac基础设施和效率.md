@@ -1,7 +1,7 @@
 ---
 title: 'Mac上的高效软件与配置'
 date: 2022-09-13T11:24:00+08:00
-tags: [mac]
+tags: [mac, efficiency]
 categories: [mac]
 weight: 1
 ---
@@ -14,7 +14,7 @@ _文章取自本人日常使用习惯，不一定适合每个人，如您有更�
 
 ### Homebrew
 
-[下载地址](https://brew.sh/)
+[官网](https://brew.sh/)
 
 懂得都懂，mac 的包管理器，可以直接去官网按照提示安装即可。  
 安装完成后记得替换一下镜像源，推荐腾讯[镜像源](https://mirrors.cloud.tencent.com/)。
@@ -39,9 +39,9 @@ git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/homebrew-co
 
 </details>
 
-### [oh-my-zsh](https://ohmyz.sh/)
+### oh-my-zsh
 
-直接点击官网进入首页安装即可。
+直接点击[官网](https://ohmyz.sh/)安装即可。
 
 `~/.zshrc` 配置文件的部分配置：
 
@@ -76,7 +76,7 @@ export LESSHARESET=utf-8
 
 </details>
 
-### [alfred](https://www.alfredapp.com/)(废弃)
+### alfred(废弃)
 
 <details>
 <summary>选择使用 raycast 平替 alfred</summary>
@@ -93,7 +93,9 @@ export LESSHARESET=utf-8
 
 </details>
 
-### [Raycast](https://www.raycast.com/)
+### Raycast
+
+[官网](https://www.raycast.com/)
 
 对比 **alfred**, 我感觉 **Raycast** 更加现代化，同时也更加符合我的需求，插件也都比较新，集成了 **chatgpt**。so，我毫不犹豫的投入了它的怀抱。
 
@@ -107,7 +109,9 @@ export LESSHARESET=utf-8
 - IP-Geolocation 查询 IP
 - Github
 
-### [Karabiner Elements]()
+### Karabiner Elements
+
+[下载地址](https://karabiner-elements.pqrs.org/)
 
 用这个软件我是为了使用 F19 键，来丰富我的快捷键操作~💘
 
@@ -120,12 +124,12 @@ export LESSHARESET=utf-8
 - `clashX`，🪜 工具，[github 地址](https://github.com/yichengchen/clashX)，选择它是因为好用，而且支持了 apple chip  
   [clasX 科学上网教程](https://merlinblog.xyz/wiki/ClashX.html)，很简单，但是需要提前购买 🪜 哦。
 - `iShot Pro`，截图、贴图软件，功能较全，目前为止很好用，AppStore 下载
-- `PicGo`，图床工具，写博客必备，[github 地址](https://github.com/Molunerfinn/PicGo)
 - `keka`，目前用过的 mac 上最好用的解压缩软件，[下载地址](https://www.keka.io/en/)，AppStore 也有，不过是收费的，有条件建议支持一下
 - `IINA`，干净好用的播放器，[下载地址](https://iina.io/)
-- `AppCleaner`，干净卸载软件，这个更较小，支持 M1（推荐），[下载地址](https://freemacsoft.net/appcleaner/)。AppDelete 是另一款，但是不支持 M1
 - `Downie 4`，下载视频神器，[下载地址](https://software.charliemonroe.net/downie/)，这个我支持了正版~
+- `PicGo`，图床工具。[github 地址](https://github.com/Molunerfinn/PicGo)
 - `Dash`，汇集了计算机的各种文档，配合 Alfred 查起来特别方便，[下载地址](https://kapeli.com/dash)，这个我也支持了正版~
+- `AppCleaner`，干净卸载软件，这个更较小，支持 M1（推荐），[下载地址](https://freemacsoft.net/appcleaner/)。（更新：用了 raycast 后，此软件好像有点多余了哈哈）
 
 欢迎路过的兄弟留言补充 👏🏻👏🏻👏🏻
 
@@ -147,7 +151,7 @@ brew install --cask font-fira-code
 
 ## 配置 .vimrc
 
-对于习惯了 mac 快捷键`ctrl + f/b/a/e/n/p` 的我来说，vim 在插入模式下，鼠标光标的控制太难用了，好在可以修改配置解决：
+对于习惯了 mac 快捷键 `ctrl + f/b/a/e/n/p` 的我来说，vim 在插入模式下，鼠标光标的控制太难用了，好在可以修改配置解决：
 
 1. 先创建配置文件
 
@@ -178,11 +182,11 @@ inoremap <C-z> <PageDown>
 
 ## 前端开发环境配置
 
-### fnm & nrm
+### fnm
 
 之前有用过一段时间 `nvm`，咋说呢，慢。。。后来发现了 `fnm` 这个好东西，Rust 打造，相信前端一听到这个大名就一个反应，快！
 
-- [fnm github](https://github.com/Schniz/fnm)
+[fnm github](https://github.com/Schniz/fnm)
 
 ```sh
 brew install fnm
@@ -202,7 +206,7 @@ fnm ls
 fnm ls-remote
 ```
 
-- nrm
+### nrm
 
 ```sh
 npm i nrm -g

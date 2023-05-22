@@ -2,6 +2,7 @@
 title: 'VsCode格式化建议'
 date: 2022-09-18T20:37:14+08:00
 tags: [tool, vscode]
+series: [format]
 ---
 
 ## 前言
