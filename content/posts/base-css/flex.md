@@ -170,3 +170,7 @@ item3: 200 + 70 270
   </div>
 </body>
 ```
+
+### justify-content: center 最后一行的对齐问题
+
+参考张鑫旭大佬的文章 -- [让 CSS flex 布局最后一行列表左对齐的 N 种方法](https://www.zhangxinxu.com/wordpress/2019/08/css-flex-last-align/)
