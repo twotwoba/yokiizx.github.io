@@ -55,6 +55,9 @@ console.log(weakMap) // WeakMap { <items unknown> }
 // 说明 WeakMap的 键对象，当没有引用了，就会被从内存中清除
 ```
 
+> 可以看看张鑫旭大佬的 [JS WeakMap 应该什么时候使用](https://www.zhangxinxu.com/wordpress/2021/08/js-weakmap-es6/)  
+> 结论：当我们需要在某个对象上临时存放数据的时候，请使用 **WeakMap**
+
 应用场景：
 
 - 为其他对象提供额外的存储。当宿主对象消失时，WeakMap 给宿主对象添加的数据将自动清除。(比如 dom 元素上添加数据时可用 WeakMap,当该 DOM 元素被清除，对应的 WeakMap 记录就会自动被移除。)
