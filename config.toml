@@ -628,6 +628,9 @@ theme = "DoIt"
     [params.analytics.cloudflare]
       token = ""
 
+  [params.ibruce]
+    enable = true
+
   #  Cookie 许可配置
   [params.cookieconsent]
     enable = true
