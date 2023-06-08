@@ -1,7 +1,8 @@
 ---
 title: '深入package.json'
 date: 2023-03-24T14:16:10+08:00
-tags: [npm, module]
+tags: [package.json]
+# series: [npm]
 ---
 
 ## introduction

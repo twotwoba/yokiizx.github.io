@@ -1,7 +1,7 @@
 ---
 title: 'Linux基础'
 date: 2022-12-01T08:08:31+08:00
-tags: [mac, linux, tool]
+tags: [mac, linux]
 ---
 
 ## 前言

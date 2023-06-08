@@ -2,7 +2,7 @@
 title: 'Mac上的高效软件与配置'
 date: 2022-09-13T11:24:00+08:00
 tags: [mac, efficiency]
-categories: [mac]
+categories: [tool]
 weight: 1
 ---
 
@@ -149,7 +149,7 @@ brew install --cask font-fira-code
 
 </details>
 
-## 配置 .vimrc
+## vim 配置
 
 对于习惯了 mac 快捷键 `ctrl + f/b/a/e/n/p` 的我来说，vim 在插入模式下，鼠标光标的控制太难用了，好在可以修改配置解决：
 

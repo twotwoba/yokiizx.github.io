@@ -1,9 +1,8 @@
 ---
 title: 'Git自用手册'
 date: 2022-09-19T20:36:01+08:00
-tags: [git, tool]
+tags: [git]
 categories: [git]
-
 ---
 
 **本文基于 git version 2.32.0**

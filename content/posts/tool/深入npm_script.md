@@ -1,7 +1,8 @@
 ---
 title: '深入npm script'
 date: 2022-12-02T20:40:32+08:00
-tags: [npm, script]
+tags: [script]
+series: [npm]
 ---
 
 **npm script 是一个前端人必须得掌握的技能之一。本文基于 npm v7 版本**
