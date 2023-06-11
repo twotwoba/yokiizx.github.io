@@ -216,3 +216,10 @@ nrm use
 nrm add [name] [url] # 添加新的镜像源(比如公司的私有源)
 nrm del [name]
 ```
+
+### Vscode monokai pro 主题 license
+
+```txt
+id@chinapyg.com
+d055c-36b72-151ce-350f4-a8f69
+```
