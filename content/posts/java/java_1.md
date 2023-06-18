@@ -1,5 +1,5 @@
 ---
-title: 'java_1'
+title: 'Java_1'
 date: 2023-06-14T17:52:02+08:00
 tags: []
 series: [java]
