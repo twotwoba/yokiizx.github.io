@@ -61,11 +61,52 @@ a++ // 也会强制转换
 
 ## JAVA 引用类型
 
+- 类 class：Java 面向对象的基石，可以看成是自定义的数据类型
+- 接口 interface: TODO
+- 数组 []：与 js 数组不同，Java 数组存放的是`同一类型的数据`
+
+> 与 JS 一致，基本类型也是值拷贝，引用类型是引用传递，拷贝的是物理地址。
+
+### 类
+
+关注一下通过类创建对象时，JVM 的内存状态：
+![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202306262325036.png)
+
+这篇文章也很不错：[String 在内存中如何存储（Java）](https://blog.csdn.net/iceyung/article/details/106202654)
+
+### 接口
+
 TODO
 
-- 类 class
-- 接口 interface
-- 数组 []：与 js 数组不同，Java 数组存放的是`同一类型的数据`
+### JAVA 的数组
+
+#### Java 创建数组方式有两种：
+
+```java
+// 动态创建
+数据类型[] name = new 数据类型[容量] // 或者 数据类型 name[] = new 数据类型[容量]
+// 静态创建
+int[] name = {...}
+```
+
+#### 默认值
+
+分配空间的数组根据类型不同有不同的默认值，比如 int 默认为 0,float 默认为 0.0，需要注意以下三种：
+
+- boolean 默认为 `false`，
+- char 默认为 `\u0000`，
+- string 默认为 `null`
+
+#### 扩容注意
+
+与 JS 不同，java 先申请空间，所以不能直接在超出空间大小的范围外直接修改数组
+
+```java
+int[] a = new int[3];
+a[3] = 1; // wrong 越界了
+```
+
+因此，要想扩容就得先开辟空间，复制原数组，然后填入新数据。在 java 中，这是比较低效的，后续会学习 链表 --- TODO.
 
 ---
 
