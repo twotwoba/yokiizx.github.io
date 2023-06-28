@@ -69,8 +69,12 @@ a++ // 也会强制转换
 
 ### 类
 
-关注一下通过类创建对象时，JVM 的内存状态：
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202306262325036.png)
+#### 成员变量(属性)
+
+> [Java 基础——成员变量、局部变量和静态变量的区别](https://blog.csdn.net/haovip123/article/details/43883109)
+
+> 关注一下通过类创建对象时，JVM 的内存状态：
+> ![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202306262325036.png)
 
 可见，JVM 内存管理主要分为 3 个部分：
 
@@ -79,6 +83,27 @@ a++ // 也会强制转换
 - 方法区：加载类信息和常量池，详细了解--[你知道 JVM 的方法区是干什么用的吗？](https://zhuanlan.zhihu.com/p/166190558)
 
 这篇文章也很不错：[String 在内存中如何存储（Java）](https://blog.csdn.net/iceyung/article/details/106202654)
+
+#### 成员方法(方法)
+
+其实和 JS 没啥太大的区别，函数（方法）在执行的时候都会开辟栈空间，形参会在栈空间内创建变量与入参的联系，需要注意的是内存中的关系，区分基础类型和引用类型，老生常谈了，注意下一点就理解的差不多了：
+
+```js
+// 为了方便用JS演示
+const obj = {
+  age: 200
+}
+
+function test(obj) {
+  // obj.age = 100 // is ok
+  obj = null // what happen?
+}
+
+test(obj)
+
+console.log('📌📌📌 ---', obj.age) // 会报错吗?---不会!
+// obj = null 只是打断了栈空间的obj与入参即堆中obj的联系
+```
 
 ### 接口
 
