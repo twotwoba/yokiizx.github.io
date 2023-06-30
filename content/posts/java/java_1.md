@@ -10,13 +10,13 @@ categories: [study notes]
 
 ---
 
-### 三个基础概念：
+## 三个基础概念：
 
 - JVM: Java 虚拟机，实现 JAVA 跨平台
 - JRE: Java 程序运行时环境，包含 JVM 和各种核心类库
 - JDK: 包含各种工具，包含 JRE 和开发人员使用工具
 
-### 安装 JDK
+## 安装 JDK
 
 点击 [Oracle 官网](https://www.oracle.com/java/technologies/downloads/archive/) 下载，默认都会安装到 `/Library/Java/JavaVirtualMachines` 这个目录下。
 
@@ -52,7 +52,7 @@ java xxx        # 执行 xxx.class 文件(本质是把.class文件装载到JVM�
 
 ---
 
-### 绕不开的 HelloWorld
+## 绕不开的 HelloWorld
 
 ```java
 // HelloWorld.java
@@ -70,3 +70,42 @@ public class HelloWorld {
 > 3. 一个文件只能有一个 public 类，其他类不限（每一个类编译后对应一个 .class 文件）
 > 4. 如果有 public 类，则源文件必须和该类同名
 > 5. main(psvm)方法可以写在非 public 的类中，指定编译后的 class 文件执行即可
+
+## IDEA
+
+### 常用快捷键
+
+只记录一下常用的快捷键，改了一点：
+
+- `⌃ + space`，代码补全
+- `⌃ + J`，模板提示
+- `⌃ + R`，运行
+- `⌃ + C`, debugger
+- `⌃ + D`，从 debugger 改成 Del，为了匹配 mac 上键盘自身组合键
+- `⌃ + H`，查看类的继承层级关系
+- `⌃ + G`，选中相同的文本
+- `⌃ + M`，在对应括号之间切换，配合`⌃ + A/E/F/B` 更顺滑
+- `⌘ + B`，跳转方法定义，更喜欢 `⌘ + click`
+- `⌘ + D`，向下复制
+- `⌘ + N`，Generate，也可以用 `⌃ + ↩︎`，根据累生成对应的代码片段
+- `⇧ + ↩︎`，光标无障碍行至下行，加 ctrl 至上行
+- `⌥ + ↩︎`，自动引入
+- `F19 + L`，格式化
+
+智能补全比较 6 了，VsCode 里没怎么用过...
+
+- `.field`，快速定义成员变量
+- `.var`，快速定义局部变量
+- `.notnull/.null`，判空
+- `.not`，取反
+- `.if`，判断语句
+- `.lambda`，箭头函数[旺柴]
+- `.opt`，Optional 语句
+
+另外还有一些模板语法：
+
+- `psvm/m`
+- `sout`
+- ...等等
+
+---
