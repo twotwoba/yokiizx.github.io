@@ -6,6 +6,6 @@ series: [java]
 categories: [study notes]
 ---
 
-## 包
+面向对象编程三大特性：`封装、继承和多态`。
 
----
+## 封装
