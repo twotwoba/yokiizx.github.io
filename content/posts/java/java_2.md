@@ -227,9 +227,9 @@ package 包名
 
 - `public`：公开
 - `protected`：对`子类`和`同一个包中的类`公开
-- `无修饰符`：对`同一个包中的类`公开
+- `无修饰符`：对`同一个包中的类`公开，`不在同一个包内，即使继承，也不能访问`
 - `private`：只能类自身访问
 
-> 小结：跨包能访问的只有 `public`；同包访问不到的只有 `private`；`protected` 和 `public` 才能被子类访问。
+![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202307042238681.png)
 
 ---
