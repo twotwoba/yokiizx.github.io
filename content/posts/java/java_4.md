@@ -26,7 +26,7 @@ categories: [study notes]
         return true;
     }
     if (anObject instanceof String) {
-        String anotherString = (String)anObject; // 向下转型
+        String anotherString = (String)anObject; // 向下转型,需要得到作为String内的各个属性
         int n = value.length;
         if (n == anotherString.value.length) {
             char v1[] = value;
