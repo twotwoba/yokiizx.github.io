@@ -80,9 +80,9 @@ animal = new Cat() // animal 仍然是 Animal 类型，但是运行类型从 Dog
   2. 然而，最终的执行结果还是看子类的具体实现(java)
 
   ```java
+  // 简而言之: 属性访问看编译类型, 方法访问看运行类型
   class A {
     int num = 10;
-
     public void log() {
       System.out.println(this.num);
     }
@@ -92,20 +92,75 @@ animal = new Cat() // animal 仍然是 Animal 类型，但是运行类型从 Dog
     public void log() {
       System.out.println(this.num);
     }
+    public void unique() {
+      // ...
+    }
   }
 
   // 测试
   B b = new B();
   System.out.println(b.num); // 20
-  a.log();                   // 20
+  b.log();                   // 20
 
   A a = b;
   System.out.println(a.num); // 10  看编译类型
-  a.log();                   // 20 看运行类型
+  a.log();                   // 20  看运行类型
   ```
 
 - 向下转型，`子类 xxx = (子类) 父类引用`，可以看成是引用类型的强转：
+
   1. 解决了向上转型不能访问子类型特有成员的问题
   2. 注意`父类引用`创建时的运行类型必须和这里的编译类型一致
 
+  ```java
+  ((B) a).unique();
+  ```
+
 ### 动态绑定机制（重要）
+
+- 对象调用方法时，方法会和该对象的运行类型绑定
+- 但属性没有动态绑定机制，哪里声明哪里用
+
+例子：
+
+```java
+class A {
+    public int i = 10;
+
+    public int sum() {
+        return getI() + 10;
+    }
+
+    public int sum1() {
+        return i + 10;
+    }
+
+    public int getI() {
+        return i;
+    }
+}
+
+class B extends A {
+    public int i = 20;
+
+//    public int sum() {
+//        return i + 20;
+//    }
+//    public int sum1() {
+//        return i + 20;
+//    }
+
+    public int getI() {
+        return i;
+    }
+}
+
+// 向上转型，假如子类中的方法没有注销，那么直接调用运行类型的方法，下述语句应该输出都是40
+A a = new B();
+// 注释后,sum中的getI方法跟随运行类型
+System.out.println(a.sum());  // 30
+// sum1中的i不会跟随运行类型,在哪里,用哪里
+System.out.println(a.sum1()); // 20
+```
+
+---
