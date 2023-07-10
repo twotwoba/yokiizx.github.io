@@ -76,11 +76,11 @@ public String toString() {
 
 > 直接输出对象，默认就会调用 toString() 方法
 
-### finalize
+### finalize()
 
 当对象被回收时，系统自动调用对象的 `finalize` 方法。一般是需要重写的。
 
-> 触发回收: 1. `引用 = null`; 2. `System.gc()`
+> 触发回收: 1. `引用 = null`，等待回收; 2. `System.gc()`，主动回收
 
 ## 拓展阅读
 
