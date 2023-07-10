@@ -53,5 +53,35 @@ weight: 4
   }
   ```
 
-### hashCode
+### hashCode()
 
+返回对象的哈希码值。往往也需要被重写。
+
+作用：提高具有哈希表结构数据类型的性能
+
+小结:
+
+- 对于对象，两个引用一致的对象返回的 `hashCode` 一定是一样的
+- 哈希值与内存地址对应，并不是真正的内存地址
+- [ ] 学习到 hashMap hashSet 时再深入
+
+### toString()
+
+```java
+public String toString() {
+    // getClass().getName() 返回全类名(包名+类名)
+    return getClass().getName() + "@" + Integer.toHexString(hashCode());
+}
+```
+
+> 直接输出对象，默认就会调用 toString() 方法
+
+### finalize
+
+当对象被回收时，系统自动调用对象的 `finalize` 方法。一般是需要重写的。
+
+> 触发回收: 1. `引用 = null`; 2. `System.gc()`
+
+## 拓展阅读
+
+- [Java HashCode 详解](https://blog.csdn.net/tanggao1314/article/details/51505705)
