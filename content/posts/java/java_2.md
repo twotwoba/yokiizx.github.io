@@ -4,6 +4,7 @@ date: 2023-06-15T20:12:28+08:00
 tags: []
 series: [java]
 categories: [study notes]
+weight: 2
 ---
 
 ## JAVA 基本数据类型

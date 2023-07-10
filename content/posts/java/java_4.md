@@ -4,6 +4,7 @@ date: 2023-07-08T21:11:35+08:00
 tags: []
 series: [java]
 categories: [study notes]
+weight: 4
 ---
 
 ## Object 类
@@ -51,3 +52,6 @@ categories: [study notes]
     return false;
   }
   ```
+
+### hashCode
+
