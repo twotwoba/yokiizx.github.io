@@ -82,6 +82,12 @@ public String toString() {
 
 > 触发回收: 1. `引用 = null`，等待回收; 2. `System.gc()`，主动回收
 
+## 出租系统-简单面向对象应用
+
+TODO 简单房屋出租系统的 java 文件地址
+
+> 下篇文章开始将进入面向对象的高级部分, 加油!
+
 ## 拓展阅读
 
 - [Java HashCode 详解](https://blog.csdn.net/tanggao1314/article/details/51505705)
