@@ -105,3 +105,54 @@ class MyTools {
 ## 单例模式
 
 这是学习 Java 过程中的遇到的第一个设计模式。
+
+记得在 JS 中就是判断是否已经存在实例对象，如果存在就返回来实现简单的单例模式的。Java 相比而言更加的专业~
+
+> 简而言之：保证类的实例对象只有一个，该类提供一个访问对象实例的方法
+
+### 饿汉式
+
+1. 将构造器私有化
+2. 在类内部创建静态对象实例
+3. 暴露静态方法，该方法访问在类内部创建的对象实例
+
+```java
+class Wife {
+    public String name;
+    private Wife(String name) { // 私有化构造器，方式通过new访问
+        this.name = name;
+    }
+
+    public static Wife wife = new Wife("hyl"); // 饿汉，类加载时就着急的创建出实例了
+    public static Wife getInstance() { // 因为不能通过new访问,所以得使用静态方法
+        return wife;
+    }
+}
+```
+
+`java.lang.Runtime` 就是经典的饿汉单例。
+
+### 懒汉式
+
+饿汉式在累加载时创建出来的对象可能压根没有用到，造成了资源浪费，所以就需要懒汉式的单例模式，在使用才创建对象实例。
+
+```java
+class Son {
+    public String name;
+    private Son(String name) {
+        this.name = name;
+    }
+
+    private static Son son;
+    public static Son getInstance() {
+        if (son == null) {
+            son = new Son("my-son");
+        }
+        return son;
+    }
+}
+```
+
+看着花里胡哨，其实这就和 js 的防抖节流是否先执行一次有异曲同工之妙~so easy👻
+
+> But! 懒汉式存在线程安全，比如同时三个线程进入就会创建三个对象实例了，破坏了单例模式。怎么解决？TODO
