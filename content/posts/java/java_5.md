@@ -123,7 +123,7 @@ class Wife {
         this.name = name;
     }
 
-    public static Wife wife = new Wife("hyl"); // 饿汉，类加载时就着急的创建出实例了
+    private static Wife wife = new Wife("hyl"); // 饿汉，类加载时就着急的创建出实例了
     public static Wife getInstance() { // 因为不能通过new访问,所以得使用静态方法
         return wife;
     }
@@ -160,5 +160,17 @@ class Son {
 ## final
 
 1. 修饰类，禁止类被继承
-2. 修饰方法，禁止方法被重写
+2. 修饰方法，禁止方法被重写，但是可以继承
 3. 修饰成员变量和局部变量，则变量不能被修改
+
+细节：
+
+1. 与 JS 中的 const 类似，声明时就得赋初始化值，变量名形式一般为：`xx_xx_xx`
+2. 赋初始化值的位置可以是:
+   - 直接定义
+   - 代码块
+   - 构造器
+3. 特别，如果修饰的是静态属性，则不能在构造器中赋值
+4. 一般，一个类已经是 final 类了，则没必要把方法再修饰成 final
+5. final 和 static 往往搭配使用，效率更高，底层编译器做了优化处理，比如访问同时 final static 修饰的属性，不会导致类的加载
+6. 包装类（Integer、Double、Boolean）都是 final 类，String 也是 final 类，不能被继承~
