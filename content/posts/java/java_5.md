@@ -174,3 +174,30 @@ class Son {
 4. 一般，一个类已经是 final 类了，则没必要把方法再修饰成 final
 5. final 和 static 往往搭配使用，效率更高，底层编译器做了优化处理，比如访问同时 final static 修饰的属性，不会导致类的加载
 6. 包装类（Integer、Double、Boolean）都是 final 类，String 也是 final 类，不能被继承~
+
+## 抽象类
+
+父类中需要声明但是又不确定如何实现，往往需要子类去重写的方法，可以声明为抽象方法，这个类声明为抽象类。
+
+关键字: `abstract`，只能修饰类和方法。
+
+```java
+abstract class Animal {
+    public abstract void eat(); // 不能有 {}
+}
+```
+
+注意：
+
+- 抽象类不能被实例化
+- 继承了抽象类的类必须重写抽象类的所有抽象方法，除非这个子类也为抽象类
+- 抽象方法不能使用 private, final, static 关键字，因为和重写相违背
+
+### 模板模式
+
+当多个类中有相同的方法时，可以考虑提取到一个父类抽象类中。封装不变部分，扩展可变部分：
+
+- 相同的方法一般使用 `final` 关键字修饰
+- 不同的方法设为抽象方法，需要子类去重写
+
+> [菜鸟教程的简单 demo](https://www.runoob.com/design-pattern/template-pattern.html)
