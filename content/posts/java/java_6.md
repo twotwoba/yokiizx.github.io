@@ -125,9 +125,11 @@ class Outer{       // 外部类
 }
 ```
 
+> 当内/外部类有重名的属性遵循就近原则，访问外部需要 `外部类名.this.xxx`
+
 内部类的最大特点是：可以直接访问外部类的私有属性或方法，并且可以体现类与类之间的包含关系。
 
-### 分类：
+### 分类
 
 - 局部内部类，定义在方法中，不能添加访问修饰符，但是可以加 final
 
@@ -145,8 +147,6 @@ class Outer{       // 外部类
             private String num = "yy";
 
             public void log() {
-                // 当内/外部类有重名的属性遵循就近原则
-                // 访问外部需要 外部类名.this.xxx
                 System.out.println(num + "---" + Outer.this.num);
             }
         }
@@ -157,8 +157,60 @@ class Outer{       // 外部类
   }
   ```
 
-- 匿名内部类，无类名，重要
-- 成员内部类，无 static
-- 静态内部类，有 static
+- 匿名内部类，无类名的局部内部类
+  `new 接口/类名(参数) { ... };`
 
-> 内容较多，直接看视频吧---[B 站](https://www.bilibili.com/video/BV1fh411y7R8/?p=414&spm_id_from=pageDriver&vd_source=fbca740e2a57caf4d6e7c18d1010346e)
+  ```java
+  // 场景: 传统接口一定要先被类实现，再重写方法，但是这个实现的类假如只使用一次呢？
+  // 那么每次创建类再实现接口就有点浪费了，可以直接使用匿名内部类来完成
+  class AnonymousOuter {
+    public void demo() {
+        // 语法 直接 new 接口/类名() { // ... };
+        // 编译类型是 Animal; 运行类型是 AnonymousOuter$1, 如有多个多个就外部类$1..n
+        Animal tiger = new Animal() {
+            @Override
+            public void cry() {
+                System.out.println("tiger cry...");
+            }
+        };
+
+        tiger.cry(); // tiger一直存在，但是匿名内部类只使用一次
+    }
+  }
+
+  public static void main(String[] args) {
+      AnonymousOuter anonymousOuter = new AnonymousOuter();
+      anonymousOuter.demo();
+  }
+
+  // 实践，可以直接作为参数传递给方法。
+  ```
+
+- 成员内部类，无 static，不在方法里而再在类成员位置写类，可以用所有修饰符
+
+  ```java
+  class MemberOuter {
+    public class MemberInner {
+        public void log() {
+            System.out.println("访问成员内部类...");
+        }
+    }
+  }
+  // 外部其他类使用内部类的情况
+  public static void main(String[] args) {
+      MemberOuter memberOuter = new MemberOuter();
+      MemberOuter.MemberInner memberInner = memberOuter.new MemberInner();
+      memberInner.log();
+  }
+  ```
+
+- 静态内部类，有 static，限制了不能访问非静态的成员
+
+  ```java
+  // 把上方成员内部类变成静态成员内部类后访问方式
+  public static void main(String[] args) {
+      MemberOuter.MemberInner memberInner = new MemberOuter.MemberInner();
+  }
+  ```
+
+> 入门视频更详细 ---[B 站](https://www.bilibili.com/video/BV1fh411y7R8/?p=414&spm_id_from=pageDriver&vd_source=fbca740e2a57caf4d6e7c18d1010346e)
