@@ -111,6 +111,54 @@ class LittleMonkey extends Monkey implements Swimming,Fly {
 
 ---
 
-## 内部类
+## 四种内部类
 
-TODO
+### 介绍
+
+顾名思义，一个类中包含了另一个类。
+
+```java
+class Outer{       // 外部类
+  class Inner {    // 内部类
+    // ...
+  }
+}
+```
+
+内部类的最大特点是：可以直接访问外部类的私有属性或方法，并且可以体现类与类之间的包含关系。
+
+### 分类：
+
+- 局部内部类，定义在方法中，不能添加访问修饰符，但是可以加 final
+
+  ```java
+  public class Outer {
+
+    public static void main(String[] args) {
+        new Outer().part();
+    }
+
+    public static int num = 1;
+
+    public void part() {
+        class Inner {
+            private String num = "yy";
+
+            public void log() {
+                // 当内/外部类有重名的属性遵循就近原则
+                // 访问外部需要 外部类名.this.xxx
+                System.out.println(num + "---" + Outer.this.num);
+            }
+        }
+        // 访问内部类 实例化对象即可
+        Inner inner = new Inner();
+        inner.log();
+    }
+  }
+  ```
+
+- 匿名内部类，无类名，重要
+- 成员内部类，无 static
+- 静态内部类，有 static
+
+> 内容较多，直接看视频吧---[B 站](https://www.bilibili.com/video/BV1fh411y7R8/?p=414&spm_id_from=pageDriver&vd_source=fbca740e2a57caf4d6e7c18d1010346e)
