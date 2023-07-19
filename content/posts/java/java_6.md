@@ -211,6 +211,8 @@ class Outer{       // 外部类
   public static void main(String[] args) {
       MemberOuter.MemberInner memberInner = new MemberOuter.MemberInner();
   }
+
+  // 区别前面三个，访问外部类重复属性名的时候是 “外部类名.静态属性”  没有this了..
   ```
 
 > 入门视频更详细 ---[B 站](https://www.bilibili.com/video/BV1fh411y7R8/?p=414&spm_id_from=pageDriver&vd_source=fbca740e2a57caf4d6e7c18d1010346e)
