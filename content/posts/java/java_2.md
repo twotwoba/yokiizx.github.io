@@ -1,5 +1,5 @@
 ---
-title: 'Java_2'
+title: 'Java_2_类型&修饰符&运算符'
 date: 2023-06-15T20:12:28+08:00
 tags: []
 series: [java]

@@ -1,5 +1,5 @@
 ---
-title: 'Java_3'
+title: 'Java_3_三大特性'
 date: 2023-06-30T10:18:33+08:00
 tags: []
 series: [java]
