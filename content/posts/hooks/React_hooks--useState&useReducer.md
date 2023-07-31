@@ -28,7 +28,7 @@ const plus = () => {
   setNumber(number + 1)
   setNumber(number + 1)
   setNumber(number + 1)
-  console.log('plus ---', number) //  输出仍然为 0
+  console.log('plus ---', number) //  输出仍然为 0, 就像一个快照
 }
 
 useEffect(() => {
@@ -52,6 +52,12 @@ useEffect(() => {
 两个小点：
 
 - 如果 setState 的值与前一次渲染一样（依据 Object.is），则不会触发重新渲染
+  ```js
+  const obj1 = { num: 1 }
+  const obj2 = obj1
+  obj2.num = 2
+  Object.is(obj1, obj2) // true
+  ```
 - setState 的动作是批量更新的，想要立马更新使用 flushSync api
 
 ### 初始化值为函数类型注意点
@@ -65,8 +71,33 @@ useEffect(() => {
 
 ## useReducer
 
-const [state, dispatch] = useReducer(reducer, initialArg, init?)
+这是 React 生态中状态管理的一种设计模式。
+
+`const [state, dispatch] = useReducer(reducer, initialArg, init?)`
+
+`init` 不为空时，初始 state 为 `init(initilaArg)` 函数执行的返回值；否则就是 `initialArg` 自身。这么做的原因和不要在 useState 时穿函数执行一个道理。
+
+### 使用场景
+
+当一个 state 的状态更新被多个不同的事件处理时，就可以考虑把它重构为 `reducer` 了。
+
+`reducer` 函数在组件之外，接收两个参数 `reducer(state, action)`，必须返回下一个状态。
+
+```tsx
+function reducer(state, action) {
+  // like this
+  if (action.type === 'add') {
+    return { age: state.age + 1 } // 返回nextState
+  }
+  // 一般返回 {type: xxx, otherProps: ...}
+}
+```
+
+与 useState 一致，reducer return 的 nextState 如果和前一次状态一致，那么就不会触发渲染，判断是否一致的规则是 `Object.is(a,b)`，所以是不能直接改 state 的，需要 `{...state, changeProps: val, ...}`。
+
+> useReducer 除了可以更好的简化代码，也更方便 debug，但如果不是对状态多重操作的话，也没必要这么做。
 
 ## reference
 
 - [useState](https://react.dev/reference/react/useState)
+- [useReducer](https://react.dev/reference/react/useReducer)
