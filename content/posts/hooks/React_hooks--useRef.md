@@ -25,6 +25,8 @@ weight: 3
 - `useRef` 引用的数据在改变后不会影响组件渲染，类似于函数组件的一个实例属性
 - `useState` 的值改变后会引发重新渲染
 
+> 函数式组件在每次渲染中的 props、state 等等都是那次渲染中所独有的，当需要在 useEffect 中访问`未来`的 props/state 时，可以使用 useRef 。[Demo](https://codesandbox.io/s/ox200vw8k9?file=/src/index.js:165-178): 随意输入并 send 后，再次输入，获取的是全部的输入。
+
 ### TS 环境下的使用
 
 在 TS 环境下，往往你可能会遇到此类报错：  

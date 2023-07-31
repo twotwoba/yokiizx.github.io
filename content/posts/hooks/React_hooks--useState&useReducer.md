@@ -19,7 +19,7 @@ const [state, setState] = useState(initialState)
 
 ### 心智模型(重要)
 
-在函数组件中所有的状态在一次渲染中实际上都是`不变的，是静态的`，你所能看到的 `setState` 引起的渲染其实已经是下一次渲染了。理解这一点尤为重要。
+在函数组件中所有的状态在一次渲染中实际上都是`不变的，是静态的`，你所能看到的 `setState` 引起的渲染其实已经是下一次渲染了。理解这一点尤为重要，感谢 Dan 的[文章讲解](https://overreacted.io/a-complete-guide-to-useeffect/#each-render-has-its-own-props-and-state)。
 
 ```tsx
 const [number, setNumber] = useState(0)
@@ -79,7 +79,7 @@ useEffect(() => {
 
 ### 使用场景
 
-当一个 state 的状态更新被多个不同的事件处理时，就可以考虑把它重构为 `reducer` 了。
+当一个 state 的状态更新被多个不同的事件处理时，就可以考虑把它重构为 `reducer` 了。另一个场景是 useEffect 中依赖之间有相互依赖从而去计算下一个状态时，可以使用 reducer 来去掉 useEffect 的 deps。
 
 `reducer` 函数在组件之外，接收两个参数 `reducer(state, action)`，必须返回下一个状态。
 
