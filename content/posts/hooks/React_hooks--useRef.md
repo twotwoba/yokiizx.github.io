@@ -4,7 +4,7 @@ date: 2023-07-26T11:47:25+08:00
 tags: []
 series: [hooks]
 categories: [React hooks]
-weight: 1
+weight: 3
 # draft: true
 ---
 
@@ -12,7 +12,7 @@ weight: 1
 
 <!-- `useRef(initialValue)` 在源码中的形式为 `{current: initialValue}`，保存在 `hook.memoizedState` 上。 -->
 
-`const demoRef = useRef(null)`
+`const ref = useRef(initialValue)`
 
 `ref` 就是引用，vue 中也有类似的概念，在 react 中 ref 是一个形如 `{current: initialValue}` 的对象，不仅可以用来**操作 DOM**，也可以**承载数据**。
 
@@ -35,7 +35,7 @@ weight: 1
 
 前置先介绍两个 api：
 
-1. 因为函数不能直接接收 ref，所以在子组件中使用 `forwardRef` 这个 api 来传递进子组件。
+1. 因为函数不能直接接收 ref，所以在子组件中使用 `forwardRef` 这个 api 来传递进子组件。在类组件时代也常用来跨祖孙组件传递 ref, 比如 HOC。
 2. 父组件想要访问子组件的数据，需要使用 `useImperativeHandle` 这个 api 对外暴露。
 
 ```tsx
