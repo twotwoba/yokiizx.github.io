@@ -5,7 +5,6 @@ tags: []
 series: [hooks]
 categories: [React hooks]
 weight: 2
-# draft: true
 ---
 
 ## useEffect
