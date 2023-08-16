@@ -64,9 +64,20 @@ public final class String
 1. `String` 是 `final` 类
 2. 内部使用 `final char value[]` 来存储字符数组
 
-```java
-private final char value[]; // final类型, 不可修改(指的是地址)
-```
+   ```java
+   private final char value[]; // final类型, 不可修改(指的是地址)
+
+   // 经典题：下面创建了几个对象?
+   String a = 'hello';
+   a = 'world';
+   // 2 个，因为final修饰字符串是不可变的，因此常量池中创建了hello 和 world 两个字符串对象，只是改变了 a 变量的引用
+   String b = "hello" + "world"; // 1 个对象,编译器不傻,会判断常量池中对象是否被引用
+   String c = a + b; // a-hello b-world 呢? 3 个
+   // 1. 创建 StringBuilder 实例对象 sb (堆上)
+   // 2. 再分别把 a 和 b append 到 sb 上
+   // 3. 返回 sb.toString(), 注意 c 指向的是堆中地址
+   // 因此： System.out.println(b == c); // false
+   ```
 
 ### 两种创建方式
 

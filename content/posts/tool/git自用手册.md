@@ -124,6 +124,11 @@ git restore --staged [filename]
 
 > 注意：reflog 查看的是本地历史，在别的电脑上是看不见的，同理如果电脑坏了，那么也回不到未来了...另外，git reflog 不会永远保持，Git 会定期清理那些 “用不到的” 对象，不要指望几个月前的提交还一直在那里。
 
+### 处理 fatal: refusing to merge unrelated histories
+
+```sh
+g pl origin develop --allow-unrelated-histories
+```
 ---
 
 ## 新手概念
