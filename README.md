@@ -1,3 +1,3 @@
 # yokiizx.github.io
 
-Nice to meet you~~~
+Hi~ I'm Eric Yuan, Nice to meet you~~~
