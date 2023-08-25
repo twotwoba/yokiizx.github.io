@@ -1,5 +1,5 @@
 ---
-title: 'Java_8_包装类'
+title: 'Java_8_包装类&String类'
 date: 2023-07-23T11:47:25+08:00
 tags: []
 series: [java]
@@ -38,7 +38,9 @@ Object a =  true ? new Integer(1) : new Double(2.0)
 System.out.println(a) // 1.0
 ```
 
-> 三元运算符要看成一体，最终变量的精度为整体的最高精度
+{{< admonition>}}
+三元运算符要看成一体，最终变量的精度为整体的最高精度
+{{</ admonition>}}
 
 ## String 类
 
@@ -107,3 +109,16 @@ System.out.println(a == b);      // false
 ### intern()
 
 这个方法就是根据 String 的“模样”，去常量池中找，如果有“长得一样的”，就返回这个地址；否则就在常量池中新创建该字符串并返回常量池中的地址。
+
+```java
+String a = "hello";
+String b = "world";
+String c = "helloworld";
+System.out.println((a + b).intern() == c);  // T
+```
+
+---
+
+## StringBuffer and StringBuilder
+
+String 类的效率比较低，每次更新都需要重新开辟空间，所以 java 中设计了 StringBuilder 和 StringBuffer 来提高效率。
