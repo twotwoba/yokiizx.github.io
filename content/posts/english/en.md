@@ -11,7 +11,7 @@ weight: 1
 
 ## 学习纲领
 
-自学了那么编程语言的经验告诉我不能盲目学习，所以我先去 YouTube 上找了不少学习英语的建议视频：
+自学了一些编程语言的经验告诉我不能盲目学习，所以我先去 YouTube 上找了不少有关于学习英语的建议视频：
 
 ### 关于英语思维
 
@@ -102,7 +102,7 @@ thick
 material image dance lose female 这几个单词于我而言发音需要纠正
 ```
 
-剩下就是慢慢积累了，一定要注意发音和语境。
+剩下就是慢慢积累 (accumulate) 了，一定要注意发音和语境。
 
 ### 推荐软件
 
@@ -124,15 +124,34 @@ material image dance lose female 这几个单词于我而言发音需要纠正
 
 ### 时态总结
 
-关于时态的一个简单总结，下图中箭头表示往往日常中人们也可以用常用的时态来代替不常用的时态，懂得意思就好。
+![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202308251435558.png)
 
-{{<figure src="/images/time-tense.png" title="">}}
+其中有以下几个注意点：
+
+1. 动词形式：`past & present` 只需要修改 verb 的形态就好了，`feture` 需要在 verb 前加些料：`be going to`、`will`、`might`，就这么简单与 `aspect` 无关，**`but!`**，有时候 `present simple` 或 `present continuous` 也可以表示将来的意思，需要意会哦~ 比如: `what are you doing this weekend / class starts at 10:00`
+2. 分清楚各个 `aspect` 的 `verb forms` 及意义
+
+   - `simple`，描述事实或习惯(重复的 actions/states) `past & verb & will+verb`
+   - `continuous`，描述某个时刻正在做(动作未完成或临时的) `was/were & am/is/are & will be + verb-ing`
+   - `perfect`，潜在意义里连接了两个时间点 `had & have(has) & will have + past`，我的感觉上是到终止日期完成(不一定是个具体的日期)
+
+     - `By yesterday, I had remembered 54 words` 从过去的一个点到另一个过去的点，译：已经....
+     - `I have remember 60 words now` 从过去一个点到现在，译：已经...
+     - `I will have remember 100 words by Sunday` 从现在到将来的一个点，译：将会/会...
+
+   - `perfect continus`，在 perfect 的基础上强调动作未完成或临时的`~ `had & have(has) & will have + been + verb-ing`，有时候可以被 perfect 取代~
+
+{{< admonition note >}}
+以上是我自己学习后的感悟就记录了下来，其实看文字没啥卵用，重点是一定要理解了
+{{</ admonition >}}
 
 ---
 
 ## 听说练习
 
+{{< admonition tip "强烈推荐">}}
 主要学习的是美音，跟随[Lisa](https://www.youtube.com/@AccurateEnglish)老师，不得不说，真的是很棒，帮助我纠正了很多发音问题~
+{{</ admonition >}}
 
 ### 推荐软件
 
