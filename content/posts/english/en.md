@@ -10,31 +10,99 @@ weight: 1
 
 ## 词汇
 
-### 最最最基础的单词
+- 👂 表示需要注意发音
+- 🤹 表示词性不同有多个不同的意思
 
-从 Youtube 上找了个【从零开始】掌握这 625 个单词，让你的英语水平突飞猛进~
+### 初初级
 
-{{<youtube zc3UQQVgQ1s>}}
+- [【从零开始】掌握这 625 个单词，让你的英语水平突飞猛进](https://www.youtube.com/watch?v=zc3UQQVgQ1s)
 
-咱也不能蛇吞象嘛，就先来这 625 吧，词根词缀什么的，慢慢积累吧。
+之所找了这个么初初级的单词视频，是因为丢下了英语很多年了，现在想捡起来，但是发现很多单词都忘记了，于是就找了这个初级的视频，2 分钟过了一下，别说，还真有一些单词有欠缺。
+
+```txt
+tire
+gasoline
+stain
+secretary  👂
+priest     👂
+race       🤹
+elect
+exercise
+instrument 🤹
+instruct
+soup       🤹
+beverage
+spoon
+curved
+seed
+soap
+ceiling     👂
+
+rear
+squirrely   👂
+square       🤹
+vehicle
+philosophy  👂
+sustain     👂
+
+lamp
+beard
+toe
+sweat       👂
+disease     👂 🤹
+sand
+hill
+heat
+
+metal
+medal
+mental
+
+plastic
+clay
+dust
+copper    🤹
+silver
+injury
+melt
+dig
+explode
+exploit   🤹 👂
+bend
+
+deaf      👂
+mute
+blind
+mean      🤹 n adj v
+
+trick
+thick
+
+material image dance lose female 这几个单词于我而言发音需要纠正
+```
 
 ---
 
-### 以听为主记单词
+### 学习方法
+
+- 结合语境记单词
+- 以听为主记单词
 
 {{<youtube -UuLXXQn5jA>}}
 
 ---
 
-### 英语兔的介词攻略
+### 介词攻略
 
-{{<bilibili BV1E64y1m75Z>}}
+{{<youtube VcZglLpFlRs>}}
 
 ## 语法学习
 
 在 Youtube 上也找到了一个比较好的教学视频，感兴趣的可以学习一下。
 
 [English Grammar Lessons](https://www.youtube.com/playlist?list=PLD6t6ckHsruY_i7_rZhKcRBmXDdawiqUM)
+
+{{<youtube jul2urONzOQ>}}
 
 ### 时态总结
 
