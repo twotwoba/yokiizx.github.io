@@ -75,7 +75,7 @@ useEffect(() => {
 
 `const [state, dispatch] = useReducer(reducer, initialArg, init?)`
 
-`init` 不为空时，初始 state 为 `init(initilaArg)` 函数执行的返回值；否则就是 `initialArg` 自身。这么做的原因和不要在 useState 时穿函数执行一个道理。
+`init` 不为空时，初始 state 为 `init(initilaArg)` 函数执行的返回值；否则就是 `initialArg` 自身。这么做的原因和不要在 useState 时传函数执行一个道理。
 
 ### 使用场景
 

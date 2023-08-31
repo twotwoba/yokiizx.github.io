@@ -1,7 +1,7 @@
 ---
 title: '我的英语学习之路'
 date: 2023-01-01T10:30:18+08:00
-lastmod: 2023-08-25 13:18:13
+lastmod: 2023-08-31 22:49:24
 weight: 1
 ---
 
@@ -144,6 +144,21 @@ material image dance lose female 这几个单词于我而言发音需要纠正
 {{< admonition note >}}
 以上是我自己学习后的感悟就记录了下来，其实看文字没啥卵用，重点是一定要理解了
 {{</ admonition >}}
+
+### would have; could have; should have(注意发音~)
+
+这三个是比较常用的 `情态动词 + have + 过去分词` 组合形式，需要理解含义，多说。
+
+- `would have`，等价于中文的 `要是...，就/就会...` 的 **`就/就会`**
+  - `If I had studied harder, I would have gone to a better university`
+- `could have`，等价于中文的 `就可以.../本可以.../有可能.../(本)应该.../本来...`
+  - `If I had more time, I could have finished it/ He could have won it if he hadn't...`
+  - `They could have mixed up the date/ I could have lost my keys` _这里表猜测_
+  - `You could have told me sooner` _这里表批评_
+  - `We were really late, and we could have missed our plane, but luckily we just made it` _表示幸运地避免了坏情况_
+- `should have`，等价于中文的 `(本)应该...`, 带有点批评的意思，有时候也表示期望的事情没有发生
+  - `You should have call me like you promised` 表示批评
+  - `They should been here by now` 表示期待的事情未发生
 
 ---
 
