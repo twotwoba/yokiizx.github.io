@@ -57,7 +57,7 @@ public final class String
     }
 ```
 
-- `Serializable` 接口，说明 string 可以串行化：可以在网络传输
+- `Serializable` 接口，说明 string 可以串行化：可以在网络传输,可以保存到文件
 - `Comparable` 接口，说明 string 可以比较
 - `charSequence` 接口
 
@@ -119,6 +119,26 @@ System.out.println((a + b).intern() == c);  // T
 
 ---
 
-## StringBuffer and StringBuilder
+## StringBuffer
 
 String 类的效率比较低，每次更新都需要重新开辟空间，所以 java 中设计了 StringBuilder 和 StringBuffer 来提高效率。
+
+### 继承&实现
+
+`StringBuffer` 也实现了 `Serializable` 接口
+`StringBuffer` 继承自 `AbstractStringBuilder`，该类内部有 `char[] value` 非 final 属性。
+`StringBuffer` 也是 final 类
+
+> 相比较 String，在扩大字符串的时候，是修改的在堆中的 value 的内容，只有当扩容的时候才会修改地址。而 String 每次都是在修改地址。
+
+## StringBuilder
+
+与 StringBuffer 类似，但不保证同步（不是线程安全的，看源码可以看到它的方法都没有 synchronized 关键字修饰的。）。被当做 StringBuffer 的简易替换，**用作字符串缓冲区被单个线程使用的时候**。它比 StringBuffer 要快。
+
+## 比较
+
+- String：效率低，复用率高
+- StringBuffer：效率较高，线程安全
+- StringBuilder：效率最高，线程不安全
+
+## 其它内部类,直接查手册吧~
