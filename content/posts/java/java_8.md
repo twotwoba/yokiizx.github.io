@@ -139,6 +139,6 @@ String 类的效率比较低，每次更新都需要重新开辟空间，所以 
 
 - String：效率低，复用率高
 - StringBuffer：效率较高，线程安全
-- StringBuilder：效率最高，线程不安全
+- StringBuilder：效率最高，线程不安全。`Array.toString()` 就是用这个拼接的~
 
 ## 其它内部类,直接查手册吧~
