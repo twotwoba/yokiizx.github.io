@@ -33,7 +33,7 @@ ls -l
 ll
 ```
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202212032127217.jpeg)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202212032127217.jpeg)
 
 ```sh
 total 0

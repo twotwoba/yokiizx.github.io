@@ -519,13 +519,13 @@ class Compiler {
 
 附上两张网上的图，便于理解：
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301031450002.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202301031450002.png)
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301171730205.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202301171730205.png)
 
 用于总结 module 和 chunk
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301021511242.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202301021511242.png)
 
 ## 补充：易混淆知识点
 
@@ -534,7 +534,7 @@ class Compiler {
    - module：构建阶段，通过 `handleModuleCreation` 创建的，对应的是每个文件
    - chunk：打包阶段生成的对象，遍历 `compilation.modules` 后，每个 chunk 都被分配了相应的 module
    - bundle：最终输出的代码，是可以直接在浏览器中执行的
-     ![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301030941740.png)
+     ![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202301030941740.png)
 
      > 一般来讲，一个 chunk 产生一个 bundle，产生 chunk 的途径：
      >

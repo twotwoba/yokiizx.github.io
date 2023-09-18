@@ -75,7 +75,7 @@ a++ // 也会强制转换
 > [Java 基础——成员变量、局部变量和静态变量的区别](https://blog.csdn.net/haovip123/article/details/43883109)
 
 > 关注一下通过类创建对象时，JVM 的内存状态：
-> ![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202306262325036.png)
+> ![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202306262325036.png)
 
 可见，JVM 内存管理主要分为 3 个部分：
 
@@ -231,6 +231,6 @@ package 包名
 - `无修饰符`：对`同一个包中的类`公开，`不在同一个包内，即使继承，也不能访问`
 - `private`：只能类自身访问
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202307042238681.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202307042238681.png)
 
 ---

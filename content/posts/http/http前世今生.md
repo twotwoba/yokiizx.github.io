@@ -71,7 +71,7 @@ http/2 是二进制协议。
 > 在一条链接上可以有多个流，流与流之间是互不影响的，当一个流出现丢包影响范围非常小，从而解决队头阻塞问题
 
 建立一个 HTTPS 的连接，先是 TCP 的三次握手，然后是 TLS 的三次握手，要整出六次网络交互，一个链接才建好，虽说 HTTP/1.1 和 HTTP/2 的连接复用解决这个问题，但是基于 UDP 后，UDP 也得要实现这个事。于是 QUIC 直接把 TCP 的和 TLS 的合并成了三次握手（对此，在 HTTP/2 的时候，是否默认开启 TLS 业内是有争议的，反对派说，TLS 在一些情况下是不需要的，比如企业内网的时候，而支持派则说，TLS 的那些开销，什么也不算了）。
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202210251606478.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202210251606478.png)
 QUIC 是一个在 UDP 之上的伪 TCP +TLS +HTTP/2 的多路复用的协议。
 
 目前看下来，HTTP/3 目前看上去没有太多的协议业务逻辑上的东西，更多是 HTTP/2 + QUIC 协议。但，HTTP/3 因为动到了底层协议，所以，在普及方面上可能会比 HTTP/2 要慢的多的多。
@@ -124,7 +124,7 @@ Https 结合两种加密方式的特长，采用公开秘钥加密进行共享�
 
 <mark>https 握手过程</mark>
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202210272237638.jpeg)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202210272237638.jpeg)
 
 ## 参考
 

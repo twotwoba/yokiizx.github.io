@@ -124,7 +124,7 @@ material image dance lose female 这几个单词于我而言发音需要纠正
 
 ### 时态总结
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202308251435558.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202308251435558.png)
 
 其中有以下几个注意点：
 

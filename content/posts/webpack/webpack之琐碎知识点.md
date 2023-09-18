@@ -7,7 +7,7 @@ series: [wp]
 
 ## HMR
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301301743084.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202301301743084.png)
 
 webpack-dev-server 启动服务后，当文件发生了变动，会触发重新构建，让我们专注于 coding，但是如果不做任何配置，它会刷新页面导致丢失掉应用状态，为此，webpack 提供了 hot module replacement 即 HMR 热更新。
 

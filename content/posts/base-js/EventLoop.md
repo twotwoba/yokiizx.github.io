@@ -15,7 +15,7 @@ HTML5 新增了 Web Worker，但完全受控于主线程，不能操作 I/O,DOM�
 ## 代码执行
 
 如下图，JS 内存模型分为三种，栈空间，堆空间和代码执行空间。基本类型数据和引用类型数据的指针存储在栈中，引用类型数据存储在堆中
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/20220926221003.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/20220926221003.png)
 
 之前作用域的文章里提到过三个上下文，全局上下文，函数上下文，eval 上下文。当代码执行的时候需要一个栈来存储各个上下文的，这样才能保证后进入的上下文先执行结束（这里的后是指内部的嵌套函数）。
 

@@ -7,7 +7,7 @@ tags: [node]
 > 目前 Node.js 社区较为流行的一个 Web 框架，书写比较优雅。
 > [koa 常用中间件](https://www.npmjs.com/package/koa-middlewares)
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202302081832987.jpg)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202302081832987.jpg)
 
 ## 简单 demo
 

@@ -59,7 +59,7 @@ c
 - 如果 `s[i] === s[j]` ，那么 `π(i) = j + 1`;
 - 如果 `s[i] !== s[j]`，那么挪动指针 `j` 到下一个最长的可能匹配的位置，即 j 指针的前一位 π 函数的位置 `j = π(j - 1)`（重难点！！！）
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202304141407906.svg)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202304141407906.svg)
 
 ### 试一试：[28. 找出字符串中第一个匹配项的下标](https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/)
 

@@ -37,7 +37,7 @@ weight: 3
 
 这里借用韩顺平老师的图：
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202307042055445.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202307042055445.png)
 
 > 小结：在 new 一个对象的时候，JVM 先在方法区加载类（在这里会加载类的所有祖先类），然后再在堆中分配内存，最后在主栈中创建变量引用。
 

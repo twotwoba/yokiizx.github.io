@@ -5,7 +5,7 @@ date: 2022-09-21T17:16:09+08:00
 
 > Lerna is a fast, modern build system for managing and publishing multiple JavaScript/TypeScript packages from the same repository.
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202303171022701.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202303171022701.png)
 
 ## lerna 解决了哪些问题
 

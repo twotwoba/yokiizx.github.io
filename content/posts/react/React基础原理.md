@@ -414,7 +414,7 @@ JSX 转为的 ReactElement 只是一个简单的数据结构，携带着 key，r
 - <mark>Renderer（渲染器）</mark>—— 负责将变化的组件渲染到页面上
   - 根据 Reconciler 打的标记对 DOM 进行操作
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202211111612280.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202211111612280.png)
 其中红框中的步骤随时可能由于以下原因被中断：
 
 - 有其他更高优任务需要先更新

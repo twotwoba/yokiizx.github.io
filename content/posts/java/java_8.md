@@ -11,7 +11,7 @@ weight: 8
 
 包装类 -- 针对八种基本数据类型有相对应的引用类型。
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202307231151103.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202307231151103.png)
 
 > Character, Boolean 的父类是 Object，其他的父类是 Number
 
@@ -91,7 +91,7 @@ public final class String
 - 方式一：在常量池里寻找是否存在"xxx"，存在就直接指向，否则就在常量池中创建。变量最终指向的是常量池中的空间地址
 - 方式二：先在堆中开辟空间，维护了 value 属性，如果常量池中存在 value 就指向常量池空间，否在在常量池中创建。变量最终指向的是堆中的空间地址
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202308152311173.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202308152311173.png)
 
 ```java
 // 经典题

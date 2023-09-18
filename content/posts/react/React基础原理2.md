@@ -137,12 +137,12 @@ function App() {
 进入 render 阶段时，根据组件返回的 JSX 在内存中依次创建 Fiber 节点并连接在一起构建 Fiber 树，这就是 workInProgressFiber 树。**每次构建 workInProgressFiber 树时，都会尝试复用 currentFiber 树已有 Fiber 节点的数据，决定是否复用的过程就是 Diff 算法**。
 
 进入 commit 阶段，把 workInProgressFiber 树渲染到页面上，fiberRoot 的 current 指向 workInProgressFiber 树，workInProgressFiber 树变成了 currentFiber 树。
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202211130020382.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202211130020382.png)
 
 ### update
 
 更新时，与 mount 阶段几乎一样，只不过此时的 currentFiber 的 rootFiber 已经有了子节点了，workInProgressFiber 会尽量复用 currentFiber 节点的数据。
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202211130020090.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202211130020090.png)
 
 ## 参考
 

@@ -8,7 +8,7 @@ tags: [CSS]
 
 DOM 发生重叠在垂直方向上的显示顺序：
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/20221006131841.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/20221006131841.png)
 
 从最低到最高实际上是 `装饰->布局->内容` 的变化，比如内联才比浮动的高。
 

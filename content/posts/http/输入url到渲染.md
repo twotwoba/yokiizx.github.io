@@ -10,7 +10,7 @@ tags: [http, browser]
 
 下面是一个常见的图：`
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202210191532653.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202210191532653.png)
 
 TODO
 

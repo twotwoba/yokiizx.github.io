@@ -262,7 +262,7 @@ export const Deletion = /*                 */ 0b00000000001000;
 > 通过二进制表示 flags(v16叫effectTag)，可以方便的使用位操作为 fiber.flags(v16叫effectTag) 赋值多个 effect。
 
 beginWork 的流程图：
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202211152222775.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202211152222775.png)
 
 ### completeWork
 
@@ -404,7 +404,7 @@ rootFiber.firstEffect -----------> fiber -----------> fiber
 这样，在 commit 阶段只需要遍历 effectList 就能执行所有 effect 了。
 
 `completeWork` 大致流程图：
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202211170035027.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202211170035027.png)
 
 ## 总结
 

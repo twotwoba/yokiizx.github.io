@@ -33,7 +33,7 @@ weight: 7
 - tray-catch-finally，捕获异常，自行处理
 - throws，抛出异常，交给调用者（方法）来处理，最顶级的处理者就是 JVM
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202307222056115.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202307222056115.png)
 
 > 如果没有 try，那么默认就是 throws 抛出
 

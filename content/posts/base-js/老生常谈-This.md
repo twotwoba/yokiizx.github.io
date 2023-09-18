@@ -4,7 +4,7 @@ date: 2022-09-17T01:25:06+08:00
 tags: [JavaScript]
 ---
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/this.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/this.png)
 
 回想起刚刚进入这行的时候，被 this 没少折腾，回忆记录一下吧~
 

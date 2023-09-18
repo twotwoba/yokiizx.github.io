@@ -277,7 +277,7 @@ npm link
 
 对三个包 link 后，本地全局就会多了这三个包，如图：
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301062356149.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202301062356149.png)
 
 然后在项目中使用这三个包：
 

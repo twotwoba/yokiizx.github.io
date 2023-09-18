@@ -11,7 +11,7 @@ TCP/IP 模型是互联网的基础，它是一系列网络协议的总称。这�
 - 网络层，地址管理与路由选择（IP...）
 - 链路层，互连设备之间传送和识别数据帧。
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202210202335427.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202210202335427.png)
 
 ---
 
@@ -19,7 +19,7 @@ TCP/IP 模型是互联网的基础，它是一系列网络协议的总称。这�
 
 在传输层，核心的就是 TCP 了，三次握手四次挥手那更是老生常谈的问题了。简单记录下常见面试题，详细的见文末参考文章，或者自行 google~
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202210210008339.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202210210008339.png)
 
 1. 为啥握手是三次  
    双端确认各自及对方的接收、发送能力正常。
@@ -32,7 +32,7 @@ TCP/IP 模型是互联网的基础，它是一系列网络协议的总称。这�
 3. SYN 攻击是什么  
    服务器端的资源分配是在二次握手时分配的。就是利用大量不存在的 IP 来向服务器发送连接请求，服务端回复后等待第三次连接，因为客户端 IP 根本不存在，所以会成为半连接，服务端会不断重发直至超时，大量的半连接导致正常的 SYN 请求因为队列满而被丢弃，从而引起网络拥塞甚至系统瘫痪。SYN 攻击是一种典型的 DoS/DDoS 攻击。
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202210210009002.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202210210009002.png)
 
 1. 为啥挥手是四次  
    因为服务端接收到 FIN 的时候，很可能并不能立刻关闭连接，所以先只回复了应答 ACK 报文，告诉服务端我知道了，等服务端报文发送完毕后，再发送 FIN 报文同步关闭。

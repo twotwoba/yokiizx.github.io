@@ -37,14 +37,14 @@ tags: [JavaScript, DOM]
 - getElementsBy\* 返回的是 HTMLCollection
 - querySelectorAll 返回值是 NodeList
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/20220918155922.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/20220918155922.png)
 
 > HTMLCollection 比 NodeList 多了个 `namedItem(name)` 方法，根据 name 属性获取 dom
 > NodeList 相比 HTMLCollection 多了更多的信息，比如注释，文本等
 
 ## navigator | location | history
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/20220918151505.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/20220918151505.png)
 
 ### navigator
 
@@ -58,7 +58,7 @@ location 顾名思义，主要是对地址栏 URL 的操作。
 
 具体如下: `location.xxx`
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/20220918164450.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/20220918164450.png)
 
 两个主要点：
 

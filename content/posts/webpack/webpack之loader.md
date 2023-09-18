@@ -28,7 +28,7 @@ module.exports = {
 
 一个小知识点，loader 总是从右往左调用的，但是，在实际执行之前，会先**从左到右**调用 loader 的 `pitch` 方法，如果某个 loader 在 pitch 方法中给出一个结果，那么这个过程会回过身来，并跳过剩下的 loader，详细见[Loader Interface](https://webpack.docschina.org/api/loaders/)。
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301051444588.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202301051444588.png)
 
 ## 自定义 loader
 

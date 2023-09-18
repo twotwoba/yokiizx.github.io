@@ -15,7 +15,7 @@ statistics: 'false'
     <div class="me-basic__info--item">邮箱： yokiizx@163.com</div>
     <div class="me-basic__info--item right">期望工作地： 苏州、上海</div>
     <div class="me-basic__info--avatar">
-        <img src="https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202301311756745.png" width="120px" height="150px">
+        <img src="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202301311756745.png" width="120px" height="150px">
     </div>
 </div>
 

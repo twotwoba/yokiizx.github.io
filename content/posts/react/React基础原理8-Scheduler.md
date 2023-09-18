@@ -383,4 +383,4 @@ ifIdle(yes)->ric
 - [window.requestAnimationFrame](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame)
 - [IntersectionObserver API 使用教程](https://www.ruanyifeng.com/blog/2016/11/intersectionobserver_api.html)
 
-![](https://cdn.staticaly.com/gh/yokiizx/picgo@master/img/202211291457300.png)
+![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202211291457300.png)
