@@ -61,15 +61,28 @@ for (String s : test) {
 #### 两种常用的 Set 实现类
 
 - `HashSet`，底层实际上是`HashMap`，而`HashMap`的底层是`数组+链表+红黑树`，
+
   - 当 Set 小于 64(MIN_TREEIFY_CAPACITY) 的时候，数组+链表（邻接表---数组存储链表头）就够了
-  - 当 Set 大于 64(MIN_TREEIFY_CAPACITY) 且某条链表超过 8(TREE_THRESHOULD) 时，整个表会进行树化（红黑树）。
+  - 当 Set 大于等于 64(MIN_TREEIFY_CAPACITY) 且某条链表容量到达 8(TREE_THRESHOLD) 时，整个表会进行树化（红黑树）。
+
   ```java
   // 经典题
   set.add(new String('hello'));
   set.add(new String('hello')); // 可以加入吗？ 答案是：NO！
   // 底层添加的原理 hash + equals
   // 添加一个元素时，先得到hash值，回转成索引值，根据索引值找到链表，当链表不为空时，调用 equals 方法进行比较，如果相同就放弃添加。String的equals是比较字符串内容，所以上述不能添加进去。
+
+  /* ---------- new HashSet ---------- */
+  public HashSet() {
+    map = new HashMap<>();
+  }
+  /* ---------- hashSet.add(E e) ---------- */
+  return map.put(e, PRESENT)==null;
+  return putVal(hash(key), key, value, false, true)
+  /* ---------- hash(key) ---------- */
+  (h = key.hashCode()) ^ (h >>> 16)
   ```
+
 - `TreeSet`.
 
 ## Map
