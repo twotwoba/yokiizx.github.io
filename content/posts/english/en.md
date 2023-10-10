@@ -1,7 +1,7 @@
 ---
 title: '我的英语学习之路'
 date: 2023-01-01T10:30:18+08:00
-lastmod: 2023-08-31 22:49:24
+lastmod: 2023-10-10
 weight: 1
 ---
 
@@ -11,118 +11,45 @@ weight: 1
 
 ## 学习纲领
 
-自学了一些编程语言的经验告诉我不能盲目学习，所以我先去 YouTube 上找了不少有关于学习英语的建议视频：
+根据以往本人自学编程语言的经验，我深知不能盲目地学习，否则就是英语字典的第一个单词：abandon ～，so，我就先去 YouTube 上找了一些关于学习英语的建议，下面是我的总结。
+
+<!-- 1. 英语思维培养
+2. 以听为主记单词
+3. 发音很重要 -->
 
 ### 关于英语思维
 
 {{<youtube kyOCMfcoqNc>}}
 
-### 关于词汇：以听为主记单词
+### 以听为主记单词
 
 {{<youtube -UuLXXQn5jA>}}
 
-个人觉得语境也很重要
+- 其实那些极个别的词根词缀我认为还是可以记一记的～
+- 另外，个人觉得语境真的也很重要
 
-### 关于发音：无脑信 Lisa 老师
+#### 推荐
 
-YouTube 地址：[Accurate English](https://www.youtube.com/@AccurateEnglish)
+- YouTube 地址：[EnglishClass101](https://www.youtube.com/@EnglishClass101/playlists)
+- 手机 app ：「墨墨背单词」，按照人的记忆曲线背单词，同时提供发音和例句~ 正在坚持打卡中 👊
 
----
+### 美式发音：无脑信 Lisa 老师
 
-## 词汇
+#### 推荐
 
-### 基础词汇
-
-由于丢下了英语很多年，所以先找了下面这个视频，花了 30 分钟过了一下，别说，还真有一些单词已经被我遗忘或者说从前的发音不准。
-
-[【从零开始】掌握这 625 个单词，让你的英语水平突飞猛进](https://www.youtube.com/watch?v=zc3UQQVgQ1s)
-
-- 👂 表示需要注意发音
-- 🤹 表示词性不同有多个不同的意思
-
-```txt
-tire
-gasoline
-stain
-secretary  👂
-priest     👂
-race       🤹
-elect
-exercise
-instrument 🤹
-instruct
-soup       🤹
-beverage
-spoon
-curved
-seed
-soap
-ceiling     👂
-
-rear
-squirrely   👂
-square       🤹
-vehicle
-philosophy  👂
-sustain     👂
-
-lamp
-beard
-toe
-sweat       👂
-disease     👂 🤹
-sand
-hill
-heat
-
-metal
-medal
-mental
-
-plastic
-clay
-dust
-copper    🤹
-silver
-injury
-melt
-dig
-explode
-exploit   🤹 👂
-bend
-
-deaf      👂
-mute
-blind
-mean      🤹 n adj v
-
-trick
-thick
-
-material image dance lose female 这几个单词于我而言发音需要纠正
-```
-
-剩下就是慢慢积累 (accumulate) 了，一定要注意发音和语境。
-
-### 推荐软件
-
-「墨墨背单词」，按照人的记忆曲线背单词，同时提供发音和例句~ 正在坚持打卡中
+- YouTube 地址：[Accurate English](https://www.youtube.com/@AccurateEnglish)
 
 ---
 
-### 介词攻略
+### 语法
 
-介词真的挺烦的，目前找到一个英语兔的总结，后续有好的教学再贴进来
-{{<youtube VcZglLpFlRs>}}
+语法这个东西，还是需要系统的学习下的～ 语感好的就忽略吧 😂
 
-## 语法
+#### 推荐
 
-虽然很多视频都在讲学习英语听说练好了语法自然就成了，但是作为一名程序员，我还是喜欢刨根问底~，同样在 Youtube 上也找到了一个比较好的教学视频，感兴趣的可以学习一下。
+- [EngVid](https://www.youtube.com/@EngVid/playlists)，这里有初中高级语法完成视频教程，也有雅思托福听说写～。
 
-- [English Grammar Lessons](https://www.youtube.com/playlist?list=PLD6t6ckHsruY_i7_rZhKcRBmXDdawiqUM)
-  {{<youtube jul2urONzOQ>}}
-
-### 时态总结
+#### 时态小总结
 
 ![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202308251435558.png)
 
@@ -145,7 +72,7 @@ material image dance lose female 这几个单词于我而言发音需要纠正
 以上是我自己学习后的感悟就记录了下来，其实看文字没啥卵用，重点是一定要理解了
 {{</ admonition >}}
 
-### would have; could have; should have(注意发音~)
+#### would have; could have; should have(注意发音~)
 
 这三个是比较常用的 `情态动词 + have + 过去分词` 组合形式，需要理解含义，多说。
 
@@ -162,17 +89,12 @@ material image dance lose female 这几个单词于我而言发音需要纠正
 
 ---
 
-## 听说练习
+## 其他推荐
 
-{{< admonition tip "强烈推荐">}}
-主要学习的是美音，跟随[Lisa](https://www.youtube.com/@AccurateEnglish)老师，不得不说，真的是很棒，帮助我纠正了很多发音问题~
-{{</ admonition >}}
+- YouTuBe 地址：[LearnEnglishWithTVSeries](https://www.youtube.com/@LearnEnglishWithTVSeries/playlists)，看美剧学英语
+- 手机 app：「**voscreen**」，跟随电影配音练听力口语，很方便。PS: 需要有美区 appleID
 
-### 推荐软件
-
-「voscreen」，跟随电影配音练语感，很方便。PS: 需要有美区 appleID
-
-### 国外杂志推荐
+## 英语杂志推荐
 
 - https://www.economist.com/
 - https://www.vanityfair.com/
@@ -181,4 +103,6 @@ material image dance lose female 这几个单词于我而言发音需要纠正
 - https://www.nationalgeographic.com/
 - https://www.lonelyplanet.com/
 
-不积跬步无以至千里，不积小流无以成江海~ 加油 💪🏻
+## 最最最重要的
+
+> 坚持坚持还是坚持！不积跬步无以至千里，不积小流无以成江海~ 加油 💪🏻
