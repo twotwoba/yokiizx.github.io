@@ -60,10 +60,10 @@ for (String s : test) {
 
 #### 两种常用的 Set 实现类
 
-- `HashSet`，底层实际上是`HashMap`，而`HashMap`的底层是`数组+链表+红黑树`，
+- `HashSet`，底层实际上是`HashMap`，而`HashMap`的底层是`数组+链表`，根据容量会树化为红黑树
 
   - 当 Set 小于 64(MIN_TREEIFY_CAPACITY) 的时候，数组+链表（邻接表---数组存储链表头）就够了
-  - 当 Set 大于等于 64(MIN_TREEIFY_CAPACITY) 且某条链表容量到达 8(TREE_THRESHOLD) 时，整个表会进行树化（红黑树）。
+  - 当 Set 大于等于 64(MIN_TREEIFY_CAPACITY) 且某条链表容量到达 8(TREE_THRESHOLD) 时，整个表会进行树化（红黑树）。单个链表到达 8 的时候如过不能树化也会扩容。
 
   ```java
   // 经典题
@@ -83,8 +83,55 @@ for (String s : test) {
   (h = key.hashCode()) ^ (h >>> 16)
   ```
 
+  - LinkedHashSet，是 HashSet 的子类，底层是 `数组+双向链表`，所以能确保便利顺序和插入顺序一致。
+
 - `TreeSet`.
 
 ## Map
 
 ![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202309161519964.png)
+
+### HashMap
+
+之前 Set 底层存储的 Node [k, v] 的 v 是常量 PRESENT，在 Map 中 v 就是 `map.put(k,v)` 的 v。当遇到 k 相同时，map 的策略是后来居上，直接替换 v。
+
+```java
+Map map = new HashMap();
+
+map.put("hello", 1);
+map.put("hello", 2); // map 中最后只剩下 hello-2 这个值
+
+// k-v 最终是 HashMap$Node node = newNode(hash, key, value, null);
+// 为了方便遍历，还会创建 EntrySet 集合，该集合村房的元素类型是 Entry，EntrySet<Entry<k, v>>，注意：这里的 k-v 是创建的对 newNode 中 key，value 的引用：transient Set<Map.Entry<K,V>> entrySet; 可以通过 map.entrySet(); 获取到这个 Set
+```
+
+### HashTable
+
+与 HashMap 不同的点：
+
+- k、v 都不能为 null
+- HashTable 是线程安全的，HashMap 则不是
+
+#### Properties (HashTable 的子类)
+
+常用于从 `xxx.properties` 文件中，加载数据到 `Properties` 类对象，并进行读取和修改。
+
+---
+
+## 选择合适的数据结构
+
+- 单列(obj) -- Collection
+  - 可重复 -- List
+    - 增删多：LinkedList，底层双链表
+    - 改查多：ArrayList，底层 object 类型的可变数组
+  - 不可重复 -- Set
+    - 无序：HashSet，底层是 HashMap
+    - 排序：TreeSet，构造器使用一个比较方法
+    - 插入/取出顺序一致：LinkedHashSet
+- 双列(k,v) -- Map
+  - 键无序：HashMap
+  - 键有序：TreeMap
+  - 插入/取出顺序一致：LinkedHashMap
+  - 读取文件：Properties
+
+---
