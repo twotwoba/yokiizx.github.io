@@ -173,7 +173,38 @@ class Dog extends Animal implements Runnable {
 }
 ```
 
-> 另外，通过实现 Runnable 的方式创建线程，可以实现多个线程共享一个资源的情况。 比如上例可以把 Dog 实例放到多个 new Thread(dog)；中，`把Dog中需要共享的资源使用 **static** 修饰`。共享资源就会产生线程竞争的问题，就需要 `synchronized` 关键字来处理，后续学到再做记录～
+> 另外，通过实现 Runnable 的方式创建线程，实现多个线程共享一个资源的情况更加优雅。 比如上例可以把 Dog 实例放到多个 new Thread(dog)；中，`把Dog中需要共享的资源使用 **static** 修饰`。共享资源就会产生线程竞争的问题，就需要 `synchronized` 关键字来上锁处理。
+
+##### synchronized
+
+为了避免多个线程抢占产生的问题，java 中使用 `synchronized` 关键字来处理。
+
+```java
+// 1，得到对象的锁，才能操作被锁的代码
+synchronized(对象) {
+    // 上锁代码
+}
+// 2. 给方法声明加锁
+public synchronized void m () {
+    // 方法体
+}
+```
+
+上锁的时候就体现出继承 Thread 和实现 Runnable 的区别了，前者多次 new 是多个对象，后者始终是一个对象，只不过多个代理。
+
+- 非静态方法的锁可以是 this，也可以是其他对象（必须是同一个对象）
+- 静态方法的锁是当前类本身
+
+```java
+// m1 的锁加在了 类名.class 上
+public synchronized static void m1(){}
+// m2 的内部代码块的锁在 this，可以设置其他的对象（多个线程中必须唯一）
+public void m2 () {
+    synchronized(this) {
+        // ...
+    }
+}
+```
 
 #### 终止线程
 
