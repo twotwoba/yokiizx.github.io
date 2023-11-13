@@ -1,7 +1,7 @@
 ---
 title: 'Java_11_java 绘图基础&线程'
 date: 2023-10-31T14:41:26+08:00
-lasmod:
+lastmod:
 tags: []
 series: [java]
 categories: [study notes]
@@ -223,3 +223,60 @@ public void m2 () {
 - 守护线程：当所有用户线程结束，自动结束，如：垃圾回收机制
 
 把线程设置成守护线程的方式：在 start 之前，`t.setDaemon(true)` 即可。
+
+#### 死锁
+
+```java
+public class LockDemo {
+    public static void main(String[] args) {
+        Cat cat1 = new Cat(true);
+        Cat cat2 = new Cat(false);
+        cat1.start();
+        cat2.start();
+    }
+}
+
+class Cat extends Thread {
+    // 保证多线程共享，使用 static
+    static Object o1 = new Object();
+    static Object o2 = new Object();
+    boolean flag;
+
+    public Cat(boolean flag) {
+        this.flag = flag;
+    }
+
+    @Override
+    public void run() {
+        // 最简单的死锁～～～
+        if (flag) {
+            synchronized (o1) {
+                System.out.println("o1---");
+                synchronized (o2) {
+                    System.out.println("o2---");
+                }
+            }
+        } else {
+            synchronized (o2) {
+                System.out.println("o2~~~");
+                synchronized (o1) {
+                    System.out.println("o1~~~");
+                }
+            }
+        }
+    }
+}
+```
+
+#### 释放锁
+
+- 线程中同步代码块执行完毕
+- 同步代码块、方法中遇到 break、return
+- 同步代码块、方法中抛出 Error 或 Exception
+- 同步代码块、方法中执行了线程对象的 wait() 方法
+
+注意：
+
+- `Thread.sleep()`、`Thread.yield()` 不会释放锁～～～
+- 线程执行同步代码块时，其他线程调用了该线程的 `suspend()` 方法将该线程挂起，该线程不会释放锁
+  > 应尽量避免 `suspend()` 和 `resume()` 来控制线程，方法不再推荐使用。

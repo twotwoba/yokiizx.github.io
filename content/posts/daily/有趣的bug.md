@@ -1,7 +1,7 @@
 ---
 title: '记项目重构中的bug'
 date: 2023-10-10T23:40:56+08:00
-lasmod:
+lastmod:
 tags: ['bug']
 series: []
 categories: []

@@ -1,7 +1,7 @@
 ---
 title: "{{ replace .Name "-" " " | title }}"
 date: {{ .Date }}
-lasmod:
+lastmod:
 tags: []
 series: []
 categories: []
