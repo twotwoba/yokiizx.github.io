@@ -102,8 +102,8 @@ YYDS，注意：断点调试时，是运行状态，是按照对象的 `运行�
 - `⌘ + D`，向下复制
 
 - `⌃ + R`，运行
-- `⌃ + C`, debugger
-- `⌃ + D`，从 debugger 改成 Del，为了匹配 mac 上键盘自身组合键
+- `F19 + D`, debugger (`^ + D` 与 mac 自带的 Del 冲突)
+- `⌃ + D`，Del
 - `^ + ;`，格式化
 
 - `⌘ + enter` 和 `⌘ + shift + enter`，为了与 vscode 统一，把直接新开一行改为这两个键了~
