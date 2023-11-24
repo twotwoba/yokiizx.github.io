@@ -101,7 +101,7 @@ Properties 类常用方法
 ```java
 Properties p = new Properties();
 // load 加载配置文件
-p.load("path...");
+p.load(Reader||InputStream);
 // list k-v x显示
 p.list(System.out);
 
@@ -111,5 +111,5 @@ p.getProperty("user");
 p.setProperty("user", "Eric");
 
 // store 存储到配置文件
-p.store("path...");
+p.store(Writer||OutputStream);
 ```
