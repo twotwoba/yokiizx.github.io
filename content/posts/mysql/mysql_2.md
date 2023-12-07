@@ -1,0 +1,70 @@
+---
+title: 'Mysql_2_优化'
+date: 2023-12-07T16:10:47+08:00
+lastmod:
+series: [mysql]
+categories: [study notes]
+weight: 2
+---
+
+## 索引
+
+### 基础
+
+说起提高数据库性能，索引是最物美价廉的东西了。不用加内存，不用改程序，不用调 sql，查询速度就可能提高百倍干倍。
+
+```sql
+# 给表的某列添加索引
+create index index_name on tb_name (tb_col_name);
+```
+
+> 创建索引后，查询只对创建了索引的列有效，性能提高显著
+
+副作用：
+
+- 索引自身也是占用空间的，添加索引后，表占用空间会变大
+- 对 DML (insert into, update, delete) 语句有效率影响 (因为需要重新构建索引)
+
+### 原理
+
+- 没有索引时：从头到尾全表扫描
+- 创建索引后：存储引擎 innodb，B+树，牺牲空间换时间～ TODO
+
+### 索引类型
+
+- 主键索引，主键自动地为主索引
+- 唯一索引，unique 修饰的列
+- 普通索引，index
+- 全文索引，FULLTEXT，一般不用 mysql 自带的全文索引
+  - 开发中考虑使用全文搜索 solr，或者 ElasticSearch（即 es）
+
+### 使用
+
+```sql
+# 查询是否有索引
+SHOW INDEXES FROM tb_name
+
+# 创建或修改
+create [unique] index index_name on tb_name (col_name [(length)])
+alter table tb_name add index index_name (col_name)
+
+# 删除索引
+drop index index_name on tb_name
+# 删除主键索引
+alter table tb_name drop primary key
+```
+
+### 场景
+
+- 一般频繁查询的字段应该创建索引
+- 唯一性太差的字段不适合创建索引
+- 更新非常频繁的字段不适合创建索引
+- 不会出现在 where 子句中的字段不该创建索引
+
+---
+
+## 事务
+
+**事务** 用于保证数据的一致性，它由*一组 dml 语句组成*，该组的 dml 语句，要么全部成功，要么全部失败。-- 比如转账，如果转出成功，转入失败，是很恐怖的事情。这就需要事务确保了。
+
+> 当执行事务操作时，mysql 会在表上加锁，防止其他用户修改表的数据。

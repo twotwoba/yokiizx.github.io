@@ -1,5 +1,5 @@
 ---
-title: 'Mysql_基础'
+title: 'Mysql_1_基础'
 date: 2023-11-30T15:42:23+08:00
 lastmod:
 tags: []
