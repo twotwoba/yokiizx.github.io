@@ -388,4 +388,4 @@ select * from emp, dept where emp.deptno = dept.deptno;
 select id, emp.deptno from emp, dept where emp.deptno = dept.deptno;
 ```
 
-> 过滤笛卡尔集的 where 筛选条件，必须比查询表的数量大
+> 过滤笛卡尔集的 where 筛选条件，`不能少于表的数量-1`，否则会出现笛卡尔集
