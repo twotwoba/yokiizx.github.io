@@ -1,5 +1,5 @@
 ---
-title: 'Mysql_1'
+title: 'Mysql_基础'
 date: 2023-11-30T15:42:23+08:00
 lastmod:
 tags: []
@@ -119,6 +119,8 @@ source target_path/xxx.sql
 ```sql
 # 创建 字符集和校对规则不指定就默认使用数据库的
 CREATE TABLE tb_name (filed dataType, ...)  [CHARACTER SET charset_name] [COLLATE collation_name] ENGINE 存储引擎
+# 复制表结构
+CREATE TABLE tb_name LIKE source_tb_name
 
 # 删除
 DROP TABLE tab_name
@@ -129,11 +131,7 @@ RENAME TABLE old_tb_name TO new_tb_name
 ## 修改字符集
 ALTER TABLE tb_name Character set 字符集
 ## 新增列
-<<<<<<< HEAD
 ALTER TABLE tb_name ADD (col_name col_type [DEFAULT expr], ...) [AFTER col_name]
-=======
-ALTER TABLE tb_name ADD (col_name col_type [DEFAULT expr], ...)
->>>>>>> 4630214c70e322a1e0e3c1e9551ea6825ea192c2
 ## 修改列
 ALTER TABLE tb_name MODIFY (col_name col_type [DEFAULT expr], ...)
 ## 修改列名
@@ -389,3 +387,162 @@ select id, emp.deptno from emp, dept where emp.deptno = dept.deptno;
 ```
 
 > 过滤笛卡尔集的 where 筛选条件，`不能少于表的数量-1`，否则会出现笛卡尔集
+
+#### 自连接
+
+当需要查询的两列数据在一张表中，比如员工和自己的领导，那么就需要自连接来实现多表查询的功能了。
+
+```sql
+select worker.name as '打工人', boss.name as '领导'
+from emp worker, emp boss where worker.mgr = boss.id;
+```
+
+> 自连接需要给 表取别名，为了明确，最好给列也取上别名
+
+#### 子查询
+
+子查询是指嵌入在其他 sql 语句中的 select 语句，也叫嵌套查询。
+
+- 单行子查询，只返回一行数据的子查询语句
+- 多行子查询，返回多行数据的子查询，使用关键字 `in`
+
+> 子查询可以当作临时表使用，这点很有用
+
+##### all 操作符 和 any 操作符
+
+注意： 这里 返回的都是单个列
+
+```sql
+# all 和 js中的every很像
+select emp.name, emp.sal
+from emp where sal > all(select sal from emp where emp.deptno = 30);
+# any 和 js中的some很像
+select emp.name, emp.sal
+from emp where sal > any(select sal from emp where emp.deptno = 30);
+```
+
+##### 多列子查询
+
+多列匹配查询
+
+```sql
+# 查询出部门和岗位与某人相同的其他员工
+select id, name
+from emp where (deptno, job) = (select deptno, job from emp where name = 'SMITH') and name <> 'SMITH';
+```
+
+#### 表复制
+
+表自我复制场景：有时为了对 sql 语句进行效率测试，就需要海量数据，就需要 `蠕虫复制`。
+
+```sql
+# 迁移表的操作
+INSERT INTO target_tb
+            (col1s...)
+            SELECT (col2s...) from source_tb; # col1s和col2s要一一对应
+# 自我复制
+INSERT INTO tb_name SELECT * FROM tb_name # 执行多次，指数级复制
+```
+
+#### 合并查询
+
+- union，简单的把查询出来的结果合并，并去重
+- union all，相比 union 不会去重
+
+> 合并查询的列的数量要一致
+
+#### 外连接
+
+上方过滤笛卡尔集的多表查询，查出来的都是匹配上的数据。  
+假如说需要一张表上没有匹配上的数据也显示出来（只不过为 null 嘛），就需要外连接来完成了。
+
+- 左外连接，左侧的表完全显示 `tb1 LEFT JOIN tb2 on condition`
+- 右外连接，右侧的表完全显示 `tb1 RIGHT JOIN tb2 on condition`
+
+举例：
+
+```sql
+select * from emp left join dept on emp.deptno = dept.deptno;
+```
+
+### mysql 约束 (constraint)
+
+约束，用于确保数据库的数据满足特定的商业规则。mysql 中有 5 种约束：
+
+- not null
+- unique
+- primary key
+- foreign key
+- check
+
+#### 主键 (primary key)
+
+```sql
+# 创建表设置主键
+create table tb_name (col1 col1_type primary key, ...);
+# 第二种方式，通过这种方式创建多个列为主键就是 联合主键。
+create table tb_name (col1 col1_type, col2 col2type, ..., primary key(col1 [, col2]));
+
+# 修改表某列为主键
+alter table tb_name add primary key (col_name);
+```
+
+> 主键默认不能为 null，且不能重复，一个表最多只能有一个主键，但是可以使用复合组件
+
+#### not null
+
+```sql
+# 修改表某列为非空
+alter table tb_name modify col_name col_type not null
+```
+
+#### unique
+
+列不可以重复，但是如果没有指定 not null，那么可以有多个 null
+
+```sql
+alter table tb_name modify col_name col_type unique
+```
+
+#### foreign key 外键
+
+外键用来定义主表和从表的关系：`外键约束要定义在从表上，主表则必须具有主键约束或 unique  约束`。
+
+```sql
+# 在从表上设置外键
+create table tb_name (col_name col_type,
+                      ....,
+                      FOREIGN KEY (从表col_name) REFERENCES 主表名(主表主键名或unique字段名));
+```
+
+注意：
+
+- 从表中指定外键的值必须在主表上关联的列存在；主表上被外键关联的列在从表有对应关联时，不能删除。
+- 表的类型是 `innodb` 才支持外键。
+- 外键字段类型要和主键字段类型一致（长度可以不同）
+- 外键字段的值必须在主键字段中出现过，或者为 null（可以为 null 时）
+
+#### check
+
+> mysql8.0.16 之后 真正的实现了 check 约束。在此之前只做语法校验，但不会生效。
+
+```sql
+create table check_demo (id int, gender boolean check ( gender in (0, 1)));
+
+# gender 值 只能为 0 或 1， 插入其他会报错
+insert into check_demo values (1, 0),(2,1);
+```
+
+### 自增长
+
+一般来说 自增长 和 主键 配合使用(单独使用需要配合 unique)：
+
+```sql
+create table tb_name (col1 col1_type primary key auto_increment, ...);
+
+# 插入数据的时候，自增长的字段填null即可
+insert into tb_name values(null, col2, ....);
+
+# 修改开始值 (默认从1开始)
+alter table tb_name auto_increment = num;
+```
