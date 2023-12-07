@@ -129,7 +129,11 @@ RENAME TABLE old_tb_name TO new_tb_name
 ## 修改字符集
 ALTER TABLE tb_name Character set 字符集
 ## 新增列
+<<<<<<< HEAD
 ALTER TABLE tb_name ADD (col_name col_type [DEFAULT expr], ...) [AFTER col_name]
+=======
+ALTER TABLE tb_name ADD (col_name col_type [DEFAULT expr], ...)
+>>>>>>> 4630214c70e322a1e0e3c1e9551ea6825ea192c2
 ## 修改列
 ALTER TABLE tb_name MODIFY (col_name col_type [DEFAULT expr], ...)
 ## 修改列名
@@ -374,3 +378,14 @@ PASSWORD(str) # 从原文密码str 计算并返回密码字符串，通常用于
 ### 多表查询
 
 #### 笛卡尔集
+
+当查询多表时，默认返回结果是 `表1的行 * 表2的行 * ...` 的乘积的集合，称为 `笛卡尔集`。
+
+```sql
+# 举例，查询emp和dept两张表，根据deptno相等来过滤笛卡尔集
+select * from emp, dept where emp.deptno = dept.deptno;
+# 当指定查询过滤条件列deptno的时候，必须指定出是哪张表的列
+select id, emp.deptno from emp, dept where emp.deptno = dept.deptno;
+```
+
+> 过滤笛卡尔集的 where 筛选条件，必须比查询表的数量大
