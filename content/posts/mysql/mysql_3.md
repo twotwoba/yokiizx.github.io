@@ -92,6 +92,8 @@ set password for 'user_name'@'host'  = PASSWORD('ps_str')
 ```sql
 # 赋予权限
 grant 权限1[,权限2,...] on 库.对象名 to 'user_name'@'host' [identified by 'ps_str']
+# 如果 没有指定host则为 %，表示所有ip都有连接权限
+
 # 赋予该用户所有权限
 grant all on 库.对象名 to 'user_name'@'host'
 # 回收用户权限
