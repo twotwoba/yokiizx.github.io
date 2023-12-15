@@ -3,9 +3,9 @@ title: 'Jdbc_1'
 date: 2023-12-08T22:10:34+08:00
 lastmod:
 tags: []
-series: [JDBC]
+# series: [jdbc]
 categories: [study notes]
-weight: 1
+# weight: 1
 ---
 
 > 公司项目用的是 `MybatisPlus`，在此之前，先了解下 JDBC
@@ -102,17 +102,17 @@ JDBC 传统连接数据库的方式，通过 DriverManager 来获取 Connection 
 2. resultSet 不利于数据的管理
 3. 使用返回信息也不方便
 
-因此，现在开发过程中，一般都会用 `JavaBean`/`POJO(plain old java object)`，来解决：`就是在Java中创建一个类，这个类的字段和数据库表的列一一对应`，并有对应的 getter/setter。再创建一个该类的 `ArrayList<JavaBean>`，这就是一个结果集的另一种存在形式。
+因此，现在开发过程中，一般都会用 `JavaBean`/`POJO(plain ordinary java object)`/`domain 领域模型对象（DO）`，来解决：`就是在Java中创建一个类，这个类的字段和数据库表的列一一对应`，并有对应的 getter/setter。再创建一个该类的 `ArrayList<JavaBean>`，这就是一个结果集的另一种存在形式。
 
-一般也称为 domain 层。
+> 注意 JavaBean 类属性一般使用包装类，因为可能查出来为 null。
 
 ### Apache-DBUtils
 
 Apache-DBUtils 简化了上述编码的工作量。
 
-### DAO （
+### DAO -- JAVAEE 的设计模式之一
 
-**DAO （data access object）**是专门和数据库交互的，完成对数据库的 crud 操作。
+**DAO （data access object）**是专门和数据库交互的，完成对数据库的 crud 操作，没有任何业务逻辑。
 
 Druid + DBUtils 简化了 JDBC 的开发，但是还有不足：
 
@@ -120,8 +120,10 @@ Druid + DBUtils 简化了 JDBC 的开发，但是还有不足：
 - 对于 select 操作，如果有返回值，返回类型不能固定，需要使用泛型
 - 将來的表很多，业务需求复杂，不可能只靠一个 Java 类完成
 
-使用 DAO 层可以解决。
+> DAO 和 Javabean 一样，一般都是一张表对应一个 DAO 和一个 Javabean。
 
 ### 推荐阅读
 
 - [深入理解 DAO，DTO，DO，VO，AO，BO，POJO，PO，Entity，Model，View 各个模型对象的概念](https://blog.csdn.net/SR02020/article/details/105821816)
+
+- [MVC 架构模式分层教学视频](https://www.bilibili.com/video/BV1Z3411C7NZ?p=63&vd_source=fbca740e2a57caf4d6e7c18d1010346e)
