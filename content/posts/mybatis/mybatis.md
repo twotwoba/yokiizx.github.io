@@ -146,6 +146,19 @@ mapper 上的 namespace 猜也能猜到是为了防止多个 bean 具有相同�
 
 ### mybatis 配置文件
 
+- environments
+  ![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202312181356370.png)
+- transactionManager
+  ![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202312201340544.png)
+- dataSource
+  ![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202312201339872.png)
+
+  - 关于连接池配置参数，详细看文档，常用的就那几个，最大连接数量，超时时间，最大空闲数量等
+
+- properties
+  ![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202312210923360.png)
+  不过一般不会这么写，而是通过 `<property resource="">` 来加载类路径下的配置文件，或者通过 url 加载绝对路径下的配置文件。
+
 - [mybatis 核心配置文件](https://www.bilibili.com/video/BV1JP4y1Z73S?p=24&spm_id_from=pageDriver&vd_source=fbca740e2a57caf4d6e7c18d1010346e)
 
 ### B 站课程
