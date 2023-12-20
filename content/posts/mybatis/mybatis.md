@@ -29,7 +29,7 @@ mybatis 中的两种重要配置文件
 
    ```java
     // 使用 mybatis io 自带的 Resources.getResourceAsStream() 接口来获取配置文件的输入流
-    InputStream is = Resources.getResourceAsStream("mybatis.xml");
+    InputStream is = Resources.getResourceAsStream("mybatis.xml"); // 第二个参数可以指定环境，详细看下面的配置文件教学
     // 底层就是 InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("mybatis.xml")
     // 极简配置
     SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
@@ -49,7 +49,7 @@ mybatis 中的两种重要配置文件
 
 ---
 
-##### insert
+#### insert
 
 回顾一下 jdbc 的做法：
 
@@ -110,6 +110,43 @@ class UserDao {
   toString
 }
 ```
+
+#### select
+
+update 和 delete 省略了，比较简单，着重看看 select 查询语句。
+
+在 jdbc 时，查询出的结果集需要通过 while(rs.next()) 遍历出每一行，然后塞到一个 list 内。
+
+mybatis 提供了两个 api，`selectOne` 和 `selectList`，
+
+> 需要注意的是：mysql 中，字段默认是下划线命名，而 java 中一般是小驼峰，因此，sql 语句查询的时候需要 as 别名与实体类一一对应，并且在 `<bean id='id' resultType="全路径类名">`
+
+```xml
+<mapper namespace="xxx">
+  <select id="queryUser" resultType="com.demo.mybatis">
+    select
+      id, user_face as userFace, ...
+    from
+      tb_user
+  </select>
+</mapper>
+```
+
+```java
+// sqlSession.selectOne(beanId, params);
+sqlSession.selectOne("queryUser", 007);
+List<User> users = sqlSession.selectList("queryUsers"); // 很简单 不需要手动遍历了
+```
+
+##### namespace
+
+mapper 上的 namespace 猜也能猜到是为了防止多个 bean 具有相同的 id 的问题了。
+
+在 java 中就需要写全了：`namespace.beanId`
+
+### mybatis 配置文件
+
+- [mybatis 核心配置文件](https://www.bilibili.com/video/BV1JP4y1Z73S?p=24&spm_id_from=pageDriver&vd_source=fbca740e2a57caf4d6e7c18d1010346e)
 
 ### B 站课程
 
