@@ -12,7 +12,7 @@ mybatis 写 sql 的时候仍然有一些不便，mybatis-plus 对它进行了增
 
 ## 入门
 
-### 简单两步
+### 用它
 
 简单两步骤：
 
@@ -66,7 +66,7 @@ public class User {
   // AUTO：数据库自增长;
   // INPUT：通过set方法自行输入;
   // ASSIGN_ID ：mp 分配ID，接口ldentifierGenerator的方法nextld来生成id，默认实现类为DefaultldentifierGenerator雪花算法
-  @TableId(value="id", type=IdType.AUTO) 
+  @TableId(value="id", type=IdType.AUTO)
   private Long id;
   private String username;
   private String password;
@@ -76,3 +76,9 @@ public class User {
   private boolean isMan;
 }
 ```
+
+### 常用配置
+
+[直接看官网，一般 ide 也会有提示建议的](https://baomidou.com/pages/56bac0/#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE)
+
+## 核心功能
