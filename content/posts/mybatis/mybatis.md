@@ -161,6 +161,8 @@ mapper 上的 namespace 猜也能猜到是为了防止多个 bean 具有相同�
 
 - [mybatis 核心配置文件](https://www.bilibili.com/video/BV1JP4y1Z73S?p=24&spm_id_from=pageDriver&vd_source=fbca740e2a57caf4d6e7c18d1010346e)
 
+---
+
 ### B 站课程
 
 - [MyBatis 教学](https://www.bilibili.com/video/BV1JP4y1Z73S)
