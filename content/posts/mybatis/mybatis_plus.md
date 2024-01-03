@@ -82,3 +82,122 @@ public class User {
 [直接看官网，一般 ide 也会有提示建议的](https://baomidou.com/pages/56bac0/#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE)
 
 ## 核心功能
+
+### 条件语句
+
+mp 的很多删改查的接口的参数为 `Wrapper<T>`，这个 Wrapper 就是用来构造条件 where 语句的。
+
+关系如下：
+
+`Wrapper -> AbstractWrapper :   
+            1. QueryWrapper 2. UpdateWrapper 3. AbstractLambdaWrapper :   
+                                                3.1 LambdaUpdateWrapper 3.2 LambdaQueryWrapper`
+
+> LambdaXxx 是为了解决 sql 字符串硬编码的问题。UpdateWrapper 只有在 set 语句比较特殊的时候才会使用。
+
+---
+
+QueryWrapper demo:
+
+```java
+// query
+// select id, username, balance from user where username like ? and balance >= ?
+void test() {
+  // 构建查询条件
+  QueryWrapper<User> wrapper = new QueryWrapper<User>()
+    .select("id", "username", "balance")
+    .like("username", "o")
+    .ge("balance", 1000)
+  // 查询
+  List<User> users = userMapper.selectList(wrapper);
+  users.forEach(System.out::println);
+}
+// update
+// update user set balance = 2000 where (username = "jack")
+void test() {
+  // 更新数据
+  User user = new User();
+  user.setBalance(2000);
+  // 更新条件
+  QueryWrapper<User> wrapper = new QueryWrapper<User>()
+    .eq("username", "jack");
+  // 更新
+  userMapper.update(user, wrapper);
+}
+```
+
+UpdaterWrapper demo: 给 id 为 1，2，4 的用户余额 -2000
+
+```java
+// update user set balance = balance - 2000 where id in (1,2,4);
+// 这种情况，用queryWrapper就不太好处理
+void test() {
+  List<Long> ids = List.of(1L,2L,4L);
+  UpdateWrapper<User> wrapper = new UpdateWrapper<User>()
+    .setSql("balance = balance - 2000")
+    .in("id", ids);
+  userMapper.update(null, wrapper);
+}
+```
+
+**推荐 Lambda**：
+
+```java
+// lambda 解决硬编码
+void testLambda() {
+  LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<User>()
+    .select(User::getId, User::getUsername, User::getBalance)
+    .like(User::getUsername, "o")
+    .ge(User::getBalance, 1000);
+  // 查询
+  List<User> users = userMapper.selectList(wrapper);
+  users.forEach(System.out::println);
+}
+```
+
+### 自定义 sql
+
+上方 UpdateWrapper 的一个问题是：setSql("balance = balance - 2000"); 属于直接在业务层写 sql 了，有些公司要求，只能在 xml 里写 sql，怎么办呢？
+
+通过自定义 sql 方法 -- 用 mp 的 Wrapper 生成 where 条件（这更方便呀！），然后把 wrapper 传递到自定义的 sql 中。
+
+```java
+void test() {
+  List<Long> ids = List.of(1L, 2L, 4L);
+  int amount = 200;
+
+  LambdaWrapper<User> wrapper = new LambdaWrapper<User>()
+    .in(User::getId, ids);
+  userMapper.updateBalanceByIds(wrapper, amount); // updateBalanceByIds 是在 UserMapper 内的自定义方法。
+}
+
+class UserMapper extends BaseMapper<User> {
+  // 注意 这里 Constants.WRAPPER 为 "ew", wrapper的注解必须为这个！
+  void updateBalanceByIds(@Param(Constants.WRAPPER) LambdaQueryWrapper<User> wrapper, @Param("amount") int amount);
+}
+
+// 最后自定义sql可以在 updateBalanceByIds 上用注解写，也可以在xml中写，如：
+<Update id="updateBalanceByIds">
+  Update user set balance = balance - #{amount} ${ew.customSqlSegment}
+</Update>
+```
+
+### service 接口
+
+在上面继承了 BaseMapper 后，增删改查都交给 mp 了。
+
+mp 提供了 `IService` 接口和对应的实现类 `ServiceImpl`，以此来简化 service 层的 crud 操作（底层还是调用的 mapper）。
+
+比如我们有自定义 UserService 接口，和 UserServiceImpl 实现类，一般都会让 UserService 继承 IService，再 UserServiceImpl 继承 ServiceImpl。
+
+```java
+// 1. 接口继承
+public interface UserService extends IService<User>{}
+
+// 2. 为了不实现所有方法直接继承 ServiceImpl
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {}
+```
+
+> IService 提供的 LambdaQuery 和 LambdaUpdate 平时更加常用于复杂的查询和更新。
+
+剩下的就需要赶紧进行实操啦～～～
