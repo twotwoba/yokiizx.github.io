@@ -57,14 +57,31 @@ const tree = [
 // tree扁平化 就是个树的遍历而已
 function treeToArr(tree) {
   const res = []
-  const getChilden = tree => {
+  const getChildren = tree => {
     for (const node of tree) {
       const { id, name, pid } = node
       res.push({ id, name, pid })
-      if (node.children) getChilden(node.children)
+      if (node.children) getChildren(node.children)
     }
   }
-  getChilden(tree)
+  getChildren(tree)
+  return res
+}
+
+const transToArr = (arr) => {
+  const res = []
+  const getChildren = (arr) => {
+    arr.forEach((item) => {
+      const obj = {
+        id: item.id,
+        pid: item.pid,
+        name: item.name
+      }
+      res.push(obj)
+      if (item.children.length) getChildren(item.children)
+    })
+  }
+  getChildren(arr)
   return res
 }
 ```
@@ -89,6 +106,20 @@ function arrToTree(arr) {
   }
   getChildren(0, res)
   return res
+}
+
+/**
+ * 2024.02.15 重新写了一版，应该更简单
+ */
+const transToTree = (arr, pid) => {
+  if (!arr.length) return
+  const rootItems = arr.filter((item) => item.pid === pid)
+  for (let i = 0; i < rootItems.length; ++i) {
+    const item = rootItems[i]
+    item.children = arr.filter((_item) => _item.pid === item.id)
+    transToTree(arr, item.id)
+  }
+  return rootItems
 }
 ```
 

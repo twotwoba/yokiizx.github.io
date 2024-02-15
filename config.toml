@@ -751,6 +751,6 @@ taxonomyTerm = ["HTML"]
 [taxonomies]
 author = "authors"
 category = "categories"
-tag = "tags"
+tags = "tags"
 series = "series"
 # algorithm = "algorithm"
