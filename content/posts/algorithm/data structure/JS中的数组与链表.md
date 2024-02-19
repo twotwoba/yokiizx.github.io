@@ -4,7 +4,7 @@ date: 2022-09-20T17:02:29+08:00
 draft: true
 ---
 
-> 忘记在哪看见过一句话说：
+> 忘记在那本书看到的一句话说：
 > JavaScript 中的数组只不过是名字叫数组而已，与数据结构中的数组几乎没有关系
 
 JSArray 继承自 JSObject，是特殊的对象，内部也是用 key-value 的形式存储数据，所以可以存放不同类型的值，这在 Java 类语言的数组是做不到的。
@@ -52,16 +52,24 @@ arr[i] = base_address + （i -1）* type_size
 
 ## 一点经验
 
-- 二维数组初始化：
+### 二维数组初始化
 
-  ```JavaScript
-  const dp = Array.from(Array(m), () => Array(n).fill(0))
-  ```
+```JavaScript
+const dp = Array.from(Array(m), () => Array(n).fill(0))
+```
 
-- 索引区间长度：
-  - `[i..j]`，闭区间索引之间的长度是`j - i + 1`
-  - `(i..j)`，开区间索引之间的长度是`j - i - 1`
-  - `[i..j)`，表示从 i 到 j 需要多少步，`j - i`
+### 索引区间长度
+
+- `[i..j]`，闭区间索引之间的长度是`j - i + 1`
+- `(i..j)`，开区间索引之间的长度是`j - i - 1`
+- `[i..j)`，表示从 i 到 j 需要多少步，`j - i`
+
+### 随机数小技巧
+
+- 区间 `[i..j)` 随机数：`i + Math.random() * (j - i) | 0`
+- 区间 `[i..j]` 随机数：`i + Math.random() * (j - i + 1) | 0`
+
+> [JS 生成限定范围内随机整数](https://www.cnblogs.com/f6056/p/13362504.html)
 
 ## 链表
 
