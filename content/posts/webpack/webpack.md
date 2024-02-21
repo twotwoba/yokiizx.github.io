@@ -85,7 +85,7 @@ module.exports = {
 
 `const complier = webpack(config)`，[./lib/webpack.js](https://github.com/webpack/webpack/blob/main/lib/webpack.js#L102)：
 
-```JavaScript
+```js
 // 部分代码省略
 const webpack = (options, callback) => {
   const create = () => {
@@ -148,7 +148,7 @@ const createCompiler = rawOptions => {
 
 `compiler.run()`，[./lib/Compiler](https://github.com/webpack/webpack/blob/main/lib/Compiler.js)
 
-```JavaScript
+```js
 class Compiler {
   constructor(context, options = {}) {
     this.hooks = Object.freeze({
@@ -248,7 +248,7 @@ class Compiler {
 
 从 VsCode 的调用栈来看，之后进入到了 `EntryPlugin`，在这里注册了 make 钩子的回调，这个是在初始化阶段 `webpack(config)` 内 `new WebpackOptionsApply().process(options, compiler)` 时就已经注册好的，当 make 钩子被触发时进入：
 
-```JavaScript
+```js
 compiler.hooks.make.tapAsync("EntryPlugin", (compilation, callback) => {
   compilation.addEntry(context, dep, options, err => {
     callback(err);
@@ -258,7 +258,7 @@ compiler.hooks.make.tapAsync("EntryPlugin", (compilation, callback) => {
 
 来看看 `addEntry`，[./lib/Compilation.js](https://github.com/webpack/webpack/blob/main/lib/Compilation.js)
 
-```JavaScript
+```js
 class Compilation {
   constructor(compiler, params) {
     this.hooks = Object.freeze({
@@ -392,7 +392,7 @@ class Compilation {
 
 在执行完成 `compilation.emitAsset` 后会回到 `compiler` 文件中执行代码如下：
 
-```JavaScript
+```js
 // lib/compiler.js
 class Compiler {
   /** 最终执行这个方法 */

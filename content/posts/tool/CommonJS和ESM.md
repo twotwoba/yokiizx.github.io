@@ -14,7 +14,7 @@ CJS 输出的是值的拷贝。
 
 `module.exports`：
 
-```JavaScript
+```js
 // node 对 js 文件编译后添加了呃顶层变量
 (function(exports,require,module,__filename,__dirname) {
 	// 文件模块
@@ -24,7 +24,7 @@ CJS 输出的是值的拷贝。
 
 `require` 模块加载一次就会被缓存，后续再加载就是加载的缓存。也就是说，一旦输出一个值，模块内部的变化就影响不到这个值
 
-```JavaScript
+```js
 // main.js
 const {a, aPlusOne} = require('./b') // b 中 a = 100
 
@@ -35,7 +35,7 @@ console.log(a); // 100
 
 `require`：
 
-```JavaScript
+```js
  // id 为路径标识符
 function require(id) {
    /* 查找  Module 上有没有已经加载的 js  对象*/

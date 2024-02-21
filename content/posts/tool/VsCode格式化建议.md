@@ -63,13 +63,13 @@ categories: [tool]
 
     接着修改 `.eslintrc`
 
-    ```JavaScript
+    ```js
     "extends": ["some others...",  "plugin:prettier/recommended"]
     ```
 
     看看 `plugin:prettier/recommended` 干了什么
 
-    ```JavaScript
+    ```js
     // node_modules/eslint-plugin-prettier/eslint-plugin-prettier.js
     module.exports = {
       configs: {

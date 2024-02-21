@@ -18,7 +18,7 @@ React 工作的整个流程：
 
 在 `render --> legacyRenderSubtreeIntoContainer` 方法中，创建完 fiberRoot 后，就会调用 `updateContainer` 方法，创建 Update 对象，并把 update 加入更新队列，最后调度更新。
 
-```JavaScript
+```js
 export function updateContainer(
   element: ReactNodeList,
   container: OpaqueRoot,
@@ -71,7 +71,7 @@ export function updateContainer(
 
 上方一共有三种组件，HostRoot 和 ClassComponent 共用一套 Update 数据结构，FunctionComponent 使用另一种 Update 数据结构。
 
-```JavaScript
+```js
 export function createUpdate(eventTime: number, lane: Lane): Update<*> {
   const update: Update<*> = {
     eventTime,        // 任务时间，通过performance.now()获取的毫秒数
@@ -93,7 +93,7 @@ export function createUpdate(eventTime: number, lane: Lane): Update<*> {
 
 再来看看 UpdateQueue 对象：
 
-```JavaScript
+```js
 // 在创建 fiberRoot 和 mount 阶段都会调用该方法
 export function initializeUpdateQueue<State>(fiber: Fiber): void {
   const queue: UpdateQueue<State> = {
@@ -119,7 +119,7 @@ export function initializeUpdateQueue<State>(fiber: Fiber): void {
 
 对于 `shared.pending` 关注一下 enqueueUpdate：
 
-```JavaScript
+```js
 export function enqueueUpdate<State>(fiber: Fiber, update: Update<State>) {
   const updateQueue = fiber.updateQueue
   if (updateQueue === null) {
@@ -146,7 +146,7 @@ export function enqueueUpdate<State>(fiber: Fiber, update: Update<State>) {
 
 在进入 render 阶段后，`shared.pending` 会被剪开 接在 `lastBaseUpdate` 之后形成 `baseUpdate` 这个单链表。接下来遍历这个单链表，`fiber.updateQueue.baseState` 为初始 state，依次与遍历到的每个 `Update` 计算并产生新的 `state`。这些步骤发生在 `processUpdateQueue` 里：
 
-```JavaScript
+```js
 export function processUpdateQueue<State>(
   workInProgress: Fiber,
   props: any,

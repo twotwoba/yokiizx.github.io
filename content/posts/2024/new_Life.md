@@ -1,5 +1,5 @@
 ---
-title: 'New_Life'
+title: 'Change in 2024'
 date: 2024-01-03T14:33:13+08:00
 lastmod:
 tags: []

@@ -8,7 +8,7 @@ tags: [JavaScript, DOM]
 
 监测 DOM，发生变动时触发。
 
-```JavaScript
+```js
 const observer = new MutationObserver(callback);
 // callback 回调参数是 MutationRecord 对象 的数组，第二个参数是观察器自身
 
@@ -30,7 +30,7 @@ observer.takeRecords() // 获取已经发生但未处理的变动
 
 监听元素是否进入了视口(viewport)。
 
-```JavaScript
+```js
 // callback 一般会触发两次。一次是目标元素刚刚进入视口（开始可见），另一次是完全离开视口（开始不可见）。
 var io = new IntersectionObserver(callback, option)
 // callback 参数是 IntersectionObserverEntry 对象 的数组，观察了几个元素就有几个对象
@@ -50,7 +50,7 @@ io.disconnect()
 
 适合场景比如图片懒加载，无线滚动等，但是如果需要 buffer 好像就不行了。
 
-```JavaScript
+```js
 const imgs = document.querySelectorAll('img[data-src]')
 const config = {
   rootMargin: '0px',
@@ -86,7 +86,7 @@ imgs.forEach((image) => {
 
 兼容性处理：
 
-```JavaScript
+```js
 window._requestAnimationFrame = (function () {
   return (
     window.requestAnimationFrame ||
@@ -105,7 +105,7 @@ eg:
 
 - 平滑滚动到顶部
 
-```JavaScript
+```js
 const scrollToTop = () => {
   const c = document.documentElement.scrollTop || document.body.scrollTop
   if (c > 0) {
@@ -117,7 +117,7 @@ const scrollToTop = () => {
 
 - 十万条数据渲染
 
-```JavaScript
+```js
 //需要插入的容器
 let ul = document.getElementById('container')
 // 插入十万条数据
@@ -155,13 +155,13 @@ loop(total, index)
 
 发送
 
-```JavaScript
+```js
 window.postMessage(message, targetOrigin, [transfer]);;
 ```
 
 接收
 
-```JavaScript
+```js
 window.addEventListener("message", function(event) {
   if (event.origin != 'http://javascript.info') {
     // 来自未知的源的内容，我们忽略它

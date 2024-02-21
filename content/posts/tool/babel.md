@@ -19,7 +19,7 @@ tags: [babel]
    - 词法分析：把源代码转换成 tokens 数组(令牌流)，形式如下：  
      PS： 旧的`babylon`中解析完是有 tokens 的，新的`@babel/parser`中没了这个字段，如有大佬知道原因，请留言告知，感谢~
 
-     ```JavaScript
+     ```js
       [
         { type: { ... }, value: "n", start: 0, end: 1, loc: { ... } },
         { type: { ... }, value: "*", start: 2, end: 3, loc: { ... } },
@@ -30,7 +30,7 @@ tags: [babel]
 
      每一个 type 有一组属性来描述该令牌：
 
-     ```JavaScript
+     ```js
       {
         type: {
           label: 'name',
@@ -53,7 +53,7 @@ tags: [babel]
 
    - 语法分析：把词法分析后的 tokens 数组(令牌流)转换成 AST(抽象语法树)，形式如下：
 
-     ```JavaScript
+     ```js
       {
         type: "FunctionDeclaration",
         id: {
@@ -116,7 +116,7 @@ tags: [babel]
 
 visitor 内方法访问的实际上是 `path` ---> `path` 是表示两个节点之间连接的对象，这个对象还有很多其他的元数据，如：
 
-```JavaScript
+```js
 /* ------ 节点 ------ */
 {
   type: "FunctionDeclaration",
@@ -187,7 +187,7 @@ visitor 内方法访问的实际上是 `path` ---> `path` 是表示两个节点�
   ```
 - `babel-loader`，前端项目中 `webpack` 更常用的是 `babel-loader`  
    在 webpack 中，loader 本质上就是一个函数：
-  ```JavaScript
+  ```js
   // loader 自身实际上只是识别文件，然后注入参数，真正的编译依赖 @babel/core
   const core = require('@babel/core')
   /**
@@ -309,13 +309,13 @@ const p = new Promise()
 
 - `false`，说简单点就是不使用 polyfill
 - `entry`，全量引入 polyfill，同时需要项目入口文件的头部引入:
-  ```JavaScript
+  ```js
   import "@babel/polyfill"
   // babel 7.4 后被拆成了 core-js/stable 和 regenerator-runtime/runtime
   ```
 - `usage`，按需添加 polyfill，根据配置的浏览器兼容，以及代码中 使用到的 Api 添加，不需要去项目入口文件引入：
 
-  ```JavaScript
+  ```js
   {
     "presets": [
       [
@@ -347,7 +347,7 @@ npm i @babel/plugin-transform-runtime -D
 
 `@babel/plugin-transform-runtime` 的作用是，将 `helper` 函数，都转换成为对` @babel/runtime` 内模块的引用。
 
-```JavaScript
+```js
 // @babel/runtime 配置
 {
   "presets": [
@@ -458,7 +458,7 @@ var Foo =
 npm i @babel/parser -s
 ```
 
-```JavaScript
+```js
 /* ------- test.js -------*/
 import * as babelParser from '@babel/parser';
 
@@ -524,7 +524,7 @@ Node {
 npm i @babel/traverse -D
 ```
 
-```JavaScript
+```js
 import * as babelParser from '@babel/parser';
 import _traverse from '@babel/traverse';
 const traverse = _traverse.default;
@@ -554,7 +554,7 @@ Babel Types 模块是一个用于 AST 节点的 Lodash 式工具库，它包含�
 npm i @babel/types -s
 ```
 
-```JavaScript
+```js
 // ...
 import * as t from "babel-types";
 
@@ -580,7 +580,7 @@ npm install @babel/generator -D
 
 一个完整的例子：
 
-```JavaScript
+```js
 import generate from "@babel/generator";
 import * as babelParser from '@babel/parser';
 import _traverse from '@babel/traverse';
@@ -624,13 +624,13 @@ console.log('📌📌📌 ~ output', output);
 
 实践第一步先小试牛刀把一个 `hello` 方法，改名为 `world` 方法：
 
-```JavaScript
+```js
 const hello = () => {}
 ```
 
 > 前期不熟悉 AST 各种标识的情况下，可以去[AST 在线平台转换(基于 acorn)](https://astexplorer.net/)查看对应的 AST。
 
-```JavaScript
+```js
 /**
  * 从上方的网站找到了 hello 的节点位置：
  * "id": {

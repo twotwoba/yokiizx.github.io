@@ -8,7 +8,7 @@ tags: [React]
 
 这两个方法又分别调用了 `renderRootSync` 和 `renderRootConcurrent`（这两个方法返回 `exitStatus` 供后续使用），其内部又分别调用了 `workLoopSync` 和 `workLoopConcurrent`：
 
-```JavaScript
+```js
 function workLoopSync() {
   // Already timed out, so perform work without checking if we need to yield.
   while (workInProgress !== null) {
@@ -28,7 +28,7 @@ function workLoopConcurrent() {
 
 源码中追踪到最后是 `throw new Error('This module must be shimmed by a specific build.')`，就是这个模块必须由特定的构建进行微调，下面是这个方法的模拟实现：
 
-```JavaScript
+```js
 export function shouldYieldToHost(): boolean {
   if (
     (expectedNumberOfYields !== -1 &&
@@ -48,7 +48,7 @@ export function shouldYieldToHost(): boolean {
 
 `performUnitOfWork(unitOfWork: Fiber)`，入参即是 workInProgress Fiber,这是一个全局变量。
 
-```JavaScript
+```js
 function performUnitOfWork(unitOfWork: Fiber): void {
   // The current, flushed, state of this fiber is the alternate. Ideally
   // nothing should rely on this, but relying on it here means that we don't
@@ -83,7 +83,7 @@ function performUnitOfWork(unitOfWork: Fiber): void {
 
 举个例子：
 
-```JavaScript
+```js
 function App() {
   return (
     <div>
@@ -115,7 +115,7 @@ ReactDOM.render(<App />, document.getElementById("root"));
 
 beginWork 源码比较长，这里简化一下主要逻辑：
 
-```JavaScript
+```js
 function beginWork(
   current: Fiber | null,
   workInProgress: Fiber,
@@ -204,7 +204,7 @@ function beginWork(
 在 update 阶段，可以调用 `bailoutOnAlreadyFinishedWork` 来复用 current 上的节点。  
 在 mount 阶段，直接根据 tag 不同，创建不同的子 Fiber 节点。而根据 tag 不同来创建 Fiber 节点，对于常见的组件（FunctionComponent/ClassComponent/HostComponent）最终都会进入 `reconcileChildren` 这个方法：
 
-```JavaScript
+```js
 export function reconcileChildren(
   current: Fiber | null,
   workInProgress: Fiber,
@@ -247,7 +247,7 @@ mountChildFibers 和 reconcileChildFibers 逻辑基本相同，唯一不同的�
 
 `ReactFiberFlags.js` 这个文件中存储着 flags(v16叫effectTag) 对应的操作：
 
-```JavaScript
+```js
 // DOM需要插入到页面中
 export const Placement = /*                */ 0b00000000000010;
 // DOM需要更新
@@ -270,7 +270,7 @@ beginWork 的流程图：
 
 `completeWork` 的源码非常长，不过与 `beginWork` 一样，也是根据 fiber.tag 调用不同的处理逻辑，方法内就一个 `switch...case`，有些组件要处理的逻辑较多，下面只关注部分组件类型的主要逻辑。
 
-```JavaScript
+```js
 function completeWork(
   current: Fiber | null,
   workInProgress: Fiber,
@@ -310,7 +310,7 @@ function completeWork(
 
 先重点关注页面渲染所必须的 `HostComponent`（即原生 DOM 组件对应的 Fiber 节点）:
 
-```JavaScript
+```js
 case HostComponent: {
   popHostContext(workInProgress)
   const rootContainerInstance = getRootHostContainer()
@@ -375,7 +375,7 @@ case HostComponent: {
 也是根据 current 是否为 null 来判断是 mount 还是 update；同时根据 workInProgress.stateNode 是否已存在对应 DOM 节点来判断是否进入更新还是去新建。
 
 - 如果进入 update，则会走入 `updateHostComponent` 方法，这个方法最终会生成 `updatePayload` 挂载到 `workInProgress.updateQueue` 上，最后在 `commit` 阶段渲染到页面上。
-  ```JavaScript
+  ```js
   // updatePayload为数组形式，他的偶数索引的值为变化的prop key，奇数索引的值为变化的prop value
   workInProgress.updateQueue = (updatePayload: any);
   ```
@@ -388,7 +388,7 @@ case HostComponent: {
 
 继续归--继续退栈，依次 `completeUnitOfWork`,`performUnitOfWork`,`workLoopSync`,`renderRootSync`,`performSyncWorkOnRoot`，最后执行 `performSyncWorkOnRoot` 的代码：
 
-```JavaScript
+```js
  commitRoot(root); // 进入 commit 阶段
 ```
 
@@ -396,7 +396,7 @@ case HostComponent: {
 
 还是因为在 "归" 阶段，最终就是会形成从 rootFiber 到最后一个 fiber 的 effectList：
 
-```JavaScript
+```js
                        nextEffect         nextEffect
 rootFiber.firstEffect -----------> fiber -----------> fiber
 ```

@@ -39,7 +39,7 @@ const {
 
 我们从命名就能看出来大致的区别，分为同步/异步，串行/并行/瀑布流/循环类型等。钩子的目的是为了显示的声明触发监听事件时传入的参数，以及订阅该钩子的 callback 函数所接收到的参数，举个简单例子：
 
-```JavaScript
+```js
 const demo = new SyncHook(['hello']) // hello 字符串为参数占位符
 demo.tap('Say', (str1, str2) => {
   console.log(str1, str2) // hello-world, undefined
@@ -71,7 +71,7 @@ demo.call('hello-world')
 
 说了一堆 Tapable 的概念，插件到底咋整呢？看官网示例：
 
-```JavaScript
+```js
 // ./CustomPlugin.js
 class HelloWorldPlugin {
 	apply(compiler) {
@@ -100,7 +100,7 @@ module.exports = {
 
 在之前学习 webpack 核心流程时，`createCompiler` 方法体内有这么一段代码：
 
-```JavaScript
+```js
 /** 加载自定义配置的插件 注意这就是为什么插件需要一个 apply 方法 */
 if (Array.isArray(options.plugins)) {
   for (const plugin of options.plugins) {
@@ -123,7 +123,7 @@ apply 虽然是一个函数，但是从设计上就只有输入，webpack 不 ca
 
 apply 函数运行时会得到参数 compiler ，以此为起点可以调用 hook 对象注册各种钩子回调，例如：compiler.hooks.make.tapAsync ，这里面 make 是钩子名称，tapAsync 定义了钩子的调用方式，webpack 的插件架构基于这种模式构建而成，插件开发者可以使用这种模式在钩子回调中，插入特定代码。webpack 各种内置对象都带有 hooks 属性，比如 compilation 对象：
 
-```JavaScript
+```js
 class SomePlugin {
     apply(compiler) {
         compiler.hooks.thisCompilation.tap('SomePlugin', (compilation) => {

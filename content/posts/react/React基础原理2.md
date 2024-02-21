@@ -13,7 +13,7 @@ tags: [React]
 
 那么来看看 Fiber 的真实面容：
 
-```JavaScript
+```js
 function FiberNode(
   tag: WorkTag,
   pendingProps: mixed,
@@ -66,7 +66,7 @@ React 中最多存在两条 Fiber 树：
 - currentFiber 树，当前在屏幕上内容对应的 Fiber 树
 - workInProgressFiber 树，正在内存中构建的 Fiber 树。
 
-```JavaScript
+```js
 // 两棵树通过 alternate 连接
 currentFiber.alternate === workInProgressFiber;
 workInProgressFiber.alternate === currentFiber;
@@ -92,7 +92,7 @@ function App() {
 1. 调用 `createFiberRoot`，`new FiberRootNode` 去创建一个根节点，这个根节点暂且称为 `FiberRoot`
 2. `createFiberRoot` 内部创建了 `FiberRoot` 后，调用 `createHostRootFiber`，创建 `RootFiber`，并加入初始化更新队列去
 
-   ```JavaScript
+   ```js
    export function createFiberRoot(
     containerInfo: any,
     tag: RootTag,

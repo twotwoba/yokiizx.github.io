@@ -8,7 +8,7 @@ tags: [JavaScript, promise]
 
 axios 已经有了取消请求的功能：
 
-```JavaScript
+```js
 const CancelToken = axios.CancelToken;
 let cancel;
 
@@ -46,7 +46,7 @@ source.cancel('Operation canceled by the user.');
 
 上方的 CancelToken 从 v0.22.0 版本被废弃，最新的 axios 使用的是 fetch 的 api `AbortController`:
 
-```JavaScript
+```js
 const controller = new AbortController();
 
 axios.get('/foo/bar', {
@@ -62,7 +62,7 @@ controller.abort()
 
 首先我在"中断"上打了引号，因为 promise 一旦创建是无法取消的，所谓的”中断“，只是在合适的时候，提前结束 pending 状态而已，所以本文题目才是提前结束而不是“中断”。
 
-```JavaScript
+```js
 const mockReq = function (time) {
   const req = new Promise((resolve, reject) => {
     setTimeout(() => {

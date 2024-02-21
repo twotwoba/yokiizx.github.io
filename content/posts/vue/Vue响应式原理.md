@@ -27,7 +27,7 @@ Vue 初始化实例时，通过 `Object.defineProperty` 为 `data` 中的所有�
 
 看下 `defineReactive` 源码：
 
-```JavaScript
+```js
 // 以下所有代码为简化后的核心代码，详细的见vue2的gihub仓库哈
 export function defineReactive(obj: object, key: string, val?: any, ...otehrs) {
   const dep = new Dep()
@@ -53,7 +53,7 @@ export function defineReactive(obj: object, key: string, val?: any, ...otehrs) {
 
 再看下 `Dep` 源码：
 
-```JavaScript
+```js
 /**
  * 被观察者，依赖收集，收集的是使用到了这个数据的组件对应的 watcher
  */
@@ -92,7 +92,7 @@ export default class Dep {
 
 先看下生命周期 `mountComponent` 函数：
 
-```JavaScript
+```js
 // Watcher 在此处被实例化
 export function mountComponent(
     vm: Component,
@@ -118,7 +118,7 @@ export function mountComponent(
 
 再看看 `Watcher` 源码
 
-```JavaScript
+```js
 export default class Watcher implements DepTarget {
   constructor(vm: Component | null,expOrFn: string | (() => any), /* ... */) {
     this.getter = expOrFn
@@ -158,7 +158,7 @@ export default class Watcher implements DepTarget {
 
 当 data 中的数据发生改变时，就会触发 setter 函数的执行，进而触发 Dep 的 notify 函数。
 
-```JavaScript
+```js
 notify() {
   for (let i = 0, l = subs.length; i < l; i++) {
     const sub = subs[i]

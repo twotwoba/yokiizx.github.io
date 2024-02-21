@@ -101,7 +101,7 @@ DOM3 在 DOM2 的基础上添加了更多事件类型。
 
 ## 自定义事件
 
-```JavaScript
+```js
 const event = new Event(type[, options]);
 const customEvent = new CustomEvent(type[, options]);
 

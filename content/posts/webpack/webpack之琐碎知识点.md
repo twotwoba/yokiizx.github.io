@@ -32,7 +32,7 @@ webpack-dev-server 启动服务后，当文件发生了变动，会触发重新�
 
 我们平时说的代码分割优化指的就是第三种 `optimization.splitChunks`，一般配置长这样：
 
-```JavaScript
+```js
 module.exports = {
   optimization:{
     splitChunks:{

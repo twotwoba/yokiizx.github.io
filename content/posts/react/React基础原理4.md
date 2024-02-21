@@ -8,7 +8,7 @@ tags: [React]
 
 ### markUpdateLaneFromFiberToRoot (获取到 fiberRoot)
 
-```JavaScript
+```js
 function markUpdateLaneFromFiberToRoot(sourceFiber: Fiber, lane: Lane): FiberRoot | null {
   // Update the source fiber's lanes
   sourceFiber.lanes = mergeLanes(sourceFiber.lanes, lane)
@@ -49,7 +49,7 @@ function markUpdateLaneFromFiberToRoot(sourceFiber: Fiber, lane: Lane): FiberRoo
 
 该方法的源码的注释需要认真理解，非常之重要。
 
-```JavaScript
+```js
 // Use this function to schedule a task for a root. There's only one task per
 // root; if a task was already scheduled, we'll check to make sure the priority
 // of the existing task is the same as the priority of the next level that the

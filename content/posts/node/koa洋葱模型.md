@@ -42,7 +42,7 @@ app.listen(3000);
 
 显而易见，`app.use` 貌似被分割成了下面的样子：
 
-```JavaScript
+```js
 async function customMiddleware(ctx, next) {
 	// ctx.request 请求部分处理
   // ...
@@ -62,7 +62,7 @@ async function customMiddleware(ctx, next) {
 
 核心代码如下，很简单，就是往 `Application` 实例 即 `new Koa` 的属性 `middleware` 中推入函数 `fn`：
 
-```JavaScript
+```js
 use (fn) {
   this.middleware.push(fn)
   return this
@@ -73,7 +73,7 @@ use (fn) {
 
 再来看下 `listen` 方法：
 
-```JavaScript
+```js
 listen (...args) {
   const server = http.createServer(this.callback())
   return server.listen(...args)
@@ -84,7 +84,7 @@ listen (...args) {
 
 ### [callback](https://github.com/koajs/koa/blob/master/lib/application.js#L156)
 
-```JavaScript
+```js
 callback () {
   const fn = this.compose(this.middleware)
 
@@ -106,7 +106,7 @@ handleRequest(ctx, fnMiddleware) {
 
 ### [koa-compose](https://github.com/koajs/compose)
 
-```JavaScript
+```js
 function compose (middleware) {
   // 错误处理省略...
   return function (context, next) {
@@ -138,7 +138,7 @@ function compose (middleware) {
 
 简易版 compose 实现：
 
-```JavaScript
+```js
 const middleware = [];
 let mw1 = async function (ctx, next) {
   console.log('next前，第一个中间件');
@@ -183,7 +183,7 @@ fn();
 
 通过不断调用 generator 函数的 next 方法来达到自动执行 generator 函数的，类似 async、await 函数自动执行。
 
-```JavaScript
+```js
 function co(gen) {
   var ctx = this;
   var args = slice.call(arguments, 1)

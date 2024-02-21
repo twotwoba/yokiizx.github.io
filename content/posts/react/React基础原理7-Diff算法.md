@@ -19,7 +19,7 @@ diff 算法的本质是：JSX 对象和 current Fiber 对比，生成 workInProg
 
 ### reconcileChildFibers
 
-```JavaScript
+```js
 function reconcileChildFibers(
   returnFiber: Fiber,
   currentFirstChild: Fiber | null,
@@ -75,7 +75,7 @@ function reconcileChildFibers(
 
 单个节点，关注一下 `reconcileSingleElement` 这个方法：
 
-```JavaScript
+```js
 function reconcileSingleElement(
   returnFiber: Fiber,
   currentFirstChild: Fiber | null,
@@ -164,7 +164,7 @@ ul -> p  (变成了单个节点)
 2. 节点新增/减少
 3. 节点位置变化
 
-```JavaScript
+```js
 function reconcileChildrenArray(
   returnFiber: Fiber,
   currentFirstChild: Fiber | null,
@@ -315,7 +315,7 @@ function reconcileChildrenArray(
    - 都遍历完了，diff 结束
 
    - newChildren 遍历完， oldFiber 没有遍历完，把剩下的所有 oldFiber 标记为 `DELETION`
-     ```JavaScript
+     ```js
      if (newIdx === newChildren.length) {
         // We've reached the end of the new children. We can delete the rest.
         deleteRemainingChildren(returnFiber, oldFiber);
@@ -323,7 +323,7 @@ function reconcileChildrenArray(
      }
      ```
    - oldFiber 遍历完，newChildren 没有遍历完，剩下的 newChildren 可以全部为插入
-     ```JavaScript
+     ```js
      // oldFiber 遍历完了, 从newIndex的位置继续遍历剩下的 newChildren，
      // 剩下的全部是可以直接 PLACEMENT 的
      if (oldFiber === null) {
@@ -333,7 +333,7 @@ function reconcileChildrenArray(
      ```
    - 都未遍历完，找到移动的节点，并插入正确的位置，就是
 
-     ```JavaScript
+     ```js
      // 能走到这里，说明单链和数组都没有遍历完，那么一定是发生了位置的变换
      const existingChildren = mapRemainingChildren(returnFiber, oldFiber);
      ```
@@ -343,7 +343,7 @@ function reconcileChildrenArray(
 
      找到可复用节点之后要插入正确的位置，是通过比较 `lastPlacedIndex` 和 `oldIndex`。
 
-     ```JavaScript
+     ```js
      // placeChild 主要逻辑
      newFiber.index = newIndex;          // 把新的位置给newFiber
      const current = newFiber.alternate;
@@ -366,7 +366,7 @@ function reconcileChildrenArray(
 
      最后，如果 `existingChildren` 不为空，说明剩下的 oldFiber 也都无用，需要被标记为 DELETION：
 
-     ```JavaScript
+     ```js
      existingChildren.forEach((child) => deleteChild(returnFiber, child))
      ```
 
@@ -374,7 +374,7 @@ function reconcileChildrenArray(
 
 1. abcd --> acdb (字母表示 key)
 
-```JavaScript
+```js
 ===第一轮遍历开始===
 a（之后）vs a（之前）
 key不变，可复用
@@ -441,7 +441,7 @@ oldIndex 1 < lastPlacedIndex 3 // 之前节点为 abcd，所以b.index === 1
 
 2. abcd --> dabc (字母表示 key)
 
-```JavaScript
+```js
 ===第一轮遍历开始===
 d（之后）vs a（之前）
 key改变，不能复用，跳出遍历

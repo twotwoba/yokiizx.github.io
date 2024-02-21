@@ -79,7 +79,7 @@ history 顾名思义，主要是对浏览器的浏览历史进行操作。
   1. 改变 hash 值
   2. 监听 hashchange 事件即可实现页面跳转
 
-  ```JavaScript
+  ```js
   window.addEventListener('hashchange', () => {
    const hash = window.location.hash.slice(1)
    // 根据hash值渲染不同的dom
@@ -92,7 +92,7 @@ history 顾名思义，主要是对浏览器的浏览历史进行操作。
 
   1. 改变 url （通过 `pushState()` 和 `replaceState()`）
 
-  ```JavaScript
+  ```js
   // 第一个参数：状态对象，在监听变化的事件中能够获取到
   // 第二个参数：标题
   // 第三个参数：跳转地址url
@@ -101,7 +101,7 @@ history 顾名思义，主要是对浏览器的浏览历史进行操作。
 
   2. 监听 `popstate` 事件
 
-  ```JavaScript
+  ```js
   window.addEventListener("popstate", () => {
     const path = window.location.pathname
     // 根据path不同可渲染不同的dom

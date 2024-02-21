@@ -17,7 +17,7 @@ tags: [JavaScript, promise]
 
 核心原理大致如下：
 
-```JavaScript
+```js
 // 1. 不同实例，返回的迭代器互不干扰，所以应该是有个生成上下文的构造器
 class Context {
   constructor() {
@@ -74,7 +74,7 @@ function gen() {
 
 理解了上面 generator 的原理，理解 async/await 就容易得多了。
 
-```JavaScript
+```js
 async function demo() {
     await new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -101,7 +101,7 @@ demo()  // 1 2 3
 
 现在来打开这个语法糖的魔盒，看看怎么来实现它：
 
-```JavaScript
+```js
 function* demo() {
   yield new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -132,7 +132,7 @@ gen.next().value.then(() => {
 
 上方是最朴实无华的语法糖解密，但是不够优雅，n 个 await 那不得回调地狱了？可以很自然的联想到使用一个递归函数来处理：
 
-```JavaScript
+```js
 function co(gen) {
   const curr = gen.next()
   if(curr.done) return
@@ -146,7 +146,7 @@ async/await 的原理挺简单的，要善于理解。
 
 再记录一个常用的 async/await 处理错误比较好的库，`await-to-js`，源码如下（短小精炼）：
 
-```JavaScript
+```js
 export function to<T, U = Error> (
   promise: Promise<T>,
   errorExt?: object

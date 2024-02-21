@@ -57,7 +57,7 @@ const demo = React.createElement(
 
 朴实无华的 API `createElement`，如名字一样，就是用来创建 element 的。 `React.createElement(type, config, children)`，这也是为什么 React17 之前每个文件需要手动引入 React，React17 之后则不需要了。
 
-```JavaScript
+```js
 export function createElement(type, config, children) {
   let propName;
 
@@ -133,7 +133,7 @@ export function createElement(type, config, children) {
 
 再来看看 `ReactElement`：
 
-```JavaScript
+```js
 const ReactElement = function(type, key, ref, self, source, owner, props) {
   const element = {
     // This tag allows us to uniquely identify this as a React Element
@@ -173,7 +173,7 @@ export function isValidElement(object) {
 - [介绍全新的 JSX 转换](https://zh-hans.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)
 - [@babel/plugin-transform-react-jsx](https://www.babeljs.cn/docs/babel-plugin-transform-react-jsx#react-automatic-runtime)
 
-```JavaScript
+```js
 function App() {
   return <h1>Hello World</h1>;
 }
@@ -189,7 +189,7 @@ function App() {
 
 看看源码：
 
-```JavaScript
+```js
 // 1.react/jsx/ReactJSXElement  ReactElement与上方的基本一样
 // 2.替代 React.createElement()的jsx()
 export function jsx(type, config, maybeKey) {
@@ -253,7 +253,7 @@ export function jsx(type, config, maybeKey) {
 
 这个 api 在 React18 之前使用，也是有必要学习一下的。
 
-```JavaScript
+```js
 // render 就是调用了 legacyRenderSubtreeIntoContainer 个方法
 export function render(
   element: React$Element<any>,
@@ -332,7 +332,7 @@ React18 引入的方法，取代了 `ReactDom.render`，在 `packages/react-dom/
 
 1. ClassComponent 和 pureComponent，都导出自 ReactBaseClasses.js
 
-```JavaScript
+```js
 function Component(props, context, updater) {
   this.props = props;
   this.context = context;
@@ -394,7 +394,7 @@ JSX 转为的 ReactElement 只是一个简单的数据结构，携带着 key，r
   - 除了在空闲时触发回调的功能外，Scheduler 还提供了多种调度优先级供任务设置
 - <mark>Reconciler（协调器）</mark>—— 负责找出变化的组件
   - React 15， 协调器是递归处理处理虚拟 DOM，16 后可以中断/恢复了，看代码：
-    ```JavaScript
+    ```js
     function workLoopConcurrent() {
       // Perform work until Scheduler asks us to yield
       while (workInProgress !== null && !shouldYield()) {
@@ -403,7 +403,7 @@ JSX 转为的 ReactElement 只是一个简单的数据结构，携带着 key，r
     }
     ```
   - React 16 解决中断更新时 DOM 渲染不完全的方法是，Reconciler 与 Renderer 不再是交替工作。当 Scheduler 将任务交给 Reconciler 后，Reconciler 会为变化的虚拟 DOM 打上代表增/删/更新的标记。
-    ```JavaScript
+    ```js
     // ReactFiberFlags.js 中
     export const Placement = /*             */ 0b0000000000010;
     export const Update = /*                */ 0b0000000000100;

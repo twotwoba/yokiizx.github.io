@@ -53,7 +53,7 @@ console.log(currySum(1, 2)(3)); // 6
 柯里化的孪生兄弟 -- 偏函数，个人见解：  
 就是在 curry 之上，初始化时固定了部分的参数，注意两者累加参数的方式不太一样哦。
 
-```JavaScript
+```js
 /**
  * args 为固定的参数
  */
@@ -78,7 +78,7 @@ console.log(partialSum(1)(2)) // 103
 
 compose 合成函数是把多层函数嵌套调用扁平化，内部函数执行的结果作为外部面函数的参数。
 
-```JavaScript
+```js
 function compose() {
   // 可以加个判断参数是否合格, 此处省略
   const fns = [...arguments]
@@ -104,7 +104,7 @@ console.log(test(10, 20)) // 40
 
 与之对应的是 pipe 函数，只不过是从左往右执行。这里就用 reduce 来实现一下吧：
 
-```JavaScript
+```js
 function pipe(...fns) {
   return function (args) {
     return fns.reduce((t, cb) => cb(t), args);

@@ -30,7 +30,7 @@ const [demo, setDemo] = useState({name: 'yokiizx', age: 18})
 
 重点之一是 Update，这个在之前学习过：HostRoot 和 ClassComponent 共用一套 Update 数据结构，回顾一下：
 
-```JavaScript
+```js
 export type Update<State> = {|
   eventTime: number,     // 任务时间，通过performance.now()获取的毫秒数
   lane: Lane,            // 优先级相关字段
@@ -60,7 +60,7 @@ export type UpdateQueue<State> = {|
 
 而 Hook 使用的是另一种 Update 数据结构：
 
-```JavaScript
+```js
 // ReactFiberHooks.old.js
 type Update<S, A> = {|
   lane: Lane,
@@ -132,7 +132,7 @@ const fiber = {
 
 `dispatchAction` 最终会去调用 `scheduleUpdateOnFiber` 进入调度更新阶段。在 `beginWork` 时，对 `FunctionComponent` 调用 `updateFunctionComponent` 函数，最终调用 `renderWithHooks` 这个方法。
 
-```JavaScript
+```js
 export function renderWithHooks<Props, SecondArg>(
   current: Fiber | null,
   workInProgress: Fiber,
@@ -365,7 +365,7 @@ export type Effect = {|
 
 - 清理函数的执行
 
-```JavaScript
+```js
 // pendingPassiveHookEffectsUnmount 中保存了所有需要执行销毁的 useEffect
 const unmountEffects = pendingPassiveHookEffectsUnmount;
   pendingPassiveHookEffectsUnmount = [];
@@ -415,7 +415,7 @@ function schedulePassiveEffects(finishedWork: Fiber) {
 
 - 回调函数的执行
 
-```JavaScript
+```js
 const mountEffects = pendingPassiveHookEffectsMount;
 pendingPassiveHookEffectsMount = [];
 for (let i = 0; i < mountEffects.length; i += 2) {
@@ -449,7 +449,7 @@ for (let i = 0; i < mountEffects.length; i += 2) {
 
 `useRef(state)` 对应 hook 的 `memoizedState` 保存的就是 `{current: state}`。
 
-```JavaScript
+```js
 function mountRef<T>(initialValue: T): {|current: T|} {
   // 获取当前useRef hook
   const hook = mountWorkInProgressHook();
@@ -473,7 +473,7 @@ function updateRef<T>(initialValue: T): {|current: T|} {
 
 - render 阶段给 fiber 添加 Ref flags
 
-```JavaScript
+```js
 // beginWork
 function markRef(current: Fiber | null, workInProgress: Fiber) {
   const ref = workInProgress.ref;
@@ -493,7 +493,7 @@ function markRef(workInProgress: Fiber) {
 
 - commit 阶段对具有 Ref flags 的 fiber 执行对应的操作
 
-```JavaScript
+```js
 // commit mutation 阶段对于ref属性改变的情况会先移除之前的 ref
 function commitDetachRef(current: Fiber) {
   const currentRef = current.ref;

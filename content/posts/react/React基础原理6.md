@@ -14,7 +14,7 @@ commit 阶段主要分为：before mutation，mutation，layout 这三个阶段�
 
 开始三个阶段之前先看下 `commitRootImpl` 的主要内容：
 
-```JavaScript
+```js
 // 保存之前的优先级，以同步优先级执行，执行完毕后恢复之前优先级
 const previousLanePriority = getCurrentUpdateLanePriority();
 setCurrentUpdateLanePriority(SyncLanePriority);
@@ -32,7 +32,7 @@ shouldFireAfterActiveInstanceBlur = false;
 
 遍历 effectList，进入主函数 `commitBeforeMutationEffects`：
 
-```JavaScript
+```js
 function commitBeforeMutationEffects() {
   while (nextEffect !== null) {
     const current = nextEffect.alternate
@@ -82,7 +82,7 @@ function commitBeforeMutationEffects() {
 
 现在到了执行 DOM 操作的阶段：
 
-```JavaScript
+```js
 // commitImpl
 // 同样也是遍历 effectList, before mutation/mutation/layout 都类似
 nextEffect = firstEffect;
@@ -99,7 +99,7 @@ do {
 
 主函数 `commitMutationEffects`：
 
-```JavaScript
+```js
 function commitMutationEffects(root: FiberRoot, renderPriorityLevel: ReactPriorityLevel) {
   // 遍历 effectList
   while (nextEffect !== null) {
@@ -173,7 +173,7 @@ function commitMutationEffects(root: FiberRoot, renderPriorityLevel: ReactPriori
 
 `commitPlacement` 函数：
 
-```JavaScript
+```js
 function commitPlacement(finishedWork: Fiber): void {
   if (!supportsMutation) {
     return;
@@ -249,7 +249,7 @@ rootFiber -----> App -----> div -----> p
 
 - tag 为 HostComponent，会调用 `commitUpdate`，最终会调用 `updateDOMProperties`：
 
-```JavaScript
+```js
 for (let i = 0; i < updatePayload.length; i += 2) {
   const propKey = updatePayload[i];
   const propValue = updatePayload[i + 1];
@@ -271,7 +271,7 @@ for (let i = 0; i < updatePayload.length; i += 2) {
 
 递归的将 fiber 节点对应的 DOM 节点从页面中删除。
 
-```JavaScript
+```js
 function commitDeletion(
   finishedRoot: FiberRoot,
   current: Fiber,
@@ -302,7 +302,7 @@ function commitDeletion(
 这阶段在 DOM 渲染完成之后，所以该阶段触发的生命周期钩子和 hook 可以直接访问到已经改变后的 DOM。  
 layout 阶段也是递归遍历 effectList。具体执行函数是 `commitLayoutEffects`。
 
-```JavaScript
+```js
 function commitLayoutEffects(root: FiberRoot, committedLanes: Lanes) {
   // ...
   while (nextEffect !== null) {
@@ -341,7 +341,7 @@ layout 阶段结束。
 
 注意点: fiberRootNode 的 current 指针切换时机 -- mutation 和 layout 之间：
 
-```JavaScript
+```js
 // 递归 mutation
 root.current = finishedWork
 // 递归 layout

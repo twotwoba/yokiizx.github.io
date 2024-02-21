@@ -308,7 +308,7 @@ type OneOrManyOrNullStrings = OneOrManyOrNull<string>; // 等价于 string | str
 <details>
 <summary>一个高阶知识：1. 父类构造器总是会使用它自己字段的值，而不是被重写的那一个，2. 但是它会使用被重写的方法。这是类字段和类方法一大区别，另一大区别就是this的指向问题了，类字段赋值的方法可以保证this不丢失。</summary>
 
-```JavaScript
+```js
 class Animal {
   showName = () => {
     console.log('animal');

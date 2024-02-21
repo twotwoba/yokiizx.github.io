@@ -13,7 +13,7 @@ Loader 就像一个翻译员，能将源文件经过转化后输出新的结果�
 
 也就很好理解为什么 loader 的配置是在 module 内的：
 
-```JavaScript
+```js
 module.exports = {
   module: {
     rules: [
@@ -34,7 +34,7 @@ module.exports = {
 
 开发一个 loader 的基本形式：
 
-```JavaScript
+```js
 module.exports = function (source ) {
   // 做你想做的~
   return source;

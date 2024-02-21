@@ -12,13 +12,13 @@ tags: [JavaScript]
 
 非严格模式下，this 指向 window/global，严格模式下 this 指向 undefined
 
-```JavaScript
+```js
 function demo() {
   console.log(this) // window
 }
 ```
 
-```JavaScript
+```js
 'use strict'
 function demo() {
   console.log(this) // undefined
@@ -36,7 +36,7 @@ function demo() {
 
 普通函数在的执行时，创建它的执行上下文，此时才能决定 this 的指向，谁调用 this 指向这个对象。
 
-```JavaScript
+```js
 var name = 'yokiizx';
 var demo = {
     name: '94yk',
@@ -65,7 +65,7 @@ learn(); // 上下文为window
 
 平时所见到的箭头函数中的 this，其实指向的就是是它定义时所处的上下文，这是与普通函数的区别
 
-```JavaScript
+```js
 var name = 'yokiizx';
 var demo = {
     name: '94yk',
@@ -80,7 +80,7 @@ demo.learn() // yokiizx is learning JS
 
 小结：
 
-```JavaScript
+```js
 var name = 'outer_name'
 var obj = {
   name: 'inner_name',
@@ -116,7 +116,7 @@ log_4.call(demo) // inner_name
 
 this 指向新创建的实例对象
 
-```JavaScript
+```js
 function _new(fn, ...args) {
   // 创建新对象,修改原型链  obj.__proto__ 指向 fn.prototype
   const obj = Object.create(fn.prototype)
@@ -129,7 +129,7 @@ function _new(fn, ...args) {
 
 ## Class
 
-```JavaScript
+```js
 class Button {
   constructor(value) {
     this.value = value;
@@ -159,7 +159,7 @@ setTimeout(button.click, 1000); // undefined，因为变更了上下文，this�
    }
    ```
 2. 把方法赋值给类字段（推荐，更优雅），因为类字段不是加在 `类.prototype`，而是在每个独立对象中。
-   ```JavaScript
+   ```js
    class Button {
      constructor(value) {
        this.value = value;

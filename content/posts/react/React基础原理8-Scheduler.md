@@ -31,7 +31,7 @@ MacroTask --> MicroTask--> requestAnimationFrame--> 浏览器重排 / 重绘--> 
 
 时间切片选择使用 `MessageChannel` 实现，它的执行时机比 `setTimeout` 更靠前。
 
-```JavaScript
+```js
 // Scheduler 将需要被执行的回调函数作为 MessageChannel 的回调执行
 const channel = new MessageChannel();
 const port = channel.port2;
@@ -72,7 +72,7 @@ requestHostCallback = function(cb) {
 
 之前学习过 `workLoopSync`，是时候看看 `workLoopConcurrent`了：
 
-```JavaScript
+```js
 function workLoopConcurrent() {
   // Perform work until Scheduler asks us to yield
   while (workInProgress !== null && !shouldYield()) {
@@ -83,7 +83,7 @@ function workLoopConcurrent() {
 
 唯一的不同就是多了个 `shouldYield` 是否暂停的判断，这个方法是从 `shceduler` 内部抛出来的。
 
-```JavaScript
+```js
 shouldYieldToHost = function() {
   const currentTime = getCurrentTime();
   // deadline = currentTime + yieldInterval;
@@ -113,7 +113,7 @@ shouldYieldToHost = function() {
 
 > 注释写的很明白，主要就是看是否有剩余时间是否用完，在 Schdeduler 中，为任务分配的初始剩余时间为 5ms，随着应用的运行，根据 fps 动态调整可执行时间。
 
-```JavaScript
+```js
 forceFrameRate = function(fps) {
   if (fps < 0 || fps > 125) return
   if (fps > 0) {
@@ -133,7 +133,7 @@ OK，到这里，`performUnitOfWork` 是怎么暂停的已经清除，主要是�
 
 `Scheduler` 是独立于 React 的包，**它的优先级也是独立于 React 的优先级**。
 
-```JavaScript
+```js
 // SchedulerPriorities.js
 export const NoPriority = 0;
 export const ImmediatePriority = 1;
@@ -167,7 +167,7 @@ function unstable_runWithPriority(priorityLevel, eventHandler) {
 
 可见，`Scheduler` 有 5 种优先级，默认是 `NormalPriority`，`ImmediatePriority` 是最高优先级，会立即执行。
 
-```JavaScript
+```js
 function commitRoot(root) {
    // 返回 scheduler 中的 currentPriorityLevel
   const renderPriorityLevel = getCurrentPriorityLevel();
@@ -184,7 +184,7 @@ function commitRoot(root) {
 
 看一下 `scheduler` 的这个方法 `unstable_scheduleCallback`，对外抛出一般是 `schedulerCallback`，直译过来就是安排回调，也就可以理解为是调度任务：
 
-```JavaScript
+```js
 // Times out immediately
 var IMMEDIATE_PRIORITY_TIMEOUT = -1;
 // Eventually times out
@@ -284,7 +284,7 @@ function unstable_scheduleCallback(priorityLevel, callback, options) {
 
 继续往下走，任务的重启就在 `requestHostCallback` 这个方法，这个方法根据是否支持 `MessageChannel` 也有两种实现，暂且不关注，主要关注它后面的流程，`requestHostCallback` 调用了 `flushWork`，再调用 `workLoop`：
 
-```JavaScript
+```js
 function workLoop(hasTimeRemaining, initialTime) {
   let currentTime = initialTime;
   advanceTimers(currentTime);
@@ -346,7 +346,7 @@ function workLoop(hasTimeRemaining, initialTime) {
 
 重点是：如果 `continuationCallback` 即调度注册的回调函数，它的返回值为 `function` 时，会把 `continuationCallback` 作为当前任务的回调函数，否则 `pop(taskQueue);` 把当前执行的任务清除 `taskQueue`，而在 `render` 阶段 `performConcurrentWorkOnRoot` 函数的末尾有这么段代码：
 
-```JavaScript
+```js
 if (root.callbackNode === originalCallbackNode) {
   // The task node scheduled for this root is the same one that's
   // currently executed. Need to return a continuation.

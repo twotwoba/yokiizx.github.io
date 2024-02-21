@@ -11,7 +11,7 @@ tags: [JavaScript, promise]
 
 关键点，一个限定数量的请求池，一个 promise 有结果后，再去加入下一个请求，递归直到所有结束。
 
-```JavaScript
+```js
 const mockReq = function (time) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -53,7 +53,7 @@ concurrentPromise(3);
 
 通过 aync + promise.race 能更简单的控制。
 
-```JavaScript
+```js
 async function concurrentPromise(limit) {
   const pool = [];
   for (let i = 0; i < reqList.length; ++i) {

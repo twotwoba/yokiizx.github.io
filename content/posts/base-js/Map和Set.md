@@ -34,7 +34,7 @@ Set 的特性除了没有键，就是值不重复，常被用来做去重处理�
 
 关于内存清除，JavaScript 引擎在值“可达”和可能被使用时会将其保持在内存中。见以下代码：
 
-```JavaScript
+```js
 let demo = {name: 'yokiizx'}
 demo = null // 该对象将会被从内存中清除
 
@@ -66,7 +66,7 @@ console.log(weakMap) // WeakMap { <items unknown> }
 
 私有属性应该是不能被外界访问到，不能被多个实例共享。闭包中的变量会在实例中共享
 
-```JavaScript
+```js
 const Demo = (function () {
   let priv = new WeakMap()
   return class {
@@ -100,7 +100,7 @@ console.log(d2.getPriv(), '--', d2.priv) // 2 -- undefined
 - 必须具有 `Symbol.iterator` 方法, 该方法就是迭代器。(方法加到原型上)
 - 迭代器是具有 `next()` 方法的对象，`next()` 方法返回 `{done:.., value :...}` 格式的迭代器对象
 
-```JavaScript
+```js
 const range = {
   from: 1,
   to: 5

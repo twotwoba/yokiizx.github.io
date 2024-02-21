@@ -19,7 +19,7 @@ tags: [JavaScript, promise]
 
 一个 `promise` 必须有个 `then` 方法。
 
-```JavaScript
+```js
 promise.then(onFulfilled, onRejected)
 ```
 
@@ -32,7 +32,7 @@ promise.then(onFulfilled, onRejected)
 5. 一个 `promise` 可以注册多个 `then` 方法，按照初始声明时的调用顺序执行 `then`
 6. `then` 必须返回一个 `promise：`
 
-   ```JavaScript
+   ```js
    promise2 = promise1.then(onFulfilled, onRejected)
    ```
 
@@ -40,7 +40,7 @@ promise.then(onFulfilled, onRejected)
    - 如果`onFulfilled`或`onRejected` 抛出了错 `e`，promise2 必须用 `e` 作为 `onRejected` 的 `reason`
    - 如果`onFulfilled`或`onRejected` 不为函数，则 promise2 必须采用 promise1 的 value 或 reason (即会发生值/异常传递)
 
-     ```JavaScript
+     ```js
      // 案例1 resolve
      console.log(new Promise((resolve) => {
         resolve(1)
@@ -76,7 +76,7 @@ promise.then(onFulfilled, onRejected)
 
 ### 代码实现
 
-```JavaScript
+```js
 /**
  * @description  : promise 实现
  * @date         : 2022-09-28 21:42:08
@@ -196,7 +196,7 @@ function resolvePromise(promise, x, resolve, reject) {
 
 ### 其他方法的实现
 
-```JavaScript
+```js
 class _Promise {
    // ... 主代码省略,见上方
 
@@ -277,7 +277,7 @@ npm install promises-aplus-tests -D
 
 2. 在实现的 promise 中添加以下代码
 
-```JavaScript
+```js
 _Promise.deferred = function () {
   var result = {};
   result.promise = new _Promise(function (resolve, reject) {
@@ -292,7 +292,7 @@ module.exports = _Promise;
 
 3. 配置启动 script
 
-```JavaScript
+```js
 "test": "promises-aplus-tests MyPromise"
 ```
 

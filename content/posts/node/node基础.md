@@ -34,7 +34,7 @@ tags: [node]
 
 > [process.nextTick 和 setImmediate 的区别](https://juejin.cn/post/7102633430713630750)
 
-```JavaScript
+```js
 const EventEmitter = require('events');
 const event = new EventEmitter()
 event.on('demo', (a, b) => {
@@ -80,7 +80,7 @@ process 对象是一个全局变量，是一个 EventEmitter 实例，提供了�
 
 Node 中的异步默认是回调风格，`callback(err, returnValue)`：
 
-```JavaScript
+```js
 const fs = require('fs')
 fs.stat('.', (err, stats) => {
   // ...
@@ -89,14 +89,14 @@ fs.stat('.', (err, stats) => {
 
 v14 之后，文件系统提供了 `fs/promises` 支持 promise 风格的使用方法：
 
-```JavaScript
+```js
 const fs = require('fs/promises');
 fs.stat('.').then((stats) => {}).catch((err) => {});
 ```
 
 为了统一，内置的 `util` 模块提供了 `promisify` 方法可以把所有标准 callback 风格方法转成 promise 风格方法：
 
-```JavaScript
+```js
 const fs = require('fs');
 const { promisify } = require('util');
 
@@ -133,7 +133,7 @@ Buffer 类的实例类似于 0 到 255 之间的整型数组（其他整数会�
 
 补充：为了比较 Buffer 与 String 的效率，顺便学习呀一下 ab 这个命令，见[使用 Apache Bench 对网站性能进行测试](https://blog.csdn.net/dongdong9223/article/details/49248979)
 
-```JavaScript
+```js
 const http = require('http');
 let s = '';
 for (let i=0; i<1024*10; i++) {
@@ -171,7 +171,7 @@ Node.js 本身就使用的事件驱动模型，为了解决单进程单线程对
 
 Node.js 提供了 child_process 模块支持多进程，通过 child_process.fork(modulePath) 方法可以调用指定模块，衍生新的 Node.js 进程 。
 
-```JavaScript
+```js
 const { fork } = require('child_process');
 const os = require('os');
 
@@ -184,7 +184,7 @@ for (let i = 0, len = os.cpus().length; i < len; i++) {
 
 node 内置模块`cluster` 基于 child_process.fork 实现.
 
-```JavaScript
+```js
 const cluster = require('cluster');            // | |
 const http = require('http');                  // | |
 const numCPUs = require('os').cpus().length;   // | |    都执行了

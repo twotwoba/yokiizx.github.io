@@ -40,7 +40,7 @@ JavaScript 中的数组分为快慢数组。
 2. 数组寻址时减少 CPU 指令运算
 3. 物理内存的地址是从 0 开始的
 
-```JavaScript
+```js
 // 寻址公式
 arr[i] = base_address + i * type_size
 // 其中base_address为数组arr首地址，arr0就是 **偏移量** 为0的数组，即数组arr首地址；
@@ -54,7 +54,7 @@ arr[i] = base_address + （i -1）* type_size
 
 ### 二维数组初始化
 
-```JavaScript
+```js
 const dp = Array.from(Array(m), () => Array(n).fill(0))
 ```
 

@@ -46,7 +46,7 @@ content + padding 的宽度，不包括滚动条
 
 ## 滚动
 
-```JavaScript
+```js
 scrollBy(x,y) // 相对自身偏移
 scrollTo(pageX,pageY) // 滚动到绝对坐标
 scrollToView() // 滚到视野里

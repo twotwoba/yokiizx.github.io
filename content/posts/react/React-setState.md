@@ -18,7 +18,7 @@ setState 最终调用的是 `this.updater.enqueueSetState(this, partialState, ca
 
 首先要明确一点，针对 React 中的 state，不像 vue 那样，是没有做任何数据绑定的，当 state 发生变化时，是发生了一次重新渲染，**每一次渲染都能拿到独立的 state 状态，这个状态值是函数中的一个常量**。
 
-```JavaScript
+```js
 const classComponentUpdater = {
   isMounted,
   enqueueSetState(inst, payload, callback) {
@@ -71,7 +71,7 @@ const classComponentUpdater = {
 - `setTimeout`、`setInterval`、`DOM2级事件回调`、`Promise.then()的回调` 中，`setState` 触发的状态更新是同步的
 - 其它直接处在 React 生命周期和 React 合成事件内的 `setState` 状态更新都是异步的
 
-```JavaScript
+```js
 // 老版的 批量更新
 export function batchedUpdates<A, R>(fn: A => R, a: A): R {
   const prevExecutionContext = executionContext;
@@ -97,7 +97,7 @@ export function batchedUpdates<A, R>(fn: A => R, a: A): R {
 
 - 默认所有的 `setState` 会自动进行批处理，表现都是异步渲染的。
 
-```JavaScript
+```js
 // 新版批量更新 依赖于 lane 模型：ensureRootIsScheduled 方法内
 // Check if there's an existing task. We may be able to reuse it.
 if (existingCallbackNode !== null) {
@@ -123,7 +123,7 @@ if (existingCallbackNode !== null) {
 
 如果想要同步的更新行为，使用 `react-dom 的 flushSync`，把 `setState` 用 `flushSync` 的回调包裹一下。
 
-```JavaScript
+```js
 // 注意写法，在同一个 flushSync内是无效的
 import { flushSync } from 'react-dom';
 
@@ -141,7 +141,7 @@ console.log(this.state.count) // 2
 
 从之前的文章中应该很清楚，状态更新都会走入 `scheduleUpdateOnFiber` 这个方法，此处我们关注这里：
 
-```JavaScript
+```js
 // scheduleUpdateOnFiber 部分代码:
 // export const NoContext = 0b0000000; 是一个二进制常量
 // let executionContext = NoContext; 也是 executionContext 的初始值
@@ -174,7 +174,7 @@ newCallbackNode = scheduleSyncCallback(
 
 `setState` 的合并策略见 `getStateFromUpdate` 这个方法：
 
-```JavaScript
+```js
 function getStateFromUpdate( workInProgress: Fiber,
   queue: UpdateQueue<State>,
   update: Update<State>,
@@ -210,7 +210,7 @@ function getStateFromUpdate( workInProgress: Fiber,
 
 它的更新流程最终也是要走入 `scheduleUpdateOnFiber`，所以与 `this.setState` 的区别不大。但是，hook 的 "setState" 不会做自动的合并。
 
-```JavaScript
+```js
 this.state = {
   name: 'yokiizx',
   age: 18
