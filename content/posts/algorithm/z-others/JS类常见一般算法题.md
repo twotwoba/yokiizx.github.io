@@ -1,6 +1,7 @@
 ---
 title: 'JS类常见一般算法题'
 date: 2022-09-23T14:32:40+08:00
+draft: true
 ---
 
 记录一下非力扣，但是是 JS 常见的一般类算法题，比较简单。
@@ -231,7 +232,7 @@ function toThousand2(num) {
 }
 ```
 
-### faltten 多种实现
+### flatten 多种实现
 
 ```js
 // 1. api
