@@ -5,6 +5,7 @@ tags: []
 series: [java]
 categories: [study notes]
 weight: 4
+draft: true
 ---
 
 ## Object 类

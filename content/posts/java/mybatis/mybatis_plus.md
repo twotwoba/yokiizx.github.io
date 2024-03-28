@@ -6,6 +6,7 @@ tags: []
 # series: [mybatis]
 categories: [study notes]
 # weight: 1
+draft: true
 ---
 
 mybatis 写 sql 的时候仍然有一些不便，mybatis-plus 对它进行了增强。

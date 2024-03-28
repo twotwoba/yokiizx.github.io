@@ -5,6 +5,7 @@ tags: []
 series: [java]
 categories: [study notes]
 weight: 10
+draft: true
 ---
 
 前端学过 TypeScript，对泛型是一定的理解，来看看 java 的泛型吧。

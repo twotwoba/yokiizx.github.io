@@ -2,6 +2,7 @@
 title: 'Vuex&Redux原理'
 date: 2022-09-20T17:14:39+08:00
 tags: [Vue, React]
+draft: true
 ---
 
 ## Vuex

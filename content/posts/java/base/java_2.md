@@ -5,6 +5,7 @@ tags: []
 series: [java]
 categories: [study notes]
 weight: 2
+draft: true
 ---
 
 ## JAVA 基本数据类型

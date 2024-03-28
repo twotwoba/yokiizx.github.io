@@ -5,6 +5,7 @@ tags: []
 series: [java]
 categories: [study notes]
 weight: 9
+draft: true
 ---
 
 Java 种数组需要手动扩容，使用起来很不方便，因此，更常用的是集合。

@@ -5,6 +5,7 @@ tags: []
 series: [java]
 categories: [study notes]
 weight: 1
+draft: true
 ---
 
 如今只会前端让我感到处处受制于人，很多自己的想法难以实现，严重依赖于后端，为了改变现状，我决定今年另一个小目标就是掌握 java，以及它的相关技术栈，不折腾一下，做什么程序员？Let's go!

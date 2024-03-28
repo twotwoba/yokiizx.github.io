@@ -5,6 +5,7 @@ lastmod:
 series: [java]
 categories: [study notes]
 weight: 13
+draft: true
 ---
 
 作为前端开发，对网络这块大体还是比较熟悉的，如需要深度学习网络，可以后续深度学习～

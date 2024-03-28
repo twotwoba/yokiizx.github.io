@@ -6,6 +6,7 @@ tags: []
 series: [java]
 categories: [study notes]
 weight: 11
+draft: true
 ---
 
 ## JFrame & JPanel

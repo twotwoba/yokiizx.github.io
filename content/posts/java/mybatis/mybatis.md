@@ -3,9 +3,8 @@ title: 'mybatis'
 date: 2023-12-12T19:30:05+08:00
 lastmod:
 tags: []
-# series: [mybatis]
 categories: [study notes]
-# weight: 1
+draft: true
 ---
 
 ### MVC 和三层架构

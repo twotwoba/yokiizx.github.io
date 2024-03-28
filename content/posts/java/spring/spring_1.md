@@ -3,9 +3,8 @@ title: 'spring_1'
 date: 2023-12-15T09:34:51+08:00
 lastmod:
 tags: []
-# series: [spring]
 categories: [study notes]
-# weight: 1
+draft: true
 ---
 
 ### 核心

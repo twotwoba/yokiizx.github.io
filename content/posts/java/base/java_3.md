@@ -5,6 +5,7 @@ tags: []
 series: [java]
 categories: [study notes]
 weight: 3
+draft: true
 ---
 
 面向对象编程三大特性：`封装、继承和多态`。
