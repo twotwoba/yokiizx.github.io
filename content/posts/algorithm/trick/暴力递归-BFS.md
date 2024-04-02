@@ -156,12 +156,69 @@ function minusOne(str, i) {
 
 > 提一下 「双向 BFS 优化」：传统的 BFS 框架就是从起点开始向四周扩散，遇到终点时停止；而双向 BFS 则是从起点和终点同时开始扩散，当两边有交集的时候停止。[labuladong](https://labuladong.online/algo/essential-technique/bfs-framework-2/#%E5%9B%9B%E3%80%81%E5%8F%8C%E5%90%91-bfs-%E4%BC%98%E5%8C%96)
 
-### lc.773 滑动谜题
+### lc.773 滑动谜题 hard
 
-又是一个小时候玩过的经典小游戏。
+又是一个小时候玩过的经典小游戏。初学者是真的想不到怎么做，知道用什么方法的也在把实际问题转为 BFS 问题上犯了难。
 
-这道题的难点是，初学者是真的想不到怎么做，知道用什么方法的也在把实际问题转为 BFS 问题上犯了难。一点点分析，1. 每次都是空位置 0 做选择，移动相邻的上下左右的元素到 0 位置。
+来一点点分析，1. 每次都是空位置 0 做选择，移动相邻的上下左右的元素到 0 位置，2. target 就是 [[1,2,3],[4,5]]，这可咋整呢？借鉴上一题的思路，如果转为字符串，那不就好做多了？！难就难在如何把二维数组压缩到一维字符串，同时记录下每个数字的邻居索引呢。
 
-<!-- ```js
+一个技巧是：**对于一个 `m x n` 的二维数组，如果二维数组中的某个元素 e 在一维数组中的索引为 `i`，那么 e 的左右相邻元素在一维数组中的索引就是 `i - 1` 和 `i + 1`，而 e 的上下相邻元素在一维数组中的索引就是 `i - n` 和 `i + n`，其中 `n` 为二维数组的列数。**
 
-``` -->
+当然了，本题 2\*3 可以直接写出来 😁。
+
+```js
+/**
+ * @param {number[][]} board
+ * @return {number}
+ */
+const neighbors = [
+    [1, 3],
+    [0, 2, 4],
+    [1, 5],
+    [0, 4],
+    [1, 3, 5],
+    [2, 4]
+]
+var slidingPuzzle = function (board) {
+    let str = ''
+    for (let i = 0; i < board.length; ++i) {
+        for (let j = 0; j < board[0].length; ++j) {
+            str += board[i][j]
+        }
+    }
+    const target = '123450'
+    const queue = [str]
+    const visited = [str] // 用 set 也行~
+    let step = 0
+    while (queue.length) {
+        const size = queue.length
+        for (let i = 0; i < size; ++i) {
+            const el = queue.shift()
+            if (el === target) return step
+
+            /** 找到 0 的索引 和它周围元素交换 */
+            const idx = el.indexOf('0')
+            for (const neighborIdx of neighbors[idx]) {
+                // 交换得转为数组
+                const newEl = swap(el, idx, neighborIdx)
+                if (visited.indexOf(newEl) === -1) {
+                    // 不走回头路
+                    queue.push(newEl)
+                    visited.push(newEl)
+                }
+            }
+        }
+        step++
+    }
+    return -1
+}
+function swap(str, i, j) {
+    const chars = str.split('')
+    const temp = chars[i]
+    chars[i] = chars[j]
+    chars[j] = temp
+    return chars.join('')
+}
+```
+
+<!-- lc.365 水壶问题 -->
