@@ -12,8 +12,6 @@ tags: [http, browser]
 
 ![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202210191532653.png)
 
-TODO
-
 ## 加餐--现代浏览器架构
 
 ## 参考

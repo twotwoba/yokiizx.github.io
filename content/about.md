@@ -32,15 +32,15 @@ statistics: 'false'
 
 ### 专业技能
 
-- 主要编程语言：HTML、CSS、JavaScript
-- 熟悉的前端库/框架：Vue、Vue Router、Vuex、React、React Router、Redux、mobx、echarts、element ui、Ant design、emotionjs
-- 熟悉的开发工具：Git、VsCode、Chrome devtool、nvm、nrm
-- 熟悉的构建工具：webpack、babel
-- 熟悉的服务端技能：Node.js、Koa.js
-- 熟悉的操作系统：Mac OS、Linux
-- 略了解(用过)的技能：TypeScript、Nginx、Docker、Jenkins、MySQL/sql、rollup
-- 有良好的编码和调试习惯，eslint、prettier 结合规范开发代码
-- 熟悉常用的设计模式、数据结构和算法，并有实际应用
+-   主要编程语言：HTML、CSS、JavaScript
+-   熟悉的前端库/框架：Vue、Vue Router、Vuex、React、React Router、Redux、mobx、echarts、element ui、Ant design、emotionjs
+-   熟悉的开发工具：Git、VsCode、Chrome devtool、nvm、nrm
+-   熟悉的构建工具：webpack、babel
+-   熟悉的服务端技能：Node.js、Koa.js
+-   熟悉的操作系统：Mac OS、Linux
+-   略了解(用过)的技能：TypeScript、Nginx、Docker、Jenkins、MySQL/sql、rollup
+-   有良好的编码和调试习惯，eslint、prettier 结合规范开发代码
+-   熟悉常用的设计模式、数据结构和算法，并有实际应用
 
 ### 项目经历
 

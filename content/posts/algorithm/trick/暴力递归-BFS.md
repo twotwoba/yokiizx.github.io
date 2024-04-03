@@ -24,6 +24,7 @@ function bfs(start, target) {
     let step = 0
     while (queue.length > 0) {
         const size = queue.length
+        /** 将当前队列中的所有节点向四周扩散 */
         for (let i = 0; i < size; ++i) {
             const el = queue.shift()
             if (el === target) return step // '需要的信息'
@@ -46,7 +47,7 @@ function bfs(start, target) {
 
 ```js
 /**
- * 忍不住上来先来了个 dfs，但不是今天的主角哈😂 ps: 此处用了回溯的思想，也可以用转为子问题的思想
+ * 忍不住上来先来了个回溯 dfs，但不是今天的主角哈😂 ps: 此处用了回溯的思想，也可以用转为子问题的思想
  * @param {TreeNode} root
  * @return {number}
  */
@@ -179,6 +180,7 @@ const neighbors = [
     [1, 3, 5],
     [2, 4]
 ]
+// 有点邻接表的意思奥~
 var slidingPuzzle = function (board) {
     let str = ''
     for (let i = 0; i < board.length; ++i) {
