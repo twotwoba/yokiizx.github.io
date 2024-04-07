@@ -1,0 +1,1025 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" /><title>Babel - Hello World</title><meta name="Description" content="A website documenting front-end technology and everyday life"><meta property="og:title" content="Babel" />
+<meta property="og:description" content="本文基于 babel 7
+众所周知，babel 是 JavaScript 编译器，今天从头到尾学习一遍，构建知识体系。
+Can I use
+babel 原理不仅 babel，大多数编译器的原理都会经历三个步骤：Parsing, Transformation, Code Generation，简单说也就是把源代码解析成抽象模板，再转成目标的抽象模板，最后根据转换好的抽象模板生成目标代码。
+parsing 有两个阶段，词法分析和语法分析，最终得到 AST（抽象语法树）：
+词法分析：把源代码转换成 tokens 数组(令牌流)，形式如下：
+PS： 旧的babylon中解析完是有 tokens 的，新的@babel/parser中没了这个字段，如有大佬知道原因，请留言告知，感谢~
+[ { type: { ... }, value: &#34;n&#34;, start: 0, end: 1, loc: { ... } }, { type: { ... }, value: &#34;*&#34;, start: 2, end: 3, loc: { ... } }, { type: { ... }, value: &#34;n&#34;, start: 4, end: 5, loc: { ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/babel/" /><meta property="og:image" content="http://localhost:1313/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-09-20T17:16:16+08:00" />
+<meta property="article:modified_time" content="2022-09-20T17:16:16+08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://localhost:1313/" /><meta name="twitter:title" content="Babel"/>
+<meta name="twitter:description" content="本文基于 babel 7
+众所周知，babel 是 JavaScript 编译器，今天从头到尾学习一遍，构建知识体系。
+Can I use
+babel 原理不仅 babel，大多数编译器的原理都会经历三个步骤：Parsing, Transformation, Code Generation，简单说也就是把源代码解析成抽象模板，再转成目标的抽象模板，最后根据转换好的抽象模板生成目标代码。
+parsing 有两个阶段，词法分析和语法分析，最终得到 AST（抽象语法树）：
+词法分析：把源代码转换成 tokens 数组(令牌流)，形式如下：
+PS： 旧的babylon中解析完是有 tokens 的，新的@babel/parser中没了这个字段，如有大佬知道原因，请留言告知，感谢~
+[ { type: { ... }, value: &#34;n&#34;, start: 0, end: 1, loc: { ... } }, { type: { ... }, value: &#34;*&#34;, start: 2, end: 3, loc: { ... } }, { type: { ... }, value: &#34;n&#34;, start: 4, end: 5, loc: { ."/>
+<meta name="application-name" content="前端后花园">
+<meta name="apple-mobile-web-app-title" content="前端后花园">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="canonical" href="http://localhost:1313/babel/" /><link rel="prev" href="http://localhost:1313/node%E7%9A%84%E7%89%B9%E7%82%B9/" /><link rel="next" href="http://localhost:1313/koa%E6%B4%8B%E8%91%B1%E6%A8%A1%E5%9E%8B/" />
+<link rel="stylesheet" href="/css/main.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">{"@context": "https://schema.org","@type": "BlogPosting",
+        "headline": "Babel",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http://localhost:1313/babel/"
+        },"genre": "posts","keywords":["babel"],"wordcount":  1523 ,
+        "url": "http://localhost:1313/babel/","datePublished": "2022-09-20T17:16:16+08:00","dateModified": "2022-09-20T17:16:16+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EricYuan",
+                "url": "/"
+            },"description": ""
+    }</script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {
+          document.body.setAttribute('theme', theme); 
+          document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');
+          if (theme === 'light') {
+            document.documentElement.classList.remove('tw-dark')
+          } else {
+            document.documentElement.classList.add('tw-dark')
+          }
+          window.theme = theme;   
+          window.isDark = window.theme !== 'light' 
+        }
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('dark' === 'light' || 'dark' === 'dark' || 'dark' === 'black') setTheme('dark'), saveTheme('dark'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+        window.switchThemeEventSet = new Set()
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop print:!tw-hidden" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hello World"><img
+        class="logo"
+        loading="lazy"
+        src="/favicon.ico"
+        srcset="/favicon.ico, /favicon.ico 1.5x, /favicon.ico 2x"
+        title="/favicon.ico" height="36"   width="36" >EricYuan</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item"
+                    href="/posts/" > 文章 </a><a class="menu-item"
+                    href="/categories/" > 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                    <input type="text"
+                        placeholder="搜索文章标题或内容..."
+                        id="search-input-desktop">
+                    <button class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+                    </button>
+                    <button class="search-button search-clear" id="search-clear-desktop" title="清空">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"/></svg>
+                    </button>
+                    <span class="search-button search-loading tw-animate-spin" id="search-loading-desktop">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"/></svg>
+                    </span>
+                </span><button class="menu-item theme-select" aria-label="切换主题">
+                    <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705 0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
+                    <select class="color-theme-select" id="theme-select-desktop" aria-label="切换主题">
+                        <option value="light">浅色</option>
+                        <option value="dark">深色</option>
+                        <option value="black">黑色</option>
+                        <option value="auto">跟随系统</option>
+                    </select>
+                </button></div>
+        </div>
+    </div>
+</header><header class="mobile print:!tw-hidden" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hello World"><img
+        class="logo"
+        loading="lazy"
+        src="/favicon.ico"
+        srcset="/favicon.ico, /favicon.ico 1.5x, /favicon.ico 2x"
+        title="/favicon.ico" >EricYuan</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                <div class="search mobile" id="search-mobile">
+                    <input type="text"
+                        placeholder="搜索文章标题或内容..."
+                        id="search-input-mobile">
+                    <button class="search-button search-toggle tw-h-10" id="search-toggle-mobile" title="搜索">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+                    </button>
+                    <button class="search-button search-clear" id="search-clear-mobile" title="清空">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"/></svg>
+                    </button>
+                    <span class="search-button search-loading tw-animate-spin" id="search-loading-mobile">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"/></svg>
+                    </span>
+                </div>
+                <button class="search-cancel" id="search-cancel-mobile">
+                    取消
+                </button>
+            </div><a class="menu-item" href="/posts/" title="" >文章</a><a class="menu-item" href="/categories/" title="" >分类</a><button class="menu-item theme-select tw-w-full" aria-label="切换主题">
+                <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705 0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
+                <select class="color-theme-select" id="theme-select-mobile" aria-label="切换主题">
+                    <option value="light">浅色</option>
+                    <option value="dark">深色</option>
+                    <option value="black">黑色</option>
+                    <option value="auto">跟随系统</option>
+                </select>
+            </button></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div><main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content always-active" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#babel-原理">babel 原理</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#重点">重点</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#babel-配置">babel 配置</a>
+      <ul>
+        <li><a href="#基础">基础</a></li>
+        <li><a href="#babel-runner">babel runner</a></li>
+        <li><a href="#babelcore">@babel/core</a></li>
+        <li><a href="#babelpreset-env">@babel/preset-env</a>
+          <ul>
+            <li><a href="#创建自己的-preset">创建自己的 <code>preset</code></a></li>
+          </ul>
+        </li>
+        <li><a href="#polyfill">polyfill</a></li>
+      </ul>
+    </li>
+    <li><a href="#babel-plugin">babel plugin</a>
+      <ul>
+        <li><a href="#babelparserbabylon">@babel/parser(babylon)</a></li>
+        <li><a href="#babeltraverse">@babel/traverse</a></li>
+        <li><a href="#babeltypes">@babel/types</a></li>
+        <li><a href="#babelgenerator">@babel/generator</a></li>
+      </ul>
+    </li>
+    <li><a href="#编写你的第一个-babel-插件httpsgithubcomjamiebuildsbabel-handbookblobmastertranslationszh-hansplugin-handbookmde7bc96e58699e4bda0e79a84e7acace4b880e4b8aa-babel-e68f92e4bbb6"><a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#%E7%BC%96%E5%86%99%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA-babel-%E6%8F%92%E4%BB%B6">编写你的第一个 Babel 插件</a></a>
+      <ul>
+        <li><a href="#babel-plugin-log-shiny">babel-plugin-log-shiny</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Babel</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><a href="/" title="Author" rel=" author" class="author">EricYuan</a>
+                </span><span id="busuanzi_container_page_pv">&nbsp;
+                        <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+            </div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-09-20">2022-09-20</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-09-20">2022-09-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1523 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#babel-原理">babel 原理</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#重点">重点</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#babel-配置">babel 配置</a>
+      <ul>
+        <li><a href="#基础">基础</a></li>
+        <li><a href="#babel-runner">babel runner</a></li>
+        <li><a href="#babelcore">@babel/core</a></li>
+        <li><a href="#babelpreset-env">@babel/preset-env</a>
+          <ul>
+            <li><a href="#创建自己的-preset">创建自己的 <code>preset</code></a></li>
+          </ul>
+        </li>
+        <li><a href="#polyfill">polyfill</a></li>
+      </ul>
+    </li>
+    <li><a href="#babel-plugin">babel plugin</a>
+      <ul>
+        <li><a href="#babelparserbabylon">@babel/parser(babylon)</a></li>
+        <li><a href="#babeltraverse">@babel/traverse</a></li>
+        <li><a href="#babeltypes">@babel/types</a></li>
+        <li><a href="#babelgenerator">@babel/generator</a></li>
+      </ul>
+    </li>
+    <li><a href="#编写你的第一个-babel-插件httpsgithubcomjamiebuildsbabel-handbookblobmastertranslationszh-hansplugin-handbookmde7bc96e58699e4bda0e79a84e7acace4b880e4b8aa-babel-e68f92e4bbb6"><a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#%E7%BC%96%E5%86%99%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA-babel-%E6%8F%92%E4%BB%B6">编写你的第一个 Babel 插件</a></a>
+      <ul>
+        <li><a href="#babel-plugin-log-shiny">babel-plugin-log-shiny</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="details admonition warning open">
+                <div class="details-summary admonition-title">
+                    <span class="icon warning"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></svg></span>警告<span class="details-icon"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span>
+                </div>
+                <div class="details-content">
+                    <div class="admonition-content">
+                        本文最后更新于 <span class="timeago" datetime="2022-09-20T17:16:16" title="September 20, 2022">2022-09-20</span>，文中内容可能已过时。</div>
+                </div>
+            </div><p><strong>本文基于 babel 7</strong></p>
+<p>众所周知，babel 是 JavaScript 编译器，今天从头到尾学习一遍，构建知识体系。</p>
+<blockquote>
+<p><a href="https://caniuse.com/" target="_blank" rel="noopener noreferrer">Can I use</a></p>
+</blockquote>
+<h2 id="babel-原理" class="headerLink">
+    <a href="#babel-%e5%8e%9f%e7%90%86" class="header-mark"></a>babel 原理</h2><p>不仅 babel，大多数编译器的原理都会经历三个步骤：<code>Parsing</code>, <code>Transformation</code>, <code>Code Generation</code>，简单说也就是把源代码解析成抽象模板，再转成目标的抽象模板，最后根据转换好的抽象模板生成目标代码。</p>
+<ol>
+<li>
+<p><code>parsing</code> 有两个阶段，词法分析和语法分析，最终得到 AST（抽象语法树）：</p>
+<ul>
+<li>
+<p>词法分析：把源代码转换成 tokens 数组(令牌流)，形式如下：<br>
+PS： 旧的<code>babylon</code>中解析完是有 tokens 的，新的<code>@babel/parser</code>中没了这个字段，如有大佬知道原因，请留言告知，感谢~</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">   <span class="p">{</span> <span class="nx">type</span><span class="o">:</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span> <span class="nx">value</span><span class="o">:</span> <span class="s2">&#34;n&#34;</span><span class="p">,</span> <span class="nx">start</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">end</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">loc</span><span class="o">:</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">   <span class="p">{</span> <span class="nx">type</span><span class="o">:</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span> <span class="nx">value</span><span class="o">:</span> <span class="s2">&#34;*&#34;</span><span class="p">,</span> <span class="nx">start</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">end</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nx">loc</span><span class="o">:</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">   <span class="p">{</span> <span class="nx">type</span><span class="o">:</span> <span class="p">{</span> <span class="p">...</span> <span class="p">},</span> <span class="nx">value</span><span class="o">:</span> <span class="s2">&#34;n&#34;</span><span class="p">,</span> <span class="nx">start</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nx">end</span><span class="o">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nx">loc</span><span class="o">:</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">   <span class="p">...</span>
+</span></span><span class="line"><span class="cl"> <span class="p">]</span>
+</span></span></code></pre></div><p>每一个 type 有一组属性来描述该令牌：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">type</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">label</span><span class="o">:</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">keyword</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">beforeExpr</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">startsExpr</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">rightAssociative</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">isLoop</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">isAssign</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">prefix</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">postfix</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">binop</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">updateContext</span><span class="o">:</span> <span class="kc">null</span>
+</span></span><span class="line"><span class="cl">   <span class="p">},</span>
+</span></span><span class="line"><span class="cl">   <span class="p">...</span>
+</span></span><span class="line"><span class="cl"> <span class="p">}</span>
+</span></span></code></pre></div><p>词法转换的基本原理就是：tokenizer 函数内部使用指针去循环遍历源码字符串，根据正则等去匹配生成对应的一个个 token 对象。</p>
+</li>
+<li>
+<p>语法分析：把词法分析后的 tokens 数组(令牌流)转换成 AST(抽象语法树)，形式如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">type</span><span class="o">:</span> <span class="s2">&#34;FunctionDeclaration&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">id</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">type</span><span class="o">:</span> <span class="s2">&#34;Identifier&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;square&#34;</span>
+</span></span><span class="line"><span class="cl">   <span class="p">},</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">params</span><span class="o">:</span> <span class="p">[{</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">type</span><span class="o">:</span> <span class="s2">&#34;Identifier&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;n&#34;</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}],</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">body</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">type</span><span class="o">:</span> <span class="s2">&#34;BlockStatement&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">     <span class="nx">body</span><span class="o">:</span> <span class="p">[{</span>
+</span></span><span class="line"><span class="cl">       <span class="nx">type</span><span class="o">:</span> <span class="s2">&#34;ReturnStatement&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">       <span class="nx">argument</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">         <span class="nx">type</span><span class="o">:</span> <span class="s2">&#34;BinaryExpression&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">         <span class="nx">operator</span><span class="o">:</span> <span class="s2">&#34;*&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">         <span class="nx">left</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">           <span class="nx">type</span><span class="o">:</span> <span class="s2">&#34;Identifier&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;n&#34;</span>
+</span></span><span class="line"><span class="cl">         <span class="p">},</span>
+</span></span><span class="line"><span class="cl">         <span class="nx">right</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">           <span class="nx">type</span><span class="o">:</span> <span class="s2">&#34;Identifier&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;n&#34;</span>
+</span></span><span class="line"><span class="cl">         <span class="p">}</span>
+</span></span><span class="line"><span class="cl">       <span class="p">}</span>
+</span></span><span class="line"><span class="cl">     <span class="p">}]</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl"> <span class="p">}</span>
+</span></span></code></pre></div><p>与 tokenlizer 不同， parser 内部使用的是递归+循环而不仅仅是循环。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>Transformation</code>，该阶段将抽象语法树转换成我们想要的目标抽象语法树，这是最复杂的地方，会使用到 <strong>访问者模式</strong>。<br>
+这一步重点是需要一个自定义遍历器 <code>traverser(ast, visitor)</code>，<code>visitor</code> 作用是访问旧 <code>ast</code> 每个 <code>node 节点</code> 时根据 type 字段配置相应的处理方法，进行添加、更新、移除等操作，最终生成新的 AST。</p>
+</li>
+<li>
+<p><code>code generotion</code> 阶段比较简单就是深度遍历(dfs) AST，构建转换后代码的字符串。<br>
+同时还会创建代码映射(source maps)</p>
+</li>
+</ol>
+<h4 id="重点" class="headerLink">
+    <a href="#%e9%87%8d%e7%82%b9" class="header-mark"></a>重点</h4><p>访问者模式遍历器的 <code>visitor</code> 是一个对象，其对应的是设定标识的应使用各种方法，由于我们是 dfs，所以每个节点都会经历 <code>进入</code> 和 <code>退出</code> 两个动作。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"><span class="gd">- const MyVisitor = {
+</span></span></span><span class="line"><span class="cl"><span class="gd">-   Identifier() {
+</span></span></span><span class="line"><span class="cl"><span class="gd">-     console.log(&#34;Called!&#34;);
+</span></span></span><span class="line"><span class="cl"><span class="gd">-   }
+</span></span></span><span class="line"><span class="cl"><span class="gd">- };
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+ const MyVisitor = {
+</span></span></span><span class="line"><span class="cl"><span class="gi">+   Identifier: {
+</span></span></span><span class="line"><span class="cl"><span class="gi">+     enter(path) {
+</span></span></span><span class="line"><span class="cl"><span class="gi">+       console.log(&#34;Entered!&#34;);
+</span></span></span><span class="line"><span class="cl"><span class="gi">+     },
+</span></span></span><span class="line"><span class="cl"><span class="gi">+     exit(path) {
+</span></span></span><span class="line"><span class="cl"><span class="gi">+       console.log(&#34;Exited!&#34;);
+</span></span></span><span class="line"><span class="cl"><span class="gi">+     }
+</span></span></span><span class="line"><span class="cl"><span class="gi">+   }
+</span></span></span><span class="line"><span class="cl"><span class="gi">+ };
+</span></span></span></code></pre></div><p>visitor 内方法访问的实际上是 <code>path</code> &mdash;&gt; <code>path</code> 是表示两个节点之间连接的对象，这个对象还有很多其他的元数据，如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="cm">/* ------ 节点 ------ */</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">type</span><span class="o">:</span> <span class="s2">&#34;FunctionDeclaration&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">id</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">type</span><span class="o">:</span> <span class="s2">&#34;Identifier&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;square&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* ------ path ------ */</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;parent&#34;</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;type&#34;</span><span class="o">:</span> <span class="s2">&#34;FunctionDeclaration&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;id&#34;</span><span class="o">:</span> <span class="p">{...},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">...</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;node&#34;</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;type&#34;</span><span class="o">:</span> <span class="s2">&#34;Identifier&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;name&#34;</span><span class="o">:</span> <span class="s2">&#34;square&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;hub&#34;</span><span class="o">:</span> <span class="p">{...},</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;contexts&#34;</span><span class="o">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;data&#34;</span><span class="o">:</span> <span class="p">{},</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;shouldSkip&#34;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;shouldStop&#34;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;removed&#34;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;state&#34;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;opts&#34;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;skipKeys&#34;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;parentPath&#34;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;context&#34;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;container&#34;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;listKey&#34;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;inList&#34;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;parentKey&#34;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;key&#34;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;scope&#34;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;type&#34;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;typeAnnotation&#34;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 添加,更新,移动和删除节点有关的其他方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>某种意义上，<code>path</code> 是一个节点在树中的位置以及关于该节点各种信息的 <code>响应式 Reactive</code> 表示</p>
+<hr>
+<h2 id="babel-配置" class="headerLink">
+    <a href="#babel-%e9%85%8d%e7%bd%ae" class="header-mark"></a>babel 配置</h2><p>知道了基础原理之后，来看看在前端项目中，究竟是怎么使用 babel 的。</p>
+<h3 id="基础" class="headerLink">
+    <a href="#%e5%9f%ba%e7%a1%80" class="header-mark"></a>基础</h3><p>首先一个项目使用 babel 的基础条件至少有以下三包：</p>
+<ul>
+<li>一个 <code>babel runnner</code>。（如：<code>@babel/cli</code>,<code>babel-loader</code>,<code>@rollup/plugin-babel</code> 等）</li>
+<li>@babel/core</li>
+<li>@babel/preset-env</li>
+</ul>
+<h3 id="babel-runner" class="headerLink">
+    <a href="#babel-runner" class="header-mark"></a>babel runner</h3><ul>
+<li><code>@babel/cli</code>，从命令行使用 babel 编译文件
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 全局安装，也可随项目安装</span>
+</span></span><span class="line"><span class="cl">npm i @babel/cli -g
+</span></span><span class="line"><span class="cl"><span class="c1"># 基本使用，可选是否导出到文件 --out-file或-o</span>
+</span></span><span class="line"><span class="cl">babel <span class="o">[</span>file<span class="o">]</span> -o <span class="o">[</span>file<span class="o">]</span>
+</span></span></code></pre></div></li>
+<li><code>babel-loader</code>，前端项目中 <code>webpack</code> 更常用的是 <code>babel-loader</code><br>
+在 webpack 中，loader 本质上就是一个函数：
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// loader 自身实际上只是识别文件，然后注入参数，真正的编译依赖 @babel/core
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">core</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;@babel/core&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @desc    babel-loader
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param   sourceCode 源代码
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param   options    babel配置参数
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">babelLoader</span> <span class="p">(</span><span class="nx">sourceCode</span><span class="p">,</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ..
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 通过transform方法编译传入的源代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">core</span><span class="p">.</span><span class="nx">transform</span><span class="p">(</span><span class="nx">sourceCode</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">presets</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;@babel/preset-env&#39;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">plugins</span><span class="o">:</span> <span class="p">[...]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">});</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">targetCode</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><blockquote>
+<p>babel-loader 的配置既可以通过 options 参数注入，也可以在 loader 函数内部读取 <code>.babelrc</code>/<code>babel.config.js</code>/<code>babel.config.json</code> 等文件中读取后注入。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="babelcore" class="headerLink">
+    <a href="#babelcore" class="header-mark"></a>@babel/core</h3><p>通过 <code>babel runner</code> 识别到了文件和注入参数后，<code>@babel/core</code> 闪亮登场，这是 babel 最核心的一环 &mdash; 对代码进行转译。</p>
+<h3 id="babelpreset-env" class="headerLink">
+    <a href="#babelpreset-env" class="header-mark"></a>@babel/preset-env</h3><p>现在识别了文件，注入了参数（babel runner），也有了转换器（@babel/core），但是还不知道按照什么样的规则转换，好在 babel 预置了一些配置：<code>@babel/preset-env</code>、<code>@babel/preset-react</code>、<code>@babel/preset-typescript</code>等。</p>
+<p><code>@babel/preset-env</code> 内部集成了绝大多数 plugin（State &gt; 3）的转译插件，它会根据对应的参数进行代码转译。<a href="https://babeljs.io/docs/en/babel-preset-env" target="_blank" rel="noopener noreferrer">具体配置见官网</a></p>
+<h4 id="创建自己的-preset" class="headerLink">
+    <a href="#%e5%88%9b%e5%bb%ba%e8%87%aa%e5%b7%b1%e7%9a%84-preset" class="header-mark"></a>创建自己的 <code>preset</code></h4><p>如果我们的项目频繁使用某一个 babel 配置，就好比一个配方，那么固定下来作为一个自定义的 <code>preset</code> 以后直接安装这个预设是比较好的方案。 比如 <code>.babelrc</code> 如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;presets&#34;</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;es2015&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;react&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;plugins&#34;</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;transform-flow-strip-types&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/* ------- 1. npm init 创建package.json 把上方用到的preset和插件安装 ------- */</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;name&#34;</span><span class="o">:</span> <span class="s2">&#34;babel-preset-my-awesome-preset&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;version&#34;</span><span class="o">:</span> <span class="s2">&#34;1.0.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;author&#34;</span><span class="o">:</span> <span class="s2">&#34;James Kyle &lt;me@thejameskyle.com&gt;&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;dependencies&#34;</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;babel-preset-es2015&#34;</span><span class="o">:</span> <span class="s2">&#34;^6.3.13&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;babel-preset-react&#34;</span><span class="o">:</span> <span class="s2">&#34;^6.3.13&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;babel-plugin-transform-flow-strip-types&#34;</span><span class="o">:</span> <span class="s2">&#34;^6.3.15&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* ------- 2. 创建 index.js ------- */</span>
+</span></span><span class="line"><span class="cl"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">presets</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">require</span><span class="p">(</span><span class="s2">&#34;babel-preset-es2015&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">require</span><span class="p">(</span><span class="s2">&#34;babel-preset-react&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">plugins</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">require</span><span class="p">(</span><span class="s2">&#34;babel-plugin-transform-flow-strip-types&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 与 webpack loader 一样，多个 preset 执行顺序也是从右到左，
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 而babel插件则是正序的且在preset前运行。
+</span></span></span></code></pre></div><p>之后发布到 npm 仓库即可。</p>
+<h3 id="polyfill" class="headerLink">
+    <a href="#polyfill" class="header-mark"></a>polyfill</h3><p>以上三个是 babel 有意义运行的最基本的条件，一般项目中需要的更多，先看以下三个概念：</p>
+<ul>
+<li>最新 ES 语法：比如 <code>箭头函数</code>，<code>let/const</code></li>
+<li>最新 ES API：比如 <code>Promise</code></li>
+<li>最新 ES 实例/静态方法：比如 <code>String.prototype.include</code></li>
+</ul>
+<p><code>@babel/preset-env</code> 只能转换最新 ES 语法，并不能转换所有最新的语法，所以需要 <code>polyfill</code> 来协助完成。</p>
+<blockquote>
+<p>实现 <code>polyfil</code> 方式也被分为了两种：</p>
+<ol>
+<li><code>@bable/polyfill</code>：通过往全局对象上添加属性以及直接修改内置对象的 Prototype 上添加方法实现 polyfill。</li>
+<li><code>@babel/runtime</code> 和 <code>@babel/plugin-transform-runtime</code>，类似按需加载，但不是修改全局对象</li>
+</ol>
+</blockquote>
+<p>先看 <code>@bable/polyfill</code> 一个极简的例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// 前置操作 npm init -y &amp;&amp; npm i @babel/cli @babel/core @babel/preset-env -D
+</span></span></span><span class="line"><span class="cl"><span class="c1">// test.js
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">arrowFun</span> <span class="o">=</span> <span class="p">(</span><span class="nx">word</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">str</span> <span class="o">=</span> <span class="s1">&#39;hello babel&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">p</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 配置 .babelrc
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;presets&#34;</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;@babel/preset-env&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;useBuiltIns&#34;</span><span class="o">:</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// cmd 中执行 babel test.js，会得到如下代码：
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="s2">&#34;use strict&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">arrowFun</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">arrowFun</span><span class="p">(</span><span class="nx">word</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="s1">&#39;hello babel&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">p</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">()</span>
+</span></span></code></pre></div><p>这个例子中，箭头函数和 const 都被转换了，但是 Promise 没什么变化，因为 <code>useBuiltIns</code> 被设置为了 false。<code>useBuiltIns</code> 一共有三个值：</p>
+<ul>
+<li>
+<p><code>false</code>，说简单点就是不使用 polyfill</p>
+</li>
+<li>
+<p><code>entry</code>，全量引入 polyfill，同时需要项目入口文件的头部引入:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">import</span> <span class="s2">&#34;@babel/polyfill&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// babel 7.4 后被拆成了 core-js/stable 和 regenerator-runtime/runtime
+</span></span></span></code></pre></div></li>
+<li>
+<p><code>usage</code>，按需添加 polyfill，根据配置的浏览器兼容，以及代码中 使用到的 Api 添加，不需要去项目入口文件引入：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;presets&#34;</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;@babel/preset-env&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;useBuiltIns&#34;</span><span class="o">:</span> <span class="s2">&#34;usage&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;corejs&#34;</span><span class="o">:</span> <span class="mi">2</span> <span class="c1">// entry和usage都需要这个配置， 默认为 2, 可选 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// 2 - 只支持全局变量Promise和静态属性Array.from(); 3 - 还支持实例属性 [].includes
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 这套配置的输出会在头部添加如下引用, 这样就支持了 Promise 了
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">require</span><span class="p">(</span><span class="s2">&#34;core-js/modules/es6.object.to-string.js&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">require</span><span class="p">(</span><span class="s2">&#34;core-js/modules/es6.promise.js&#34;</span><span class="p">);</span>
+</span></span></code></pre></div><blockquote>
+<p>entry 全量引入会产生污染全局和的问题，而 usage 按需引入，如果有多个模块，那么也会产生代码冗余，重复引入的问题。</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<p><code>@babel/runtime</code> 是另一种实现 polyfill 的方式。相比 <code>@babel/polyfill</code> 直接在全局作用域上修改，<code>@babel/runtime</code> 是一种模块化的方式，它将开发者依赖的全局内置对象等单独抽离成独立的模块，并通过模块导入的方式引入，避免了对全局作用域的修改（污染）。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">npm i @babel/runtime -s <span class="c1"># 注意这里是 生产依赖</span>
+</span></span><span class="line"><span class="cl">npm i @babel/plugin-transform-runtime -D
+</span></span></code></pre></div><p><code>@babel/plugin-transform-runtime</code> 的作用是，将 <code>helper</code> 函数，都转换成为对<code> @babel/runtime</code> 内模块的引用。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// @babel/runtime 配置
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;presets&#34;</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;@babel/preset-env&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;useBuiltIns&#34;</span><span class="o">:</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;plugins&#34;</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;@babel/plugin-transform-runtime&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;absoluteRuntime&#34;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;corejs&#34;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span> <span class="c1">// false|2|3 是否对core-js进行polyfill，以及用哪个版本的core-js进行polyfill
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="s2">&#34;helpers&#34;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// 是否对 helper 函数进行提取
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="s2">&#34;regenerator&#34;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// 是否对regenerator-runtime进行polyfill
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="s2">&#34;useESModules&#34;</span><span class="o">:</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 测试代码 test.js
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">class</span> <span class="nx">Demo</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">word</span> <span class="o">=</span> <span class="s1">&#39;hello babel&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">say</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">word</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 转译后
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="s2">&#34;use strict&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">_interopRequireDefault</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&#34;@babel/runtime/helpers/interopRequireDefault&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">_classCallCheck2</span> <span class="o">=</span> <span class="nx">_interopRequireDefault</span><span class="p">(</span><span class="nx">require</span><span class="p">(</span><span class="s2">&#34;@babel/runtime/helpers/classCallCheck&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">_createClass2</span> <span class="o">=</span> <span class="nx">_interopRequireDefault</span><span class="p">(</span><span class="nx">require</span><span class="p">(</span><span class="s2">&#34;@babel/runtime/helpers/createClass&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">Demo</span> <span class="o">=</span> <span class="cm">/*#__PURE__*/</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">function</span> <span class="nx">Demo</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">_classCallCheck2</span><span class="p">[</span><span class="s2">&#34;default&#34;</span><span class="p">])(</span><span class="k">this</span><span class="p">,</span> <span class="nx">Demo</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">word</span> <span class="o">=</span> <span class="s1">&#39;hello babel&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">_createClass2</span><span class="p">[</span><span class="s2">&#34;default&#34;</span><span class="p">])(</span><span class="nx">Demo</span><span class="p">,</span> <span class="p">[{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">key</span><span class="o">:</span> <span class="s2">&#34;say&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">value</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">say</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">word</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}]);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">Demo</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}();</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* ---- 对比没有配置 @babel/plugin-transform-runtime ---- */</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">_classCallCheck</span><span class="p">(</span><span class="nx">instance</span><span class="p">,</span> <span class="nx">Constructor</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nx">instance</span> <span class="k">instanceof</span> <span class="nx">Constructor</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">throw</span> <span class="k">new</span> <span class="nx">TypeError</span><span class="p">(</span><span class="s1">&#39;Cannot call a class as a function&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">_defineProperties</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">descriptor</span> <span class="o">=</span> <span class="nx">props</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">descriptor</span><span class="p">.</span><span class="nx">enumerable</span> <span class="o">=</span> <span class="nx">descriptor</span><span class="p">.</span><span class="nx">enumerable</span> <span class="o">||</span> <span class="kc">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">descriptor</span><span class="p">.</span><span class="nx">configurable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;value&#39;</span> <span class="k">in</span> <span class="nx">descriptor</span><span class="p">)</span> <span class="nx">descriptor</span><span class="p">.</span><span class="nx">writable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">descriptor</span><span class="p">.</span><span class="nx">key</span><span class="p">,</span> <span class="nx">descriptor</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">_createClass</span><span class="p">(</span><span class="nx">Constructor</span><span class="p">,</span> <span class="nx">protoProps</span><span class="p">,</span> <span class="nx">staticProps</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">protoProps</span><span class="p">)</span> <span class="nx">_defineProperties</span><span class="p">(</span><span class="nx">Constructor</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="nx">protoProps</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">staticProps</span><span class="p">)</span> <span class="nx">_defineProperties</span><span class="p">(</span><span class="nx">Constructor</span><span class="p">,</span> <span class="nx">staticProps</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">Constructor</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">Foo</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="cm">/*#__PURE__*/</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nx">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">_classCallCheck</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">Foo</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">_createClass</span><span class="p">(</span><span class="nx">Foo</span><span class="p">,</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">key</span><span class="o">:</span> <span class="s1">&#39;saySth&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">value</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">saySth</span><span class="p">()</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">Foo</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})();</span>
+</span></span></code></pre></div><blockquote>
+<p>总结：单独一个 <code>@babel/runtime</code> 在编译时往文件上插入的代码(helper 函数)可能会产生冗余问题，一般都是配合 <code>@babel/plugin-transform-runtime</code> 来优化，把用到的 <code>helper</code> 函数改为对 <code>@babel/runtime</code> 内部的引用。这种方式相比较 <code>@babel/polyfill</code> 不会污染全局作用域，所以更适合用作类库，后者更适合做业务开发。</p>
+</blockquote>
+<h2 id="babel-plugin" class="headerLink">
+    <a href="#babel-plugin" class="header-mark"></a>babel plugin</h2><p>插件是我们进行 DIY 的一个好方式，一起来学学。<a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md" target="_blank" rel="noopener noreferrer">babel handlebook - plugin</a></p>
+<p>上方已经介绍过 babel 的基本原理就不赘述了，也可以点击上方链接进去细看，下面介绍一下 Babel 内部模块的 API。</p>
+<h3 id="babelparserbabylon" class="headerLink">
+    <a href="#babelparserbabylon" class="header-mark"></a>@babel/parser(babylon)</h3><p><code>Babylon</code> 是 babel 的解释器，是 <code>@babel/parser</code> 的前生，关于 babylon 可以看<a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#toc-babylon" target="_blank" rel="noopener noreferrer">这里</a>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">npm i @babel/parser -s
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="cm">/* ------- test.js -------*/</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">babelParser</span> <span class="nx">from</span> <span class="s1">&#39;@babel/parser&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">code</span> <span class="o">=</span> <span class="sb">`function sum(a, b){
+</span></span></span><span class="line"><span class="cl"><span class="sb">  return a + b
+</span></span></span><span class="line"><span class="cl"><span class="sb">}`</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">AST</span> <span class="o">=</span> <span class="nx">babelParser</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">code</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">AST</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* ------- 执行 -------*/</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 小tip，执行js脚本此类错误 SyntaxError: Cannot use import statement outside a module
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 需要去 package.json 中添加 &#34;type&#34;: &#34;module&#34; (ESM) 或者改用 require().default 引入
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">node</span> <span class="nx">test</span><span class="p">.</span><span class="nx">js</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* ------- babylon 转换后的结果 -------*/</span>
+</span></span><span class="line"><span class="cl"><span class="nx">Node</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;File&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">start</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">end</span><span class="o">:</span> <span class="mi">36</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">loc</span><span class="o">:</span> <span class="nx">SourceLocation</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">start</span><span class="o">:</span> <span class="nx">Position</span> <span class="p">{</span> <span class="nx">line</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">column</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">index</span><span class="o">:</span> <span class="mi">0</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">end</span><span class="o">:</span> <span class="nx">Position</span> <span class="p">{</span> <span class="nx">line</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nx">column</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">index</span><span class="o">:</span> <span class="mi">36</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">filename</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">identifierName</span><span class="o">:</span> <span class="kc">undefined</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">errors</span><span class="o">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">program</span><span class="o">:</span> <span class="nx">Node</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;Program&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">start</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">end</span><span class="o">:</span> <span class="mi">36</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">loc</span><span class="o">:</span> <span class="nx">SourceLocation</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">start</span><span class="o">:</span> <span class="p">[</span><span class="nx">Position</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">end</span><span class="o">:</span> <span class="p">[</span><span class="nx">Position</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">filename</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">identifierName</span><span class="o">:</span> <span class="kc">undefined</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">sourceType</span><span class="o">:</span> <span class="s1">&#39;script&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">interpreter</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">body</span><span class="o">:</span> <span class="p">[</span> <span class="p">[</span><span class="nx">Node</span><span class="p">]</span> <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">directives</span><span class="o">:</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">comments</span><span class="o">:</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">  <span class="cm">/*  tokens 是babylon解析后的产物，放这里是为了做个对比，why？ */</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// tokens: [
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//   Token {
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//     type: [KeywordTokenType],
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//     value: &#39;function&#39;,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//     start: 0,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//     end: 8,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//     loc: [SourceLocation]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//   },
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//   // ... other tokens
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// ]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><blockquote>
+<p>@babel/parser 也可以传参，见<a href="https://babeljs.io/docs/en/babel-parser#options" target="_blank" rel="noopener noreferrer">参数配置</a></p>
+</blockquote>
+<h3 id="babeltraverse" class="headerLink">
+    <a href="#babeltraverse" class="header-mark"></a>@babel/traverse</h3><p><code>@babel/traverse</code> 即上方原理部分 <code>transformation</code> 中最重要那一环，通过 <code>访问者模式</code> 去修改 node 节点。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">npm i @babel/traverse -D
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">babelParser</span> <span class="nx">from</span> <span class="s1">&#39;@babel/parser&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">_traverse</span> <span class="nx">from</span> <span class="s1">&#39;@babel/traverse&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">traverse</span> <span class="o">=</span> <span class="nx">_traverse</span><span class="p">.</span><span class="k">default</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">code</span> <span class="o">=</span> <span class="sb">`function sum(a, b){
+</span></span></span><span class="line"><span class="cl"><span class="sb">  return a + b
+</span></span></span><span class="line"><span class="cl"><span class="sb">}`</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">AST</span> <span class="o">=</span> <span class="nx">babelParser</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">code</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">traverse</span><span class="p">(</span><span class="nx">AST</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">enter</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">isIdentifier</span><span class="p">({</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;a&#39;</span> <span class="p">}))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">path</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></div><blockquote>
+<p>注意：官网示例实际上有个 bug：<code>import traverse from '@babel/traverse';</code>，ESM 下这样子直接用 <code>traverse</code> 会报错，将会在 babel8 修复。</p>
+</blockquote>
+<h3 id="babeltypes" class="headerLink">
+    <a href="#babeltypes" class="header-mark"></a>@babel/types</h3><p>Babel Types 模块是一个用于 AST 节点的 Lodash 式工具库，它包含了构造、验证以及变换 AST 节点的方法。 该工具库包含考虑周到的工具方法，对编写处理 AST 逻辑非常有用。详细 API 见<a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#babel-types" target="_blank" rel="noopener noreferrer">@babel/types doc</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">npm i @babel/types -s
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">t</span> <span class="nx">from</span> <span class="s2">&#34;babel-types&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">traverse</span><span class="p">(</span><span class="nx">AST</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">enter</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">isIdentifier</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">node</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;a&#39;</span> <span class="p">}))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">path</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></div><blockquote>
+<p>API 很多，具体见<a href="https://babeljs.io/docs/en/babel-types" target="_blank" rel="noopener noreferrer">@babel/types</a></p>
+</blockquote>
+<h3 id="babelgenerator" class="headerLink">
+    <a href="#babelgenerator" class="header-mark"></a>@babel/generator</h3><p>最后将 AST 还原成我们想要的代码。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">npm install @babel/generator -D
+</span></span></code></pre></div><p>一个完整的例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">generate</span> <span class="nx">from</span> <span class="s2">&#34;@babel/generator&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">babelParser</span> <span class="nx">from</span> <span class="s1">&#39;@babel/parser&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">_traverse</span> <span class="nx">from</span> <span class="s1">&#39;@babel/traverse&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">_generate</span> <span class="nx">from</span> <span class="s1">&#39;@babel/generator&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">traverse</span> <span class="o">=</span> <span class="nx">_traverse</span><span class="p">.</span><span class="k">default</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">generate</span> <span class="o">=</span> <span class="nx">_generate</span><span class="p">.</span><span class="k">default</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">code</span> <span class="o">=</span> <span class="sb">`function sum(a, b){
+</span></span></span><span class="line"><span class="cl"><span class="sb">  return a + b
+</span></span></span><span class="line"><span class="cl"><span class="sb">}`</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">AST</span> <span class="o">=</span> <span class="nx">babelParser</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">code</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">traverse</span><span class="p">(</span><span class="nx">AST</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">enter</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">isIdentifier</span><span class="p">({</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;a&#39;</span> <span class="p">}))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">path</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">output</span> <span class="o">=</span> <span class="nx">generate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">AST</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/*options*/</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">code</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;📌📌📌 ~ output&#39;</span><span class="p">,</span> <span class="nx">output</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* ----------- output ---------- */</span>
+</span></span><span class="line"><span class="cl"><span class="err">📌📌📌</span> <span class="o">~</span> <span class="nx">output</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">code</span><span class="o">:</span> <span class="s1">&#39;function sum(c, b) {\n  return c + b;\n}&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">decodedMap</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">map</span><span class="o">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="o">/</span><span class="nx">Setter</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">rawMappings</span><span class="o">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="o">/</span><span class="nx">Setter</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="编写你的第一个-babel-插件httpsgithubcomjamiebuildsbabel-handbookblobmastertranslationszh-hansplugin-handbookmde7bc96e58699e4bda0e79a84e7acace4b880e4b8aa-babel-e68f92e4bbb6" class="headerLink">
+    <a href="#%e7%bc%96%e5%86%99%e4%bd%a0%e7%9a%84%e7%ac%ac%e4%b8%80%e4%b8%aa-babel-%e6%8f%92%e4%bb%b6httpsgithubcomjamiebuildsbabel-handbookblobmastertranslationszh-hansplugin-handbookmde7bc96e58699e4bda0e79a84e7acace4b880e4b8aa-babel-e68f92e4bbb6" class="header-mark"></a><a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#%E7%BC%96%E5%86%99%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA-babel-%E6%8F%92%E4%BB%B6" target="_blank" rel="noopener noreferrer">编写你的第一个 Babel 插件</a></h2><p>实践第一步先小试牛刀把一个 <code>hello</code> 方法，改名为 <code>world</code> 方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">hello</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{}</span>
+</span></span></code></pre></div><blockquote>
+<p>前期不熟悉 AST 各种标识的情况下，可以去<a href="https://astexplorer.net/" target="_blank" rel="noopener noreferrer">AST 在线平台转换(基于 acorn)</a>查看对应的 AST。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 从上方的网站找到了 hello 的节点位置：
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * &#34;id&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *  &#34;type&#34;: &#34;Identifier&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *  &#34;start&#34;: 6,
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *  &#34;end&#34;: 11,
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *  &#34;name&#34;: &#34;hello&#34;
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * },
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// plugin-hello.js，在本地这么写是ok的
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 但是想要发布为一个包并应用配置则得按照官方插件的样式去写
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">({</span> <span class="nx">types</span><span class="o">:</span> <span class="nx">t</span> <span class="p">})</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">visitor</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">Identifier</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">state</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;hello&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">path</span><span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">Identifier</span><span class="p">(</span><span class="s1">&#39;world&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 在插件中配置 &#34;plugins&#34;: [[&#34;./plugin-hello.js&#34;]]，编译后结果:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * &#34;use strict&#34;;
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *  var world = function world() {};
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span></code></pre></div><p>解释一下：</p>
+<ol>
+<li><code>export default function(api, options, dirname){}</code>的三个参数：
+<ul>
+<li><code>api</code>：就是 babel 对象，可以从中获取 <code>types(@babel/types)</code>、<code>traverse(@babel/traverse)</code> 等很多实用的方法</li>
+<li><code>options</code>：插件入参，即在配置文件中跟随在插件名后面的配置</li>
+<li><code>dirname</code>：文件路径</li>
+</ul>
+</li>
+<li>这个函数必须返回一个对象，对象内有一些内置方法和属性：
+<ul>
+<li><code>name</code>，babel 插件名字，遵循一定的<a href="https://babeljs.io/docs/en/options#name-normalization" target="_blank" rel="noopener noreferrer">命名规则</a></li>
+<li><code>pre(state)</code>，在遍历节点之前调用</li>
+<li><code>visitor</code>对象，前面说的访问者模式，真正对 AST 动手术的部分，其内部根据各种标识符比如 <code>&quot;type&quot;: &quot;Identifier&quot;</code>，决定对 AST 使用哪种手术刀 <code>Identifier(path, state)</code>，也可以写成带<code>enter(path,state)</code>和<code>exit(path, state)</code> 方法的对象。<code>path</code> 之前讲过是两个节点之间连接的对象，这是一个可操作和访问的巨大可变对象，是动手术的原材料；<code>state</code> 则是告知手术进行到了哪一步，因为每个 <code>visitor</code> 属性之间互不关联，<code>state</code> 可以帮助传递状态</li>
+<li><code>post(state)</code>，在遍历节点之后调用</li>
+<li><code>inherits</code>，指定继承某个插件，通过 Object.assign 的方式，和当前插件的 options 合并。</li>
+<li><code>manipulateOptions</code>：用于修改 options，是在插件里面修改配置的方式，<a href="https://github.com/babel/babel/blob/main/packages/babel-plugin-syntax-explicit-resource-management/src/index.ts" target="_blank" rel="noopener noreferrer">参考此插件</a></li>
+</ul>
+</li>
+</ol>
+<h3 id="babel-plugin-log-shiny" class="headerLink">
+    <a href="#babel-plugin-log-shiny" class="header-mark"></a>babel-plugin-log-shiny</h3><p>来个实践，平时我们 <code>console.log()</code> 打印信息总是会淹没在各种打印里，因此简单开发一个插件，让我们能及时找到我们需要的打印信息，这是我的插件地址 <a href="https://github.com/yokiizx/babel-plugin-log-shiny.git" target="_blank" rel="noopener noreferrer">babel-plugin-log-shiny</a>，欢迎试用和提问题~</p>
+<p>安装：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">npm i babel-plugin-log-shiny -D
+</span></span></code></pre></div><p>配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;plugins&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;log-shiny&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;prefix&#34;</span><span class="p">:</span> <span class="s2">&#34;whatever you want~ like 🔥&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="参考" class="headerLink">
+    <a href="#%e5%8f%82%e8%80%83" class="header-mark"></a>参考</h2><ul>
+<li><a href="https://babeljs.io/" target="_blank" rel="noopener noreferrer">babel 官网</a></li>
+<li><a href="https://github.com/jamiebuilds/the-super-tiny-compiler/blob/master/the-super-tiny-compiler.js" target="_blank" rel="noopener noreferrer">the super tiny compiler</a></li>
+<li><a href="https://github.com/jamiebuilds/babel-handbook" target="_blank" rel="noopener noreferrer">babel book(有些已过时)</a></li>
+<li><a href="https://mp.weixin.qq.com/s/4thcIAZ4CYwQRB265vjd6w" target="_blank" rel="noopener noreferrer">带你在 Babel 的世界中畅游</a></li>
+<li><a href="https://blog.csdn.net/ByteDanceTech/article/details/126900235" target="_blank" rel="noopener noreferrer">Babel 插件入门</a></li>
+<li><a href="https://juejin.cn/post/6984945589859385358#heading-6" target="_blank" rel="noopener noreferrer">@babel/types 深度应用</a></li>
+<li><a href="https://github.com/babel/generator-babel-plugin" target="_blank" rel="noopener noreferrer">generator-babel-plugin</a></li>
+<li><a href="https://astexplorer.net/" target="_blank" rel="noopener noreferrer">AST 在线平台转换(基于 acorn)</a></li>
+</ul>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-09-20</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line print:!tw-hidden">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/babel/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span></div>
+            <div class="post-info-share"><button title="分享到 Twitter" data-sharer="twitter" data-url="http://localhost:1313/babel/" data-title="Babel" data-hashtags="babel"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></button><button title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/babel/" data-hashtag="babel"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg></button><button title="分享到 WhatsApp" data-sharer="whatsapp" data-url="http://localhost:1313/babel/" data-title="Babel" data-web><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></button><button title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/babel/" data-title="Babel"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg></button><button title="分享到 Evernote" data-sharer="evernote" data-url="http://localhost:1313/babel/" data-title="Babel"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M120.82 132.21c1.6 22.31-17.55 21.59-21.61 21.59-68.93 0-73.64-1-83.58 3.34-.56.22-.74 0-.37-.37L123.79 46.45c.38-.37.6-.22.38.37-4.35 9.99-3.35 15.09-3.35 85.39zm79 308c-14.68-37.08 13-76.93 52.52-76.62 17.49 0 22.6 23.21 7.95 31.42-6.19 3.3-24.95 1.74-25.14 19.2-.05 17.09 19.67 25 31.2 24.89A45.64 45.64 0 0 0 312 393.45v-.08c0-11.63-7.79-47.22-47.54-55.34-7.72-1.54-65-6.35-68.35-50.52-3.74 16.93-17.4 63.49-43.11 69.09-8.74 1.94-69.68 7.64-112.92-36.77 0 0-18.57-15.23-28.23-57.95-3.38-15.75-9.28-39.7-11.14-62 0-18 11.14-30.45 25.07-32.2 81 0 90 2.32 101-7.8 9.82-9.24 7.8-15.5 7.8-102.78 1-8.3 7.79-30.81 53.41-24.14 6 .86 31.91 4.18 37.48 30.64l64.26 11.15c20.43 3.71 70.94 7 80.6 57.94 22.66 121.09 8.91 238.46 7.8 238.46C362.15 485.53 267.06 480 267.06 480c-18.95-.23-54.25-9.4-67.27-39.83zm80.94-204.84c-1 1.92-2.2 6 .85 7 14.09 4.93 39.75 6.84 45.88 5.53 3.11-.25 3.05-4.43 2.48-6.65-3.53-21.85-40.83-26.5-49.24-5.92z"/></svg></button></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg>&nbsp;<a href="/tags/babel/">Babel</a></section>
+        <section class="print:!tw-hidden">
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav print:tw-hidden"><a href="/node%E7%9A%84%E7%89%B9%E7%82%B9/" class="prev" rel="prev" title="Node的特点"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>Node的特点</a>
+            <a href="/koa%E6%B4%8B%E8%91%B1%E6%A8%A1%E5%9E%8B/" class="next" rel="next" title="Koa洋葱模型">Koa洋葱模型<svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div>
+</div>
+</article></div>
+        </main><footer class="footer">
+  <div class="footer-container"><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+        &nbsp;
+        <a
+          href="/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          EricYuan
+        </a>
+      </span>&nbsp;|&nbsp;
+      <span class="license">All rights reserved</span></div>
+    <div class="footer-line">
+      <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: inline">
+        <span class="post-meta-item-icon"><i class="fa fa-eye"></i></span>
+        <span class="site-pv" title="总访问量">
+          本站总访问量
+          <span id="busuanzi_value_site_pv"></span>
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数
+          <span id="busuanzi_value_site_uv"></span>
+          人次
+        </span>
+      </span></div>
+    <div class="footer-line"></div>
+  </div></footer></div>
+
+    <div id="fixed-buttons" class="print:!tw-hidden"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4 0 256-93.1 256-208S397.4 32 256 32z"/></svg>
+        </a>
+    </div><div id="cookieconsent-container"></div><div class="assets"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.css">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":null,"ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":8,"minMatchCharLength":3,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"sharerjs":true};</script><script
+    src="/lib/clipboard/clipboard.min.js"
+    
+  ></script><script
+    src="/lib/sharer/sharer.min.js"
+    
+  ></script><script
+    src="/lib/katex/katex.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/katex/auto-render.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/katex/copy-tex.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/katex/mhchem.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/js/katex.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/cookieconsent/cookieconsent.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/js/cookieconsent.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/js/theme.min.js"
+    
+      defer
+    
+  ></script></div>
+</body>
+
+</html>

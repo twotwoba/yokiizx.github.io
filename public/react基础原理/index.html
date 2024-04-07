@@ -1,0 +1,756 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" /><title>React基础原理1 - JSX - Hello World</title><meta name="Description" content="A website documenting front-end technology and everyday life"><meta property="og:title" content="React基础原理1 - JSX" />
+<meta property="og:description" content="PS：阅读源码前，推荐一个 VsCode 插件，bookmarks，比较方便，谁用谁知道。
+React 大事件 React 16 引入 fiber 架构 引入 Fiber 可以中途中断更新，Reconciler 和 Renderer 的交替工作在 v16 之前是递归不可中断的 生命周期变化 React 16.8 引入 hooks React 17 全新的 JSX 转换（源代码中无需引入 React 了) 事件委托的变更（之前是委托在 document 上，现在是渲染树的根容器） 事件系统相关更改（onFocus 和 onBlur 事件已在底层切换为原生的 focusin 和 focusout 事件） React 18 不再兼容 ie11 并发特性 ReactDome.render(, root) 改为使用 ReactDom.createRoot(root).render() setState 自动批处理 详细的见React 官方博客
+JSX 怎么生成 Element点击查看Facebook 关于 JSX 的介绍。
+// React 17 以前 const demo = ( &lt;div&gt; &lt;span className=&#39;1&#39;&gt;hello&lt;/span&gt; &lt;span className=&#39;2&#39;&gt;world&lt;/span&gt; &lt;/div&gt; ) // @babel/plugin-transform-react-jsx 会把上方jsx会被转化为： const demo = React." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/react%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/" /><meta property="og:image" content="http://localhost:1313/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-07T16:29:27+08:00" />
+<meta property="article:modified_time" content="2022-11-07T16:29:27+08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://localhost:1313/" /><meta name="twitter:title" content="React基础原理1 - JSX"/>
+<meta name="twitter:description" content="PS：阅读源码前，推荐一个 VsCode 插件，bookmarks，比较方便，谁用谁知道。
+React 大事件 React 16 引入 fiber 架构 引入 Fiber 可以中途中断更新，Reconciler 和 Renderer 的交替工作在 v16 之前是递归不可中断的 生命周期变化 React 16.8 引入 hooks React 17 全新的 JSX 转换（源代码中无需引入 React 了) 事件委托的变更（之前是委托在 document 上，现在是渲染树的根容器） 事件系统相关更改（onFocus 和 onBlur 事件已在底层切换为原生的 focusin 和 focusout 事件） React 18 不再兼容 ie11 并发特性 ReactDome.render(, root) 改为使用 ReactDom.createRoot(root).render() setState 自动批处理 详细的见React 官方博客
+JSX 怎么生成 Element点击查看Facebook 关于 JSX 的介绍。
+// React 17 以前 const demo = ( &lt;div&gt; &lt;span className=&#39;1&#39;&gt;hello&lt;/span&gt; &lt;span className=&#39;2&#39;&gt;world&lt;/span&gt; &lt;/div&gt; ) // @babel/plugin-transform-react-jsx 会把上方jsx会被转化为： const demo = React."/>
+<meta name="application-name" content="前端后花园">
+<meta name="apple-mobile-web-app-title" content="前端后花园">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="canonical" href="http://localhost:1313/react%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/" /><link rel="prev" href="http://localhost:1313/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/" /><link rel="next" href="http://localhost:1313/react%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%862/" />
+<link rel="stylesheet" href="/css/main.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">{"@context": "https://schema.org","@type": "BlogPosting",
+        "headline": "React基础原理1 - JSX",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http://localhost:1313/react%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/"
+        },"genre": "posts","keywords":["React"],"wordcount":  1226 ,
+        "url": "http://localhost:1313/react%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/","datePublished": "2022-11-07T16:29:27+08:00","dateModified": "2022-11-07T16:29:27+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EricYuan",
+                "url": "/"
+            },"description": ""
+    }</script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {
+          document.body.setAttribute('theme', theme); 
+          document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');
+          if (theme === 'light') {
+            document.documentElement.classList.remove('tw-dark')
+          } else {
+            document.documentElement.classList.add('tw-dark')
+          }
+          window.theme = theme;   
+          window.isDark = window.theme !== 'light' 
+        }
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('dark' === 'light' || 'dark' === 'dark' || 'dark' === 'black') setTheme('dark'), saveTheme('dark'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+        window.switchThemeEventSet = new Set()
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop print:!tw-hidden" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hello World"><img
+        class="logo"
+        loading="lazy"
+        src="/favicon.ico"
+        srcset="/favicon.ico, /favicon.ico 1.5x, /favicon.ico 2x"
+        title="/favicon.ico" height="36"   width="36" >EricYuan</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item"
+                    href="/posts/" > 文章 </a><a class="menu-item"
+                    href="/categories/" > 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                    <input type="text"
+                        placeholder="搜索文章标题或内容..."
+                        id="search-input-desktop">
+                    <button class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+                    </button>
+                    <button class="search-button search-clear" id="search-clear-desktop" title="清空">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"/></svg>
+                    </button>
+                    <span class="search-button search-loading tw-animate-spin" id="search-loading-desktop">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"/></svg>
+                    </span>
+                </span><button class="menu-item theme-select" aria-label="切换主题">
+                    <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705 0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
+                    <select class="color-theme-select" id="theme-select-desktop" aria-label="切换主题">
+                        <option value="light">浅色</option>
+                        <option value="dark">深色</option>
+                        <option value="black">黑色</option>
+                        <option value="auto">跟随系统</option>
+                    </select>
+                </button></div>
+        </div>
+    </div>
+</header><header class="mobile print:!tw-hidden" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hello World"><img
+        class="logo"
+        loading="lazy"
+        src="/favicon.ico"
+        srcset="/favicon.ico, /favicon.ico 1.5x, /favicon.ico 2x"
+        title="/favicon.ico" >EricYuan</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                <div class="search mobile" id="search-mobile">
+                    <input type="text"
+                        placeholder="搜索文章标题或内容..."
+                        id="search-input-mobile">
+                    <button class="search-button search-toggle tw-h-10" id="search-toggle-mobile" title="搜索">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+                    </button>
+                    <button class="search-button search-clear" id="search-clear-mobile" title="清空">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"/></svg>
+                    </button>
+                    <span class="search-button search-loading tw-animate-spin" id="search-loading-mobile">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"/></svg>
+                    </span>
+                </div>
+                <button class="search-cancel" id="search-cancel-mobile">
+                    取消
+                </button>
+            </div><a class="menu-item" href="/posts/" title="" >文章</a><a class="menu-item" href="/categories/" title="" >分类</a><button class="menu-item theme-select tw-w-full" aria-label="切换主题">
+                <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705 0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
+                <select class="color-theme-select" id="theme-select-mobile" aria-label="切换主题">
+                    <option value="light">浅色</option>
+                    <option value="dark">深色</option>
+                    <option value="black">黑色</option>
+                    <option value="auto">跟随系统</option>
+                </select>
+            </button></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div><main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content always-active" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#react-大事件">React 大事件</a></li>
+        <li><a href="#jsx-怎么生成-element">JSX 怎么生成 Element</a></li>
+        <li><a href="#reactdomrenderel-container-cb">ReactDom.render(el, container, cb)</a>
+          <ul>
+            <li><a href="#reactdomcreateroot">ReactDom.createRoot()</a></li>
+          </ul>
+        </li>
+        <li><a href="#reactelement-和-reactcomponent-的关系">React.Element 和 React.Component 的关系</a></li>
+        <li><a href="#reactelement-如何转为真实-dom">ReactElement 如何转为真实 DOM</a></li>
+        <li><a href="#三大件">三大件</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">React基础原理1 - JSX</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><a href="/" title="Author" rel=" author" class="author">EricYuan</a>
+                </span><span id="busuanzi_container_page_pv">&nbsp;
+                        <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+            </div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-11-07">2022-11-07</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-11-07">2022-11-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1226 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#react-大事件">React 大事件</a></li>
+        <li><a href="#jsx-怎么生成-element">JSX 怎么生成 Element</a></li>
+        <li><a href="#reactdomrenderel-container-cb">ReactDom.render(el, container, cb)</a>
+          <ul>
+            <li><a href="#reactdomcreateroot">ReactDom.createRoot()</a></li>
+          </ul>
+        </li>
+        <li><a href="#reactelement-和-reactcomponent-的关系">React.Element 和 React.Component 的关系</a></li>
+        <li><a href="#reactelement-如何转为真实-dom">ReactElement 如何转为真实 DOM</a></li>
+        <li><a href="#三大件">三大件</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="details admonition warning open">
+                <div class="details-summary admonition-title">
+                    <span class="icon warning"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></svg></span>警告<span class="details-icon"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span>
+                </div>
+                <div class="details-content">
+                    <div class="admonition-content">
+                        本文最后更新于 <span class="timeago" datetime="2022-11-07T16:29:27" title="November 7, 2022">2022-11-07</span>，文中内容可能已过时。</div>
+                </div>
+            </div><p>PS：阅读源码前，推荐一个 VsCode 插件，<code>bookmarks</code>，比较方便，谁用谁知道。</p>
+<h3 id="react-大事件" class="headerLink">
+    <a href="#react-%e5%a4%a7%e4%ba%8b%e4%bb%b6" class="header-mark"></a>React 大事件</h3><ul>
+<li>React 16 引入 fiber 架构
+<ul>
+<li>引入 Fiber</li>
+<li>可以中途中断更新，Reconciler 和 Renderer 的交替工作在 v16 之前是递归不可中断的</li>
+<li>生命周期变化</li>
+</ul>
+</li>
+<li>React 16.8 引入 hooks</li>
+<li>React 17
+<ul>
+<li>全新的 JSX 转换（源代码中无需引入 React 了)</li>
+<li>事件委托的变更（之前是委托在 document 上，现在是渲染树的根容器）</li>
+<li>事件系统相关更改（onFocus 和 onBlur 事件已在底层切换为原生的 focusin 和 focusout 事件）</li>
+</ul>
+</li>
+<li>React 18
+<ul>
+<li>不再兼容 ie11</li>
+<li>并发特性</li>
+<li>ReactDome.render(<App />, root) 改为使用 ReactDom.createRoot(root).render(<App/>)</li>
+<li>setState 自动批处理</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>详细的见<a href="https://zh-hans.reactjs.org/blog/all.html" target="_blank" rel="noopener noreferrer">React 官方博客</a></p>
+</blockquote>
+<h3 id="jsx-怎么生成-element" class="headerLink">
+    <a href="#jsx-%e6%80%8e%e4%b9%88%e7%94%9f%e6%88%90-element" class="header-mark"></a>JSX 怎么生成 Element</h3><p>点击查看<a href="https://facebook.github.io/jsx/#sec-intro" target="_blank" rel="noopener noreferrer">Facebook 关于 JSX 的介绍</a>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-JSX" data-lang="JSX"><span class="line"><span class="cl"><span class="c1">// React 17 以前
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">demo</span> <span class="o">=</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">span</span> <span class="na">className</span><span class="o">=</span><span class="s">&#39;1&#39;</span><span class="p">&gt;</span><span class="nx">hello</span><span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">span</span> <span class="na">className</span><span class="o">=</span><span class="s">&#39;2&#39;</span><span class="p">&gt;</span><span class="nx">world</span><span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// @babel/plugin-transform-react-jsx 会把上方jsx会被转化为：
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">demo</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s1">&#39;div&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">React</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;span&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;1&#39;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;hello&#39;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">React</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;span&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;2&#39;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;world&#39;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></div><p>朴实无华的 API <code>createElement</code>，如名字一样，就是用来创建 element 的。 <code>React.createElement(type, config, children)</code>，这也是为什么 React17 之前每个文件需要手动引入 React，React17 之后则不需要了。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">export</span> <span class="kd">function</span> <span class="nx">createElement</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">config</span><span class="p">,</span> <span class="nx">children</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">propName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Reserved names are extracted
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">const</span> <span class="nx">props</span> <span class="o">=</span> <span class="p">{};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">key</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">ref</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">self</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">source</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">config</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">hasValidRef</span><span class="p">(</span><span class="nx">config</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">ref</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">ref</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">hasValidKey</span><span class="p">(</span><span class="nx">config</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">key</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span> <span class="o">+</span> <span class="nx">config</span><span class="p">.</span><span class="nx">key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">self</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">__self</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">__self</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">source</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">__source</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">__source</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Remaining properties are added to a new props object
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">for</span> <span class="p">(</span><span class="nx">propName</span> <span class="k">in</span> <span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">hasOwnProperty</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">propName</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">!</span><span class="nx">RESERVED_PROPS</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">propName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">props</span><span class="p">[</span><span class="nx">propName</span><span class="p">]</span> <span class="o">=</span> <span class="nx">config</span><span class="p">[</span><span class="nx">propName</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Children can be more than one argument, and those are transferred onto
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// the newly allocated(被分配) props object.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">const</span> <span class="nx">childrenLength</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">childrenLength</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">props</span><span class="p">.</span><span class="nx">children</span> <span class="o">=</span> <span class="nx">children</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">childrenLength</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">childArray</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">childrenLength</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">childrenLength</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">childArray</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">[</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">props</span><span class="p">.</span><span class="nx">children</span> <span class="o">=</span> <span class="nx">childArray</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Resolve default props
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="nx">type</span> <span class="o">&amp;&amp;</span> <span class="nx">type</span><span class="p">.</span><span class="nx">defaultProps</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">defaultProps</span> <span class="o">=</span> <span class="nx">type</span><span class="p">.</span><span class="nx">defaultProps</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="nx">propName</span> <span class="k">in</span> <span class="nx">defaultProps</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">props</span><span class="p">[</span><span class="nx">propName</span><span class="p">]</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">props</span><span class="p">[</span><span class="nx">propName</span><span class="p">]</span> <span class="o">=</span> <span class="nx">defaultProps</span><span class="p">[</span><span class="nx">propName</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">ReactElement</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">type</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">key</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">ref</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">self</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">source</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">ReactCurrentOwner</span><span class="p">.</span><span class="nx">current</span><span class="p">,</span> <span class="c1">// null || fiber
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">props</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>上面的代码比较简单，认认真真看，还好很好理解的，其实就是对 JSX 进行了解析，将参数整合后传给 <code>ReactElement</code> 使用，简单总结一下：</p>
+<ul>
+<li>把 <code>config</code> 中除了 <code>key</code>,<code>ref</code>,<code>__self</code>,<code>__source</code> 的值赋值给了 <code>props</code>，（<code>__self</code>,<code>__source</code>是开发环境使用的）</li>
+<li><code>children</code> 也被加入到 <code>props</code>，然后这个 <code>props</code> 被传递给 <code>ReactElement</code> 使用</li>
+</ul>
+<p>再来看看 <code>ReactElement</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">ReactElement</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">ref</span><span class="p">,</span> <span class="nx">self</span><span class="p">,</span> <span class="nx">source</span><span class="p">,</span> <span class="nx">owner</span><span class="p">,</span> <span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// This tag allows us to uniquely identify this as a React Element
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">$$typeof</span><span class="o">:</span> <span class="nx">REACT_ELEMENT_TYPE</span><span class="p">,</span> <span class="c1">// react元素标识，源码中使用了一个十六进制表示，如果原生支持Symbol，会使用Symbol来标识
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Built-in properties that belong on the element
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">key</span><span class="o">:</span> <span class="nx">key</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">ref</span><span class="o">:</span> <span class="nx">ref</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">props</span><span class="o">:</span> <span class="nx">props</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Record the component responsible for creating this element.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">_owner</span><span class="o">:</span> <span class="nx">owner</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">element</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 辨识一个 React 元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">export</span> <span class="kd">function</span> <span class="nx">isValidElement</span><span class="p">(</span><span class="nx">object</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="k">typeof</span> <span class="nx">object</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">object</span> <span class="o">!==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">object</span><span class="p">.</span><span class="nx">$$typeof</span> <span class="o">===</span> <span class="nx">REACT_ELEMENT_TYPE</span>
+</span></span><span class="line"><span class="cl">  <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>也很简单，就是返回了一个对象。</p>
+<hr>
+<p>注意： React17 后添加了全新的 JSX 转换，不过 React.createElement 仍然保留，所以了解一下也是挺好的。</p>
+<p>全新的 JSX 转换方法使得无需每个组件都引入 React 就能解析 JSX，但是要使用 React 导出的其他方法或 hook 还是需要引入的。</p>
+<ul>
+<li><a href="https://zh-hans.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html" target="_blank" rel="noopener noreferrer">介绍全新的 JSX 转换</a></li>
+<li><a href="https://www.babeljs.cn/docs/babel-plugin-transform-react-jsx#react-automatic-runtime" target="_blank" rel="noopener noreferrer">@babel/plugin-transform-react-jsx</a></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Hello</span> <span class="nx">World</span><span class="o">&lt;</span><span class="err">/h1&gt;;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// ↓ ↓ ↓ ↓ ↓
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 由编译器引入（禁止自己引入！） 见上方的babel插件
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 这些入口只会被 Babel 和 TypeScript 等编译器使用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">import</span> <span class="p">{</span><span class="nx">jsx</span> <span class="nx">as</span> <span class="nx">_jsx</span><span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react/jsx-runtime&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">_jsx</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">children</span><span class="o">:</span> <span class="s1">&#39;Hello world&#39;</span> <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>看看源码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// 1.react/jsx/ReactJSXElement  ReactElement与上方的基本一样
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 2.替代 React.createElement()的jsx()
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">export</span> <span class="kd">function</span> <span class="nx">jsx</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">config</span><span class="p">,</span> <span class="nx">maybeKey</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">propName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Reserved names are extracted
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">const</span> <span class="nx">props</span> <span class="o">=</span> <span class="p">{};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">key</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">ref</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Currently, key can be spread in as a prop. This causes a potential
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// issue if key is also explicitly declared (ie. &lt;div {...props} key=&#34;Hi&#34; /&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// or &lt;div key=&#34;Hi&#34; {...props} /&gt; ). We want to deprecate key spread,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// but as an intermediary step, we will use jsxDEV for everything except
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// &lt;div {...props} key=&#34;Hi&#34; /&gt;, because we aren&#39;t currently able to tell if
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// key is explicitly declared to be undefined or not.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="nx">maybeKey</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">key</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span> <span class="o">+</span> <span class="nx">maybeKey</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">hasValidKey</span><span class="p">(</span><span class="nx">config</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">key</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span> <span class="o">+</span> <span class="nx">config</span><span class="p">.</span><span class="nx">key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">hasValidRef</span><span class="p">(</span><span class="nx">config</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">ref</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">ref</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// 提取除key,ref的其他props和默认属性defaultProps到 props 中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="nx">propName</span> <span class="k">in</span> <span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">hasOwnProperty</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">propName</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">!</span><span class="nx">RESERVED_PROPS</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">propName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">props</span><span class="p">[</span><span class="nx">propName</span><span class="p">]</span> <span class="o">=</span> <span class="nx">config</span><span class="p">[</span><span class="nx">propName</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">type</span> <span class="o">&amp;&amp;</span> <span class="nx">type</span><span class="p">.</span><span class="nx">defaultProps</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">defaultProps</span> <span class="o">=</span> <span class="nx">type</span><span class="p">.</span><span class="nx">defaultProps</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="nx">propName</span> <span class="k">in</span> <span class="nx">defaultProps</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">props</span><span class="p">[</span><span class="nx">propName</span><span class="p">]</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">props</span><span class="p">[</span><span class="nx">propName</span><span class="p">]</span> <span class="o">=</span> <span class="nx">defaultProps</span><span class="p">[</span><span class="nx">propName</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">ReactElement</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">type</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">key</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">ref</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">undefined</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">undefined</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">ReactCurrentOwner</span><span class="p">.</span><span class="nx">current</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">props</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>最大的差别就是 children 变成了 maybeKey，官网上说这个主要就是为了做一些:<a href="https://github.com/reactjs/rfcs/blob/createlement-rfc/text/0000-create-element-changes.md#motivation" target="_blank" rel="noopener noreferrer">性能优化和简化</a>。</p>
+<h3 id="reactdomrenderel-container-cb" class="headerLink">
+    <a href="#reactdomrenderel-container-cb" class="header-mark"></a>ReactDom.render(el, container, cb)</h3><p>这个 api 在 React18 之前使用，也是有必要学习一下的。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// render 就是调用了 legacyRenderSubtreeIntoContainer 个方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">export</span> <span class="kd">function</span> <span class="nx">render</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">element</span><span class="o">:</span> <span class="nx">React$Element</span><span class="o">&lt;</span><span class="nx">any</span><span class="o">&gt;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">container</span><span class="o">:</span> <span class="nx">Container</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">callback</span><span class="o">:</span> <span class="o">?</span><span class="nb">Function</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="o">:</span> <span class="nx">React$Component</span><span class="o">&lt;</span><span class="nx">any</span><span class="p">,</span> <span class="nx">any</span><span class="o">&gt;</span> <span class="o">|</span> <span class="nx">PublicInstance</span> <span class="o">|</span> <span class="kc">null</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">return</span> <span class="nx">legacyRenderSubtreeIntoContainer</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">element</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">container</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">callback</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @desc    渲染子树到容器中
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param   parentComponent - 父组件，ReactDom.render的时候传 null
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param   children        - 待渲染 dom (经过解析后的 ReactElement)
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param   container       - 容器 dom
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param   forceHydrate    - true-服务端渲染; false-客户端渲染
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param   callback        - 渲染完成后回调函数
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">legacyRenderSubtreeIntoContainer</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">parentComponent</span><span class="o">:</span> <span class="o">?</span><span class="nx">React$Component</span><span class="o">&lt;</span><span class="nx">any</span><span class="p">,</span> <span class="nx">any</span><span class="o">&gt;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">children</span><span class="o">:</span> <span class="nx">ReactNodeList</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">container</span><span class="o">:</span> <span class="nx">Container</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">forceHydrate</span><span class="o">:</span> <span class="kr">boolean</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">callback</span><span class="o">:</span> <span class="o">?</span><span class="nb">Function</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="o">:</span> <span class="nx">React$Component</span><span class="o">&lt;</span><span class="nx">any</span><span class="p">,</span> <span class="nx">any</span><span class="o">&gt;</span> <span class="o">|</span> <span class="nx">PublicInstance</span> <span class="o">|</span> <span class="kc">null</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// 在 legacyCreateRootFromDOMContainer 后续调用了几个api返回了 FiberRoot
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 这个  FiberRoot 被挂载在 container._reactRootContainer
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">const</span> <span class="nx">maybeRoot</span> <span class="o">=</span> <span class="nx">container</span><span class="p">.</span><span class="nx">_reactRootContainer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">root</span><span class="o">:</span> <span class="nx">FiberRoot</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">maybeRoot</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Initial mount
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">root</span> <span class="o">=</span> <span class="nx">legacyCreateRootFromDOMContainer</span><span class="p">(</span> <span class="c1">// 创建 FiberRoot
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nx">container</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">children</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">parentComponent</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">callback</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">forceHydrate</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">root</span> <span class="o">=</span> <span class="nx">maybeRoot</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">callback</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">originalCallback</span> <span class="o">=</span> <span class="nx">callback</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">callback</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">instance</span> <span class="o">=</span> <span class="nx">getPublicRootInstance</span><span class="p">(</span><span class="nx">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">originalCallback</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">instance</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Update
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">updateContainer</span><span class="p">(</span><span class="nx">children</span><span class="p">,</span> <span class="nx">root</span><span class="p">,</span> <span class="nx">parentComponent</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">getPublicRootInstance</span><span class="p">(</span><span class="nx">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>大致流程：<code>ReactDom.render</code> 返回 <code>legacyRenderSubtreeIntoContainer</code> 函数执行的结果。这个函数会先调用 <code>legacyCreateRootFromDOMContainer</code> 来创建 <code>FiberRoot</code>，在初始化过程中，调用 <code>createContainer</code> 方法，在更新过程中调用 <code>updateContainer</code>，最后返回 <code>getPublicRootInstance(root)</code> 的结果。</p>
+<p><code>createContainer</code>,<code>updateContainer</code>,<code>getPublicRootInstance</code> 这三个方法都引自 <code>ReactFiberReconciler.old.js</code>。从源码中能看见最终调用的是 <code>createFiberRoot</code> 这个方法，接着调用 <code>new FiberRootNode()</code> 最终创建了这个 FiberRoot。</p>
+<blockquote>
+<p>react-reconciler 有 xx.old.js 和 xx.new.js 之分，两个都在维护，由 ReactFeatureFlags 中的 enableNewReconciler 变量来控制使用哪种(默认为 false 使用从 old 中导出的)。主要目的是为了向前兼容、并且不影响之前和之后代码的稳定性。</p>
+</blockquote>
+<h4 id="reactdomcreateroot" class="headerLink">
+    <a href="#reactdomcreateroot" class="header-mark"></a>ReactDom.createRoot()</h4><p>React18 引入的方法，取代了 <code>ReactDom.render</code>，在 <code>packages/react-dom/src/client/ReactDOMRoot.js</code> 文件中。</p>
+<hr>
+<h3 id="reactelement-和-reactcomponent-的关系" class="headerLink">
+    <a href="#reactelement-%e5%92%8c-reactcomponent-%e7%9a%84%e5%85%b3%e7%b3%bb" class="header-mark"></a>React.Element 和 React.Component 的关系</h3><ol>
+<li>ClassComponent 和 pureComponent，都导出自 ReactBaseClasses.js</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">Component</span><span class="p">(</span><span class="nx">props</span><span class="p">,</span> <span class="nx">context</span><span class="p">,</span> <span class="nx">updater</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">this</span><span class="p">.</span><span class="nx">props</span> <span class="o">=</span> <span class="nx">props</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">this</span><span class="p">.</span><span class="nx">context</span> <span class="o">=</span> <span class="nx">context</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// If a component has string refs, we will assign a different object later.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">this</span><span class="p">.</span><span class="nx">refs</span> <span class="o">=</span> <span class="nx">emptyObject</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// We initialize the default updater but the real one gets injected by the renderer.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">this</span><span class="p">.</span><span class="nx">updater</span> <span class="o">=</span> <span class="nx">updater</span> <span class="o">||</span> <span class="nx">ReactNoopUpdateQueue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">Component</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">isReactComponent</span> <span class="o">=</span> <span class="p">{};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/* ---------- pureComponent ---------- */</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 这里就是用来做寄生组合基础的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">ComponentDummy</span><span class="p">()</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">ComponentDummy</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nx">Component</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * Convenience component with default shallow equality check for sCU.
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">PureComponent</span><span class="p">(</span><span class="nx">props</span><span class="p">,</span> <span class="nx">context</span><span class="p">,</span> <span class="nx">updater</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">this</span><span class="p">.</span><span class="nx">props</span> <span class="o">=</span> <span class="nx">props</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">this</span><span class="p">.</span><span class="nx">context</span> <span class="o">=</span> <span class="nx">context</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// If a component has string refs, we will assign a different object later.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">this</span><span class="p">.</span><span class="nx">refs</span> <span class="o">=</span> <span class="nx">emptyObject</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">this</span><span class="p">.</span><span class="nx">updater</span> <span class="o">=</span> <span class="nx">updater</span> <span class="o">||</span> <span class="nx">ReactNoopUpdateQueue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">pureComponentPrototype</span> <span class="o">=</span> <span class="p">(</span><span class="nx">PureComponent</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ComponentDummy</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl"><span class="nx">pureComponentPrototype</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">=</span> <span class="nx">PureComponent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Avoid an extra prototype jump for these methods.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">assign</span><span class="p">(</span><span class="nx">pureComponentPrototype</span><span class="p">,</span> <span class="nx">Component</span><span class="p">.</span><span class="nx">prototype</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">pureComponentPrototype</span><span class="p">.</span><span class="nx">isPureReactComponent</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span></span></code></pre></div><blockquote>
+<p>注意，无法通过引用类型来判断一个组件是 class 组件还是 function 组件，因为他两都是 Funciton，所以源码中才添加了这个 <code>Component.prototype.isReactComponent = {};</code> 这个。</p>
+</blockquote>
+<h3 id="reactelement-如何转为真实-dom" class="headerLink">
+    <a href="#reactelement-%e5%a6%82%e4%bd%95%e8%bd%ac%e4%b8%ba%e7%9c%9f%e5%ae%9e-dom" class="header-mark"></a>ReactElement 如何转为真实 DOM</h3><p>上面知道了 react 是如何把我们写的 jsx 变成 ReactElement，那么究竟是怎么变成真实 DOM 的呢？这是一个比较精密的过程。</p>
+<p>JSX 转为的 ReactElement 只是一个简单的数据结构，携带着 key，ref 和其他的 dom 上的 attr，v17 以前还携带者 children。但是 ReactElement 始终不包含以下信息：</p>
+<ul>
+<li>组件在更新中的 <code>优先级</code></li>
+<li>组件的 <code>state</code></li>
+<li>组件被打上的用于更新的标记</li>
+</ul>
+<p>这些内容都包含在 Fiber 节点中。</p>
+<p>所以：</p>
+<ul>
+<li>在组件 mount 时，Reconciler 根据 JSX 描述的组件内容生成组件对应的 Fiber 节点。</li>
+<li>在组件 update 时，Reconciler 将 JSX 与 Fiber 节点保存的数据对比，生成组件对应的 Fiber 节点，并根据对比结果为 Fiber 节点打上标记。然后再进入 render 阶段。</li>
+</ul>
+<h3 id="三大件" class="headerLink">
+    <a href="#%e4%b8%89%e5%a4%a7%e4%bb%b6" class="header-mark"></a>三大件</h3><p>从上方清楚了 JSX 转为 ReactElement 的过程，剩下的就交给三大件吧：</p>
+<ul>
+<li><mark>Scheduler（调度器）</mark>—— 调度任务的优先级，高优任务优先进入 Reconciler
+<ul>
+<li>是独立于 React 单独的包，react16 后加入</li>
+<li>功能类似于 <code>requestIdleCallback</code> 这个 api，但是兼容性更好，并且触发频率稳定</li>
+<li>除了在空闲时触发回调的功能外，Scheduler 还提供了多种调度优先级供任务设置</li>
+</ul>
+</li>
+<li><mark>Reconciler（协调器）</mark>—— 负责找出变化的组件
+<ul>
+<li>React 15， 协调器是递归处理处理虚拟 DOM，16 后可以中断/恢复了，看代码：
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">workLoopConcurrent</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// Perform work until Scheduler asks us to yield
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">while</span> <span class="p">(</span><span class="nx">workInProgress</span> <span class="o">!==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">shouldYield</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">performUnitOfWork</span><span class="p">(</span><span class="nx">workInProgress</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></li>
+<li>React 16 解决中断更新时 DOM 渲染不完全的方法是，Reconciler 与 Renderer 不再是交替工作。当 Scheduler 将任务交给 Reconciler 后，Reconciler 会为变化的虚拟 DOM 打上代表增/删/更新的标记。
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// ReactFiberFlags.js 中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">export</span> <span class="kr">const</span> <span class="nx">Placement</span> <span class="o">=</span> <span class="cm">/*             */</span> <span class="mb">0b0000000000010</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">Update</span> <span class="o">=</span> <span class="cm">/*                */</span> <span class="mb">0b0000000000100</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">PlacementAndUpdate</span> <span class="o">=</span> <span class="cm">/*    */</span> <span class="mb">0b0000000000110</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">Deletion</span> <span class="o">=</span> <span class="cm">/*              */</span> <span class="mb">0b0000000001000</span><span class="p">;</span>
+</span></span></code></pre></div>整个 Scheduler 与 Reconciler 的工作都在内存中进行。只有当所有组件都完成 Reconciler 的工作，才会统一交给 Renderer。</li>
+</ul>
+</li>
+<li><mark>Renderer（渲染器）</mark>—— 负责将变化的组件渲染到页面上
+<ul>
+<li>根据 Reconciler 打的标记对 DOM 进行操作</li>
+</ul>
+</li>
+</ul>
+<p><figure><img
+        
+        loading="lazy"
+        src="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202211111612280.png"
+        srcset="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202211111612280.png, https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202211111612280.png 1.5x, https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202211111612280.png 2x"
+        title="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202211111612280.png" ></figure>
+其中红框中的步骤随时可能由于以下原因被中断：</p>
+<ul>
+<li>有其他更高优任务需要先更新</li>
+<li>当前帧没有剩余时间</li>
+</ul>
+<p>由于红框中的工作都在内存中进行，不会更新页面上的 DOM，所以即使反复中断，用户也不会看见更新不完全的 DOM。</p>
+<h2 id="参考" class="headerLink">
+    <a href="#%e5%8f%82%e8%80%83" class="header-mark"></a>参考</h2><ul>
+<li><a href="https://juejin.cn/post/6894204813970997256" target="_blank" rel="noopener noreferrer">十五分钟读懂 React 17</a></li>
+<li><a href="https://juejin.cn/post/7094037148088664078" target="_blank" rel="noopener noreferrer">React18 新特性解读 &amp; 完整版升级指南</a></li>
+<li><a href="https://react.iamkasong.com/preparation/jsx.html" target="_blank" rel="noopener noreferrer">深入理解 JSX</a></li>
+<li><a href="https://react.iamkasong.com/" target="_blank" rel="noopener noreferrer">卡颂大佬的 React 技术揭秘</a></li>
+</ul>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-11-07</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line print:!tw-hidden">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/react%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span></div>
+            <div class="post-info-share"><button title="分享到 Twitter" data-sharer="twitter" data-url="http://localhost:1313/react%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/" data-title="React基础原理1 - JSX" data-hashtags="React"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></button><button title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/react%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/" data-hashtag="React"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg></button><button title="分享到 WhatsApp" data-sharer="whatsapp" data-url="http://localhost:1313/react%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/" data-title="React基础原理1 - JSX" data-web><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></button><button title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/react%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/" data-title="React基础原理1 - JSX"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg></button><button title="分享到 Evernote" data-sharer="evernote" data-url="http://localhost:1313/react%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/" data-title="React基础原理1 - JSX"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M120.82 132.21c1.6 22.31-17.55 21.59-21.61 21.59-68.93 0-73.64-1-83.58 3.34-.56.22-.74 0-.37-.37L123.79 46.45c.38-.37.6-.22.38.37-4.35 9.99-3.35 15.09-3.35 85.39zm79 308c-14.68-37.08 13-76.93 52.52-76.62 17.49 0 22.6 23.21 7.95 31.42-6.19 3.3-24.95 1.74-25.14 19.2-.05 17.09 19.67 25 31.2 24.89A45.64 45.64 0 0 0 312 393.45v-.08c0-11.63-7.79-47.22-47.54-55.34-7.72-1.54-65-6.35-68.35-50.52-3.74 16.93-17.4 63.49-43.11 69.09-8.74 1.94-69.68 7.64-112.92-36.77 0 0-18.57-15.23-28.23-57.95-3.38-15.75-9.28-39.7-11.14-62 0-18 11.14-30.45 25.07-32.2 81 0 90 2.32 101-7.8 9.82-9.24 7.8-15.5 7.8-102.78 1-8.3 7.79-30.81 53.41-24.14 6 .86 31.91 4.18 37.48 30.64l64.26 11.15c20.43 3.71 70.94 7 80.6 57.94 22.66 121.09 8.91 238.46 7.8 238.46C362.15 485.53 267.06 480 267.06 480c-18.95-.23-54.25-9.4-67.27-39.83zm80.94-204.84c-1 1.92-2.2 6 .85 7 14.09 4.93 39.75 6.84 45.88 5.53 3.11-.25 3.05-4.43 2.48-6.65-3.53-21.85-40.83-26.5-49.24-5.92z"/></svg></button></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg>&nbsp;<a href="/tags/react/">React</a></section>
+        <section class="print:!tw-hidden">
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav print:tw-hidden"><a href="/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/" class="prev" rel="prev" title="Vue2响应式原理"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>Vue2响应式原理</a>
+            <a href="/react%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%862/" class="next" rel="next" title="React基础原理2 - Fiber">React基础原理2 - Fiber<svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div>
+</div>
+</article></div>
+        </main><footer class="footer">
+  <div class="footer-container"><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+        &nbsp;
+        <a
+          href="/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          EricYuan
+        </a>
+      </span>&nbsp;|&nbsp;
+      <span class="license">All rights reserved</span></div>
+    <div class="footer-line">
+      <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: inline">
+        <span class="post-meta-item-icon"><i class="fa fa-eye"></i></span>
+        <span class="site-pv" title="总访问量">
+          本站总访问量
+          <span id="busuanzi_value_site_pv"></span>
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数
+          <span id="busuanzi_value_site_uv"></span>
+          人次
+        </span>
+      </span></div>
+    <div class="footer-line"></div>
+  </div></footer></div>
+
+    <div id="fixed-buttons" class="print:!tw-hidden"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4 0 256-93.1 256-208S397.4 32 256 32z"/></svg>
+        </a>
+    </div><div id="cookieconsent-container"></div><div class="assets"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.css">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":null,"ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":8,"minMatchCharLength":3,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"sharerjs":true};</script><script
+    src="/lib/clipboard/clipboard.min.js"
+    
+  ></script><script
+    src="/lib/sharer/sharer.min.js"
+    
+  ></script><script
+    src="/lib/katex/katex.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/katex/auto-render.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/katex/copy-tex.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/katex/mhchem.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/js/katex.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/cookieconsent/cookieconsent.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/js/cookieconsent.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/js/theme.min.js"
+    
+      defer
+    
+  ></script></div>
+</body>
+
+</html>

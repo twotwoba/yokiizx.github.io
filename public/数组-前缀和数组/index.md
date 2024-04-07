@@ -1,0 +1,460 @@
+# 数组-前缀和数组
+
+
+### 概念
+
+应用场景：在原始数组不会被修改的情况下，**快速、频繁查询某个区间的累加和**。通常涉及到连续子数组和相关问题时，就可以考虑使用前缀和技巧了。
+
+核心思路：开辟新数组 `preSum[i]` 来存储原数组 `nums[0..i-1] `的累加和，`preSum[0] = 0`。这样，当求原数组区间和就比较容易了，区间 `[i..j]` 的和等于 `preSum[j+1] - preSum[i]` 的结果值。
+
+```js
+const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件
+
+for (let i = 0; i < arr.length; ++i) {
+    preSum[i + 1] = preSum[i] + nums[i] // 构建前缀和数组
+}
+
+// 查询 sum([i..j])
+preSum[j + 1] - preSum[i]
+```
+
+### 构造：[lc.303 区域和检索-数组不可变](https://leetcode.cn/problems/range-sum-query-immutable/)
+
+```js
+/**
+ * @param {number[]} nums
+ */
+var NumArray = function (nums) {
+    this.preSum = [0] // preSum 首位为0 便于计算
+    for (let i = 1; i <= nums.length; ++i) {
+        this.preSum[i] = this.preSum[i - 1] + nums[i - 1]
+    }
+}
+
+/**
+ * @param {number} left
+ * @param {number} right
+ * @return {number}
+ */
+NumArray.prototype.sumRange = function (left, right) {
+    return this.preSum[right + 1] - this.preSum[left]
+}
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * var obj = new NumArray(nums)
+ * var param_1 = obj.sumRange(left,right)
+ */
+```
+
+### 构造：[lc.304 二维区域和检索-矩阵不可变](https://leetcode.cn/problems/range-sum-query-2d-immutable/)
+
+```js
+/**
+ * @param {number[][]} matrix
+ */
+var NumMatrix = function (matrix) {
+    const row = matrix.length
+    const col = matrix[0].length
+    this.sums = Array.from(Array(row + 1), () => Array(col + 1).fill(0))
+    for (let i = 0; i < row; ++i) {
+        for (let j = 0; j < col; ++j) {
+            this.sums[i + 1][j + 1] =
+                this.sums[i + 1][j] + this.sums[i][j + 1] - this.sums[i][j] + matrix[i][j]
+        }
+    }
+    console.log(this.sums)
+}
+
+/**
+ * @param {number} row1
+ * @param {number} col1
+ * @param {number} row2
+ * @param {number} col2
+ * @return {number}
+ */
+NumMatrix.prototype.sumRegion = function (row1, col1, row2, col2) {
+    return (
+        this.sums[row2 + 1][col2 + 1] -
+        this.sums[row1][col2 + 1] -
+        this.sums[row2 + 1][col1] +
+        this.sums[row1][col1]
+    )
+}
+
+/**
+ * Your NumMatrix object will be instantiated and called as such:
+ * var obj = new NumMatrix(matrix)
+ * var param_1 = obj.sumRegion(row1,col1,row2,col2)
+ */
+```
+
+### lc.523 连续的子数组和
+
+这道题有点意思的，首先要知道一个数学知识：**同余定理：a, b 模 k 后的余数相同，则 a，b 对 k 同余**，本题需要利用同余的整除性性质：
+
+** `a % k == b % k`，则 `(a-b) % k === 0`。即同余数之差能被 k 整除 **
+
+根据题意，需要获取到的信息是：**(preSum[j] - preSum[i]) % k === 0**，如过存在则返回 true，那么就可以转化为：**寻找是否有两个前缀和能 % k 后，余数相同的问题了~**，那就很自然想到用哈希表来存储 `{余数：索引}` 了，不然这题还真挺难想的~ 再一次 respect 数学！
+
+```js
+var checkSubarraySum = function (nums, k) {
+    if (nums.length <= 1) return false
+    const map = { 0: -1 }
+    let preSum = 0
+    for (let i = 0; i < nums.length; ++i) {
+        preSum += nums[i]
+        let remainder = preSum % k
+        if (map[remainder] >= -1) {
+            // 左开右闭区
+            if (i - map[remainder] >= 2) {
+                return true
+            }
+        } else {
+            map[remainder] = i
+        }
+    }
+    return false
+}
+```
+
+**But！请注意，有坑**，上面的算法是没有问题的，然而数据量一大，且每个数都很大，则有可能有数字溢出的风险，力扣上有个测试用例就是这样的超出范围了~~~，所以这里需要用**余数去累加！**
+
+```js
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {boolean}
+ */
+var checkSubarraySum = function (nums, k) {
+    if (nums.length <= 1) return false
+    // 注意这里：初始 key 为 0，value 为 -1，是为了计算第一个可以整除 k 的子数组长度
+    const map = { 0: -1 }
+    let remainder = 0
+    for (let i = 0; i < nums.length; ++i) {
+        remainder = (remainder + nums[i]) % k
+        if (map[remainder] >= -1) {
+            if (i - map[remainder] >= 2) {
+                // 左开右闭区间
+                return true
+            }
+        } else {
+            map[remainder] = i
+        }
+    }
+    return false
+}
+```
+
+### lc.525 连续数组
+
+绝，可以把 0 看成 -1，转为求前缀和为 0 的情况。实现上用一个 counter 变量即可。
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findMaxLength = function (nums) {
+    if (nums.length <= 1) return 0
+    let max = 0
+    const map = { 0: -1 }
+    let counter = 0
+    for (let i = 0; i < nums.length; ++i) {
+        nums[i] === 1 ? ++counter : --counter
+        // 哈希表中就有记录，表明此刻 区间前缀和之差 中 0 和 1 的数量相等
+        // 举个例子 [1,1,1,0(-1)] 对应的前缀和为  1,2,3,2， 那么 (1, 3] 区间 1 个 0 和 1 个 1，长度为 3-1=2
+        if (map[counter] >= -1) {
+            max = Math.max(max, i - map[counter])
+        } else {
+            map[counter] = i
+        }
+    }
+    return max
+}
+```
+
+上面两题，有一丢丢类似，比如一种感觉，当通过哈希表来存储 `{need: 索引}` 时，都需要设定 map 初始为 `{0: -1}`，可以理解为**空的前缀的元素和为 0，空的前缀的结束下标为 −1**。再一个前缀和之差区间为左开右闭区间 `(i, j]`，所以长度为 j - i。
+
+### [lc.528 按权重随机选择](https://leetcode.cn/problems/random-pick-with-weight/)
+
+第一次碰见道题大概率是没读懂它到底是个啥意思的 😂，看了题解后，豁然开朗（怎么每次都是这种感觉，f\*\*k！）
+
+首先就是前缀和 `[0...arr.length-1]` 是总的前缀和，把这个总前缀和看成是一把尺子，那么每个数字的权重可以看成是在这把尺子上占用的长度。由此，可以得到一个重要的特点：**每个长度区间的右边界是当前数字 i 的前缀和，左边界是上一个区间的前缀和右边界 + 1**
+
+例如 w=[3,1,2,4]时，权重之和 total=10，那么我们按照 [1,3],[4,4],[5,6],[7,10]对 [1,10] 进行划分，使得它们的长度恰好依次为 3,1,2,4。
+
+```js
+/**
+ * @param {number[]} w
+ */
+var Solution = function (w) {
+    this.preSum = [0]
+    for (let i = 0; i < w.length; ++i) {
+        this.preSum[i + 1] = this.preSum[i] + w[i]
+    }
+}
+
+/**
+ * @return {number}
+ */
+Solution.prototype.pickIndex = function () {
+    // 随机数 randomX 应该落在 pre[i] >= randomX >= pre[i] - w[i] + 1
+    const randomX = (Math.random() * this.preSum[this.preSum.length - 1] + 1) | 0
+    // 又因为 pre[i] 是单调递增的，那么 pre[i] >= randomX 转化为了一个二分搜索左边界的问题了
+    const binarySearchlow = x => {
+        let low = 1,
+            high = this.preSum.length
+        while (low < high) {
+            const mid = low + ((high - low) >> 1)
+            if (this.preSum[mid] < x) {
+                // target > mid 接着去搜索右边，low 进化
+                low = mid + 1
+            } else if (this.preSum[mid] > x) {
+                // target < mid 接着去搜索左边，high 进化
+                high = mid
+            } else if (this.preSum[mid] === x) {
+                // target === mid, 因为是搜索左边界，所以排除 mid， high = mid （牢记可行解区间为 [low...high)）
+                high = mid
+            }
+        }
+        return low
+    }
+
+    return binarySearchlow(randomX) - 1 // 我们定义的前缀和的索引比原数组索引大 1，所以要减去 1，按照官解定义的前缀和就不需要了
+}
+```
+
+### [lc.560 和为 k 的子数组](https://leetcode.cn/problems/subarray-sum-equals-k/)
+
+```js
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var subarraySum = function (nums, k) {
+    const preSum = [0]
+    for (let i = 0; i < nums.length; ++i) {
+        preSum[i + 1] = preSum[i] + nums[i]
+    }
+    let count = 0
+    // 遍历出所有区间
+    for (let i = 0; i < nums.length; ++i) {
+        for (let j = i; j < nums.length; ++j) {
+            preSum[j + 1] - preSum[i] === k && ++count
+        }
+    }
+    return count
+}
+```
+
+这样做能得到正确结果，但是并不能 AC，时间复杂度 O(n^2)，不知道谁搞了个恶心的测试用例。。。会超时~
+
+看了下题解，可以使用哈希表进行优化
+
+```js
+var subarraySum = function (nums, k) {
+    const map = { 0: 1 }
+    let preSum = 0
+    let res = 0
+    for (const num of nums) {
+        preSum += num
+        if (map[preSum - k]) {
+            res += map[preSum - k]
+        }
+
+        if (map[preSum]) {
+            map[preSum]++
+        } else {
+            map[preSum] = 1
+        }
+    }
+
+    return res
+}
+```
+
+### lc.724 寻找数组的中心下标 easy
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var pivotIndex = function (nums) {
+    const preSum = [0]
+    for (let i = 0; i < nums.length; ++i) {
+        preSum[i + 1] = preSum[i] + nums[i]
+    }
+    console.log(preSum)
+    for (let i = 1; i < preSum.length; ++i) {
+        // 根据题意很容易写出来
+        if (preSum[i - 1] === preSum[preSum.length - 1] - preSum[i]) {
+            return i - 1 // 如果使用了 0 虚拟节点，那么前缀和的索引 == 原数组的的索引 + 1 的
+        }
+    }
+    return -1
+}
+```
+
+### lc.918 环形数组的最大和 NICE!
+
+这道题很有意思，有多重方法可以解答。
+
+#### 1. 动态规划，是 lc.53 的进阶版本
+
+#### 2. 滑动窗口+单调队列+前缀和
+
+将数组延长一倍，可以看成是两个数组拼接起来，问题转化为：在 2n 的数组上，寻找最大子数组和，且数组的长度不超过 n（用滑动窗口控制）
+
+```js
+var maxSubarraySumCircular = function (nums) {
+    const n = nums.length
+    const queue = []
+    let preSum = nums[0],
+        res = nums[0]
+    queue.push([0, preSum]) // 单调队列保存 [index, preSum]
+    for (let i = 1; i < 2 * n; i++) {
+        // 根据索引控制 窗口大小
+        while (queue.length !== 0 && i - queue[0][0] > n) {
+            queue.shift()
+        }
+        preSum += nums[i % n]
+        res = Math.max(res, preSum - queue[0][1]) // 求当前窗口内的 最大子数组和， 那么单调队列顶部应该是越小越好
+        // 所以当新的前缀和小于等于单调队列里的前缀和时，直接“压扁” -- 即单调队列尾部 pop，并 push 新的 preSum
+        while (queue.length !== 0 && queue[queue.length - 1][1] >= preSum) {
+            queue.pop()
+        }
+        queue.push([i, preSum])
+    }
+    return res
+}
+```
+
+#### 3. 最优解 空间复杂度 O(1)
+
+解题思路：分两种情况，一种为没有跨越边界的情况，一种为跨越边界的情况
+
+-   没有跨越边界的情况直接求子数组的最大和即可；
+-   跨越边界的情况可以对数组求和再减去无环的子数组的最小和，即可得到跨越边界情况下的子数组最大和；
+
+    求以上两种情况的大值即为结果，另外需要考虑全部为负数的情况
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxSubarraySumCircular = function (nums) {
+    // 1. 没有跨边界，直接求  子数组的最大和
+    // 2. 跨了边界，等价与求  最大（前缀和 - 子数组的最小和）
+    // 两种情况取最大那个即可
+    let preSum = nums[0]
+    let preMax = nums[0]
+    let preMin = nums[0]
+    let resMax = nums[0]
+    let resMin = nums[0]
+
+    for (let i = 1; i < nums.length; ++i) {
+        preSum += nums[i]
+        preMax = Math.max(preMax + nums[i], nums[i])
+        resMax = Math.max(resMax, preMax)
+        preMin = Math.min(preMin + nums[i], nums[i])
+        resMin = Math.min(resMin, preMin)
+    }
+    // 最大都小于 0 了，意味着数组中所有元素都小于 0
+    if (resMax < 0) return resMax // 考虑全部为负数的情况
+    return Math.max(resMax, preSum - resMin)
+}
+```
+
+### lc.974 和可被 k 整除的子数组
+
+这题与题目 「lc.560 和为 K 的子数组」非常相似，同时与 lc.523 相呼应，如果不知道同余定理，则比较棘手。
+
+```js
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var subarraysDivByK = function (nums, k) {
+    let res = 0
+    let remainder = 0
+    const map = { 0: 1 } // 存储 { %k : count } 这里求数量，则初始化为 1，之前有题是求距离，初始化为了 -1
+    for (let i = 0; i < nums.length; ++i) {
+        // 当有负数时，js 语言的取模和数学上的取模是不一样的，所以为了修正这种逻辑，先 +个 k 再去模即可
+        remainder = (((remainder + nums[i]) % k) + k) % k
+        // if(remainder < 0) remainder += k  // 评论里看到也可以这样修正
+
+        if (map[remainder]) {
+            res += map[remainder]
+            map[remainder]++
+        } else {
+            map[remainder] = 1
+        }
+    }
+    return res
+}
+```
+
+`remainder = (((remainder + nums[i]) % k) + k) % k`，这里我的理解是，因为使用了数学上的同余定理性质，所以程序的取余远算应当与之保持一致，比如 js 中 `-5 % 3 == -2`，数学中 `-5 % 3 == 1`。
+
+---
+
+### 前缀积与后缀积：[lc.238 除以自身以外的数组的乘积](https://leetcode.cn/problems/product-of-array-except-self/)
+
+数组 nums，求除了 nums[i] 之外所有数字的乘积 === `preMulti * postMulti`
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var productExceptSelf = function (nums) {
+    const n = nums.length
+    const front = new Array(n)
+    const end = new Array(n)
+    front[0] = 1
+    end[n - 1] = 1
+    for (let i = 1; i < n; i++) {
+        front[i] = front[i - 1] * nums[i - 1]
+    }
+    for (let i = n - 2; i >= 0; i--) {
+        end[i] = end[i + 1] * nums[i + 1]
+    }
+    const res = []
+    for (let i = 0; i < n; i++) {
+        res[i] = front[i] * end[i]
+    }
+    return res
+}
+```
+
+优化
+
+```js
+var productExceptSelf = function (nums) {
+    // 优化 动态构造前缀和后缀 一次遍历, 让返回数组自身来承载
+    const res = new Array(nums.length).fill(1)
+    // 求出左侧所有乘积
+    for (let i = 1; i < nums.length; i++) {
+        res[i] = nums[i - 1] * res[i - 1]
+    }
+    // 右侧的乘积需要动态的求出, 倒叙遍历
+    let r = 1
+    for (let i = nums.length - 1; i >= 0; --i) {
+        res[i] = res[i] * r
+        r *= nums[i]
+    }
+    return res
+}
+```
+
+> lc.327 lc.862 (也有用到滑动窗口) 两道 hard 题，后续有时间再看看 😁
+
+### 同余定理
+
+> [维基百科 - 同余](https://zh.wikipedia.org/wiki/%E5%90%8C%E9%A4%98)
+

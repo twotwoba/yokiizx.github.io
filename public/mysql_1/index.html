@@ -1,0 +1,970 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" /><title>Mysql_1_基础 - Hello World</title><meta name="Description" content="A website documenting front-end technology and everyday life"><meta property="og:title" content="Mysql_1_基础" />
+<meta property="og:description" content="安装本人 m1 的 mac，下载地址，选择合适自己的版本下载安装。
+据说 mysql5.x 的版本比较稳定，比如 5.7，很多公司在用；那我现在的公司使用的是 8.x 的版本，而且有 arm 版。
+起停# 基本命令 sudo /usr/local/mysql/support-files/mysql.server start sudo /usr/local/mysql/support-files/mysql.server restart sudo /usr/local/mysql/support-files/mysql.server stop sudo /usr/local/mysql/support-files/mysql.server status # 查看状态 环境配置，简化命令:
+# .zshrc export MYSQL_HOME=/usr/local/mysql export PATH=$MYSQL_HOME/support-files:$MYSQL_HOME/bin:$PATH # 按需配置 sudo mysql.server start sudo mysql.server restart sudo mysql.server stop 登录# 登录 mysql [-h 主机] [-P 端口] -u 用户 -p 密码 # mysql 端口默认 3306 # 退出 exit 也可使用图形化软件进行连接，我选择了 DataGrip，当然也可以使用 navicat。
+Access denied for user &lsquo;root&rsquo;@&rsquo;localhost&rsquo;解决办法：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/mysql_1/" /><meta property="og:image" content="http://localhost:1313/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-11-30T15:42:23+08:00" />
+<meta property="article:modified_time" content="2023-11-30T15:42:23+08:00" />
+<meta property="og:see_also" content="http://localhost:1313/mysql_2/" /><meta property="og:see_also" content="http://localhost:1313/mysql_3/" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://localhost:1313/" /><meta name="twitter:title" content="Mysql_1_基础"/>
+<meta name="twitter:description" content="安装本人 m1 的 mac，下载地址，选择合适自己的版本下载安装。
+据说 mysql5.x 的版本比较稳定，比如 5.7，很多公司在用；那我现在的公司使用的是 8.x 的版本，而且有 arm 版。
+起停# 基本命令 sudo /usr/local/mysql/support-files/mysql.server start sudo /usr/local/mysql/support-files/mysql.server restart sudo /usr/local/mysql/support-files/mysql.server stop sudo /usr/local/mysql/support-files/mysql.server status # 查看状态 环境配置，简化命令:
+# .zshrc export MYSQL_HOME=/usr/local/mysql export PATH=$MYSQL_HOME/support-files:$MYSQL_HOME/bin:$PATH # 按需配置 sudo mysql.server start sudo mysql.server restart sudo mysql.server stop 登录# 登录 mysql [-h 主机] [-P 端口] -u 用户 -p 密码 # mysql 端口默认 3306 # 退出 exit 也可使用图形化软件进行连接，我选择了 DataGrip，当然也可以使用 navicat。
+Access denied for user &lsquo;root&rsquo;@&rsquo;localhost&rsquo;解决办法："/>
+<meta name="application-name" content="前端后花园">
+<meta name="apple-mobile-web-app-title" content="前端后花园">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="canonical" href="http://localhost:1313/mysql_1/" /><link rel="prev" href="http://localhost:1313/react_hooks--usestateusereducer/" />
+<link rel="stylesheet" href="/css/main.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">{"@context": "https://schema.org","@type": "BlogPosting",
+        "headline": "Mysql_1_基础",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http://localhost:1313/mysql_1/"
+        },"genre": "posts","wordcount":  1287 ,
+        "url": "http://localhost:1313/mysql_1/","datePublished": "2023-11-30T15:42:23+08:00","dateModified": "2023-11-30T15:42:23+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EricYuan",
+                "url": "/"
+            },"description": ""
+    }</script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {
+          document.body.setAttribute('theme', theme); 
+          document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');
+          if (theme === 'light') {
+            document.documentElement.classList.remove('tw-dark')
+          } else {
+            document.documentElement.classList.add('tw-dark')
+          }
+          window.theme = theme;   
+          window.isDark = window.theme !== 'light' 
+        }
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('dark' === 'light' || 'dark' === 'dark' || 'dark' === 'black') setTheme('dark'), saveTheme('dark'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+        window.switchThemeEventSet = new Set()
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop print:!tw-hidden" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hello World"><img
+        class="logo"
+        loading="lazy"
+        src="/favicon.ico"
+        srcset="/favicon.ico, /favicon.ico 1.5x, /favicon.ico 2x"
+        title="/favicon.ico" height="36"   width="36" >EricYuan</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item"
+                    href="/posts/" > 文章 </a><a class="menu-item"
+                    href="/categories/" > 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                    <input type="text"
+                        placeholder="搜索文章标题或内容..."
+                        id="search-input-desktop">
+                    <button class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+                    </button>
+                    <button class="search-button search-clear" id="search-clear-desktop" title="清空">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"/></svg>
+                    </button>
+                    <span class="search-button search-loading tw-animate-spin" id="search-loading-desktop">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"/></svg>
+                    </span>
+                </span><button class="menu-item theme-select" aria-label="切换主题">
+                    <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705 0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
+                    <select class="color-theme-select" id="theme-select-desktop" aria-label="切换主题">
+                        <option value="light">浅色</option>
+                        <option value="dark">深色</option>
+                        <option value="black">黑色</option>
+                        <option value="auto">跟随系统</option>
+                    </select>
+                </button></div>
+        </div>
+    </div>
+</header><header class="mobile print:!tw-hidden" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hello World"><img
+        class="logo"
+        loading="lazy"
+        src="/favicon.ico"
+        srcset="/favicon.ico, /favicon.ico 1.5x, /favicon.ico 2x"
+        title="/favicon.ico" >EricYuan</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                <div class="search mobile" id="search-mobile">
+                    <input type="text"
+                        placeholder="搜索文章标题或内容..."
+                        id="search-input-mobile">
+                    <button class="search-button search-toggle tw-h-10" id="search-toggle-mobile" title="搜索">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+                    </button>
+                    <button class="search-button search-clear" id="search-clear-mobile" title="清空">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"/></svg>
+                    </button>
+                    <span class="search-button search-loading tw-animate-spin" id="search-loading-mobile">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"/></svg>
+                    </span>
+                </div>
+                <button class="search-cancel" id="search-cancel-mobile">
+                    取消
+                </button>
+            </div><a class="menu-item" href="/posts/" title="" >文章</a><a class="menu-item" href="/categories/" title="" >分类</a><button class="menu-item theme-select tw-w-full" aria-label="切换主题">
+                <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705 0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
+                <select class="color-theme-select" id="theme-select-mobile" aria-label="切换主题">
+                    <option value="light">浅色</option>
+                    <option value="dark">深色</option>
+                    <option value="black">黑色</option>
+                    <option value="auto">跟随系统</option>
+                </select>
+            </button></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div><main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content always-active" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装">安装</a></li>
+    <li><a href="#起停">起停</a></li>
+    <li><a href="#登录">登录</a>
+      <ul>
+        <li><a href="#access-denied-for-user-rootlocalhost">Access denied for user &lsquo;root&rsquo;@&rsquo;localhost&rsquo;</a></li>
+      </ul>
+    </li>
+    <li><a href="#mysql-的三层结构">mysql 的三层结构</a></li>
+    <li><a href="#sql-语句分类">sql 语句分类</a>
+      <ul>
+        <li><a href="#数据库">数据库</a>
+          <ul>
+            <li><a href="#备份数据库">备份数据库</a></li>
+          </ul>
+        </li>
+        <li><a href="#表">表</a>
+          <ul>
+            <li><a href="#常用数据类型">常用数据类型</a>
+              <ul>
+                <li><a href="#数值类型设置无符号">数值类型设置无符号</a></li>
+                <li><a href="#char-和-varchar">char 和 varchar</a></li>
+                <li><a href="#varchar-和-text">varchar 和 text</a></li>
+                <li><a href="#datetime-和-timestamp">datetime 和 timestamp</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#插入语句">插入语句</a></li>
+        <li><a href="#更新语句">更新语句</a></li>
+        <li><a href="#delete-语句">delete 语句</a></li>
+        <li><a href="#核心select-语句">【核心】select 语句</a>
+          <ul>
+            <li><a href="#分页查询">分页查询</a></li>
+            <li><a href="#统计函数">统计函数</a></li>
+            <li><a href="#字符串相关函数">字符串相关函数</a></li>
+            <li><a href="#数值函数">数值函数</a></li>
+            <li><a href="#日期函数">日期函数</a></li>
+            <li><a href="#流程控制函数">流程控制函数</a></li>
+            <li><a href="#加密和系统函数">加密和系统函数</a></li>
+          </ul>
+        </li>
+        <li><a href="#多表查询">多表查询</a>
+          <ul>
+            <li><a href="#笛卡尔集">笛卡尔集</a></li>
+            <li><a href="#自连接">自连接</a></li>
+            <li><a href="#子查询">子查询</a>
+              <ul>
+                <li><a href="#all-操作符-和-any-操作符">all 操作符 和 any 操作符</a></li>
+                <li><a href="#多列子查询">多列子查询</a></li>
+              </ul>
+            </li>
+            <li><a href="#表复制">表复制</a></li>
+            <li><a href="#合并查询">合并查询</a></li>
+            <li><a href="#外连接">外连接</a></li>
+          </ul>
+        </li>
+        <li><a href="#mysql-约束-constraint">mysql 约束 (constraint)</a>
+          <ul>
+            <li><a href="#主键-primary-key">主键 (primary key)</a></li>
+            <li><a href="#not-null">not null</a></li>
+            <li><a href="#unique">unique</a></li>
+            <li><a href="#foreign-key-外键">foreign key 外键</a></li>
+            <li><a href="#check">check</a></li>
+          </ul>
+        </li>
+        <li><a href="#自增长">自增长</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Mysql_1_基础</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><a href="/" title="Author" rel=" author" class="author">EricYuan</a>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/study-notes/"><i class="far fa-folder fa-fw"></i>Study Notes</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/mysql/"><i class="far fa-list-alt fa-fw"></i>Mysql</a></span><span id="busuanzi_container_page_pv">&nbsp;
+                        <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+            </div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-11-30">2023-11-30</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2023-11-30">2023-11-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1287 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - </span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul><li><span class="active">Mysql_1_基础</span></li>
+                                                    <li><a href="/mysql_2/">Mysql_2_索引和事务</a></li>
+                                                    <li><a href="/mysql_3/">Mysql_3_视图和管理</a></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装">安装</a></li>
+    <li><a href="#起停">起停</a></li>
+    <li><a href="#登录">登录</a>
+      <ul>
+        <li><a href="#access-denied-for-user-rootlocalhost">Access denied for user &lsquo;root&rsquo;@&rsquo;localhost&rsquo;</a></li>
+      </ul>
+    </li>
+    <li><a href="#mysql-的三层结构">mysql 的三层结构</a></li>
+    <li><a href="#sql-语句分类">sql 语句分类</a>
+      <ul>
+        <li><a href="#数据库">数据库</a>
+          <ul>
+            <li><a href="#备份数据库">备份数据库</a></li>
+          </ul>
+        </li>
+        <li><a href="#表">表</a>
+          <ul>
+            <li><a href="#常用数据类型">常用数据类型</a>
+              <ul>
+                <li><a href="#数值类型设置无符号">数值类型设置无符号</a></li>
+                <li><a href="#char-和-varchar">char 和 varchar</a></li>
+                <li><a href="#varchar-和-text">varchar 和 text</a></li>
+                <li><a href="#datetime-和-timestamp">datetime 和 timestamp</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#插入语句">插入语句</a></li>
+        <li><a href="#更新语句">更新语句</a></li>
+        <li><a href="#delete-语句">delete 语句</a></li>
+        <li><a href="#核心select-语句">【核心】select 语句</a>
+          <ul>
+            <li><a href="#分页查询">分页查询</a></li>
+            <li><a href="#统计函数">统计函数</a></li>
+            <li><a href="#字符串相关函数">字符串相关函数</a></li>
+            <li><a href="#数值函数">数值函数</a></li>
+            <li><a href="#日期函数">日期函数</a></li>
+            <li><a href="#流程控制函数">流程控制函数</a></li>
+            <li><a href="#加密和系统函数">加密和系统函数</a></li>
+          </ul>
+        </li>
+        <li><a href="#多表查询">多表查询</a>
+          <ul>
+            <li><a href="#笛卡尔集">笛卡尔集</a></li>
+            <li><a href="#自连接">自连接</a></li>
+            <li><a href="#子查询">子查询</a>
+              <ul>
+                <li><a href="#all-操作符-和-any-操作符">all 操作符 和 any 操作符</a></li>
+                <li><a href="#多列子查询">多列子查询</a></li>
+              </ul>
+            </li>
+            <li><a href="#表复制">表复制</a></li>
+            <li><a href="#合并查询">合并查询</a></li>
+            <li><a href="#外连接">外连接</a></li>
+          </ul>
+        </li>
+        <li><a href="#mysql-约束-constraint">mysql 约束 (constraint)</a>
+          <ul>
+            <li><a href="#主键-primary-key">主键 (primary key)</a></li>
+            <li><a href="#not-null">not null</a></li>
+            <li><a href="#unique">unique</a></li>
+            <li><a href="#foreign-key-外键">foreign key 外键</a></li>
+            <li><a href="#check">check</a></li>
+          </ul>
+        </li>
+        <li><a href="#自增长">自增长</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="安装" class="headerLink">
+    <a href="#%e5%ae%89%e8%a3%85" class="header-mark"></a>安装</h2><p>本人 m1 的 mac，<a href="https://downloads.mysql.com/archives/community/" target="_blank" rel="noopener noreferrer">下载地址</a>，选择合适自己的版本下载安装。</p>
+<blockquote>
+<p>据说 mysql5.x 的版本比较稳定，比如 5.7，很多公司在用；那我现在的公司使用的是 8.x 的版本，而且有 arm 版。</p>
+</blockquote>
+<p><figure><img
+        
+        loading="lazy"
+        src="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202311301709918.png"
+        srcset="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202311301709918.png, https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202311301709918.png 1.5x, https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202311301709918.png 2x"
+        title="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202311301709918.png" ></figure></p>
+<h2 id="起停" class="headerLink">
+    <a href="#%e8%b5%b7%e5%81%9c" class="header-mark"></a>起停</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 基本命令</span>
+</span></span><span class="line"><span class="cl">sudo /usr/local/mysql/support-files/mysql.server start
+</span></span><span class="line"><span class="cl">sudo /usr/local/mysql/support-files/mysql.server restart
+</span></span><span class="line"><span class="cl">sudo /usr/local/mysql/support-files/mysql.server stop
+</span></span><span class="line"><span class="cl">sudo /usr/local/mysql/support-files/mysql.server status <span class="c1"># 查看状态</span>
+</span></span></code></pre></div><p>环境配置，简化命令:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># .zshrc</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">MYSQL_HOME</span><span class="o">=</span>/usr/local/mysql
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$MYSQL_HOME</span>/support-files:<span class="nv">$MYSQL_HOME</span>/bin:<span class="nv">$PATH</span> <span class="c1"># 按需配置</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo mysql.server start
+</span></span><span class="line"><span class="cl">sudo mysql.server restart
+</span></span><span class="line"><span class="cl">sudo mysql.server stop
+</span></span></code></pre></div><h2 id="登录" class="headerLink">
+    <a href="#%e7%99%bb%e5%bd%95" class="header-mark"></a>登录</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 登录</span>
+</span></span><span class="line"><span class="cl">mysql <span class="o">[</span>-h 主机<span class="o">]</span> <span class="o">[</span>-P 端口<span class="o">]</span> -u 用户 -p 密码 <span class="c1"># mysql 端口默认 3306</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 退出</span>
+</span></span><span class="line"><span class="cl"><span class="nb">exit</span>
+</span></span></code></pre></div><p>也可使用图形化软件进行连接，我选择了 <code>DataGrip</code>，当然也可以使用 <code>navicat</code>。</p>
+<h3 id="access-denied-for-user-rootlocalhost" class="headerLink">
+    <a href="#access-denied-for-user-rootlocalhost" class="header-mark"></a>Access denied for user &lsquo;root&rsquo;@&rsquo;localhost&rsquo;</h3><p>解决办法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 1. 先停止服务</span>
+</span></span><span class="line"><span class="cl">sudo mysql.server stop
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. 进入 mysql 二进制执行文件目录</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /usr/local/mysql/
+</span></span><span class="line"><span class="cl"><span class="c1"># 3. 获取管理员权限</span>
+</span></span><span class="line"><span class="cl">sudo su
+</span></span><span class="line"><span class="cl"><span class="c1"># 4. 输入 ./mysqld_safe --skip-grant-tables &amp;  然后回车，禁止mysql验证功能，mysql会自动重启</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 5. cmd + T 新开 tab，并登录</span>
+</span></span><span class="line"><span class="cl">mysql -u root -p
+</span></span></code></pre></div><h2 id="mysql-的三层结构" class="headerLink">
+    <a href="#mysql-%e7%9a%84%e4%b8%89%e5%b1%82%e7%bb%93%e6%9e%84" class="header-mark"></a>mysql 的三层结构</h2><ul>
+<li>DBMS（database manage system）</li>
+<li>db，dbms 下可以用有个 db</li>
+<li>table，db 下可以有多个 table</li>
+</ul>
+<blockquote>
+<p>普通的表本质是真真实实的文件。</p>
+</blockquote>
+<h2 id="sql-语句分类" class="headerLink">
+    <a href="#sql-%e8%af%ad%e5%8f%a5%e5%88%86%e7%b1%bb" class="header-mark"></a>sql 语句分类</h2><ul>
+<li>DDL，data definition language，数据定义语句，[create，alter 表，库&hellip;]</li>
+<li>DML，data manipulation language，数据操纵语句，[insert, update, delete]</li>
+<li>DQL，data query language，数据查询语句 [select]</li>
+<li>DCL，data control language，数据控制语句 [管理数据库，grant，revoke]</li>
+</ul>
+<blockquote>
+<p>注意，在 mysql 的控制台环境下语句要以分号 <code>;</code> 结尾</p>
+</blockquote>
+<h3 id="数据库" class="headerLink">
+    <a href="#%e6%95%b0%e6%8d%ae%e5%ba%93" class="header-mark"></a>数据库</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="o">#</span><span class="w"> </span><span class="err">创建</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="p">[</span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="p">]</span><span class="w"> </span><span class="n">db_name</span><span class="w"> </span><span class="p">[</span><span class="nb">CHARACTER</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">charset_name</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="k">COLLATE</span><span class="w"> </span><span class="k">collation_name</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">使用</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">use</span><span class="w"> </span><span class="n">db_name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">删除</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="p">[</span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="p">]</span><span class="w"> </span><span class="n">db_name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">查看所有数据库</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SHOW</span><span class="w"> </span><span class="n">DATABASES</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">查看数据库创建时的语句</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SHOW</span><span class="w"> </span><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">db_name</span><span class="w">
+</span></span></span></code></pre></div><ol>
+<li>为了规避关键字，可以使用反引号包裹 <code>db_name</code></li>
+<li>IF NOT EXISTS，如果加上了，当创建 db 的时候如果已经存在，就不会创建也不报错，如果没有加上则会报错</li>
+<li>字符集 charset_name 默认为 utf8</li>
+<li>校对规则 collation_name 默认为 utf8_general_ci(不区分大小写)；还有 utf8_bin(区分大小写)等</li>
+<li>当创建表时没有指定字符集和校对规则，就会默认使用数据库上的配置</li>
+</ol>
+<h4 id="备份数据库" class="headerLink">
+    <a href="#%e5%a4%87%e4%bb%bd%e6%95%b0%e6%8d%ae%e5%ba%93" class="header-mark"></a>备份数据库</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="o">#</span><span class="w"> </span><span class="err">备份</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">mysqldump</span><span class="w"> </span><span class="o">-</span><span class="n">u</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="o">-</span><span class="n">B</span><span class="w"> </span><span class="o">&lt;</span><span class="n">db_1</span><span class="o">&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">db_2</span><span class="p">]</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">target_path</span><span class="o">/</span><span class="n">xxx</span><span class="p">.</span><span class="k">sql</span><span class="o">&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">mysqldump</span><span class="w"> </span><span class="o">-</span><span class="n">u</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;</span><span class="n">db_1</span><span class="o">&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">table_1</span><span class="p">]</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">target_path</span><span class="o">/</span><span class="n">xxx</span><span class="p">.</span><span class="k">sql</span><span class="o">&gt;</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">不用</span><span class="w"> </span><span class="o">-</span><span class="n">B</span><span class="w"> </span><span class="err">可以指定数据库下的表</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">还原</span><span class="p">,</span><span class="w"> </span><span class="err">进入</span><span class="w"> </span><span class="n">mysql</span><span class="w"> </span><span class="err">命令行</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">source</span><span class="w"> </span><span class="n">target_path</span><span class="o">/</span><span class="n">xxx</span><span class="p">.</span><span class="k">sql</span><span class="w">
+</span></span></span></code></pre></div><h3 id="表" class="headerLink">
+    <a href="#%e8%a1%a8" class="header-mark"></a>表</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="o">#</span><span class="w"> </span><span class="err">创建</span><span class="w"> </span><span class="err">字符集和校对规则不指定就默认使用数据库的</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="p">(</span><span class="n">filed</span><span class="w"> </span><span class="n">dataType</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span><span class="w">  </span><span class="p">[</span><span class="nb">CHARACTER</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">charset_name</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="k">COLLATE</span><span class="w"> </span><span class="k">collation_name</span><span class="p">]</span><span class="w"> </span><span class="n">ENGINE</span><span class="w"> </span><span class="err">存储引擎</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">复制表结构</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="n">source_tb_name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">删除</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">tab_name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">修改</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">##</span><span class="w"> </span><span class="err">修改表名</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">RENAME</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">old_tb_name</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">new_tb_name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">##</span><span class="w"> </span><span class="err">修改字符集</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="nb">Character</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="err">字符集</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">##</span><span class="w"> </span><span class="err">新增列</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="p">(</span><span class="n">col_name</span><span class="w"> </span><span class="n">col_type</span><span class="w"> </span><span class="p">[</span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">expr</span><span class="p">],</span><span class="w"> </span><span class="p">...)</span><span class="w"> </span><span class="p">[</span><span class="k">AFTER</span><span class="w"> </span><span class="n">col_name</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">##</span><span class="w"> </span><span class="err">修改列</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="k">MODIFY</span><span class="w"> </span><span class="p">(</span><span class="n">col_name</span><span class="w"> </span><span class="n">col_type</span><span class="w"> </span><span class="p">[</span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">expr</span><span class="p">],</span><span class="w"> </span><span class="p">...)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">##</span><span class="w"> </span><span class="err">修改列名</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="n">CHANGE</span><span class="w"> </span><span class="p">[</span><span class="k">column</span><span class="p">]</span><span class="w"> </span><span class="n">old_col_name</span><span class="w"> </span><span class="n">new_col_name</span><span class="w"> </span><span class="n">new_col_type</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">##</span><span class="w"> </span><span class="err">删除列</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="k">DROP</span><span class="w"> </span><span class="p">(</span><span class="n">col_name</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">查看表结构</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DESC</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="p">[</span><span class="c1">-- 指定列]
+</span></span></span></code></pre></div><p>修改列属性可以用 modify，但是修改列名只能用 change。</p>
+<h4 id="常用数据类型" class="headerLink">
+    <a href="#%e5%b8%b8%e7%94%a8%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b" class="header-mark"></a>常用数据类型</h4><table>
+<thead>
+<tr>
+<th>分类</th>
+<th>数据类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数值类型</td>
+<td>BIT(M)</td>
+<td>位类型，M 指定位数，默认为 1，范围 1 ～ 64。</td>
+</tr>
+<tr>
+<td></td>
+<td>TINYINT 1 个字节 (boolean)</td>
+<td>无符号：[0,2 ** 8-1]，有符号：[-2 ** 7，2 ** 7-1]，默认有符号</td>
+</tr>
+<tr>
+<td></td>
+<td>SMALLINT 2 个字节</td>
+<td>无符号：[0,2 ** 16-1]，有符号：[-2 ** 15，2 ** 15-1]</td>
+</tr>
+<tr>
+<td></td>
+<td>MEDIUMINT 3 个字节</td>
+<td>无符号：[0,2 ** 24-1]，有符号：[-2 ** 23，2 ** 23-1]</td>
+</tr>
+<tr>
+<td></td>
+<td>INT 4 个字节</td>
+<td>无符号：[0,2 ** 32-1]，有符号：[-2 ** 31，2 ** 31-1]</td>
+</tr>
+<tr>
+<td></td>
+<td>BIGINT 8 个字节</td>
+<td>无符号：[0,2 ** 64-1]，有符号：[-2 ** 63，2 ** 63-1]</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>FLOAT 4 个字节</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>DOUBLE 8 个字节</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>DECIMAL(M,D)，m 默认 10，d 默认 0</td>
+<td>M 指定长度，D 指定小数点后面的位数 ，M 最大 65，D 最大 30</td>
+</tr>
+<tr>
+<td>&mdash;&mdash;&mdash;-</td>
+<td>&mdash;&mdash;&mdash;-</td>
+<td>&mdash;&mdash;&mdash;-</td>
+</tr>
+<tr>
+<td>文本类型</td>
+<td>CHAR(size)</td>
+<td>固定长度字符串，最大为 255 个<code>字符</code></td>
+</tr>
+<tr>
+<td></td>
+<td>VARCHAR(size)</td>
+<td>可变长度字符串，最大 65535 （2**16-1） 个<code>字节</code>，使用 1-3 个字节记录内容长度</td>
+</tr>
+<tr>
+<td></td>
+<td>TEXT</td>
+<td>2**16-1 个字节</td>
+</tr>
+<tr>
+<td></td>
+<td>LONGTEXT</td>
+<td>2**32-1 个字节</td>
+</tr>
+<tr>
+<td>&mdash;&mdash;&mdash;-</td>
+<td>&mdash;&mdash;&mdash;-</td>
+<td>&mdash;&mdash;&mdash;-</td>
+</tr>
+<tr>
+<td>时间日期</td>
+<td>DATE</td>
+<td>日期</td>
+</tr>
+<tr>
+<td></td>
+<td>TIME</td>
+<td>时间</td>
+</tr>
+<tr>
+<td></td>
+<td>DATETIME</td>
+<td>日期+时间</td>
+</tr>
+<tr>
+<td></td>
+<td>TIMESTAMP</td>
+<td>可以自动记录 UPDATE，INSERT 的时间</td>
+</tr>
+<tr>
+<td>&mdash;&mdash;&mdash;-</td>
+<td>&mdash;&mdash;&mdash;-</td>
+<td>&mdash;&mdash;&mdash;-</td>
+</tr>
+<tr>
+<td>二进制类型</td>
+<td>BLOB</td>
+<td>2**16-1 个字节</td>
+</tr>
+<tr>
+<td></td>
+<td>LONGBLOB</td>
+<td>2**32-1 个字节</td>
+</tr>
+</tbody>
+</table>
+<h5 id="数值类型设置无符号" class="headerLink">
+    <a href="#%e6%95%b0%e5%80%bc%e7%b1%bb%e5%9e%8b%e8%ae%be%e7%bd%ae%e6%97%a0%e7%ac%a6%e5%8f%b7" class="header-mark"></a>数值类型设置无符号</h5><p>创建时在类型后添加 <code>unsigned</code> 关键字。</p>
+<h5 id="char-和-varchar" class="headerLink">
+    <a href="#char-%e5%92%8c-varchar" class="header-mark"></a>char 和 varchar</h5><p>首先，char(size) 和 varchar(size)里的 size，都是指 <code>字符的长度</code>，最大的区别是一个固定字符长度就确定了空间大小，一个是根据实际使用大小来确定的。</p>
+<pre><code>- char的size最大字符数为255，定长的使用场景，比如手机号，身份证号码等
+- varchar的size最大字符数不一定，需要根据字符集来确定。比如utf8下最大字符数为 21844，
+因为一个汉字3个字节，最大字节为 2**16-1 = 65535，再减去用于记录大小的 3 个字节，（65535-3）/3 = 21844.
+</code></pre>
+<p>查询速度 char &gt; varchar</p>
+<h5 id="varchar-和-text" class="headerLink">
+    <a href="#varchar-%e5%92%8c-text" class="header-mark"></a>varchar 和 text</h5><p>两种数据类型共享的最大长度为 65,535 个字符，但仍然存在一些差异：</p>
+<ol>
+<li>VARCHAR 中的 VAR 表示您可以将最大大小设置为 1 到 65,535 之间的任何值。 TEXT 字段的最大固定大小为 65,535 个字符。</li>
+<li>VARCHAR 可以是索引的一部分，而 TEXT 字段要求您指定前缀长度，该长度可以是索引的一部分。</li>
+<li>VARCHAR 与表内联存储（至少对于 MyISAM 存储引擎而言），因此在大小合理时可能会更快。当然，快得多少取决于您的数据和硬件。同时，TEXT 存储在表外，该表具有指向实际存储位置的指针。</li>
+<li>排序使用 TEXT 列将需要使用基于磁盘的临时表作为 MEMORY（HEAP）存储引擎。</li>
+</ol>
+<h5 id="datetime-和-timestamp" class="headerLink">
+    <a href="#datetime-%e5%92%8c-timestamp" class="header-mark"></a>datetime 和 timestamp</h5><p>创建 timestamp 时添加 <code>DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</code>，会自动初始化和更新，比如当行发生改变的时候就会自动更新</p>
+<blockquote>
+<p>从 MySQL 5.6.5 开始，Automatic Initialization and Updating 同时适用于 TIMESTAMP 和 DATETIME，且不限制数量。</p>
+</blockquote>
+<p>timestamp 客户端插入的时间从当前时区转化为 UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回，所以更适合跨时区业务。
+DATETIME，不做任何改变，基本上是原样输入和输出。</p>
+<p>timestamp 所能存储的时间范围为：&lsquo;1970-01-01 00:00:01.000000&rsquo; 到 &lsquo;2038-01-19 03:14:07.999999&rsquo;。
+datetime 所能存储的时间范围为：&lsquo;1000-01-01 00:00:00.000000&rsquo; 到 &lsquo;9999-12-31 23:59:59.999999&rsquo;。</p>
+<hr>
+<h3 id="插入语句" class="headerLink">
+    <a href="#%e6%8f%92%e5%85%a5%e8%af%ad%e5%8f%a5" class="header-mark"></a>插入语句</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="p">[</span><span class="n">col_1</span><span class="p">,</span><span class="n">col_2</span><span class="p">,...]</span><span class="w"> </span><span class="k">values</span><span class="w"> </span><span class="p">(</span><span class="n">val1</span><span class="p">,</span><span class="w"> </span><span class="n">val2</span><span class="p">,...)</span><span class="w"> </span><span class="p">[,(...),(...)]</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">中括号内为可选插入多条数据</span><span class="w">
+</span></span></span></code></pre></div><blockquote>
+<ol>
+<li>当插入一整条数据时，列名可以省略。无论什么时候，value 值都得和列名一一对应。</li>
+<li>字符和日期型数据应包含在单引号中。</li>
+</ol>
+</blockquote>
+<h3 id="更新语句" class="headerLink">
+    <a href="#%e6%9b%b4%e6%96%b0%e8%af%ad%e5%8f%a5" class="header-mark"></a>更新语句</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">col_name</span><span class="o">=</span><span class="n">expr</span><span class="p">[,</span><span class="n">col_name2</span><span class="o">=</span><span class="n">expr2</span><span class="p">,...]</span><span class="w"> </span><span class="p">[</span><span class="k">WHERE</span><span class="w"> </span><span class="n">condition</span><span class="p">]</span><span class="w">
+</span></span></span></code></pre></div><blockquote>
+<p>没有指定 WHERE 子句，则更新对应列的所有行</p>
+</blockquote>
+<h3 id="delete-语句" class="headerLink">
+    <a href="#delete-%e8%af%ad%e5%8f%a5" class="header-mark"></a>delete 语句</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="p">[</span><span class="k">WHERE</span><span class="w"> </span><span class="n">condition</span><span class="p">]</span><span class="w">
+</span></span></span></code></pre></div><blockquote>
+<p>没有指定 WHERE 子句，MySQL 表中的所有记录将被删除</p>
+</blockquote>
+<h3 id="核心select-语句" class="headerLink">
+    <a href="#%e6%a0%b8%e5%bf%83select-%e8%af%ad%e5%8f%a5" class="header-mark"></a>【核心】select 语句</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="o">#</span><span class="w"> </span><span class="err">基础</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="p">[</span><span class="k">DISTINCT</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="err">｜</span><span class="n">col_name</span><span class="p">,</span><span class="n">col_name</span><span class="p">...</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="p">[</span><span class="n">alias_tb_name</span><span class="p">]</span><span class="w">  </span><span class="p">[</span><span class="k">WHERE</span><span class="w"> </span><span class="n">condition</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">col_name</span><span class="p">]</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><code>DISTINCT</code>，加上后对查询结果 去重</li>
+<li>查询的列也可以为表达式并且可以赋予别名，比如 <code>select (col1 + col2 + col3) as score from tb_name</code>，这里的 score 可以在后面的 where 等子句中使用</li>
+<li><code>ORDER BY</code>，默认为 ASC，可选 DESC</li>
+<li><code>WHERE</code> 子句常用
+<ul>
+<li>模糊查询使用百分号：比如 LIKE &lsquo;key%&rsquo; 就是查开头为 key 的字符<br>
+<code>%</code> 匹配 0~n 个字符；<code>_</code> 匹配单个字符</li>
+<li>比较运算符：&lt;,&gt;,&lt;=,=&gt;,=,!=, BETWEEN&hellip;AND&hellip;,IN(a,b,c&hellip;), LIKE, NOT LIKE, IS NULL; 逻辑运算符： AND，OR，NOT</li>
+</ul>
+</li>
+<li>分组统计，<code>GROUP BY ... HAVING ...</code>，having 可以看成是 group by 的专属过滤语句</li>
+</ul>
+<blockquote>
+<p><a href="https://blog.csdn.net/qq_41453285/article/details/88055683" target="_blank" rel="noopener noreferrer">MySQL 的表达式计算、运算符（算术/比较/逻辑/位）、类型转换、MySQL 如何处理无效数据值</a></p>
+</blockquote>
+<h4 id="分页查询" class="headerLink">
+    <a href="#%e5%88%86%e9%a1%b5%e6%9f%a5%e8%af%a2" class="header-mark"></a>分页查询</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="k">start</span><span class="p">,</span><span class="k">rows</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">从</span><span class="w"> </span><span class="k">start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">行处开始，取</span><span class="w"> </span><span class="k">rows</span><span class="w"> </span><span class="err">行</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>几个关键字顺序</p>
+<p><code>group by, having, order by, limit</code></p>
+<hr>
+<blockquote>
+<p>下面学习一些常用的系统函数，<strong>只记录部分</strong>，完整的还得去查手册～</p>
+</blockquote>
+<h4 id="统计函数" class="headerLink">
+    <a href="#%e7%bb%9f%e8%ae%a1%e5%87%bd%e6%95%b0" class="header-mark"></a>统计函数</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="o">#</span><span class="w"> </span><span class="err">返回行总数</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="n">col_name</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="p">[</span><span class="k">WHERE</span><span class="w"> </span><span class="n">condition</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">其他常用统计函数</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="o">|</span><span class="k">AVG</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="o">|</span><span class="k">MAX</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="o">|</span><span class="k">MIN</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tb_name</span><span class="w">
+</span></span></span></code></pre></div><blockquote>
+<p>count(列) 会排除值为 null 的行</p>
+</blockquote>
+<h4 id="字符串相关函数" class="headerLink">
+    <a href="#%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%9b%b8%e5%85%b3%e5%87%bd%e6%95%b0" class="header-mark"></a>字符串相关函数</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">CHARSET</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">返回字符集</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">col</span><span class="o">|</span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">字符串拼接</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">UCASE</span><span class="o">/</span><span class="n">LCASE</span><span class="p">(</span><span class="n">col</span><span class="o">|</span><span class="n">str</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">大小写</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">LENGTH</span><span class="p">(</span><span class="n">col</span><span class="o">|</span><span class="n">str</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">返回字符的</span><span class="w"> </span><span class="o">**</span><span class="err">字节</span><span class="o">**</span><span class="w"> </span><span class="err">长度</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">SUBSTRING</span><span class="p">(</span><span class="n">col</span><span class="o">|</span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="k">position</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="k">length</span><span class="p">])</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">从</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="err">的</span><span class="w"> </span><span class="k">position</span><span class="w"> </span><span class="err">位置开始取</span><span class="w"> </span><span class="k">length</span><span class="w"> </span><span class="err">个字符</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">TRIM</span><span class="p">(</span><span class="n">col</span><span class="o">|</span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="k">position</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="k">length</span><span class="p">])</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">去除首尾空格</span><span class="w">
+</span></span></span></code></pre></div><h4 id="数值函数" class="headerLink">
+    <a href="#%e6%95%b0%e5%80%bc%e5%87%bd%e6%95%b0" class="header-mark"></a>数值函数</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ABS</span><span class="p">(</span><span class="n">num</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">CEILING</span><span class="p">(</span><span class="n">num</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">FLOOR</span><span class="p">(</span><span class="n">num</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">FORMAT</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="w"> </span><span class="n">decimal_places</span><span class="p">)</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="n">decimal_places</span><span class="w"> </span><span class="err">保留小数位数</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">MOD</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span><span class="n">num2</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">RAND</span><span class="p">([</span><span class="n">seed</span><span class="p">])</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">随机一个浮点值</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">]</span><span class="err">，</span><span class="n">seed种子</span><span class="err">，用来产生一样的随机值</span><span class="w">
+</span></span></span></code></pre></div><h4 id="日期函数" class="headerLink">
+    <a href="#%e6%97%a5%e6%9c%9f%e5%87%bd%e6%95%b0" class="header-mark"></a>日期函数</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">current_date</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">current_time</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">current_timestamp</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">NOW</span><span class="p">()</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">当前时间</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">YEAR</span><span class="o">|</span><span class="k">MONTH</span><span class="o">|</span><span class="k">DAY</span><span class="o">|</span><span class="nb">DATE</span><span class="p">(</span><span class="n">datetime</span><span class="p">)</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">返回对应的日期部分</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DATE_ADD</span><span class="p">(</span><span class="nb">date</span><span class="p">,</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="n">UNIT</span><span class="p">)</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="nb">date</span><span class="w"> </span><span class="err">上添加日期</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DATE_SUB</span><span class="p">(</span><span class="nb">date</span><span class="p">,</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="n">UNIT</span><span class="p">)</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="nb">date</span><span class="w"> </span><span class="err">上减去日期</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DATEDIFF</span><span class="p">(</span><span class="n">date1</span><span class="p">,</span><span class="w"> </span><span class="n">date2</span><span class="p">)</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">两个日期差多少天</span><span class="w"> </span><span class="n">date1</span><span class="o">-</span><span class="n">date2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TIMEDIFF</span><span class="p">(</span><span class="n">datetime1</span><span class="p">,</span><span class="w"> </span><span class="n">datetime2</span><span class="p">)</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">比较到秒</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">UNIX_TIMESTAMP</span><span class="p">()</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="mi">1970</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="err">到现在的时间戳</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">FROM_UNIXTIME</span><span class="p">(</span><span class="k">timestamp</span><span class="w"> </span><span class="p">[,</span><span class="n">format</span><span class="p">])</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">格式化时间戳</span><span class="w">
+</span></span></span></code></pre></div><p>formatter 说明：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">%M 月名字(January～December)
+</span></span><span class="line"><span class="cl">%W 星期名字(Sunday～Saturday)
+</span></span><span class="line"><span class="cl">%D 有英语前缀的月份的日期(1st, 2nd, 3rd, 等等。）
+</span></span><span class="line"><span class="cl">%Y 年, 数字, 4 位
+</span></span><span class="line"><span class="cl">%y 年, 数字, 2 位
+</span></span><span class="line"><span class="cl">%a 缩写的星期名字(Sun～Sat)
+</span></span><span class="line"><span class="cl">%d 月份中的天数, 数字(00～31)
+</span></span><span class="line"><span class="cl">%e 月份中的天数, 数字(0～31)
+</span></span><span class="line"><span class="cl">%m 月, 数字(01～12)
+</span></span><span class="line"><span class="cl">%c 月, 数字(1～12)
+</span></span><span class="line"><span class="cl">%b 缩写的月份名字(Jan～Dec)
+</span></span><span class="line"><span class="cl">%j 一年中的天数(001～366)
+</span></span><span class="line"><span class="cl">%H 小时(00～23)
+</span></span><span class="line"><span class="cl">%k 小时(0～23)
+</span></span><span class="line"><span class="cl">%h 小时(01～12)
+</span></span><span class="line"><span class="cl">%I 小时(01～12)
+</span></span><span class="line"><span class="cl">%l 小时(1～12)
+</span></span><span class="line"><span class="cl">%i 分钟, 数字(00～59)
+</span></span><span class="line"><span class="cl">%r 时间,12 小时(hh:mm:ss [AP]M)
+</span></span><span class="line"><span class="cl">%T 时间,24 小时(hh:mm:ss)
+</span></span><span class="line"><span class="cl">%S 秒(00～59)
+</span></span><span class="line"><span class="cl">%s 秒(00～59)
+</span></span><span class="line"><span class="cl">%p AM或PM
+</span></span><span class="line"><span class="cl">%w 一个星期中的天数(0=Sunday ～6=Saturday ）
+</span></span><span class="line"><span class="cl">%U 星期(0～52), 这里星期天是星期的第一天
+</span></span><span class="line"><span class="cl">%u 星期(0～52), 这里星期一是星期的第一天
+</span></span><span class="line"><span class="cl">%% 一个文字%
+</span></span></code></pre></div><blockquote>
+<p>实际上，<code>NOW</code> 和 <code>CURRENT_TIMESTAMP</code> 没有任何区别，他们都表示的是 SQL 开始执行时的系统时间；而 <code>SYSDATE</code> 则表示执行此函数时的系统时间。</p>
+</blockquote>
+<h4 id="流程控制函数" class="headerLink">
+    <a href="#%e6%b5%81%e7%a8%8b%e6%8e%a7%e5%88%b6%e5%87%bd%e6%95%b0" class="header-mark"></a>流程控制函数</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">IF</span><span class="p">(</span><span class="n">expr1</span><span class="p">,</span><span class="w"> </span><span class="n">expr2</span><span class="p">,</span><span class="w"> </span><span class="n">expr3</span><span class="p">)</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">等价于</span><span class="n">js的</span><span class="w"> </span><span class="n">expr1</span><span class="w"> </span><span class="err">？</span><span class="w"> </span><span class="n">expr2</span><span class="w"> </span><span class="err">：</span><span class="w"> </span><span class="n">expr3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">IFNULL</span><span class="p">(</span><span class="n">expr1</span><span class="p">,</span><span class="w"> </span><span class="n">expr2</span><span class="p">)</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="n">expr1</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">expr2</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">expr1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="k">sql</span><span class="w"> </span><span class="err">的</span><span class="w"> </span><span class="k">if</span><span class="p">...</span><span class="k">else</span><span class="p">...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">CASE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="k">WHEN</span><span class="w"> </span><span class="n">expr1</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">expr2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="k">WHEN</span><span class="w"> </span><span class="n">expr3</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">expr4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="k">ELSE</span><span class="w"> </span><span class="n">expr5</span><span class="w"> </span><span class="k">END</span><span class="w">
+</span></span></span></code></pre></div><h4 id="加密和系统函数" class="headerLink">
+    <a href="#%e5%8a%a0%e5%af%86%e5%92%8c%e7%b3%bb%e7%bb%9f%e5%87%bd%e6%95%b0" class="header-mark"></a>加密和系统函数</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">USER</span><span class="p">()</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">查询用户</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DATABASE</span><span class="p">()</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">查询数据库</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">PASSWORD</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">从原文密码</span><span class="n">str</span><span class="w"> </span><span class="err">计算并返回密码字符串，通常用于对</span><span class="n">mysql</span><span class="err">，数据库的用户密码加密</span><span class="w">
+</span></span></span></code></pre></div><h3 id="多表查询" class="headerLink">
+    <a href="#%e5%a4%9a%e8%a1%a8%e6%9f%a5%e8%af%a2" class="header-mark"></a>多表查询</h3><h4 id="笛卡尔集" class="headerLink">
+    <a href="#%e7%ac%9b%e5%8d%a1%e5%b0%94%e9%9b%86" class="header-mark"></a>笛卡尔集</h4><p>当查询多表时，默认返回结果是 <code>表1的行 * 表2的行 * ...</code> 的乘积的集合，称为 <code>笛卡尔集</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="o">#</span><span class="w"> </span><span class="err">举例，查询</span><span class="n">emp和dept两张表</span><span class="err">，根据</span><span class="n">deptno相等来过滤笛卡尔集</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">emp</span><span class="p">,</span><span class="w"> </span><span class="n">dept</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">deptno</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dept</span><span class="p">.</span><span class="n">deptno</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">当指定查询过滤条件列</span><span class="n">deptno的时候</span><span class="err">，必须指定出是哪张表的列</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">select</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">deptno</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">emp</span><span class="p">,</span><span class="w"> </span><span class="n">dept</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">deptno</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dept</span><span class="p">.</span><span class="n">deptno</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><blockquote>
+<p>过滤笛卡尔集的 where 筛选条件，<code>不能少于表的数量-1</code>，否则会出现笛卡尔集</p>
+</blockquote>
+<h4 id="自连接" class="headerLink">
+    <a href="#%e8%87%aa%e8%bf%9e%e6%8e%a5" class="header-mark"></a>自连接</h4><p>当需要查询的两列数据在一张表中，比如员工和自己的领导，那么就需要自连接来实现多表查询的功能了。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">select</span><span class="w"> </span><span class="n">worker</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="s1">&#39;打工人&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">boss</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="s1">&#39;领导&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">from</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="n">worker</span><span class="p">,</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="n">boss</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">worker</span><span class="p">.</span><span class="n">mgr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">boss</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><blockquote>
+<p>自连接需要给 表取别名，为了明确，最好给列也取上别名</p>
+</blockquote>
+<h4 id="子查询" class="headerLink">
+    <a href="#%e5%ad%90%e6%9f%a5%e8%af%a2" class="header-mark"></a>子查询</h4><p>子查询是指嵌入在其他 sql 语句中的 select 语句，也叫嵌套查询。</p>
+<ul>
+<li>单行子查询，只返回一行数据的子查询语句</li>
+<li>多行子查询，返回多行数据的子查询，使用关键字 <code>in</code></li>
+</ul>
+<blockquote>
+<p>子查询可以当作临时表使用，这点很有用</p>
+</blockquote>
+<h5 id="all-操作符-和-any-操作符" class="headerLink">
+    <a href="#all-%e6%93%8d%e4%bd%9c%e7%ac%a6-%e5%92%8c-any-%e6%93%8d%e4%bd%9c%e7%ac%a6" class="header-mark"></a>all 操作符 和 any 操作符</h5><p>注意： 这里 返回的都是单个列</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="o">#</span><span class="w"> </span><span class="k">all</span><span class="w"> </span><span class="err">和</span><span class="w"> </span><span class="n">js中的every很像</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">select</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">sal</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">from</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">sal</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="k">all</span><span class="p">(</span><span class="k">select</span><span class="w"> </span><span class="n">sal</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">deptno</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="k">any</span><span class="w"> </span><span class="err">和</span><span class="w"> </span><span class="n">js中的some很像</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">select</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">sal</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">from</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">sal</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="k">any</span><span class="p">(</span><span class="k">select</span><span class="w"> </span><span class="n">sal</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">deptno</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><h5 id="多列子查询" class="headerLink">
+    <a href="#%e5%a4%9a%e5%88%97%e5%ad%90%e6%9f%a5%e8%af%a2" class="header-mark"></a>多列子查询</h5><p>多列匹配查询</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="o">#</span><span class="w"> </span><span class="err">查询出部门和岗位与某人相同的其他员工</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">select</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">from</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="p">(</span><span class="n">deptno</span><span class="p">,</span><span class="w"> </span><span class="n">job</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">select</span><span class="w"> </span><span class="n">deptno</span><span class="p">,</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;SMITH&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="s1">&#39;SMITH&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><h4 id="表复制" class="headerLink">
+    <a href="#%e8%a1%a8%e5%a4%8d%e5%88%b6" class="header-mark"></a>表复制</h4><p>表自我复制场景：有时为了对 sql 语句进行效率测试，就需要海量数据，就需要 <code>蠕虫复制</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="o">#</span><span class="w"> </span><span class="err">迁移表的操作</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">target_tb</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">(</span><span class="n">col1s</span><span class="p">...)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">SELECT</span><span class="w"> </span><span class="p">(</span><span class="n">col2s</span><span class="p">...)</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">source_tb</span><span class="p">;</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="n">col1s和col2s要一一对应</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">自我复制</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="o">#</span><span class="w"> </span><span class="err">执行多次，指数级复制</span><span class="w">
+</span></span></span></code></pre></div><h4 id="合并查询" class="headerLink">
+    <a href="#%e5%90%88%e5%b9%b6%e6%9f%a5%e8%af%a2" class="header-mark"></a>合并查询</h4><ul>
+<li>union，简单的把查询出来的结果合并，并去重</li>
+<li>union all，相比 union 不会去重</li>
+</ul>
+<blockquote>
+<p>合并查询的列的数量要一致</p>
+</blockquote>
+<h4 id="外连接" class="headerLink">
+    <a href="#%e5%a4%96%e8%bf%9e%e6%8e%a5" class="header-mark"></a>外连接</h4><p>上方过滤笛卡尔集的多表查询，查出来的都是匹配上的数据。<br>
+假如说需要一张表上没有匹配上的数据也显示出来（只不过为 null 嘛），就需要外连接来完成了。</p>
+<ul>
+<li>左外连接，左侧的表完全显示 <code>tb1 LEFT JOIN tb2 on condition</code></li>
+<li>右外连接，右侧的表完全显示 <code>tb1 RIGHT JOIN tb2 on condition</code></li>
+</ul>
+<p>举例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="k">left</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">dept</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">deptno</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dept</span><span class="p">.</span><span class="n">deptno</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><h3 id="mysql-约束-constraint" class="headerLink">
+    <a href="#mysql-%e7%ba%a6%e6%9d%9f-constraint" class="header-mark"></a>mysql 约束 (constraint)</h3><p>约束，用于确保数据库的数据满足特定的商业规则。mysql 中有 5 种约束：</p>
+<ul>
+<li>not null</li>
+<li>unique</li>
+<li>primary key</li>
+<li>foreign key</li>
+<li>check</li>
+</ul>
+<h4 id="主键-primary-key" class="headerLink">
+    <a href="#%e4%b8%bb%e9%94%ae-primary-key" class="header-mark"></a>主键 (primary key)</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="o">#</span><span class="w"> </span><span class="err">创建表设置主键</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">create</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="p">(</span><span class="n">col1</span><span class="w"> </span><span class="n">col1_type</span><span class="w"> </span><span class="k">primary</span><span class="w"> </span><span class="k">key</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">第二种方式，通过这种方式创建多个列为主键就是</span><span class="w"> </span><span class="err">联合主键。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">create</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="p">(</span><span class="n">col1</span><span class="w"> </span><span class="n">col1_type</span><span class="p">,</span><span class="w"> </span><span class="n">col2</span><span class="w"> </span><span class="n">col2type</span><span class="p">,</span><span class="w"> </span><span class="p">...,</span><span class="w"> </span><span class="k">primary</span><span class="w"> </span><span class="k">key</span><span class="p">(</span><span class="n">col1</span><span class="w"> </span><span class="p">[,</span><span class="w"> </span><span class="n">col2</span><span class="p">]));</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">修改表某列为主键</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">alter</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="k">add</span><span class="w"> </span><span class="k">primary</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="p">(</span><span class="n">col_name</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><blockquote>
+<p>主键默认不能为 null，且不能重复，一个表最多只能有一个主键，但是可以使用复合组件</p>
+</blockquote>
+<h4 id="not-null" class="headerLink">
+    <a href="#not-null" class="header-mark"></a>not null</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="o">#</span><span class="w"> </span><span class="err">修改表某列为非空</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">alter</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="k">modify</span><span class="w"> </span><span class="n">col_name</span><span class="w"> </span><span class="n">col_type</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="w">
+</span></span></span></code></pre></div><h4 id="unique" class="headerLink">
+    <a href="#unique" class="header-mark"></a>unique</h4><p>列不可以重复，但是如果没有指定 not null，那么可以有多个 null</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">alter</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="k">modify</span><span class="w"> </span><span class="n">col_name</span><span class="w"> </span><span class="n">col_type</span><span class="w"> </span><span class="k">unique</span><span class="w">
+</span></span></span></code></pre></div><h4 id="foreign-key-外键" class="headerLink">
+    <a href="#foreign-key-%e5%a4%96%e9%94%ae" class="header-mark"></a>foreign key 外键</h4><p>外键用来定义主表和从表的关系：<code>外键约束要定义在从表上，主表则必须具有主键约束或 unique  约束</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="o">#</span><span class="w"> </span><span class="err">在从表上设置外键</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">create</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="p">(</span><span class="n">col_name</span><span class="w"> </span><span class="n">col_type</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                      </span><span class="p">....,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                      </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="err">从表</span><span class="n">col_name</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="err">主表名</span><span class="p">(</span><span class="err">主表主键名或</span><span class="n">unique字段名</span><span class="p">));</span><span class="w">
+</span></span></span></code></pre></div><p>注意：</p>
+<ul>
+<li>从表中指定外键的值必须在主表上关联的列存在；主表上被外键关联的列在从表有对应关联时，不能删除。</li>
+<li>表的类型是 <code>innodb</code> 才支持外键。</li>
+<li>外键字段类型要和主键字段类型一致（长度可以不同）</li>
+<li>外键字段的值必须在主键字段中出现过，或者为 null（可以为 null 时）</li>
+</ul>
+<h4 id="check" class="headerLink">
+    <a href="#check" class="header-mark"></a>check</h4><blockquote>
+<p>mysql8.0.16 之后 真正的实现了 check 约束。在此之前只做语法校验，但不会生效。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">create</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">check_demo</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="nb">int</span><span class="p">,</span><span class="w"> </span><span class="n">gender</span><span class="w"> </span><span class="nb">boolean</span><span class="w"> </span><span class="k">check</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">gender</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)));</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="n">gender</span><span class="w"> </span><span class="err">值</span><span class="w"> </span><span class="err">只能为</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="err">或</span><span class="w"> </span><span class="mi">1</span><span class="err">，</span><span class="w"> </span><span class="err">插入其他会报错</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">check_demo</span><span class="w"> </span><span class="k">values</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><h3 id="自增长" class="headerLink">
+    <a href="#%e8%87%aa%e5%a2%9e%e9%95%bf" class="header-mark"></a>自增长</h3><p>一般来说 自增长 和 主键 配合使用(单独使用需要配合 unique)：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">create</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="p">(</span><span class="n">col1</span><span class="w"> </span><span class="n">col1_type</span><span class="w"> </span><span class="k">primary</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="n">auto_increment</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">插入数据的时候，自增长的字段填</span><span class="n">null即可</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="k">values</span><span class="p">(</span><span class="k">null</span><span class="p">,</span><span class="w"> </span><span class="n">col2</span><span class="p">,</span><span class="w"> </span><span class="p">....);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">#</span><span class="w"> </span><span class="err">修改开始值</span><span class="w"> </span><span class="p">(</span><span class="err">默认从</span><span class="mi">1</span><span class="err">开始</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">alter</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">tb_name</span><span class="w"> </span><span class="n">auto_increment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">num</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div></div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2023-11-30</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line print:!tw-hidden">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/mysql_1/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span></div>
+            <div class="post-info-share"><button title="分享到 Twitter" data-sharer="twitter" data-url="http://localhost:1313/mysql_1/" data-title="Mysql_1_基础"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></button><button title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/mysql_1/"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg></button><button title="分享到 WhatsApp" data-sharer="whatsapp" data-url="http://localhost:1313/mysql_1/" data-title="Mysql_1_基础" data-web><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></button><button title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/mysql_1/" data-title="Mysql_1_基础"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg></button><button title="分享到 Evernote" data-sharer="evernote" data-url="http://localhost:1313/mysql_1/" data-title="Mysql_1_基础"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M120.82 132.21c1.6 22.31-17.55 21.59-21.61 21.59-68.93 0-73.64-1-83.58 3.34-.56.22-.74 0-.37-.37L123.79 46.45c.38-.37.6-.22.38.37-4.35 9.99-3.35 15.09-3.35 85.39zm79 308c-14.68-37.08 13-76.93 52.52-76.62 17.49 0 22.6 23.21 7.95 31.42-6.19 3.3-24.95 1.74-25.14 19.2-.05 17.09 19.67 25 31.2 24.89A45.64 45.64 0 0 0 312 393.45v-.08c0-11.63-7.79-47.22-47.54-55.34-7.72-1.54-65-6.35-68.35-50.52-3.74 16.93-17.4 63.49-43.11 69.09-8.74 1.94-69.68 7.64-112.92-36.77 0 0-18.57-15.23-28.23-57.95-3.38-15.75-9.28-39.7-11.14-62 0-18 11.14-30.45 25.07-32.2 81 0 90 2.32 101-7.8 9.82-9.24 7.8-15.5 7.8-102.78 1-8.3 7.79-30.81 53.41-24.14 6 .86 31.91 4.18 37.48 30.64l64.26 11.15c20.43 3.71 70.94 7 80.6 57.94 22.66 121.09 8.91 238.46 7.8 238.46C362.15 485.53 267.06 480 267.06 480c-18.95-.23-54.25-9.4-67.27-39.83zm80.94-204.84c-1 1.92-2.2 6 .85 7 14.09 4.93 39.75 6.84 45.88 5.53 3.11-.25 3.05-4.43 2.48-6.65-3.53-21.85-40.83-26.5-49.24-5.92z"/></svg></button></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section class="print:!tw-hidden">
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav print:tw-hidden"><a href="/react_hooks--usestateusereducer/" class="prev" rel="prev" title="React hooks--useState&amp;useReducer"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>React hooks--useState&amp;useReducer</a></div>
+</div>
+</article></div>
+        </main><footer class="footer">
+  <div class="footer-container"><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+        &nbsp;
+        <a
+          href="/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          EricYuan
+        </a>
+      </span>&nbsp;|&nbsp;
+      <span class="license">All rights reserved</span></div>
+    <div class="footer-line">
+      <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: inline">
+        <span class="post-meta-item-icon"><i class="fa fa-eye"></i></span>
+        <span class="site-pv" title="总访问量">
+          本站总访问量
+          <span id="busuanzi_value_site_pv"></span>
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数
+          <span id="busuanzi_value_site_uv"></span>
+          人次
+        </span>
+      </span></div>
+    <div class="footer-line"></div>
+  </div></footer></div>
+
+    <div id="fixed-buttons" class="print:!tw-hidden"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4 0 256-93.1 256-208S397.4 32 256 32z"/></svg>
+        </a>
+    </div><div id="cookieconsent-container"></div><div class="assets"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.css">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":null,"ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":8,"minMatchCharLength":3,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"sharerjs":true};</script><script
+    src="/lib/clipboard/clipboard.min.js"
+    
+  ></script><script
+    src="/lib/sharer/sharer.min.js"
+    
+  ></script><script
+    src="/lib/katex/katex.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/katex/auto-render.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/katex/copy-tex.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/katex/mhchem.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/js/katex.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/cookieconsent/cookieconsent.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/js/cookieconsent.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/js/theme.min.js"
+    
+      defer
+    
+  ></script></div>
+</body>
+
+</html>

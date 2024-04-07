@@ -1,0 +1,21 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Script - 标签 - Hello World</title>
+        <link>http://localhost:1313/tags/script/</link>
+        <description>Script - 标签 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Fri, 02 Dec 2022 20:40:32 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/script/" rel="self" type="application/rss+xml" /><item>
+    <title>深入npm script</title>
+    <link>http://localhost:1313/%E6%B7%B1%E5%85%A5npm_script/</link>
+    <pubDate>Fri, 02 Dec 2022 20:40:32 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E6%B7%B1%E5%85%A5npm_script/</guid>
+    <description><![CDATA[npm script 是一个前端人必须得掌握的技能之一。本文基于 npm v7 版本
+下文是我认为前端人至少需要掌握的知识点。
+npm - package.json
+npm init创建项目的第一步，一般都是使用 npm init 来初始化或修改一个 package.json 文件，后续的工程都将基于 package.json 这个文件来完成。
+# -y 可以跳过询问直接生成 pkg 文件(description默认会使用README.md或README文件的第一行) npm init [-y | --scope=&lt;scope&gt;] # 作用域包是需要付费的 # 初始化预使用 npm 包 npm init [initializer] initializer 会被解析成 create-&lt;initializer&gt; 的 npm 包，并通过 npmx exec 安装(临时)并执行安装包的二进制执行文件。
+initializer 匹配规则：[&lt;@scope/&gt;]&lt;name&gt;，比如：
+npm init react-app demo &mdash;&gt; npm exec create-react-app demo npm init @usr/foo &mdash;&gt; npm exec @usr/create-foo npm exec 与 npx这两个命令都是从 npm 包（本地安装或远程获取）中运行任意命令。]]></description>
+</item></channel>
+</rss>

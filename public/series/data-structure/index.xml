@@ -1,0 +1,109 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Data Structure - 系列 - Hello World</title>
+        <link>http://localhost:1313/series/data-structure/</link>
+        <description>Data Structure - 系列 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Tue, 13 Feb 2024 17:54:23 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/series/data-structure/" rel="self" type="application/rss+xml" /><item>
+    <title>前缀树（字典树）</title>
+    <link>http://localhost:1313/%E5%89%8D%E7%BC%80%E6%A0%91/</link>
+    <pubDate>Tue, 13 Feb 2024 17:54:23 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E5%89%8D%E7%BC%80%E6%A0%91/</guid>
+    <description><![CDATA[概念及实现前缀树，也叫字典树，就是一种数据结构，比如有一组字符串 ['abc', 'ab', 'bc', 'bck']，那么它的前缀树是这样的：
+核心：字符在树的树枝上，节点上保存着信息 (当然不是这么死，个人习惯，程序怎么实现都是 ok 的)，含义如下：
+p：通过树枝字符的字符串数量. &ndash; 可以查询前缀数量 e：以树枝字符结尾的字符串数量. &ndash; 可以查询字符串 对应的数据结构如下：
+class TrieNode { constructor(pass = 0, end = 0) { this.pass = pass // 通过下接树枝字符的字符串数量 this.end = end // 以上接树枝字符结尾的字符串数量 this.next = {} // {char: TrieNode} 的 map 集， 字符有限，有些教程也用数组实现；next 的 key 就可以抽象为树枝 } } class Trie { constructor() { this.root = new TrieNode() } insert(str) { let p = this.root for (const c of str) { if (!]]></description>
+</item><item>
+    <title>二叉树</title>
+    <link>http://localhost:1313/%E4%BA%8C%E5%8F%89%E6%A0%91/</link>
+    <pubDate>Mon, 15 Jan 2024 21:01:56 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E4%BA%8C%E5%8F%89%E6%A0%91/</guid>
+    <description><![CDATA[二叉树class Node&lt;V&gt; { V value; Node left; Node right; } 递归序/** * 1 * / \ * 2 3 * / \ / \ * 4 5 6 7 * * 下方 go 函数就是对这棵二叉树的递归序遍历 * 每个节点都会结果 3 次，分别在1，2，3位置；实际遍历顺序： * * 1(1)，2(1)，4(1)，4(2)，4(3)， * 2(2)，5(1)，5(2)，5(3)，2(3)， * 1(2)，3(1)，6(1)，6(2)，6(3)， * 3(2)，7(1)，7(2)，7(3)，3(3)，1(3) * * 前序（根左右（1））结果：1，2，4，5，3，6，7 * 前序（左根右（2））结果：4，2，5，1，6，3，7 * 前序（左右根（3））结果：4，5，2，6，7，3，1 */ public void go(Node head) { if(head == null) return; // 1 go(head.left); // 2 go(head.]]></description>
+</item><item>
+    <title>链表</title>
+    <link>http://localhost:1313/%E9%93%BE%E8%A1%A8/</link>
+    <pubDate>Tue, 09 Jan 2024 20:10:19 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E9%93%BE%E8%A1%A8/</guid>
+    <description><![CDATA[链表class Node&lt;V&gt; { V value; Node next; } class Node&lt;V&gt; { V value; Node next; Node last; } 对于链表算法，在面试中，一定尽量用到空间复杂度最小的方法（不然凭啥用咱是吧 🐶）。
+链表「换头」情况操作链表出现「换头」的情况，函数的递归调用形式应该是 head = func(head.next)，所以函数在设计的时候就应该有一个 Node 类型的返回值，比如反转链表。
+哨兵守卫「哨兵守卫」是链表中的常用技巧。通过在链表头部或尾部添加守卫节点，可以简化对边界情况的处理。
+链表中常用的技巧-快慢指针 找到链表的中点、中点前一个、中点后一个这个是硬编码能力，需要大量练习打好基本功。
+/** * 奇数的中点; 偶数的中点靠前一位 */ Node s = head; Node f = head; while (f.next != null &amp;&amp; f.next.next != null) { s = s.next; f = f.next.next; } /** * 奇数的中点; 偶数的中点靠后一位 lc.876 easy */ while (f != null &amp;&amp; f.]]></description>
+</item><item>
+    <title>图</title>
+    <link>http://localhost:1313/%E5%9B%BE/</link>
+    <pubDate>Sun, 19 Feb 2023 16:03:41 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E5%9B%BE/</guid>
+    <description><![CDATA[图论基础 邻接表&amp;邻接矩阵 上面这幅有向图，分别用邻接表和邻接矩阵实现如下：
+// 邻接表，当然也可以用 hashmap 来实现 const graph: Array&lt;number[]&gt; = [[1, 3, 4], [2, 3, 4], [3], [4], []] // 邻接矩阵，当然元素不仅仅只能为 Boolean 值 const graph: Array&lt;boolean[]&gt; = [ [false, true, false, true, true], [false, false, true, true, true], [false, false, false, true, false], [false, false, false, false, true], [false, false, false, false, false] ] 邻接表：占用空间少；判断两个节点是否相邻，需要遍历所有相邻的节点 邻接矩阵：存在很多空洞，占用空间大；判断两个节点是否相邻简单，获取 matrix[i][j] 的值即可 图的遍历图的遍历，需要注意的是图可能有环：
+必须要有 visited 变量来防止走入死循环 遍历过程中可以使用 onPath 变量判断当时的路径是否成环（类比贪吃蛇蛇身） /** visited 类似贪吃蛇走过的所有路径；onPath 类似设蛇身 */ // 记录所有遍历过的节点 const visited = [] // 记录从起点到当前节点的路径 const onPath = [] /* 图遍历框架 DFS */ function traverse(graph, s) { if (visited[s]) return // 经过节点 s，标记为已遍历 visited[s] = true // 做选择：标记节点 s 在路径上 onPath[s] = true for (const neighbor of graph.]]></description>
+</item><item>
+    <title>数组-差(cha)分数组</title>
+    <link>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/</link>
+    <pubDate>Sun, 19 Feb 2023 16:02:32 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/</guid>
+    <description><![CDATA[前缀和数组 是应对数组区间被频繁访问求和查询
+差分数组 是为了应对区间内元素的频繁加减修改
+概念const diff = [nums[0]] for (let i = 1; i &lt; arr.length; ++i) { diff[i] = nums[i] - nums[i - 1] // 构建差分数组 } 对区间 [i..j] 进行加减 val 操作只需要对差分数组 diff[i] += val, diff[j+1] -= val 进行更新，然后依据更新后的差分数组还原出最终数组即可：
+nums[0] = diff[0] for (let i = 1; i &lt; diff[i]; ++i) { nums[i] = diff[i] + nums[i - 1] } 原理也很简单：
+diff[i] += val，等于对 [i...] 之后的所有元素都加了 val diff[j+1] -=val，等于对 [j+1.]]></description>
+</item><item>
+    <title>数组-前缀和数组</title>
+    <link>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%89%8D%E7%BC%80%E5%92%8C%E6%95%B0%E7%BB%84/</link>
+    <pubDate>Sun, 19 Feb 2023 15:57:07 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%89%8D%E7%BC%80%E5%92%8C%E6%95%B0%E7%BB%84/</guid>
+    <description><![CDATA[概念应用场景：在原始数组不会被修改的情况下，快速、频繁查询某个区间的累加和。通常涉及到连续子数组和相关问题时，就可以考虑使用前缀和技巧了。
+核心思路：开辟新数组 preSum[i] 来存储原数组 nums[0..i-1] 的累加和，preSum[0] = 0。这样，当求原数组区间和就比较容易了，区间 [i..j] 的和等于 preSum[j+1] - preSum[i] 的结果值。
+const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件 for (let i = 0; i &lt; arr.length; ++i) { preSum[i + 1] = preSum[i] + nums[i] // 构建前缀和数组 } // 查询 sum([i..j]) preSum[j + 1] - preSum[i] 构造：lc.303 区域和检索-数组不可变/** * @param {number[]} nums */ var NumArray = function (nums) { this.preSum = [0] // preSum 首位为0 便于计算 for (let i = 1; i &lt;= nums.]]></description>
+</item><item>
+    <title>单调队列</title>
+    <link>http://localhost:1313/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/</link>
+    <pubDate>Tue, 31 Jan 2023 09:15:05 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/</guid>
+    <description><![CDATA[概念栈有单调栈，队列自然也有单调队列，性质也是一样的，保持队列内的元素有序，单调递增或递减。
+其实动态求极值首先可以联想到的应该是 「优先队列」，但是，优先队列无法满足**「先进先出」**的时间顺序，所以单调队列应运而生。
+// 关键点, 保持单调性，其拍平效果与单调栈一致 while (q.length &amp;&amp; num (&lt;= | &gt;=) q[q.length - 1]) { q.pop() } q.push(num) 场景给你一个数组 window，已知其最值为 A，如果给 window 中添加一个数 B，那么比较一下 A 和 B 就可以立即算出新的最值；但如果要从 window 数组中减少一个数，就不能直接得到最值了，因为如果减少的这个数恰好是 A，就需要遍历 window 中的所有元素重新寻找新的最值。
+练一练 lc239. 滑动窗口最大值 hard动态计算极值，直接命中单调队列的使用条件。
+/** * @param {number[]} nums * @param {number} k * @return {number[]} */ var maxSlidingWindow = function (nums, k) { let res = [] const monoQueue = [] for (let i = 0; i &lt; nums.]]></description>
+</item><item>
+    <title>单调栈</title>
+    <link>http://localhost:1313/%E5%8D%95%E8%B0%83%E6%A0%88/</link>
+    <pubDate>Tue, 31 Jan 2023 09:14:58 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E5%8D%95%E8%B0%83%E6%A0%88/</guid>
+    <description><![CDATA[概念及实现栈，同端进同端出，具有先进后出的特性，当栈内所有元素具有单调性(递增/递减)就是一个单调栈了。
+自行干预单调栈的实现：当一个元素入栈时破坏了单调性，那么就 pop 栈顶（可能需要迭代），直到能使得新加入的元素保持栈的单调性。
+for (const item of arr) { if(stack.length &amp;&amp; item (&gt;= | &lt;=) stack[stack.length - 1]) { stack.pop() } stack.push(item) } 栈存储的信息，可以是索引、元素，根据实际情况进行处理 灵活控制遍历顺序来简化算法
+场景单调栈的应用场景比较单一，只处理一类典型的问题：比如 「下一个更/最&hellip;」 之类的问题，另一类是接雨水，柱状图中的最大矩形这种变形问题。
+练一练 lc.402 移掉 K 位数字分析：为了让数字最小，从左往右遍历，左侧为高位，所以高位越小越好，那么从左往右遍历的过程中，当索引位置的元素 index &gt; index + 1，时，把 index 位置的数字删掉即可。
+/** * @param {string} num * @param {number} k * @return {string} */ var removeKdigits = function (num, k) { const nums = num.split(&#39;&#39;) const monoStack = [] for (const item of nums) { while (monoStack.]]></description>
+</item><item>
+    <title>缓存淘汰算法 -- LRU</title>
+    <link>http://localhost:1313/lru/</link>
+    <pubDate>Fri, 23 Sep 2022 14:43:45 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/lru/</guid>
+    <description><![CDATA[缓存淘汰算法
+LRULRU（Least recently used，最近最少使用）。
+我个人感觉这个命名少了个动词，让人理解起来怪怪的，缓存淘汰算法嘛，淘汰最近最少使用。
+它的核心时：如果数据最近被访问过，那么将来被访问的几率也更高。
+简单实现LRU 一般使用双向链表+哈希表实现，在 JavaScript 中我使用 Map 数据结构来实现缓存，因为 Map 可以保证加入缓存的先后顺序，
+不同的是，这里是把 Map cache 的尾当头，头当尾。
+class LRU { constructor(size) { this.cache = new Map() this.size = size } // 新增时，先检测是否已经存在 put(key, value) { if (this.cache.has(key)) this.cache.delete(key) this.cache.set(key, value) // 检查是否超出容量 if (this.cache.size &gt; this.size) { this.cache.delete(this.cache.keys().next().value) // 删除Map cache 的第一个数据 } } // 访问时，附件重新进入缓存池的动作 get(key) { if (!this.cache.has(key)) return -1 const temp = this.cache.get(key) this.cache.delete(key) this.cache.set(key, temp) return temp } } 分析：]]></description>
+</item><item>
+    <title>优先队列</title>
+    <link>http://localhost:1313/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/</link>
+    <pubDate>Fri, 23 Sep 2022 14:43:36 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/</guid>
+    <description><![CDATA[JavaScript 中没有内置优先队列这个数据结构，需要自己来实现一下~👻
+class PriorityQueue { constructor(data, comp) { this.data = data this.comp = comp for (let i = data.length &gt;&gt; 1; i &gt;= 0; --i) { this.down(i) } } down(i) { let left = 2 * i + 1 while (left &lt; this.size()) { let min = left + 1 &amp;&amp; this.comp(this.data[left + 1], this.data[left]) ? left + 1 : left // 细节，left+1 在前 min = this.comp(this.data[i], this.data[min]) ? i : min if (min === i) { break } this.]]></description>
+</item></channel>
+</rss>

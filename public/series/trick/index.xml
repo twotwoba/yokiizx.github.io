@@ -1,0 +1,83 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Trick - 系列 - Hello World</title>
+        <link>http://localhost:1313/series/trick/</link>
+        <description>Trick - 系列 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Wed, 21 Feb 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://localhost:1313/series/trick/" rel="self" type="application/rss+xml" /><item>
+    <title>滑动窗口</title>
+    <link>http://localhost:1313/%E6%95%B0%E7%BB%84-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
+    <pubDate>Wed, 21 Feb 2024 00:00:00 &#43;0000</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</guid>
+    <description><![CDATA[核心滑动窗口的核心就是维持一个 [i..j) 的区间窗口，在数据上游走，来获取到需要的信息，在数组,字符串等中的表现，往往如下：
+function slideWindow() { // 前后快慢双指针 let left = 0 let right = 0 /** 具体的条件逻辑根据实际问题实际处理，多做练习 */ while(slide condition) { window.push(s[left]) // s 为总数据（字符串、数组） right++ while(shrink condition) { window.shift(s[left]) left++ } } } 滑动窗口的算法时间复杂度为 O(n)，适用于处理大型数据集
+练一练 lc.3 无重复字符的最长子串/** * @param {string} s * @return {number} */ var lengthOfLongestSubstring = function (s) { let max = 0 let l = 0, r = 0 let window = {} while (r &lt; s.]]></description>
+</item><item>
+    <title>数组-双指针应用</title>
+    <link>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%8F%8C%E6%8C%87%E9%92%88/</link>
+    <pubDate>Fri, 16 Feb 2024 00:00:00 &#43;0000</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%8F%8C%E6%8C%87%E9%92%88/</guid>
+    <description><![CDATA[数组双指针双指针，一般两种，快慢指针和左右指针，根据不同场景使用不同方法。
+以下题基本都是简单题，知道使用双指针就没啥难度了~
+lc.167 两数之和 II - 有序数组/** * @param {number[]} numbers * @param {number} target * @return {number[]} */ var twoSum = function (numbers, target) { let left = 0, right = numbers.length - 1 while (left &lt; right) { if (numbers[left] + numbers[right] &lt; target) { left++ } else if (numbers[left] + numbers[right] &gt; target) { right-- } else if (numbers[left] + numbers[right] === target) { return [left + 1, right + 1] } } } lc.]]></description>
+</item><item>
+    <title>必须掌握的排序方法&amp;递归时间复杂度</title>
+    <link>http://localhost:1313/%E5%BF%85%E6%8E%8C%E6%8F%A1%E7%9A%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</link>
+    <pubDate>Thu, 04 Jan 2024 15:37:23 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E5%BF%85%E6%8E%8C%E6%8F%A1%E7%9A%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</guid>
+    <description><![CDATA[冒泡，选择，插入其中冒泡和选择一定 O(n^2)，插入最坏 O(N^2)，最好 O(N) 取决于数据结构。
+// 测试数组 int[] arr = new int[]{2, 1, 5, 9, 5, 4, 3, 6, 8, 9, 6, 7, 3, 4, 2, 7, 1, 8}; /** * 交换数组的两个值，此种异或交换值方法的前提是 i != j，否则会变为 0 */ public void swap(int[] arr, int i, int j) { arr[i] = arr[i] ^ arr[j]; arr[j] = arr[i] ^ arr[j]; arr[i] = arr[i] ^ arr[j]; } // 保险还是用这个吧～ public void swap(int[] arr, int i, int j) { int temp = arr[i]; arr[i] = arr[j]; arr[j] = temp; } 冒泡从左往右，两两比较，冒出极值]]></description>
+</item><item>
+    <title>数组-差(cha)分数组</title>
+    <link>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/</link>
+    <pubDate>Sun, 19 Feb 2023 16:02:32 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/</guid>
+    <description><![CDATA[前缀和数组 是应对数组区间被频繁访问求和查询
+差分数组 是为了应对区间内元素的频繁加减修改
+概念const diff = [nums[0]] for (let i = 1; i &lt; arr.length; ++i) { diff[i] = nums[i] - nums[i - 1] // 构建差分数组 } 对区间 [i..j] 进行加减 val 操作只需要对差分数组 diff[i] += val, diff[j+1] -= val 进行更新，然后依据更新后的差分数组还原出最终数组即可：
+nums[0] = diff[0] for (let i = 1; i &lt; diff[i]; ++i) { nums[i] = diff[i] + nums[i - 1] } 原理也很简单：
+diff[i] += val，等于对 [i...] 之后的所有元素都加了 val diff[j+1] -=val，等于对 [j+1.]]></description>
+</item><item>
+    <title>数组-前缀和数组</title>
+    <link>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%89%8D%E7%BC%80%E5%92%8C%E6%95%B0%E7%BB%84/</link>
+    <pubDate>Sun, 19 Feb 2023 15:57:07 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%89%8D%E7%BC%80%E5%92%8C%E6%95%B0%E7%BB%84/</guid>
+    <description><![CDATA[概念应用场景：在原始数组不会被修改的情况下，快速、频繁查询某个区间的累加和。通常涉及到连续子数组和相关问题时，就可以考虑使用前缀和技巧了。
+核心思路：开辟新数组 preSum[i] 来存储原数组 nums[0..i-1] 的累加和，preSum[0] = 0。这样，当求原数组区间和就比较容易了，区间 [i..j] 的和等于 preSum[j+1] - preSum[i] 的结果值。
+const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件 for (let i = 0; i &lt; arr.length; ++i) { preSum[i + 1] = preSum[i] + nums[i] // 构建前缀和数组 } // 查询 sum([i..j]) preSum[j + 1] - preSum[i] 构造：lc.303 区域和检索-数组不可变/** * @param {number[]} nums */ var NumArray = function (nums) { this.preSum = [0] // preSum 首位为0 便于计算 for (let i = 1; i &lt;= nums.]]></description>
+</item><item>
+    <title>二分搜索</title>
+    <link>http://localhost:1313/%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2/</link>
+    <pubDate>Tue, 03 Jan 2023 11:24:54 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2/</guid>
+    <description><![CDATA[二分法适用条件一开始，我简单地认为是数据需要具有单调性，才能应用二分；后来刷了一部分题之后，才晓得，应用二分的本质是数据具有**二段性**，即：一段满足某个性质，另外一段不满足某个性质，就可以用「二分」。
+重点理解！！！ 循环不变式 while low &lt;= high
+终止条件，一定是 low + 1 == high，也即 low &gt; right 意味着，整个区间 [low..high] 里的每个元素都被遍历过了 while low &lt; high
+终止条件，一定是 low == high 意味着，整个区间 [low..high] 里当 low == high 时的元素可能会没有被遍历到，需要打个补丁 补充：如 lc.153，采用逼近策略寻找答案时，两指针最后指向相同位置，如过这个位置的元素不用拿出来做什么操作，只是找到它就行，那么就用 &lt; 也是合适的。 可行解区间对于二分搜索过程中的每一次循环，它的可行解区间都应当一致，结合对于循环不变式的理解：
+[low...high]，左右都闭区间，一般根据 mid 就能判断下一个搜索区间是 low = mid + 1 还是 high = mid - 1 [low...high)，左闭右开区间，维持可行解区间，下一个搜索区间左边是 low = mid + 1，右边是 high = mid 因为数组的特性，常用的就是这两种区间。当然也有左右都开的区间 (low...high)，对应的循环不变式为 while low + 1 &lt; high，不过比较少见。]]></description>
+</item><item>
+    <title>暴力递归-BFS</title>
+    <link>http://localhost:1313/%E6%9A%B4%E5%8A%9B%E9%80%92%E5%BD%92-bfs/</link>
+    <pubDate>Sun, 09 Oct 2022 20:49:13 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E6%9A%B4%E5%8A%9B%E9%80%92%E5%BD%92-bfs/</guid>
+    <description><![CDATA[概念在学习二叉树的时候，层序遍历就是用 BFS 实现的。
+从二叉树拓展到多叉树到图，从一个点开始，向四周开始扩散。一般来说，写 BFS 算法都是用「队列」这种数据结构，每次将一个节点周围的所有节点加入队列。
+BFS 一大常见用途，就是找 start 到 target 的最近距离，要能把实际问题往这方面转。
+// 二叉树中 start 就是 root function bfs(start, target) { const queue = [start] const visited = new Set() visited.add(start) let step = 0 while (queue.length &gt; 0) { const size = queue.length /** 将当前队列中的所有节点向四周扩散 */ for (let i = 0; i &lt; size; ++i) { const el = queue.shift() if (el === target) return step // &#39;需要的信息&#39; const adjs = el.]]></description>
+</item><item>
+    <title>暴力递归-dfs&amp;回溯</title>
+    <link>http://localhost:1313/%E6%9A%B4%E5%8A%9B%E9%80%92%E5%BD%92-dfs%E5%9B%9E%E6%BA%AF/</link>
+    <pubDate>Sun, 09 Oct 2022 20:49:13 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E6%9A%B4%E5%8A%9B%E9%80%92%E5%BD%92-dfs%E5%9B%9E%E6%BA%AF/</guid>
+    <description><![CDATA[概念刚开始学习算法的时候，看了某大佬讲解回溯算法和 dfs 的区别：
+// DFS 算法把「做选择」「撤销选择」的逻辑放在 for 循环外面 var dfs = function (root) { if (root == null) return // 做选择 console.log(&#39;我已经进入节点 &#39; + root + &#39; 啦&#39;) for (var i in root.children) { dfs(root.children[i]) } // 撤销选择 console.log(&#39;我将要离开节点 &#39; + root + &#39; 啦&#39;) } // 回溯算法把「做选择」「撤销选择」的逻辑放在 for 循环里面 var backtrack = function (root) { if (root == null) return for (var i in root.children) { // 做选择 console.]]></description>
+</item></channel>
+</rss>

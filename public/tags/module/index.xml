@@ -1,0 +1,21 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Module - 标签 - Hello World</title>
+        <link>http://localhost:1313/tags/module/</link>
+        <description>Module - 标签 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Tue, 20 Sep 2022 17:09:03 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/module/" rel="self" type="application/rss+xml" /><item>
+    <title>CommonJS和ESM</title>
+    <link>http://localhost:1313/commonjs%E5%92%8Cesm/</link>
+    <pubDate>Tue, 20 Sep 2022 17:09:03 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/commonjs%E5%92%8Cesm/</guid>
+    <description><![CDATA[CommonJS一个文件，一个模块，一个作用域，文件内的变量都是私有的。
+module 就是当前模块，通过它的属性 exports 对外暴露变量和方法，通过 require(path/模块名) 来引入。
+CJS 输出的是值的拷贝。
+module.exports：
+// node 对 js 文件编译后添加了呃顶层变量 (function(exports,require,module,__filename,__dirname) { // 文件模块 }) // module.exports最终返给了调用方 require 模块加载一次就会被缓存，后续再加载就是加载的缓存。也就是说，一旦输出一个值，模块内部的变化就影响不到这个值
+// main.js const {a, aPlusOne} = require(&#39;./b&#39;) // b 中 a = 100 console.log(a); // 100 aPlusOne(); console.log(a); // 100 require：
+// id 为路径标识符 function require(id) { /* 查找 Module 上有没有已经加载的 js 对象*/ const cachedModule = Module._cache[id] /* 如果已经加载了那么直接取走缓存的 exports 对象 */ if(cachedModule){ return cachedModule.exports } /* 创建当前模块的 module */ const module = { exports: {} ,loaded: false , .]]></description>
+</item></channel>
+</rss>

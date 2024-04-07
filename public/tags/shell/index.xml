@@ -1,0 +1,31 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Shell - 标签 - Hello World</title>
+        <link>http://localhost:1313/tags/shell/</link>
+        <description>Shell - 标签 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Thu, 01 Dec 2022 11:31:39 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/shell/" rel="self" type="application/rss+xml" /><item>
+    <title>Shell 基础</title>
+    <link>http://localhost:1313/shell%E5%9F%BA%E7%A1%80/</link>
+    <pubDate>Thu, 01 Dec 2022 11:31:39 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/shell%E5%9F%BA%E7%A1%80/</guid>
+    <description><![CDATA[前言补齐一下计算机的短板，抽时间学习一下 shell 的基础知识。
+笔记 脚本执行 shell 脚本 xxx.sh 以.sh 结尾，此类文件执行方式有两种：
+文件头使用 #! 指定 shell 程序，比如 #! /bin/zsh，然后带上目录执行 ./demo.sh 直接命令行中指定 shell 程序，比如 /bin/zsh demo.sh 注意第一种方式，不能直接 dmeo.sh，得使用 ./demo.sh，是因为这样系统会直接去 PATH 里寻找有没有叫 demo.sh 的，而 PATH 里一般只有 /bin,/sbin,/usr/bin,/usr/sbin。
+另外 .sh 脚本文件执行时如果出现 permission denied 是因为没有权限，chmod +x [文件路径] 即可。
+# 比如 demo.sh 文件内容如下 # ------------------------ #! /bin/zsh echo &#34;hello world&#34; # 执行两步走 chmod +x demo.sh ./demo.sh # 如果是如下执行，内文件内的 第一行#！xxx 是无效的，写了也没用 /bin/zsh demo.sh 变量 # 声明 variable_name=&#39;demo&#39; readonly variable_name # 只读变量 # 使用 $variable_name # 可以加上{}来确认边界 ${variable_name} # 删除变量 unset variable_name # 不能删除只读变量 字符串 # 单引号 str=&#39;hello world&#39; # 单引号中变量是无效的 # 双引号 str=&#34;hello $world&#34; # 可以识别变量 # 字符串长度 ${#str} # 字符串查找 $str[(I)ll] # 小i 从左往右 找不到返回 长度+1 $str[(i)ll] # 大i 从右往左 找不到返回 0 # 提取字符串 ${str:1:4} # 与js的subStr类似 1为索引,4为长度 $str[1,4] # 这个都是索引(注意是从第一位开始) 推荐这个吧 # 遍历 for i ({1.]]></description>
+</item><item>
+    <title>Mac上bash/zsh</title>
+    <link>http://localhost:1313/mac%E4%B8%8Abash%E5%92%8Czsh/</link>
+    <pubDate>Fri, 25 Nov 2022 10:27:55 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/mac%E4%B8%8Abash%E5%92%8Czsh/</guid>
+    <description><![CDATA[基本概念 shell，就是人机交互的接口 bash/zsh 是执行 shell 的程序，输入 shell 命令，输出结果 在 mac 上，我们常用的就是 bash 和 zsh 了。其它还有 sh，csh 等。
+查看本机上所有 shell 程序cat /etc/shells 查看目前使用的 shell 程序echo $SHELL 设置默认 shell 程序# change shell 缩写 chsh chsh -s /bin/[bash/zsh...] bash 和 zsh 的区别都是 shell 程序，但是 zsh 基本完美兼容 bash，并且安装 oh-my-zsh 有自动列出目录/自动目录名简写补全/自动大小写更正/自动命令补全/自动补全命令参数的内置功能，还可以配置插件。
+bash 读取 ~/.bash_profile zsh 读取 ~/.zshrc 在 .zshrc 中添加 source ~/.bash_profile 就可以直接使用 .bash_profile 中的配置，无需再配置一遍。
+小技巧：
+对于常用的命令，一定要配置别名，git 可以，所有 shell 命令都可以
+# ~/.zshrc alias cra=&#34;npx create-react-app&#34; alias nlg=&#34;npm list -g&#34; oh-my-zsh都知道 zsh 推荐安装 oh-my-zsh，很强大。]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,607 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" /><title>深入npm script - Hello World</title><meta name="Description" content="A website documenting front-end technology and everyday life"><meta property="og:title" content="深入npm script" />
+<meta property="og:description" content="npm script 是一个前端人必须得掌握的技能之一。本文基于 npm v7 版本
+下文是我认为前端人至少需要掌握的知识点。
+npm - package.json
+npm init创建项目的第一步，一般都是使用 npm init 来初始化或修改一个 package.json 文件，后续的工程都将基于 package.json 这个文件来完成。
+# -y 可以跳过询问直接生成 pkg 文件(description默认会使用README.md或README文件的第一行) npm init [-y | --scope=&lt;scope&gt;] # 作用域包是需要付费的 # 初始化预使用 npm 包 npm init [initializer] initializer 会被解析成 create-&lt;initializer&gt; 的 npm 包，并通过 npmx exec 安装(临时)并执行安装包的二进制执行文件。
+initializer 匹配规则：[&lt;@scope/&gt;]&lt;name&gt;，比如：
+npm init react-app demo &mdash;&gt; npm exec create-react-app demo npm init @usr/foo &mdash;&gt; npm exec @usr/create-foo npm exec 与 npx这两个命令都是从 npm 包（本地安装或远程获取）中运行任意命令。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/%E6%B7%B1%E5%85%A5npm_script/" /><meta property="og:image" content="http://localhost:1313/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-02T20:40:32+08:00" />
+<meta property="article:modified_time" content="2022-12-02T20:40:32+08:00" />
+
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://localhost:1313/" /><meta name="twitter:title" content="深入npm script"/>
+<meta name="twitter:description" content="npm script 是一个前端人必须得掌握的技能之一。本文基于 npm v7 版本
+下文是我认为前端人至少需要掌握的知识点。
+npm - package.json
+npm init创建项目的第一步，一般都是使用 npm init 来初始化或修改一个 package.json 文件，后续的工程都将基于 package.json 这个文件来完成。
+# -y 可以跳过询问直接生成 pkg 文件(description默认会使用README.md或README文件的第一行) npm init [-y | --scope=&lt;scope&gt;] # 作用域包是需要付费的 # 初始化预使用 npm 包 npm init [initializer] initializer 会被解析成 create-&lt;initializer&gt; 的 npm 包，并通过 npmx exec 安装(临时)并执行安装包的二进制执行文件。
+initializer 匹配规则：[&lt;@scope/&gt;]&lt;name&gt;，比如：
+npm init react-app demo &mdash;&gt; npm exec create-react-app demo npm init @usr/foo &mdash;&gt; npm exec @usr/create-foo npm exec 与 npx这两个命令都是从 npm 包（本地安装或远程获取）中运行任意命令。"/>
+<meta name="application-name" content="前端后花园">
+<meta name="apple-mobile-web-app-title" content="前端后花园">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="canonical" href="http://localhost:1313/%E6%B7%B1%E5%85%A5npm_script/" /><link rel="prev" href="http://localhost:1313/shell%E5%9F%BA%E7%A1%80/" /><link rel="next" href="http://localhost:1313/%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2/" />
+<link rel="stylesheet" href="/css/main.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">{"@context": "https://schema.org","@type": "BlogPosting",
+        "headline": "深入npm script",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http://localhost:1313/%E6%B7%B1%E5%85%A5npm_script/"
+        },"genre": "posts","keywords":["script"],"wordcount":  798 ,
+        "url": "http://localhost:1313/%E6%B7%B1%E5%85%A5npm_script/","datePublished": "2022-12-02T20:40:32+08:00","dateModified": "2022-12-02T20:40:32+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EricYuan",
+                "url": "/"
+            },"description": ""
+    }</script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {
+          document.body.setAttribute('theme', theme); 
+          document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');
+          if (theme === 'light') {
+            document.documentElement.classList.remove('tw-dark')
+          } else {
+            document.documentElement.classList.add('tw-dark')
+          }
+          window.theme = theme;   
+          window.isDark = window.theme !== 'light' 
+        }
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('dark' === 'light' || 'dark' === 'dark' || 'dark' === 'black') setTheme('dark'), saveTheme('dark'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+        window.switchThemeEventSet = new Set()
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop print:!tw-hidden" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hello World"><img
+        class="logo"
+        loading="lazy"
+        src="/favicon.ico"
+        srcset="/favicon.ico, /favicon.ico 1.5x, /favicon.ico 2x"
+        title="/favicon.ico" height="36"   width="36" >EricYuan</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item"
+                    href="/posts/" > 文章 </a><a class="menu-item"
+                    href="/categories/" > 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                    <input type="text"
+                        placeholder="搜索文章标题或内容..."
+                        id="search-input-desktop">
+                    <button class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+                    </button>
+                    <button class="search-button search-clear" id="search-clear-desktop" title="清空">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"/></svg>
+                    </button>
+                    <span class="search-button search-loading tw-animate-spin" id="search-loading-desktop">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"/></svg>
+                    </span>
+                </span><button class="menu-item theme-select" aria-label="切换主题">
+                    <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705 0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
+                    <select class="color-theme-select" id="theme-select-desktop" aria-label="切换主题">
+                        <option value="light">浅色</option>
+                        <option value="dark">深色</option>
+                        <option value="black">黑色</option>
+                        <option value="auto">跟随系统</option>
+                    </select>
+                </button></div>
+        </div>
+    </div>
+</header><header class="mobile print:!tw-hidden" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hello World"><img
+        class="logo"
+        loading="lazy"
+        src="/favicon.ico"
+        srcset="/favicon.ico, /favicon.ico 1.5x, /favicon.ico 2x"
+        title="/favicon.ico" >EricYuan</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                <div class="search mobile" id="search-mobile">
+                    <input type="text"
+                        placeholder="搜索文章标题或内容..."
+                        id="search-input-mobile">
+                    <button class="search-button search-toggle tw-h-10" id="search-toggle-mobile" title="搜索">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+                    </button>
+                    <button class="search-button search-clear" id="search-clear-mobile" title="清空">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"/></svg>
+                    </button>
+                    <span class="search-button search-loading tw-animate-spin" id="search-loading-mobile">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"/></svg>
+                    </span>
+                </div>
+                <button class="search-cancel" id="search-cancel-mobile">
+                    取消
+                </button>
+            </div><a class="menu-item" href="/posts/" title="" >文章</a><a class="menu-item" href="/categories/" title="" >分类</a><button class="menu-item theme-select tw-w-full" aria-label="切换主题">
+                <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705 0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
+                <select class="color-theme-select" id="theme-select-mobile" aria-label="切换主题">
+                    <option value="light">浅色</option>
+                    <option value="dark">深色</option>
+                    <option value="black">黑色</option>
+                    <option value="auto">跟随系统</option>
+                </select>
+            </button></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div><main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content always-active" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#npm-init">npm init</a></li>
+    <li><a href="#npm-exec-与-npx">npm exec 与 npx</a></li>
+    <li><a href="#npm-run">npm run</a></li>
+    <li><a href="#npm-script-传参">npm script 传参</a></li>
+    <li><a href="#npm-script-钩子">npm script 钩子</a></li>
+    <li><a href="#npm-script-命令自动补全">npm script 命令自动补全</a></li>
+    <li><a href="#npm-配置">npm 配置</a></li>
+    <li><a href="#node_modules-的扁平结构">node_modules 的扁平结构</a></li>
+    <li><a href="#npm-link">npm link</a></li>
+    <li><a href="#npm-发布">npm 发布</a></li>
+    <li><a href="#脚本执行顺序符号">脚本执行顺序符号</a></li>
+    <li><a href="#packagejson-查漏补缺">package.json 查漏补缺</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">深入npm script</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><a href="/" title="Author" rel=" author" class="author">EricYuan</a>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-series">系列 <a href="/series/npm/"><i class="far fa-list-alt fa-fw"></i>Npm</a></span><span id="busuanzi_container_page_pv">&nbsp;
+                        <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+            </div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-12-02">2022-12-02</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-12-02">2022-12-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 798 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - </span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul><li><span class="active">深入npm script</span></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#npm-init">npm init</a></li>
+    <li><a href="#npm-exec-与-npx">npm exec 与 npx</a></li>
+    <li><a href="#npm-run">npm run</a></li>
+    <li><a href="#npm-script-传参">npm script 传参</a></li>
+    <li><a href="#npm-script-钩子">npm script 钩子</a></li>
+    <li><a href="#npm-script-命令自动补全">npm script 命令自动补全</a></li>
+    <li><a href="#npm-配置">npm 配置</a></li>
+    <li><a href="#node_modules-的扁平结构">node_modules 的扁平结构</a></li>
+    <li><a href="#npm-link">npm link</a></li>
+    <li><a href="#npm-发布">npm 发布</a></li>
+    <li><a href="#脚本执行顺序符号">脚本执行顺序符号</a></li>
+    <li><a href="#packagejson-查漏补缺">package.json 查漏补缺</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="details admonition warning open">
+                <div class="details-summary admonition-title">
+                    <span class="icon warning"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></svg></span>警告<span class="details-icon"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span>
+                </div>
+                <div class="details-content">
+                    <div class="admonition-content">
+                        本文最后更新于 <span class="timeago" datetime="2022-12-02T20:40:32" title="December 2, 2022">2022-12-02</span>，文中内容可能已过时。</div>
+                </div>
+            </div><p><strong>npm script 是一个前端人必须得掌握的技能之一。本文基于 npm v7 版本</strong></p>
+<hr>
+<p>下文是我认为前端人至少需要掌握的知识点。</p>
+<blockquote>
+<p><a href="https://docs.npmjs.com/cli/v7/configuring-npm/package-json" target="_blank" rel="noopener noreferrer">npm - package.json</a></p>
+</blockquote>
+<h2 id="npm-init" class="headerLink">
+    <a href="#npm-init" class="header-mark"></a>npm init</h2><p>创建项目的第一步，一般都是使用 <code>npm init</code> 来初始化或修改一个 <code>package.json</code> 文件，后续的工程都将基于 <code>package.json</code> 这个文件来完成。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># -y 可以跳过询问直接生成 pkg 文件(description默认会使用README.md或README文件的第一行)</span>
+</span></span><span class="line"><span class="cl">npm init <span class="o">[</span>-y <span class="p">|</span> --scope<span class="o">=</span>&lt;scope&gt;<span class="o">]</span> <span class="c1"># 作用域包是需要付费的</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 初始化预使用 npm 包</span>
+</span></span><span class="line"><span class="cl">npm init <span class="o">[</span>initializer<span class="o">]</span>
+</span></span></code></pre></div><p><code>initializer</code> 会被解析成 <code>create-&lt;initializer&gt;</code> 的 npm 包，并通过 <code>npmx exec</code> 安装(临时)并执行安装包的二进制执行文件。</p>
+<p><code>initializer</code> 匹配规则：<code>[&lt;@scope/&gt;]&lt;name&gt;</code>，比如：</p>
+<ul>
+<li>npm init react-app demo &mdash;&gt; npm exec create-react-app demo</li>
+<li>npm init @usr/foo &mdash;&gt; npm exec @usr/create-foo</li>
+</ul>
+<h2 id="npm-exec-与-npx" class="headerLink">
+    <a href="#npm-exec-%e4%b8%8e-npx" class="header-mark"></a>npm exec 与 npx</h2><p>这两个命令都是从 npm 包（本地安装或远程获取）中运行任意命令。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># pkg 为 npm 包名,可以带上版本号</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># [args...] 这个在文档中被称为 &#34;位置参数&#34;...奶奶的看了我好久才理解</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --package=xxx 等价于 -p xxx, 可以多次指定包</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --call=xxx 等价于 -c xxx, 指定自定义指令</span>
+</span></span><span class="line"><span class="cl">npm <span class="nb">exec</span> -- &lt;pkg&gt; <span class="o">[</span>args...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">npm <span class="nb">exec</span> --package<span class="o">=</span>&lt;pkg&gt; -- &lt;cmd&gt; <span class="o">[</span>args...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">npm <span class="nb">exec</span> -c <span class="s1">&#39;&lt;cmd&gt; [args...]&#39;</span>
+</span></span><span class="line"><span class="cl">npm <span class="nb">exec</span> --package<span class="o">=</span>foo -c <span class="s1">&#39;&lt;cmd&gt; [args...]&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 旧版 npx</span>
+</span></span><span class="line"><span class="cl">npx -- &lt;pkg&gt; <span class="o">[</span>args...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">npx --package<span class="o">=</span>&lt;pkg&gt; -- &lt;cmd&gt; <span class="o">[</span>args...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">npx -c <span class="s1">&#39;&lt;cmd&gt; [args...]&#39;</span>
+</span></span><span class="line"><span class="cl">npx --package<span class="o">=</span>foo -c <span class="s1">&#39;&lt;cmd&gt; [args...]&#39;</span>
+</span></span></code></pre></div><p>拓展：</p>
+<ol>
+<li>
+<p><code>-p</code> 可以指定多个需要安装的包，如果本地没有指定的包会去远程下载并临时安装。</p>
+</li>
+<li>
+<p><code>-c</code> 自定义指令运行的是已经安装过的包，也就是说要么已经本地安装过 shell 中可以直接执行，要么<code>-p</code>指定包。另外，可以带入 npm 的环境变量</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"> <span class="c1"># 查询npm环境变量</span>
+</span></span><span class="line"><span class="cl"> npm run env <span class="p">|</span> grep npm_
+</span></span><span class="line"><span class="cl"> <span class="c1"># 把某个环境变量带入shell命令</span>
+</span></span><span class="line"><span class="cl"> npm <span class="nb">exec</span> -c <span class="s1">&#39;echo &#34;$npm_package_name&#34;&#39;</span>
+</span></span></code></pre></div></li>
+</ol>
+<p>辨析：</p>
+<ul>
+<li>
+<p>npx：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 这里是把 foo 当指令, 后面的全部是参数</span>
+</span></span><span class="line"><span class="cl">npx foo bar --package<span class="o">=</span>@npm/foo <span class="c1"># ==&gt; foo bar --package=@npm/foo</span>
+</span></span></code></pre></div></li>
+<li>
+<p>npm exec：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 这里会优先去解析 -p 指定的包</span>
+</span></span><span class="line"><span class="cl">npm <span class="nb">exec</span> foo bar --package<span class="o">=</span>@npm/foo <span class="c1"># ==&gt; foo bar</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 想要让 exec 与 npx 实现一样的效果使用 -- 符号, 抑制 npm 对 -p 的解析</span>
+</span></span><span class="line"><span class="cl">npm <span class="nb">exec</span> -- foo bar --package<span class="o">=</span>@npm/foo <span class="c1"># ==&gt; foo bar --package=@npm/foo</span>
+</span></span></code></pre></div><p>ps 一句：官网(英文真的很重要)和一些中文文档读的是真 tm 累~或许这就是菜狗吧&hellip;</p>
+</li>
+</ul>
+<h2 id="npm-run" class="headerLink">
+    <a href="#npm-run" class="header-mark"></a>npm run</h2><blockquote>
+<p>npm 环境变量中有一个是：<code>npm_command=run-script</code>，它的别名就是 <code>run</code></p>
+</blockquote>
+<p><code>npm run [key]</code>，实际上调用的是 <code>npm run-script [key]</code>，根据 <code>key</code> 从 <code>package.json</code> 中 <code>scripts</code> 对象找到对应的要交给 shell 程序执行的命令。（mac 默认是 bash，个人设为 zsh）</p>
+<p><code>test</code>、<code>start</code>、<code>restart</code>、<code>stop</code>这四个是内置可以直接执行的命令。</p>
+<p>再次遇见 <code>--</code>，作用一样也是抑制 npm 对形如 <code>--flag=&quot;options&quot;</code> 的解析，最终把 <code>--flag=&quot;options&quot;</code> 整体传给命令脚本。eg：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">npm run <span class="nb">test</span> -- --grep<span class="o">=</span><span class="s2">&#34;pattern&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#&gt; npm_test@1.0.0 test</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#&gt; echo &#34;Error: no test specified&#34; &amp;&amp; exit 1 &#34;--grep=pattern&#34;</span>
+</span></span></code></pre></div><p>正如 shell 脚本执行需要指定 shell 程序一样，<code>run-script</code> 从 <code>package.json</code>的 script 对象中解析出的 shell 命令在执行之前会有一步 “装箱” 的操作：<strong>把 <code>node_modules/.bin</code> 加在环境变量 <code>$PATH</code> 的中</strong>，这意味着，我们就不需要每次都输入可执行文件的完整路径了。</p>
+<p><code>node_modules/.bin</code> 目录下存着所有安装包的脚本文件，文件开头都有 <code>#!/usr/bin/env node</code>，这个东西叫 <a href="https://en.wikipedia.org/wiki/Shebang_%28Unix%29" target="_blank" rel="noopener noreferrer">Shebang</a>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># &#34;scripts&#34;: {</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   &#34;eslint&#34;: &#34;eslint ./src/**/*.js&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># }</span>
+</span></span><span class="line"><span class="cl">npm run eslint <span class="c1"># ==&gt;node ./node_modules/.bin/eslint *.js</span>
+</span></span></code></pre></div><p><code>node_modules/.bin</code> 中的文件，实际上是在 <code>npm i</code> 安装时根据安装库的源代码中<code>package.json</code> 的 <code>bin</code> 指向的路径创建软链。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-JSON" data-lang="JSON"><span class="line"><span class="cl"><span class="s2">&#34;node_modules/eslint&#34;</span><span class="err">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;8.30.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;bin&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;eslint&#34;</span><span class="p">:</span> <span class="s2">&#34;bin/eslint.js&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;engines&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;node&#34;</span><span class="p">:</span> <span class="s2">&#34;^12.22.0 || ^14.17.0 || &gt;=16.0.0&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>如果 <code>node_modules/.bin</code> 中没有对应的执行脚本，那么会去全局目录下查找，如果还没有再从环境变量 <code>$PATH</code> 下查找是否有同名的可执行程序，否则就报错啦。</p>
+<p>PS: <code>npm run</code> 后不带参数直接执行，可以查看 <code>package.json</code> 中所有可执行的命令，就没必要再去点开文件看了。</p>
+<h2 id="npm-script-传参" class="headerLink">
+    <a href="#npm-script-%e4%bc%a0%e5%8f%82" class="header-mark"></a>npm script 传参</h2><p>直接举个常用的打印日志例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 日志输出 精简日志和较全日志</span>
+</span></span><span class="line"><span class="cl">npm run <span class="o">[</span>key<span class="o">]</span> -s <span class="c1"># 全称是 --loglevel silent 也可简写为 --silent</span>
+</span></span><span class="line"><span class="cl">npm run <span class="o">[</span>key<span class="o">]</span> -d <span class="c1"># 全称是 --loglevel verbose 也可简写为 --verbose</span>
+</span></span></code></pre></div><p>两个常用的内置变量 <code>npm_config_xxx</code> 和 <code>npm_package_xxx</code>，eg：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-JSON" data-lang="JSON"><span class="line"><span class="cl"><span class="s2">&#34;view&#34;</span><span class="err">:</span> <span class="s2">&#34;echo $npm_config_host &amp;&amp; echo $npm_package_name&#34;</span>
+</span></span></code></pre></div><p>当执行命令 <code>npm run view --host=123</code>，就会输出 123 和 package.json 的 name 属性值。</p>
+<p>如果上方 [key] 指向的是另一个 <code>npm run</code> 命令，想传参给真正指向的命令该怎么做呢？又得依靠 <code>--</code>的能力了。下面两条命令对比，就是可以把 <code>--fix</code> 传递到 <code>eslint ./src/**/*.js</code> 之后。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl">&#34;eslint&#34;: &#34;eslint ./src/**/*.js&#34;,
+</span></span><span class="line"><span class="cl"><span class="gd">- &#34;eslint:fix&#34;: &#34;npm run eslint --fix&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+ &#34;eslint:fix&#34;: &#34;npm run eslint -- --fix&#34;
+</span></span></span></code></pre></div><p>在脚本文件中，也可以获取命令的传参：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-JSON" data-lang="JSON"><span class="line"><span class="cl"><span class="s2">&#34;go&#34;</span><span class="err">:</span> <span class="s2">&#34;node test.js --key=val --host=123&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// test.js
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">args</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">argv</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;📌📌📌 ~ args&#39;</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">env</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;📌📌📌 ~ env&#39;</span><span class="p">,</span> <span class="nx">env</span><span class="p">)</span>
+</span></span></code></pre></div><p>此外，<code>process.env</code> 可以获取到本机的环境变量配置，常用的如：</p>
+<ul>
+<li>NODE_ENV</li>
+<li>npm_lifecycle_event，正在运行的脚本名称</li>
+<li>npm_package_[xxx]</li>
+<li>npm_config_[xxx]</li>
+<li>&hellip;等等</li>
+</ul>
+<p>其中 <code>process.env.NODE_ENV</code> 也可以通过命令来设置，在 *NIX 系统下可以这么使用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="s2">&#34;go&#34;</span>: <span class="s2">&#34;export NODE_ENV=123 &amp;&amp; node test.js --key=val --host=123&#34;</span>
+</span></span></code></pre></div><p>为了抹除平台的差异，常常使用的是 <code>cross-env</code> 这个库。</p>
+<h2 id="npm-script-钩子" class="headerLink">
+    <a href="#npm-script-%e9%92%a9%e5%ad%90" class="header-mark"></a>npm script 钩子</h2><p>npm 提供 <code>pre</code>和<code>post</code>两种钩子机制，分别在对应的脚本前后执行。</p>
+<h2 id="npm-script-命令自动补全" class="headerLink">
+    <a href="#npm-script-%e5%91%bd%e4%bb%a4%e8%87%aa%e5%8a%a8%e8%a1%a5%e5%85%a8" class="header-mark"></a>npm script 命令自动补全</h2><p>官网提供了集成方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">npm completion &gt;&gt; ~/.zshrc <span class="c1"># 本地 shell 设置的是哪个就是哪个</span>
+</span></span></code></pre></div><p>把 <code>npm completion</code> 的输出注入 <code>.zshrc</code> 之后就可以通过 tab 来自动补全命令了。</p>
+<h2 id="npm-配置" class="headerLink">
+    <a href="#npm-%e9%85%8d%e7%bd%ae" class="header-mark"></a>npm 配置</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">npm config <span class="nb">set</span> &lt;key&gt; &lt;value&gt;
+</span></span><span class="line"><span class="cl">npm config get &lt;key&gt;
+</span></span><span class="line"><span class="cl">npm config delete &lt;key&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看配置</span>
+</span></span><span class="line"><span class="cl">npm config list
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看全局安装包和全局软链</span>
+</span></span><span class="line"><span class="cl">npm ls -g
+</span></span></code></pre></div><h2 id="node_modules-的扁平结构" class="headerLink">
+    <a href="#node_modules-%e7%9a%84%e6%89%81%e5%b9%b3%e7%bb%93%e6%9e%84" class="header-mark"></a>node_modules 的扁平结构</h2><p>npm 3 之前：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">+-------------------------------------------+
+</span></span><span class="line"><span class="cl">|                   app/                    |
+</span></span><span class="line"><span class="cl">+----------+------------------------+-------+
+</span></span><span class="line"><span class="cl">           |                        |
+</span></span><span class="line"><span class="cl">           |                        |
+</span></span><span class="line"><span class="cl">+----------v------+       +---------v-------+
+</span></span><span class="line"><span class="cl">|                 |       |                 |
+</span></span><span class="line"><span class="cl">|  webpack@1.15.0 |       |  nconf@0.8.5    |
+</span></span><span class="line"><span class="cl">|                 |       |                 |
+</span></span><span class="line"><span class="cl">+--------+--------+       +--------+--------+
+</span></span><span class="line"><span class="cl">         |                         |
+</span></span><span class="line"><span class="cl">   +-----v-----+             +-----v-----+
+</span></span><span class="line"><span class="cl">   |async@1.5.2|             |async@1.5.2|
+</span></span><span class="line"><span class="cl">   +-----------+             +-----------+
+</span></span></code></pre></div><p>npm 3 之后：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">         +-------------------------------------------+
+</span></span><span class="line"><span class="cl">         |                   app/                    |
+</span></span><span class="line"><span class="cl">         +-+---------------------------------------+-+
+</span></span><span class="line"><span class="cl">           |                                       |
+</span></span><span class="line"><span class="cl">           |                                       |
+</span></span><span class="line"><span class="cl">+----------v------+    +-------------+   +---------v-------+
+</span></span><span class="line"><span class="cl">|                 |    |             |   |                 |
+</span></span><span class="line"><span class="cl">|  webpack@1.15.0 |    | async@1.5.2 |   |  nconf@0.8.5    |
+</span></span><span class="line"><span class="cl">|                 |    |             |   |                 |
+</span></span><span class="line"><span class="cl">+-----------------+    +-------------+   +-----------------+
+</span></span></code></pre></div><p>优势很明显，相同的包不会再被重复安装，同时也防止树过深，导致触发 windows 文件系统中的文件路径长度限制错误。</p>
+<p>能这么做的原因：得益于 node 的模块加载机制，<a href="https://www.jianshu.com/p/7cf8fdd3d2bf" target="_blank" rel="noopener noreferrer">node 之 require 加载顺序及规则</a>。</p>
+<h2 id="npm-link" class="headerLink">
+    <a href="#npm-link" class="header-mark"></a>npm link</h2><p>当我们开发一个 npm 模块或者调试某个开源库时，<code>npm link</code> 就发挥本事了，主要分为两步：</p>
+<ol>
+<li>作为包的目标文件下执行 <code>npm link</code>。它会在创建一个全局软链 <code>{prefix}/lib/node_modules/&lt;package&gt;</code> 指向该命令执行时所处的文件夹。<br>
+这里的 <code>prefix</code> 可以通过 <code>npm prefix -g</code> 来查看</li>
+<li><code>npm link &lt;pkgName&gt;</code> 然后把刚刚创建的全局链接目标链接到项目的 <code>node_modules</code> 文件夹中。<br>
+注意 这里的 <pkgName> 是 <code>package.json</code> 的 <code>name</code> 属性而不是文件夹名</li>
+</ol>
+<p>举个例子吧，对 <code>react v17.0.2</code> 源码打包，然后在自己项目中链接打包的代码进行调试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 安装完依赖后对核心打包</span>
+</span></span><span class="line"><span class="cl">yarn build react/index,react/jsx,react-dom/index,scheduler --type<span class="o">=</span>NODE
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 分别进入react react-dom scheduler 创建软链</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ./build/react
+</span></span><span class="line"><span class="cl">npm link
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ./build/react-dom
+</span></span><span class="line"><span class="cl">npm link
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ./build/scheduler
+</span></span><span class="line"><span class="cl">npm link
+</span></span></code></pre></div><p>对三个包 link 后，本地全局就会多了这三个包，如图：</p>
+<p><figure><img
+        
+        loading="lazy"
+        src="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202301062356149.png"
+        srcset="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202301062356149.png, https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202301062356149.png 1.5x, https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202301062356149.png 2x"
+        title="https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202301062356149.png" ></figure></p>
+<p>然后在项目中使用这三个包：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">npm link raect react-dom scheduler <span class="c1"># 此优先级是高于本地安装的依赖的</span>
+</span></span></code></pre></div><blockquote>
+<p>解除包是注意：如果是开发 cli 这样的全局包时，需要使用 <code>npm unlink &lt;pkgName&gt; -g</code> 才能生效.</p>
+</blockquote>
+<h2 id="npm-发布" class="headerLink">
+    <a href="#npm-%e5%8f%91%e5%b8%83" class="header-mark"></a>npm 发布</h2><p>首先得有 npm 账号，直接去官网注册就好，其次有一个可以发布的包，然后：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># ------ terminal ------</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 1. 登录 npm 账号</span>
+</span></span><span class="line"><span class="cl">npm adduser 或者 npm login
+</span></span><span class="line"><span class="cl"><span class="c1"># npm whoami 可以查看登录的账号</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. 发布</span>
+</span></span><span class="line"><span class="cl">npm publish
+</span></span><span class="line"><span class="cl"><span class="c1"># 3. 带有 @scope 的发布需要跟上如下参数</span>
+</span></span><span class="line"><span class="cl">npm publish --access<span class="o">=</span>public
+</span></span><span class="line"><span class="cl"><span class="c1"># 4. 更新版本 直接手动指定版本，也可以 npm version [major | minor | patch],自动升对应版本</span>
+</span></span><span class="line"><span class="cl">npm version <span class="o">[</span>semver<span class="o">]</span>
+</span></span></code></pre></div><blockquote>
+<p><a href="https://semver.org/lang/zh-CN/" target="_blank" rel="noopener noreferrer">sermver 版本规范</a></p>
+</blockquote>
+<h2 id="脚本执行顺序符号" class="headerLink">
+    <a href="#%e8%84%9a%e6%9c%ac%e6%89%a7%e8%a1%8c%e9%a1%ba%e5%ba%8f%e7%ac%a6%e5%8f%b7" class="header-mark"></a>脚本执行顺序符号</h2><p>这里与 shell 的符号是一样的：</p>
+<ul>
+<li>&amp;：如果命令后加上了 &amp;，表示命令在后台执行，往往可用于并行执行
+<ul>
+<li>想要看执行过程可以最后添加 <code>wait</code> 命令，等待所有子进程结束，不然类似 watch 监听的命令在后台执行的时候没法 <code>ctrl + c</code> 退出了</li>
+</ul>
+</li>
+<li>&amp;&amp;： 前一条命令执行成功后才执行后面的命令</li>
+<li>|：前一条命令的输出作为后一条命令的输入</li>
+<li>||：前一条命令执行失败后才执行后面的命令</li>
+<li>; 多个命令按照顺序执行，但不管前面的命令是否执行成功 d</li>
+</ul>
+<blockquote>
+<p>npm-run-all 这个库也实现了以上的执行逻辑，不过我是不建议使用，写命令就老老实实写不好嘛，越写越熟练哈哈~</p>
+</blockquote>
+<h2 id="packagejson-查漏补缺" class="headerLink">
+    <a href="#packagejson-%e6%9f%a5%e6%bc%8f%e8%a1%a5%e7%bc%ba" class="header-mark"></a>package.json 查漏补缺</h2><ul>
+<li>devDependencies，首先无论 dependencies 还是 devDependencies，npm i 都会被安装上的，区别是被安装包的 devDependencies 不会被安装，也就是说一个包作为第三方包被安装时，devDependencies 里的依赖不会被安装，目的就是为了减少一些不必要的依赖。<code>npm install --production</code>或<code>NODE_ENV</code> 被设置为 <code>production</code> 即生产环境，也不会下载 <code>devDependencies</code> 的依赖</li>
+<li>peerDependencies，就是对等依赖，在 monorepo 和 npm 包中很常见。<br>
+提示宿主环境去安装满足 peerDependencies 所指定依赖的包，然后在 import 或者 require 所依赖的包的时候，永远都是引用宿主环境统一安装的 npm 包，最终解决插件与所依赖包不一致的问题。</li>
+</ul>
+<h2 id="参考" class="headerLink">
+    <a href="#%e5%8f%82%e8%80%83" class="header-mark"></a>参考</h2><ul>
+<li><a href="https://docs.npmjs.com/" target="_blank" rel="noopener noreferrer">npm 官方文档</a></li>
+<li><a href="https://juejin.cn/post/6844903614784225287" target="_blank" rel="noopener noreferrer">Node.js process 模块解读</a></li>
+<li><a href="https://juejin.cn/post/6844903582337237006#heading-8" target="_blank" rel="noopener noreferrer">node_modules 扁平结构</a></li>
+<li><a href="https://nodejs.org/dist/latest-v12.x/docs/api/modules.html#modules_all_together" target="_blank" rel="noopener noreferrer">模块加载官网伪代码</a></li>
+<li><a href="https://segmentfault.com/a/1190000023075167" target="_blank" rel="noopener noreferrer">npm 发包流程</a></li>
+<li><a href="https://segmentfault.com/a/1190000022435060" target="_blank" rel="noopener noreferrer">探讨 npm 依赖管理之 peerDependencies</a></li>
+</ul>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-12-02</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line print:!tw-hidden">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/%E6%B7%B1%E5%85%A5npm_script/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span></div>
+            <div class="post-info-share"><button title="分享到 Twitter" data-sharer="twitter" data-url="http://localhost:1313/%E6%B7%B1%E5%85%A5npm_script/" data-title="深入npm script" data-hashtags="script"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></button><button title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/%E6%B7%B1%E5%85%A5npm_script/" data-hashtag="script"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg></button><button title="分享到 WhatsApp" data-sharer="whatsapp" data-url="http://localhost:1313/%E6%B7%B1%E5%85%A5npm_script/" data-title="深入npm script" data-web><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></button><button title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/%E6%B7%B1%E5%85%A5npm_script/" data-title="深入npm script"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg></button><button title="分享到 Evernote" data-sharer="evernote" data-url="http://localhost:1313/%E6%B7%B1%E5%85%A5npm_script/" data-title="深入npm script"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M120.82 132.21c1.6 22.31-17.55 21.59-21.61 21.59-68.93 0-73.64-1-83.58 3.34-.56.22-.74 0-.37-.37L123.79 46.45c.38-.37.6-.22.38.37-4.35 9.99-3.35 15.09-3.35 85.39zm79 308c-14.68-37.08 13-76.93 52.52-76.62 17.49 0 22.6 23.21 7.95 31.42-6.19 3.3-24.95 1.74-25.14 19.2-.05 17.09 19.67 25 31.2 24.89A45.64 45.64 0 0 0 312 393.45v-.08c0-11.63-7.79-47.22-47.54-55.34-7.72-1.54-65-6.35-68.35-50.52-3.74 16.93-17.4 63.49-43.11 69.09-8.74 1.94-69.68 7.64-112.92-36.77 0 0-18.57-15.23-28.23-57.95-3.38-15.75-9.28-39.7-11.14-62 0-18 11.14-30.45 25.07-32.2 81 0 90 2.32 101-7.8 9.82-9.24 7.8-15.5 7.8-102.78 1-8.3 7.79-30.81 53.41-24.14 6 .86 31.91 4.18 37.48 30.64l64.26 11.15c20.43 3.71 70.94 7 80.6 57.94 22.66 121.09 8.91 238.46 7.8 238.46C362.15 485.53 267.06 480 267.06 480c-18.95-.23-54.25-9.4-67.27-39.83zm80.94-204.84c-1 1.92-2.2 6 .85 7 14.09 4.93 39.75 6.84 45.88 5.53 3.11-.25 3.05-4.43 2.48-6.65-3.53-21.85-40.83-26.5-49.24-5.92z"/></svg></button></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg>&nbsp;<a href="/tags/script/">Script</a></section>
+        <section class="print:!tw-hidden">
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav print:tw-hidden"><a href="/shell%E5%9F%BA%E7%A1%80/" class="prev" rel="prev" title="Shell 基础"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>Shell 基础</a>
+            <a href="/%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2/" class="next" rel="next" title="二分搜索">二分搜索<svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div>
+</div>
+</article></div>
+        </main><footer class="footer">
+  <div class="footer-container"><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+        &nbsp;
+        <a
+          href="/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          EricYuan
+        </a>
+      </span>&nbsp;|&nbsp;
+      <span class="license">All rights reserved</span></div>
+    <div class="footer-line">
+      <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: inline">
+        <span class="post-meta-item-icon"><i class="fa fa-eye"></i></span>
+        <span class="site-pv" title="总访问量">
+          本站总访问量
+          <span id="busuanzi_value_site_pv"></span>
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数
+          <span id="busuanzi_value_site_uv"></span>
+          人次
+        </span>
+      </span></div>
+    <div class="footer-line"></div>
+  </div></footer></div>
+
+    <div id="fixed-buttons" class="print:!tw-hidden"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4 0 256-93.1 256-208S397.4 32 256 32z"/></svg>
+        </a>
+    </div><div id="cookieconsent-container"></div><div class="assets"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.css">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":null,"ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":8,"minMatchCharLength":3,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"sharerjs":true};</script><script
+    src="/lib/clipboard/clipboard.min.js"
+    
+  ></script><script
+    src="/lib/sharer/sharer.min.js"
+    
+  ></script><script
+    src="/lib/katex/katex.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/katex/auto-render.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/katex/copy-tex.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/katex/mhchem.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/js/katex.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/cookieconsent/cookieconsent.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/js/cookieconsent.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/js/theme.min.js"
+    
+      defer
+    
+  ></script></div>
+</body>
+
+</html>

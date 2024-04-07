@@ -1,0 +1,128 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>JavaScript - 标签 - Hello World</title>
+        <link>http://localhost:1313/tags/javascript/</link>
+        <description>JavaScript - 标签 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Thu, 29 Sep 2022 17:19:13 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/javascript/" rel="self" type="application/rss+xml" /><item>
+    <title>观察者和发布订阅</title>
+    <link>http://localhost:1313/%E8%A7%82%E5%AF%9F%E8%80%85%E5%92%8C%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/</link>
+    <pubDate>Thu, 29 Sep 2022 17:19:13 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E8%A7%82%E5%AF%9F%E8%80%85%E5%92%8C%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/</guid>
+    <description><![CDATA[在前端领域，这两个设计模式，有着很多的应用，必须熟练掌握。
+观察者模式在 promsie A+ 实现时，我们初始化了两个数组 &ndash; onFulfilledCb 和 onRejectedCb，它们用来收集依赖，当 promise 注册了多个 then 且因为 promise 是可能进行时，就把 onFulfilled 函数加入 onFulfilledCb 中，当得到 resolve 的通知后，再去通知执行。
+这个过程其实就是一个简单的观察者模式。这里被观察者是: promise，观察者是: 两个队列里的回调函数，promise 的 resolve 通知回调执行。 两者的关系是通过 被观察者 建立起来的，被观察者有添加，删除和通知观察者的功能。
+// 简单实现一下 class Subject { constructor() { this.subs = [] } addObserver(observer) { this.subs.push(observer) } removeObserver(observer) { const rmIndex = this.subs.findIndex((ob) =&gt; ob.id === observer.id ) &gt;&gt;&gt; 0 this.subs.splice(rmIndex,1) } notify(message) { this.subs.forEach(ob =&gt; ob.notified(message)) } } class Observer { constructor(id, name, subject) { this.]]></description>
+</item><item>
+    <title>Event Loop</title>
+    <link>http://localhost:1313/eventloop/</link>
+    <pubDate>Mon, 26 Sep 2022 21:22:27 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/eventloop/</guid>
+    <description><![CDATA[事件循环是 JavaScript 中很重要的概念，对于初学者，更是应该牢牢掌握，不然对一个程序的执行顺序都不清楚，还怎么在代码的世界里遨游呢？🔥
+单线程的 JavaScriptJavaScript 设计之初就是单线程的，因为要用来操作 DOM，假如一个线程在某个 DOM 节点上添加内容，另一个线程删除了这个节点，浏览器就 😳 了。
+HTML5 新增了 Web Worker，但完全受控于主线程，不能操作 I/O,DOM，协助大量计算倒是很优秀，本质上还是单线程。
+代码执行如下图，JS 内存模型分为三种，栈空间，堆空间和代码执行空间。基本类型数据和引用类型数据的指针存储在栈中，引用类型数据存储在堆中 之前作用域的文章里提到过三个上下文，全局上下文，函数上下文，eval 上下文。当代码执行的时候需要一个栈来存储各个上下文的，这样才能保证后进入的上下文先执行结束（这里的后是指内部的嵌套函数）。
+// ... // 代码扫描到此处时，执行上下文栈栈底有个全局上下文 function a() { // 函数a创建执行上下文,并推入栈中 function b() { // 函数b创建执行上下文,并推入栈中 console.log(&#39;hello world&#39;) // 在b的上下文中,打印字符串 } // b 结束, 弹出栈, 把控制权交给了 a } // a也执行完毕, 弹出栈, 交给后续的 所以当内部有 n 个函数嵌套的时候，栈就会爆，递归的死循环就是这么搞出来的。
+同步任务按照上面的路子走的很顺，但是异步任务怎么办呢？就一直等吗，等到天荒地老？那是不可能的，我 JavaScript，永不阻塞！
+异步任务不会进入主线程，而是被加入了一个任务队列，当主线程的同步任务跑完了，异步任务可以执行的时候再通知主线程来执行它。
+浏览器的事件循环一个&lt;script&gt;可以看成是一个宏任务，可以这么理解：
+主线程： ┌─────────────────────────────────────────────────────────────────────────┐ │ sync code | sync code | sync code | sync code .]]></description>
+</item><item>
+    <title>V8垃圾回收机制</title>
+    <link>http://localhost:1313/v8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</link>
+    <pubDate>Sun, 25 Sep 2022 23:42:56 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/v8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</guid>
+    <description><![CDATA[这部分的阅读资料非常多，整理了下面几个文章，有空常看看。对主要内容做了简单的整理。
+引用计数和标记清除 引用计数就是判断对象被引用的次数，为 0 时回收，大于 0 就不回收。 缺点: 对象循环引用的时候，就会产生不被回收的情况，从而造成内存泄露。比如：
+function fn () { const obj1 = {} const obj2 = {} obj1.a = obj2 obj2.a = obj1 } fn() 标记清除将可达对象标记起来，不可达的对象当垃圾回收。 什么是可达，其实就是树，根节点是全局对象，从根开始向下搜索子节点，在这个树上的能被搜索到就是可达的。
+JS 内存管理垃圾回收不仅仅是上面的两个算法。
+JS 中内存的流程：分配内存 &ndash;&gt; 使用内存 &ndash;&gt; 释放内存。
+基础类型：分配固定内存的大小，值存在 栈内存 中 引用类型：分配内存大小不固定，指针存在 栈内存中，指向 堆内存 中的对象，通过引用来访问 栈内存存储的基础类型大小固定，所以栈内存都是 操作系统自动分配和释放回收的
+堆内存存储的引用类型的大小不固定，所以需要 JS 引擎来手动释放。
+chrome 限制了 V8 内存使用大小64 位约 1.4G/1464MB ， 32 位约 0.7G/732MB
+之所以做这个限制:
+是因为浏览器上没有大内存的场景， 是因为 V8 的垃圾回收机制的限制 &ndash; 清理大量的内存会非常消耗时间，会阻塞单线程的 JS，性能和体验直线下降 V8 回收算法JS 中对象存活周期有两种，短期和长期的，一个对象经过了多次垃圾回收机制它还存在那就变成长期的了，如果对这种明知收不掉还每次都去做回收的动作就很消耗性能。]]></description>
+</item><item>
+    <title>Map,WeakMap 和 Set,WeakSet</title>
+    <link>http://localhost:1313/map%E5%92%8Cset/</link>
+    <pubDate>Sun, 25 Sep 2022 23:24:07 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/map%E5%92%8Cset/</guid>
+    <description><![CDATA[JS 中已经有了数组和对象两种数据结构，但是不足以应对实际情况，所以有新增了 Map 和 Set 数据结构。
+MapMap 和对象类似，也是键值对（key-value）的形式，只不过有自己独特的一套 CRUD api。
+从特性上看，与对象的不同点是：
+任何数据结构都可以作为 key，但是不会像对象一样会把 key 转为字符串。
+比如 Map 使用引用类型做键，那么键是否相同也是根据内存地址也就是引用是否相同来判断的。这点在 lc49.字母异位词 中能体会到其中的不同了。 Map 中的数据是具有顺序的，保持插入顺序，map.keys,values,entries返回可迭代对象。
+这点在用 JS 实现 LRU 缓存中可以感受到。 SetSet 和数组相似，但是它仅仅是值的集合（没有键）。
+Set 的特性除了没有键，就是值不重复，常被用来做去重处理：[...new Set(array)]
+为了兼容 Map，Set 的迭代方法与 Map 一致，但是返回的都是值 😂。
+WeakMap弱映射特点：
+只能使用对象作为键值，当没有其他对这个对象的引用 —— 该对象将会被从内存和 WeakMap 中自动清除。 不支持迭代。这是因为不知道作为键的对象什么时候被回收，这是由 JS 引擎决定的。 关于内存清除，JavaScript 引擎在值“可达”和可能被使用时会将其保持在内存中。见以下代码：
+let demo = {name: &#39;yokiizx&#39;} demo = null // 该对象将会被从内存中清除 /* ---------- Map ---------- */ let demo1 = { name: &#39;yokiizx&#39; } let map = new Map([[demo1, &#39;a handsome boy&#39;]]) demo1 = null console.]]></description>
+</item><item>
+    <title>curry 和 compose</title>
+    <link>http://localhost:1313/curry%E5%92%8Ccompose/</link>
+    <pubDate>Sun, 25 Sep 2022 19:28:38 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/curry%E5%92%8Ccompose/</guid>
+    <description><![CDATA[函数式编程面向对象编程是我们平时所熟悉的，函数式编程比较抽象，它的目标是：
+使用函数来抽象作用在数据之上的控制流及操作，从而在系统中消除副作用，减少对状态的改变。
+特点：
+声明式编程
+比如 map 只关注输入和结果，用表达式来描述程序逻辑， 而 常规的 for 循环命令式控制过程还关注具体控制和状态变化 纯函数 仅取决于提供的输入 不会造成或超出其作用域的变化。 比如修改全局对象或引用传递的参数，打印日志，时间等 引用透明
+一个函数对于相同的输入始终产生相同的结果，那就是引用透明的 不可变性
+存储不可变数据，不可变数据就是创建后不能更改，但是对于对象、数组有可能改变其内容来产生副作用，如 sort 函数，会改变原数组的引用 柯里化与合成函数是函数式编程的典范，必须牢牢掌握。
+curry柯里化，其实就是针对函数多个参数的处理，把多个参数变为可以分步接收计算的方式。形如f(a,b,c) -&gt; f(a)(b)(c)
+实现也比较简单：
+function curry(fn) { return function curried(...args) { if (args.length &gt;= fn.length) { return fn.apply(this, args); } else { return function (...args2) { return curried.apply(this, args.concat(args2)); // 借助curried累加参数 }; } }; } // test const sum = (a, b, c) =&gt; a + b + c; const currySum = curry(sum); console.]]></description>
+</item><item>
+    <title>防抖节流</title>
+    <link>http://localhost:1313/%E9%98%B2%E6%8A%96%E8%8A%82%E6%B5%81/</link>
+    <pubDate>Sun, 25 Sep 2022 19:26:40 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E9%98%B2%E6%8A%96%E8%8A%82%E6%B5%81/</guid>
+    <description><![CDATA[诸如 scroll 之类的高频事件，或者恶意疯狂点击，往往需要防抖节流来帮我们做一些优化。
+防抖如果事件再设定事件内再次触发，就取消之前的一次事件。
+function debounce(fn, wait) { let timeout = null return function () { if(timeout) clearTimeout(timeout) const args = [...arguments] timeout = setTimeout(() =&gt; { fn.apply(this, args) }, wait) } } 是否立即先执行一次版：
+/** * @description: 防抖函数 * @param {Function}: fn - 需要添加防抖的函数 * @param {Number}: wait - 延迟执行时间 * @param {Boolean}: immediate - true,立即执行,wait内不能再次执行;false,wait后执行 * @return {Function}: function - 返回防抖后的函数 * @author: yk */ function debounce(fn, time, immediate) { let timeout; return (.]]></description>
+</item><item>
+    <title>常用手写原理</title>
+    <link>http://localhost:1313/%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E5%8E%9F%E7%90%86/</link>
+    <pubDate>Sun, 25 Sep 2022 19:25:24 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E5%8E%9F%E7%90%86/</guid>
+    <description><![CDATA[newfunction _new(constructor, ...args) { const obj = Object.create(constructor.prototype) const ret = constructor.call(obj, ...args) const isFunc = typeof ret === &#39;function&#39; const isObj = typeof ret === &#39;object&#39; &amp;&amp; ret !== null return isFunc || isObj ? ret : obj } instanceof/** * ins - instance * ctor - constructor */ function _instanceof(ins, ctor) { let __proto__ = ins.__proto__ let prototype = ctor.prototype while(true) { if(__proto__ === null) return false; if(__proto__ === prototype) return true __proto__ = __proto__.]]></description>
+</item><item>
+    <title>位运算</title>
+    <link>http://localhost:1313/%E4%BD%8D%E8%BF%90%E7%AE%97/</link>
+    <pubDate>Sat, 24 Sep 2022 23:05:33 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E4%BD%8D%E8%BF%90%E7%AE%97/</guid>
+    <description><![CDATA[位运算，对二进制进行操作，有时候更加简练，高效，所以是很有必要学习和了解的。
+基础的怎么变化的就不赘述了，工科生学 C 语言应该都学过吧，记住负数是以补码形式存在即可，补码 = 反码 + 1。
+常用操作 &amp; (有 0 为 0)： 判断奇偶性: 4 &amp; 1 === 0 ? 偶数 : 奇数 | (有 1 为 1)： 向 0 取整: 4.9 | 0 === 4; -4.9 | 0 === -4 ~ (按位取反)： 加 1 取反: !~-1 === true,只有-1 加 1 取反后为真值;
+~~x也可以取整或把 Boolean 转为 0/1 ^ ： 自己异或自己为 0: A ^ B ^ A = B 异或可以很方便的找出这个单个的数字（也叫无进位相加） x &gt;&gt; n ：x / 2^n: 取中并取整 x &gt;&gt; 1 x &lt;&lt; n ：x * 2^n x &gt;&gt;&gt; n: 无符号右移，有个骚操作是在 splice 时，x &gt;&gt;&gt; 0获取要删除的索引可以用这个来避免对 -1 的判断，因为 -1 &gt;&gt;&gt; 0 符号位的 1 会让右移 0 位后变成了一个超大的数字 42 亿多&hellip; 技巧 n &amp; (n-1)：消除二进制中 n 的最后一位 1]]></description>
+</item><item>
+    <title>容易混淆的API</title>
+    <link>http://localhost:1313/%E5%AE%B9%E6%98%93%E6%B7%B7%E6%B7%86%E7%9A%84api/</link>
+    <pubDate>Sat, 24 Sep 2022 11:28:25 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E5%AE%B9%E6%98%93%E6%B7%B7%E6%B7%86%E7%9A%84api/</guid>
+    <description><![CDATA[getElement VS querySelector 性质不同 getElementsBy* 是动态的， 类似于引用类型，若之后 dom 发生了改变，则已获取到的 dom 也会相应改变 querySelectorAll 是静态的，类似于快照的意思，获取后就不会再变了 &lt;div class=&#34;demo&#34;&gt;First div&lt;/div&gt; &lt;script&gt; let divs1 = document.getElementsByTagName(&#39;div&#39;); let divs2 = document.querySelectorAll(&#39;div&#39;); console.info(divs1.length); // 1 console.info(divs2.length); // 1 &lt;/script&gt; &lt;div class=&#34;demo&#34;&gt;Second div&lt;/div&gt; &lt;script&gt; console.info(divs1.length); // 2 console.info(divs2.length); // 1 console.log(document.getElementsByClassName(&#39;demo&#39;)); console.log(document.querySelectorAll(&#39;.demo&#39;)); &lt;/script&gt; 返回值不同 getElementsBy* 返回的是 HTMLCollection querySelectorAll 返回值是 NodeList HTMLCollection 比 NodeList 多了个 namedItem(name) 方法，根据 name 属性获取 dom NodeList 相比 HTMLCollection 多了更多的信息，比如注释，文本等
+navigator | location | history]]></description>
+</item><item>
+    <title>被忽略的一些API</title>
+    <link>http://localhost:1313/%E5%AE%B9%E6%98%93%E5%BF%BD%E7%95%A5%E7%9A%84api/</link>
+    <pubDate>Sat, 24 Sep 2022 11:26:53 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E5%AE%B9%E6%98%93%E5%BF%BD%E7%95%A5%E7%9A%84api/</guid>
+    <description><![CDATA[MutationObserver监测 DOM，发生变动时触发。
+const observer = new MutationObserver(callback); // callback 回调参数是 MutationRecord 对象 的数组，第二个参数是观察器自身 observer.observe(node, config); // node 为观察节点 // config 是对观察节点的一系列配置 // 详细见 https://zh.javascript.info/mutation-observer observe.disconnect() // 注销观察 observer.takeRecords() // 获取已经发生但未处理的变动 重要特性：
+MutationObserver 是异步的，等待所有脚本任务完成后才会运行，也就是说当节点有多次变动，它是在最后才执行一次 Callback 把所有变动装进一个数组中处理，而不是一条条地个别处理 DOM 变动 IntersectionObserver监听元素是否进入了视口(viewport)。
+// callback 一般会触发两次。一次是目标元素刚刚进入视口（开始可见），另一次是完全离开视口（开始不可见）。 var io = new IntersectionObserver(callback, option) // callback 参数是 IntersectionObserverEntry 对象 的数组，观察了几个元素就有几个对象 // 开始观察 io.observe(document.getElementById(&#39;example&#39;)) // 停止观察 io.unobserve(element) // 关闭观察器 io.disconnect() 比过往监听 scroll，然后 getBoundingClientRect 的优势：
+scroll 事件密集发生，IntersectionObserver 没有大量计算 不会引起重绘回流 适合场景比如图片懒加载，无线滚动等，但是如果需要 buffer 好像就不行了。]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,58 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Promise - 标签 - Hello World</title>
+        <link>http://localhost:1313/tags/promise/</link>
+        <description>Promise - 标签 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Tue, 20 Sep 2022 15:43:30 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/promise/" rel="self" type="application/rss+xml" /><item>
+    <title>Async/await原理</title>
+    <link>http://localhost:1313/asyncawait/</link>
+    <pubDate>Tue, 20 Sep 2022 15:43:30 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/asyncawait/</guid>
+    <description><![CDATA[前端在平时开发中，应该没少使用 async/await 来让异步任务看上去像是同步的。经典的 await-to-js 这个库更是把错误捕捉都一并处理好了。
+以前学习的时候，就知道这个流行 api 是 promise 和 generator 函数的语法糖，但是没有详细的审视过因为 generator 用的不多，在重新认识一下 async/await 之前还是先去看看 generator 的原理吧。
+generatorgenerator 生成器函数使用 function* 语法，这种函数在调用时并不会执行任何代码，而是返回一个 Generator 的迭代器（关于迭代器在这篇文章中我有提到），且迭代器之间互不影响，调用迭代器的 next 方法，返回一个形如 {value: .., done: Boolean} 的对象。
+另一个需要知道的点是，next 方法参数的作用，是为上一个 yield 语句赋值。其他详细的用法见参考中第一篇文章。
+核心原理大致如下：
+// 1. 不同实例，返回的迭代器互不干扰，所以应该是有个生成上下文的构造器 class Context { constructor() { this.curr = null this.next = null this.done = false } finish() { this.done = true } } // 2. 使用switch..case的流程控制函数 function process(ctx) { var xxx while (1) { switch ((ctx.]]></description>
+</item><item>
+    <title>Promise提前结束</title>
+    <link>http://localhost:1313/promise%E6%8F%90%E5%89%8D%E7%BB%93%E6%9D%9F/</link>
+    <pubDate>Tue, 20 Sep 2022 14:41:30 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/promise%E6%8F%90%E5%89%8D%E7%BB%93%E6%9D%9F/</guid>
+    <description><![CDATA[常见的需求是，当点击一个按钮时，连续点击多次，就会触发多次请求，我们可以通过防抖来解决，也可以通过取消相同的重复请求来实现。
+axios 已经有了取消请求的功能：
+const CancelToken = axios.CancelToken; let cancel; axios.get(&#39;/demo&#39;, { cancelToken: new CancelToken((c) =&gt; { cancel = c; }) }); cancel(); // 取消这个请求 /* ---------- 或者 ---------- */ const CancelToken = axios.CancelToken; const source = CancelToken.source(); axios.get(&#39;/user/12345&#39;, { cancelToken: source.token }).catch(function (thrown) { if (axios.isCancel(thrown)) { console.log(&#39;Request canceled&#39;, thrown.message); } else { // 处理错误 } }); axios.post(&#39;/user/12345&#39;, { name: &#39;new name&#39; }, { cancelToken: source.token }) // 取消请求（message 参数是可选的） source.]]></description>
+</item><item>
+    <title>Promise并发</title>
+    <link>http://localhost:1313/promise%E5%B9%B6%E5%8F%91/</link>
+    <pubDate>Tue, 20 Sep 2022 14:41:20 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/promise%E5%B9%B6%E5%8F%91/</guid>
+    <description><![CDATA[一个比较经典的问题，就是 n 个 请求，实现一个方法，让每次并发请求个数是 x 个这样子。
+其实在前端中应该是比较常用的应用，如果 n 个请求瞬间被发送到后端，这个是不合理的，应该控制在一定的范围内，当某个请求返回时，再去发起下个请求。
+promise关键点，一个限定数量的请求池，一个 promise 有结果后，再去加入下一个请求，递归直到所有结束。
+const mockReq = function (time) { return new Promise((resolve, reject) =&gt; { setTimeout(() =&gt; { resolve(time); }, time); }); }; const reqList = [1000, 2000, 2000, 3000, 3000, 5000]; const res = []; /** * 核心就是利用递归调用请求，在then回调中自动加入请求池 */ function concurrentPromise(limit) { const pool = []; for (let i = 0; i &lt; limit; ++i) { // pool.push(mockReq(reqList.shift()); managePool(pool, mockReq(reqList.shift())); } } function managePool(pool, promise) { pool.]]></description>
+</item><item>
+    <title>Promise A&#43;</title>
+    <link>http://localhost:1313/promisea/</link>
+    <pubDate>Tue, 20 Sep 2022 14:05:12 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/promisea/</guid>
+    <description><![CDATA[简直是 JavaScript 界的宠儿，promise A+ 送上！如果你有 CET4 的水平，或者 google 翻译，请一定先看完这个，而不是其他杂文（包括这篇 0.0）
+注意：promise A+ 主要专注于可交互的 then 方法
+解读规范 promise state三种状态： pending、fulfilled、rejected。
+pending 最终转为 fulfilled或 rejected 且是不可逆的。
+then一个 promise 必须有个 then 方法。
+promise.then(onFulfilled, onRejected) then 方法的两个参数必须都是函数，否则将被忽略(真的是忽略吗？实际上发生了值传递和异常传递，见第 6 条)
+这两个函数都必须在 promise 转变状态后才能执行，并且只能执行一次，
+它们的参数分别为 promise 的 value 和 reason
+这两个函数执行时机是在执行上下文只剩下 promise 时才去执行（指 then 的异步执行）
+这两个函数必须被作为函数调用（即没有 this 值）
+毫无疑问要使用箭头函数，目的是确保 this 指向为 promise 实例。（假如使用 class 实现，class 默认为严格模式，this 指向 undefined）
+一个 promise 可以注册多个 then 方法，按照初始声明时的调用顺序执行 then
+then 必须返回一个 promise：]]></description>
+</item></channel>
+</rss>

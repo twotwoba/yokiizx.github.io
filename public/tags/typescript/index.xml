@@ -1,0 +1,19 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>TypeScript - 标签 - Hello World</title>
+        <link>http://localhost:1313/tags/typescript/</link>
+        <description>TypeScript - 标签 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Tue, 07 Mar 2023 11:39:43 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/typescript/" rel="self" type="application/rss+xml" /><item>
+    <title>TypeScript自用手册</title>
+    <link>http://localhost:1313/%E9%87%8D%E5%AD%A6typescript/</link>
+    <pubDate>Tue, 07 Mar 2023 11:39:43 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E9%87%8D%E5%AD%A6typescript/</guid>
+    <description><![CDATA[编程语言，用进废退 🤦🏻‍♀️ 好久没用感觉都忘了，还是整理一下常用的东西吧，太基础的就看文档好了，记录一下必要的以及平时踩的坑。
+基于 TypeScript v4.9.5
+基础# ts-node是为了直接运行 ts 文件，避免先tsc再node脚本 npm i typescript ts-node -g Type Challenge，TS 类型中的 leetcode👻 点击查看详细内容 两个基础配置 noImplicitAny，开启后，类型被推断为 any 将会报错 strictNullChecks，开启后，null 和 undefined 只能被赋值给对应的自身类型了 联合类型注意点是：在调用联合类型的方法前，除非这个方法在联合类型的所有类型上都有，否则必须明确指定是哪个类型，才能调用。
+function test(type: string | string[]) { type.toString(); // no problem, both have methods toString() type.toLowerCase(); // error 👇🏻 // it should be： typeof type === &#39;string&#39; &amp;&amp; type.toLowerCase() // 在 TS 中，这叫做 收紧 Narrow，typeof/instanceof/in/boolean/equal/assert } 对于下方类似对象中某个值使用联合类型且「作为函数入参」的处理：
+// bad interface Shape { kind: &#34;circle&#34; | &#34;square&#34;; // 即使确定了是circle, 但是使用radius还得做一次非空断言 radius?]]></description>
+</item></channel>
+</rss>

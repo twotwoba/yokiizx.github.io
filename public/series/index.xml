@@ -1,0 +1,57 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Series - 系列 - Hello World</title>
+        <link>http://localhost:1313/series/</link>
+        <description>Series - 系列 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Wed, 21 Feb 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://localhost:1313/series/" rel="self" type="application/rss+xml" /><item>
+    <title>Trick</title>
+    <link>http://localhost:1313/series/trick/</link>
+    <pubDate>Wed, 21 Feb 2024 00:00:00 &#43;0000</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/series/trick/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Data Structure</title>
+    <link>http://localhost:1313/series/data-structure/</link>
+    <pubDate>Tue, 13 Feb 2024 17:54:23 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/series/data-structure/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Mysql</title>
+    <link>http://localhost:1313/series/mysql/</link>
+    <pubDate>Thu, 07 Dec 2023 22:01:21 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/series/mysql/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Hooks</title>
+    <link>http://localhost:1313/series/hooks/</link>
+    <pubDate>Thu, 27 Jul 2023 11:47:25 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/series/hooks/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Format</title>
+    <link>http://localhost:1313/series/format/</link>
+    <pubDate>Thu, 30 Mar 2023 16:50:12 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/series/format/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Wp</title>
+    <link>http://localhost:1313/series/wp/</link>
+    <pubDate>Mon, 30 Jan 2023 10:54:44 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/series/wp/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Npm</title>
+    <link>http://localhost:1313/series/npm/</link>
+    <pubDate>Fri, 02 Dec 2022 20:40:32 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/series/npm/</guid>
+    <description><![CDATA[]]></description>
+</item></channel>
+</rss>

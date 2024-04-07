@@ -1,0 +1,102 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Algorithm - 分类 - Hello World</title>
+        <link>http://localhost:1313/categories/algorithm/</link>
+        <description>Algorithm - 分类 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Wed, 21 Feb 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://localhost:1313/categories/algorithm/" rel="self" type="application/rss+xml" /><item>
+    <title>滑动窗口</title>
+    <link>http://localhost:1313/%E6%95%B0%E7%BB%84-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
+    <pubDate>Wed, 21 Feb 2024 00:00:00 &#43;0000</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</guid>
+    <description><![CDATA[核心滑动窗口的核心就是维持一个 [i..j) 的区间窗口，在数据上游走，来获取到需要的信息，在数组,字符串等中的表现，往往如下：
+function slideWindow() { // 前后快慢双指针 let left = 0 let right = 0 /** 具体的条件逻辑根据实际问题实际处理，多做练习 */ while(slide condition) { window.push(s[left]) // s 为总数据（字符串、数组） right++ while(shrink condition) { window.shift(s[left]) left++ } } } 滑动窗口的算法时间复杂度为 O(n)，适用于处理大型数据集
+练一练 lc.3 无重复字符的最长子串/** * @param {string} s * @return {number} */ var lengthOfLongestSubstring = function (s) { let max = 0 let l = 0, r = 0 let window = {} while (r &lt; s.]]></description>
+</item><item>
+    <title>数组-双指针应用</title>
+    <link>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%8F%8C%E6%8C%87%E9%92%88/</link>
+    <pubDate>Fri, 16 Feb 2024 00:00:00 &#43;0000</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%8F%8C%E6%8C%87%E9%92%88/</guid>
+    <description><![CDATA[数组双指针双指针，一般两种，快慢指针和左右指针，根据不同场景使用不同方法。
+以下题基本都是简单题，知道使用双指针就没啥难度了~
+lc.167 两数之和 II - 有序数组/** * @param {number[]} numbers * @param {number} target * @return {number[]} */ var twoSum = function (numbers, target) { let left = 0, right = numbers.length - 1 while (left &lt; right) { if (numbers[left] + numbers[right] &lt; target) { left++ } else if (numbers[left] + numbers[right] &gt; target) { right-- } else if (numbers[left] + numbers[right] === target) { return [left + 1, right + 1] } } } lc.]]></description>
+</item><item>
+    <title>前缀树（字典树）</title>
+    <link>http://localhost:1313/%E5%89%8D%E7%BC%80%E6%A0%91/</link>
+    <pubDate>Tue, 13 Feb 2024 17:54:23 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E5%89%8D%E7%BC%80%E6%A0%91/</guid>
+    <description><![CDATA[概念及实现前缀树，也叫字典树，就是一种数据结构，比如有一组字符串 ['abc', 'ab', 'bc', 'bck']，那么它的前缀树是这样的：
+核心：字符在树的树枝上，节点上保存着信息 (当然不是这么死，个人习惯，程序怎么实现都是 ok 的)，含义如下：
+p：通过树枝字符的字符串数量. &ndash; 可以查询前缀数量 e：以树枝字符结尾的字符串数量. &ndash; 可以查询字符串 对应的数据结构如下：
+class TrieNode { constructor(pass = 0, end = 0) { this.pass = pass // 通过下接树枝字符的字符串数量 this.end = end // 以上接树枝字符结尾的字符串数量 this.next = {} // {char: TrieNode} 的 map 集， 字符有限，有些教程也用数组实现；next 的 key 就可以抽象为树枝 } } class Trie { constructor() { this.root = new TrieNode() } insert(str) { let p = this.root for (const c of str) { if (!]]></description>
+</item><item>
+    <title>二叉树</title>
+    <link>http://localhost:1313/%E4%BA%8C%E5%8F%89%E6%A0%91/</link>
+    <pubDate>Mon, 15 Jan 2024 21:01:56 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E4%BA%8C%E5%8F%89%E6%A0%91/</guid>
+    <description><![CDATA[二叉树class Node&lt;V&gt; { V value; Node left; Node right; } 递归序/** * 1 * / \ * 2 3 * / \ / \ * 4 5 6 7 * * 下方 go 函数就是对这棵二叉树的递归序遍历 * 每个节点都会结果 3 次，分别在1，2，3位置；实际遍历顺序： * * 1(1)，2(1)，4(1)，4(2)，4(3)， * 2(2)，5(1)，5(2)，5(3)，2(3)， * 1(2)，3(1)，6(1)，6(2)，6(3)， * 3(2)，7(1)，7(2)，7(3)，3(3)，1(3) * * 前序（根左右（1））结果：1，2，4，5，3，6，7 * 前序（左根右（2））结果：4，2，5，1，6，3，7 * 前序（左右根（3））结果：4，5，2，6，7，3，1 */ public void go(Node head) { if(head == null) return; // 1 go(head.left); // 2 go(head.]]></description>
+</item><item>
+    <title>链表</title>
+    <link>http://localhost:1313/%E9%93%BE%E8%A1%A8/</link>
+    <pubDate>Tue, 09 Jan 2024 20:10:19 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E9%93%BE%E8%A1%A8/</guid>
+    <description><![CDATA[链表class Node&lt;V&gt; { V value; Node next; } class Node&lt;V&gt; { V value; Node next; Node last; } 对于链表算法，在面试中，一定尽量用到空间复杂度最小的方法（不然凭啥用咱是吧 🐶）。
+链表「换头」情况操作链表出现「换头」的情况，函数的递归调用形式应该是 head = func(head.next)，所以函数在设计的时候就应该有一个 Node 类型的返回值，比如反转链表。
+哨兵守卫「哨兵守卫」是链表中的常用技巧。通过在链表头部或尾部添加守卫节点，可以简化对边界情况的处理。
+链表中常用的技巧-快慢指针 找到链表的中点、中点前一个、中点后一个这个是硬编码能力，需要大量练习打好基本功。
+/** * 奇数的中点; 偶数的中点靠前一位 */ Node s = head; Node f = head; while (f.next != null &amp;&amp; f.next.next != null) { s = s.next; f = f.next.next; } /** * 奇数的中点; 偶数的中点靠后一位 lc.876 easy */ while (f != null &amp;&amp; f.]]></description>
+</item><item>
+    <title>必须掌握的排序方法&amp;递归时间复杂度</title>
+    <link>http://localhost:1313/%E5%BF%85%E6%8E%8C%E6%8F%A1%E7%9A%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</link>
+    <pubDate>Thu, 04 Jan 2024 15:37:23 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E5%BF%85%E6%8E%8C%E6%8F%A1%E7%9A%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</guid>
+    <description><![CDATA[冒泡，选择，插入其中冒泡和选择一定 O(n^2)，插入最坏 O(N^2)，最好 O(N) 取决于数据结构。
+// 测试数组 int[] arr = new int[]{2, 1, 5, 9, 5, 4, 3, 6, 8, 9, 6, 7, 3, 4, 2, 7, 1, 8}; /** * 交换数组的两个值，此种异或交换值方法的前提是 i != j，否则会变为 0 */ public void swap(int[] arr, int i, int j) { arr[i] = arr[i] ^ arr[j]; arr[j] = arr[i] ^ arr[j]; arr[i] = arr[i] ^ arr[j]; } // 保险还是用这个吧～ public void swap(int[] arr, int i, int j) { int temp = arr[i]; arr[i] = arr[j]; arr[j] = temp; } 冒泡从左往右，两两比较，冒出极值]]></description>
+</item><item>
+    <title>图</title>
+    <link>http://localhost:1313/%E5%9B%BE/</link>
+    <pubDate>Sun, 19 Feb 2023 16:03:41 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E5%9B%BE/</guid>
+    <description><![CDATA[图论基础 邻接表&amp;邻接矩阵 上面这幅有向图，分别用邻接表和邻接矩阵实现如下：
+// 邻接表，当然也可以用 hashmap 来实现 const graph: Array&lt;number[]&gt; = [[1, 3, 4], [2, 3, 4], [3], [4], []] // 邻接矩阵，当然元素不仅仅只能为 Boolean 值 const graph: Array&lt;boolean[]&gt; = [ [false, true, false, true, true], [false, false, true, true, true], [false, false, false, true, false], [false, false, false, false, true], [false, false, false, false, false] ] 邻接表：占用空间少；判断两个节点是否相邻，需要遍历所有相邻的节点 邻接矩阵：存在很多空洞，占用空间大；判断两个节点是否相邻简单，获取 matrix[i][j] 的值即可 图的遍历图的遍历，需要注意的是图可能有环：
+必须要有 visited 变量来防止走入死循环 遍历过程中可以使用 onPath 变量判断当时的路径是否成环（类比贪吃蛇蛇身） /** visited 类似贪吃蛇走过的所有路径；onPath 类似设蛇身 */ // 记录所有遍历过的节点 const visited = [] // 记录从起点到当前节点的路径 const onPath = [] /* 图遍历框架 DFS */ function traverse(graph, s) { if (visited[s]) return // 经过节点 s，标记为已遍历 visited[s] = true // 做选择：标记节点 s 在路径上 onPath[s] = true for (const neighbor of graph.]]></description>
+</item><item>
+    <title>数组-差(cha)分数组</title>
+    <link>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/</link>
+    <pubDate>Sun, 19 Feb 2023 16:02:32 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/</guid>
+    <description><![CDATA[前缀和数组 是应对数组区间被频繁访问求和查询
+差分数组 是为了应对区间内元素的频繁加减修改
+概念const diff = [nums[0]] for (let i = 1; i &lt; arr.length; ++i) { diff[i] = nums[i] - nums[i - 1] // 构建差分数组 } 对区间 [i..j] 进行加减 val 操作只需要对差分数组 diff[i] += val, diff[j+1] -= val 进行更新，然后依据更新后的差分数组还原出最终数组即可：
+nums[0] = diff[0] for (let i = 1; i &lt; diff[i]; ++i) { nums[i] = diff[i] + nums[i - 1] } 原理也很简单：
+diff[i] += val，等于对 [i...] 之后的所有元素都加了 val diff[j+1] -=val，等于对 [j+1.]]></description>
+</item><item>
+    <title>数组-前缀和数组</title>
+    <link>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%89%8D%E7%BC%80%E5%92%8C%E6%95%B0%E7%BB%84/</link>
+    <pubDate>Sun, 19 Feb 2023 15:57:07 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%89%8D%E7%BC%80%E5%92%8C%E6%95%B0%E7%BB%84/</guid>
+    <description><![CDATA[概念应用场景：在原始数组不会被修改的情况下，快速、频繁查询某个区间的累加和。通常涉及到连续子数组和相关问题时，就可以考虑使用前缀和技巧了。
+核心思路：开辟新数组 preSum[i] 来存储原数组 nums[0..i-1] 的累加和，preSum[0] = 0。这样，当求原数组区间和就比较容易了，区间 [i..j] 的和等于 preSum[j+1] - preSum[i] 的结果值。
+const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件 for (let i = 0; i &lt; arr.length; ++i) { preSum[i + 1] = preSum[i] + nums[i] // 构建前缀和数组 } // 查询 sum([i..j]) preSum[j + 1] - preSum[i] 构造：lc.303 区域和检索-数组不可变/** * @param {number[]} nums */ var NumArray = function (nums) { this.preSum = [0] // preSum 首位为0 便于计算 for (let i = 1; i &lt;= nums.]]></description>
+</item><item>
+    <title>单调队列</title>
+    <link>http://localhost:1313/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/</link>
+    <pubDate>Tue, 31 Jan 2023 09:15:05 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/</guid>
+    <description><![CDATA[概念栈有单调栈，队列自然也有单调队列，性质也是一样的，保持队列内的元素有序，单调递增或递减。
+其实动态求极值首先可以联想到的应该是 「优先队列」，但是，优先队列无法满足**「先进先出」**的时间顺序，所以单调队列应运而生。
+// 关键点, 保持单调性，其拍平效果与单调栈一致 while (q.length &amp;&amp; num (&lt;= | &gt;=) q[q.length - 1]) { q.pop() } q.push(num) 场景给你一个数组 window，已知其最值为 A，如果给 window 中添加一个数 B，那么比较一下 A 和 B 就可以立即算出新的最值；但如果要从 window 数组中减少一个数，就不能直接得到最值了，因为如果减少的这个数恰好是 A，就需要遍历 window 中的所有元素重新寻找新的最值。
+练一练 lc239. 滑动窗口最大值 hard动态计算极值，直接命中单调队列的使用条件。
+/** * @param {number[]} nums * @param {number} k * @return {number[]} */ var maxSlidingWindow = function (nums, k) { let res = [] const monoQueue = [] for (let i = 0; i &lt; nums.]]></description>
+</item></channel>
+</rss>

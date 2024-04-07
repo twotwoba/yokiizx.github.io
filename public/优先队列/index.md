@@ -1,0 +1,128 @@
+# 优先队列
+
+
+JavaScript 中没有内置优先队列这个数据结构，需要自己来实现一下~👻
+
+```javascript
+class PriorityQueue {
+  constructor(data, comp) {
+    this.data = data
+    this.comp = comp
+    for (let i = data.length >> 1; i >= 0; --i) {
+      this.down(i)
+    }
+  }
+  down(i) {
+    let left = 2 * i + 1
+    while (left < this.size()) {
+      let min = left + 1 && this.comp(this.data[left + 1], this.data[left]) ? left + 1 : left // 细节，left+1 在前
+      min = this.comp(this.data[i], this.data[min]) ? i : min
+      if (min === i) {
+        break
+      }
+      this.swap(i, min)
+      i = min
+      left = 2 * i + 1
+    }
+  }
+  up(i) {
+    while (i >= 0 && this.comp(this.data[(i - 1) >> 1], this.data[i])) {
+      this.swap((i - 1) >> 1, i)
+      i = (i - 1) >> 1
+    }
+  }
+  push(val) {
+    this.up(this.data.push(val) - 1)
+  }
+  poll() {
+    this.swap(0, this.size() - 1)
+    const top = this.data.pop()
+    this.down(0)
+    return top
+  },
+  size() {
+    return this.data.length
+  }
+  swap(i, j) {
+    const temp = this.data[i]
+    this.data[i] = this.data[j]
+    this.data[j] = temp
+  }
+}
+```
+
+测试：
+
+```js
+const pq = new PriorityQueue([4, 2, 3, 5, 6, 1, 7, 8, 9], (a, b) => a - b > 0)
+console.log('📌📌📌 ~ pq', pq)
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+```
+
+---
+
+递归版本的 down，up，另外使用了堆顶守卫简化
+
+-   精髓之一：**数组的第一个索引 0 空着不用**
+-   精髓之二：插入或者删除元素的时候，需要元素自动排序
+
+```js
+class PriorityQueue {
+    constructor(data, cmp) {
+        // 使用堆顶守卫，更方便上浮时父节点的获取 p = i >> 1, 子节点本身就比较好获取倒是无所谓
+        this.data = [null, ...data]
+        this.cmp = cmp
+        for (let i = this.data.length >> 1; i > 0; --i) this.down(i) // 对除最后一层的子节点进行堆化初始化
+    }
+    get size() {
+        return this.data.length - 1
+    }
+    swap(i, j) {
+        ;[this.data[i], this.data[j]] = [this.data[j], this.data[i]]
+    }
+    // 递归上浮和下沉
+    down(i) {
+        if (i === this.size) return
+        const j = i
+        const l = i << 1
+        const r = l + 1
+        if (l <= this.size && this.cmp(this.data[i], this.data[l])) i = l
+        if (l <= this.size && this.cmp(this.data[i], this.data[r])) i = r
+        if (i !== j) {
+            this.swap(i, j)
+            this.down(i)
+        }
+    }
+    up(i) {
+        if (i === 1) return
+        const p = i >> 1
+        if (this.cmp(this.data[p], this.data[i])) {
+            this.swap(p, i)
+            this.up(p)
+        }
+    }
+    push(val) {
+        this.up(this.data.push(val) - 1) // 加入队列后进行上浮处理
+    }
+    poll() {
+        this.swap(1, this.size) // 先交换首尾，方便后面出队
+        const top = this.data.pop()
+        this.down(1)
+        return top
+    }
+}
+```
+
+场景：
+
+-   lc.23 合并 K 个有序链表
+-   堆排序也有其中的思想
+

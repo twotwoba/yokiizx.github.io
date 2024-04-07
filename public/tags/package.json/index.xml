@@ -1,0 +1,25 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Package.json - 标签 - Hello World</title>
+        <link>http://localhost:1313/tags/package.json/</link>
+        <description>Package.json - 标签 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Fri, 24 Mar 2023 14:16:10 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/package.json/" rel="self" type="application/rss+xml" /><item>
+    <title>深入package.json</title>
+    <link>http://localhost:1313/%E6%B7%B1%E5%85%A5package.json/</link>
+    <pubDate>Fri, 24 Mar 2023 14:16:10 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/%E6%B7%B1%E5%85%A5package.json/</guid>
+    <description><![CDATA[introduction之前一深入学习了 npm script，package.json的内容一笔带过了，想了想还是总结一下 pkg 内常见的字段。
+首先，起码我个人刚入行时是对 package.json 这个东西不在意的，它什么档次还需要我研究？不就是记录了装了啥嘛，老夫 npm run dev/build 一把梭，上来就是淦！但是当俺想要自己开发一个包并且发布时 &ndash; oh my god，my head wengwengweng~
+所以先有一个基本的认识，发布的包发布的是什么？
+package.json 文件 其他文件，协议，文档，构建物等 其中构建物就是我们打包完的东西，当引用发布的包时，引用的是什么？怎么做到的？请看下文。
+一个 npm 包，你引用的撒？脱口而出： package.json 中的入口配置 main 字段指向的文件！小 case 的啦。
+没错，但还不够。
+main &amp; browser &amp; module &amp; exports main：这个是众所周知的，就是指定主入口文件，默认为 index.js
+browser：这个顾名思义，作用就是指定浏览器环境下加载的文件，比如：&quot;axios&quot;: &quot;node_modules/axios/dist/axios.min.js&quot;
+module：该字段也是指定主文件入口，只不过是指定 ES6 模块环境下的入口文件路径，优先级高于 main
+exports：这个字段作用是指定导出内容，可以为多个，遵循 node 模块解析算法。
+{ &#34;name&#34;: &#34;example&#34;, &#34;version&#34;: &#34;1.0.0&#34;, &#34;main&#34;: &#34;./lib/example.js&#34;, &#34;exports&#34;: { &#34;.&#34;: &#34;./lib/example.js&#34;, // main显示 这里必须再指定一次 &#34;./module1&#34;: &#34;./lib/module1.js&#34;, &#34;./module2&#34;: &#34;./lib/module2.js&#34;, } } 举例：import { module1 } from 'example/module1']]></description>
+</item></channel>
+</rss>

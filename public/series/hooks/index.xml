@@ -1,0 +1,71 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Hooks - 系列 - Hello World</title>
+        <link>http://localhost:1313/series/hooks/</link>
+        <description>Hooks - 系列 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Thu, 27 Jul 2023 11:47:25 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/series/hooks/" rel="self" type="application/rss+xml" /><item>
+    <title>React hooks--useState&amp;useReducer</title>
+    <link>http://localhost:1313/react_hooks--usestateusereducer/</link>
+    <pubDate>Tue, 25 Jul 2023 11:47:25 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/react_hooks--usestateusereducer/</guid>
+    <description><![CDATA[useStateReact hooks 的出现一大作用就是让函数具有了 state，进而才能全面的拥抱函数式编程。
+函数式编程的好处就是两个字：干净，进而可以很好的实现逻辑复用。
+const [state, setState] = useState(initialState) 心智模型(重要)在函数组件中所有的状态在一次渲染中实际上都是不变的，是静态的，你所能看到的 setState 引起的渲染其实已经是下一次渲染了。理解这一点尤为重要，感谢 Dan 的文章讲解。
+const [number, setNumber] = useState(0) const plus = () =&gt; { setNumber(number + 1) setNumber(number + 1) setNumber(number + 1) console.log(&#39;plus ---&#39;, number) // 输出仍然为 0, 就像一个快照 } useEffect(() =&gt; { console.log(&#39;effect ---&#39;, number) // 输出为 1，因为setNumber(number + 1) 的number在这次渲染流程中始终都是 0 !!! }, [number]) /* ---------- 如果依赖于前一次的状态那么应该使用函数式写法 ---------- */ const plus = () =&gt; { setNumber((prev) =&gt; prev + 1) // 更新函数 prev 准确的说是pending state setNumber((prev) =&gt; prev + 1) setNumber((prev) =&gt; prev + 1) console.]]></description>
+</item><item>
+    <title>React hooks--useEffect&amp;useLayoutEffect</title>
+    <link>http://localhost:1313/react_hooks--useeffectuselayouteffect/</link>
+    <pubDate>Tue, 25 Jul 2023 21:47:25 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/react_hooks--useeffectuselayouteffect/</guid>
+    <description><![CDATA[useEffectuseEffect(() =&gt; { setup, dependencies?)
+执行时机useEffect 是异步的：
+setup 函数在 DOM 被渲染后执行。如果 setup 返回了 cleanup 函数，会先执行 cleanup，再执行 setup。
+当组件挂载时都会先调用一次 setup，当组件被卸载时，也会调用一次 cleanup。
+值得注意，cleanup 里的状态是上一次的状态，即它被 return 那一刻的状态，因为它是函数嘛，类似快照。
+关于 dependencies：
+无，每次都会执行 setup []，只会执行一次 setup [dep1,dep2,&hellip;]，当有依赖项改变时（依据 Object.is），才会执行 setup 心智模型&ndash;每一次渲染的 everything 都是独立的一个看上去反常的例子：
+// Note： 假设 count 为 0 useEffect( () =&gt; { const id = setInterval(() =&gt; { setCount(count + 1) // 只会触发一次 因为实际上这次渲染的count永远为 0，永远是0+1 }, 1000) return () =&gt; clearInterval(id) }, [] // Never re-runs ) 因此需要把 count 正确的设为依赖，才会触发再次渲染，但是这么做又会导致每次渲染都先 cleanup 再 setup，这显然不是高效的。可以使用类似于 setState 的函数式写法：setCount(c =&gt; c + 1) 即可。这么做是既告诉 React 依赖了哪个值，又不会再次触发 effect 。]]></description>
+</item><item>
+    <title>React hooks--useRef</title>
+    <link>http://localhost:1313/react_hooks--useref/</link>
+    <pubDate>Wed, 26 Jul 2023 11:47:25 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/react_hooks--useref/</guid>
+    <description><![CDATA[useRef const ref = useRef(initialValue)
+ref 就是引用，vue 中也有类似的概念，在 react 中 ref 是一个形如 {current: initialValue} 的对象，不仅可以用来操作 DOM，也可以承载数据。
+与 useState 的区别既然能承载数据，那么和 useState 有什么渊源呢？让我们看看官网的一句话：useRef is a React Hook that lets you reference a value that’s not needed for rendering.，重点在后半句，大概意思就是引用了一个与渲染无关的值。
+在承载数据方面，这就是与 useState 最大的区别：
+useRef 引用的数据在改变后不会影响组件渲染，类似于函数组件的一个实例属性 useState 的值改变后会引发重新渲染 函数式组件在每次渲染中的 props、state 等等都是那次渲染中所独有的，当需要在 useEffect 中访问未来的 props/state 时，可以使用 useRef 。Demo: 随意输入并 send 后，再次输入，获取的是全部的输入。
+TS 环境下的使用在 TS 环境下，往往你可能会遇到此类报错：
+Type '{ ref: RefObject&lt;never&gt;; }' is not assignable to type 'IntrinsicAttributes'.]]></description>
+</item><item>
+    <title>React hooks--useContext</title>
+    <link>http://localhost:1313/react_hooks--usecontext/</link>
+    <pubDate>Thu, 27 Jul 2023 11:47:25 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/react_hooks--usecontext/</guid>
+    <description><![CDATA[ useContextconst value = useContext(SomeContext)
+简单理解就是使用传递下来的 context 上下文，这个 hook 不是独立使用的，需要先创建上下文。
+createContextconst SomeContext = createContext(defaultValue)
+创建的上下文有 Provider 和 Consumer(过时)：
+&lt;SomeContext.Provider value={name: &#39;hello world&#39;}&gt; &lt;YourComponent /&gt; &lt;/SomeContext.Provider&gt; // useContext 替代 Consumer const value = useContext(SomeContext) useContext 获取的是离它最近的 Provider 提供的 value 属性，如果没有 Provider 就去读取对应 context 的 defaultValue。
+性能优化当 context 发生变化时，会自动触发使用了它的组件重新渲染。因此，当 Provider 的 value 传递的值为对象或函数时，应该使用 useMemo 或 useCallback 将传递的值包裹一下避免整个子树组件的无效渲染(比如在 useEffect 中讲过的：函数在每次渲染中都是新的函数)。
+reference createContext useContext ]]></description>
+</item><item>
+    <title>React hooks--useMemo&amp;useCallback</title>
+    <link>http://localhost:1313/react_hooks--usememousecallback/</link>
+    <pubDate>Thu, 27 Jul 2023 11:47:25 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/react_hooks--usememousecallback/</guid>
+    <description><![CDATA[在之前的笔记中，讲了很多次的心智模型 &ndash; 组件在每次渲染中都是它全新的自己。所以当对象或函数参与到数据流之中时，就需要进行优化处理，来避免不必要的渲染。
+useMemoconst cachedValue = useMemo(calculateValue, dependencies)
+memoconst MemoizedComponent = memo(SomeComponent, arePropsEqual?)
+useMemo 是加在数据上的缓存，而 memo api 是加在组件上的，只有当 props 发生变化时，才会再次渲染。
+没有arePropsEqual，默认比较规则就是 Object.is
+useCallbackconst cachedFn = useCallback(fn, dependencies)
+reference useMemo useCallback ]]></description>
+</item></channel>
+</rss>

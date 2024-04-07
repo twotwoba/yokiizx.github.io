@@ -1,0 +1,940 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" /><title>TypeScript自用手册 - Hello World</title><meta name="Description" content="A website documenting front-end technology and everyday life"><meta property="og:title" content="TypeScript自用手册" />
+<meta property="og:description" content="编程语言，用进废退 🤦🏻‍♀️ 好久没用感觉都忘了，还是整理一下常用的东西吧，太基础的就看文档好了，记录一下必要的以及平时踩的坑。
+基于 TypeScript v4.9.5
+基础# ts-node是为了直接运行 ts 文件，避免先tsc再node脚本 npm i typescript ts-node -g Type Challenge，TS 类型中的 leetcode👻 点击查看详细内容 两个基础配置 noImplicitAny，开启后，类型被推断为 any 将会报错 strictNullChecks，开启后，null 和 undefined 只能被赋值给对应的自身类型了 联合类型注意点是：在调用联合类型的方法前，除非这个方法在联合类型的所有类型上都有，否则必须明确指定是哪个类型，才能调用。
+function test(type: string | string[]) { type.toString(); // no problem, both have methods toString() type.toLowerCase(); // error 👇🏻 // it should be： typeof type === &#39;string&#39; &amp;&amp; type.toLowerCase() // 在 TS 中，这叫做 收紧 Narrow，typeof/instanceof/in/boolean/equal/assert } 对于下方类似对象中某个值使用联合类型且「作为函数入参」的处理：
+// bad interface Shape { kind: &#34;circle&#34; | &#34;square&#34;; // 即使确定了是circle, 但是使用radius还得做一次非空断言 radius?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/%E9%87%8D%E5%AD%A6typescript/" /><meta property="og:image" content="http://localhost:1313/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-03-07T11:39:43+08:00" />
+<meta property="article:modified_time" content="2023-03-07T11:39:43+08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://localhost:1313/" /><meta name="twitter:title" content="TypeScript自用手册"/>
+<meta name="twitter:description" content="编程语言，用进废退 🤦🏻‍♀️ 好久没用感觉都忘了，还是整理一下常用的东西吧，太基础的就看文档好了，记录一下必要的以及平时踩的坑。
+基于 TypeScript v4.9.5
+基础# ts-node是为了直接运行 ts 文件，避免先tsc再node脚本 npm i typescript ts-node -g Type Challenge，TS 类型中的 leetcode👻 点击查看详细内容 两个基础配置 noImplicitAny，开启后，类型被推断为 any 将会报错 strictNullChecks，开启后，null 和 undefined 只能被赋值给对应的自身类型了 联合类型注意点是：在调用联合类型的方法前，除非这个方法在联合类型的所有类型上都有，否则必须明确指定是哪个类型，才能调用。
+function test(type: string | string[]) { type.toString(); // no problem, both have methods toString() type.toLowerCase(); // error 👇🏻 // it should be： typeof type === &#39;string&#39; &amp;&amp; type.toLowerCase() // 在 TS 中，这叫做 收紧 Narrow，typeof/instanceof/in/boolean/equal/assert } 对于下方类似对象中某个值使用联合类型且「作为函数入参」的处理：
+// bad interface Shape { kind: &#34;circle&#34; | &#34;square&#34;; // 即使确定了是circle, 但是使用radius还得做一次非空断言 radius?"/>
+<meta name="application-name" content="前端后花园">
+<meta name="apple-mobile-web-app-title" content="前端后花园">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<link rel="canonical" href="http://localhost:1313/%E9%87%8D%E5%AD%A6typescript/" /><link rel="prev" href="http://localhost:1313/%E5%9B%BE/" /><link rel="next" href="http://localhost:1313/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F--%E5%88%9B%E5%BB%BA%E5%9E%8B/" />
+<link rel="stylesheet" href="/css/main.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">{"@context": "https://schema.org","@type": "BlogPosting",
+        "headline": "TypeScript自用手册",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http://localhost:1313/%E9%87%8D%E5%AD%A6typescript/"
+        },"genre": "posts","keywords":["TypeScript"],"wordcount":  1664 ,
+        "url": "http://localhost:1313/%E9%87%8D%E5%AD%A6typescript/","datePublished": "2023-03-07T11:39:43+08:00","dateModified": "2023-03-07T11:39:43+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EricYuan",
+                "url": "/"
+            },"description": ""
+    }</script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {
+          document.body.setAttribute('theme', theme); 
+          document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');
+          if (theme === 'light') {
+            document.documentElement.classList.remove('tw-dark')
+          } else {
+            document.documentElement.classList.add('tw-dark')
+          }
+          window.theme = theme;   
+          window.isDark = window.theme !== 'light' 
+        }
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('dark' === 'light' || 'dark' === 'dark' || 'dark' === 'black') setTheme('dark'), saveTheme('dark'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+        window.switchThemeEventSet = new Set()
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop print:!tw-hidden" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Hello World"><img
+        class="logo"
+        loading="lazy"
+        src="/favicon.ico"
+        srcset="/favicon.ico, /favicon.ico 1.5x, /favicon.ico 2x"
+        title="/favicon.ico" height="36"   width="36" >EricYuan</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item"
+                    href="/posts/" > 文章 </a><a class="menu-item"
+                    href="/categories/" > 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                    <input type="text"
+                        placeholder="搜索文章标题或内容..."
+                        id="search-input-desktop">
+                    <button class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+                    </button>
+                    <button class="search-button search-clear" id="search-clear-desktop" title="清空">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"/></svg>
+                    </button>
+                    <span class="search-button search-loading tw-animate-spin" id="search-loading-desktop">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"/></svg>
+                    </span>
+                </span><button class="menu-item theme-select" aria-label="切换主题">
+                    <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705 0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
+                    <select class="color-theme-select" id="theme-select-desktop" aria-label="切换主题">
+                        <option value="light">浅色</option>
+                        <option value="dark">深色</option>
+                        <option value="black">黑色</option>
+                        <option value="auto">跟随系统</option>
+                    </select>
+                </button></div>
+        </div>
+    </div>
+</header><header class="mobile print:!tw-hidden" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Hello World"><img
+        class="logo"
+        loading="lazy"
+        src="/favicon.ico"
+        srcset="/favicon.ico, /favicon.ico 1.5x, /favicon.ico 2x"
+        title="/favicon.ico" >EricYuan</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                <div class="search mobile" id="search-mobile">
+                    <input type="text"
+                        placeholder="搜索文章标题或内容..."
+                        id="search-input-mobile">
+                    <button class="search-button search-toggle tw-h-10" id="search-toggle-mobile" title="搜索">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+                    </button>
+                    <button class="search-button search-clear" id="search-clear-mobile" title="清空">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"/></svg>
+                    </button>
+                    <span class="search-button search-loading tw-animate-spin" id="search-loading-mobile">
+                        <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"/></svg>
+                    </span>
+                </div>
+                <button class="search-cancel" id="search-cancel-mobile">
+                    取消
+                </button>
+            </div><a class="menu-item" href="/posts/" title="" >文章</a><a class="menu-item" href="/categories/" title="" >分类</a><button class="menu-item theme-select tw-w-full" aria-label="切换主题">
+                <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705 0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
+                <select class="color-theme-select" id="theme-select-mobile" aria-label="切换主题">
+                    <option value="light">浅色</option>
+                    <option value="dark">深色</option>
+                    <option value="black">黑色</option>
+                    <option value="auto">跟随系统</option>
+                </select>
+            </button></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div><main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content always-active" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#基础">基础</a>
+      <ul>
+        <li><a href="#两个基础配置">两个基础配置</a></li>
+        <li><a href="#联合类型">联合类型</a></li>
+        <li><a href="#type-和-interface">type 和 interface</a></li>
+        <li><a href="#类型断言">类型断言</a></li>
+        <li><a href="#对象中的字面量类型">对象中的字面量类型</a></li>
+        <li><a href="#函数类型">函数类型</a></li>
+        <li><a href="#函数的泛型">函数的泛型</a></li>
+        <li><a href="#函数约束">函数约束</a></li>
+        <li><a href="#函数重载">函数重载</a></li>
+        <li><a href="#unknown--void--never">unknown | void | never</a></li>
+        <li><a href="#索引签名">索引签名</a></li>
+        <li><a href="#对象的泛型">对象的泛型</a></li>
+        <li><a href="#class-相关">class 相关</a></li>
+        <li><a href="#enum-枚举类型">enum 枚举类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#类型操控">类型操控</a>
+      <ul>
+        <li><a href="#keyof">keyof</a></li>
+        <li><a href="#typeof">typeof</a></li>
+        <li><a href="#索引访问类型">索引访问类型</a></li>
+        <li><a href="#映射类型">映射类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#有用内置类型操作">有用内置类型操作</a>
+      <ul>
+        <li><a href="#infer-关键字">infer 关键字</a></li>
+        <li><a href="#declare">declare</a></li>
+      </ul>
+    </li>
+    <li><a href="#tsconfigjson">tsconfig.json</a></li>
+    <li><a href="#常见报错持续更新">常见报错(持续更新)</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">TypeScript自用手册</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><a href="/" title="Author" rel=" author" class="author">EricYuan</a>
+                </span><span id="busuanzi_container_page_pv">&nbsp;
+                        <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+            </div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-03-07">2023-03-07</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2023-03-07">2023-03-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1664 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#基础">基础</a>
+      <ul>
+        <li><a href="#两个基础配置">两个基础配置</a></li>
+        <li><a href="#联合类型">联合类型</a></li>
+        <li><a href="#type-和-interface">type 和 interface</a></li>
+        <li><a href="#类型断言">类型断言</a></li>
+        <li><a href="#对象中的字面量类型">对象中的字面量类型</a></li>
+        <li><a href="#函数类型">函数类型</a></li>
+        <li><a href="#函数的泛型">函数的泛型</a></li>
+        <li><a href="#函数约束">函数约束</a></li>
+        <li><a href="#函数重载">函数重载</a></li>
+        <li><a href="#unknown--void--never">unknown | void | never</a></li>
+        <li><a href="#索引签名">索引签名</a></li>
+        <li><a href="#对象的泛型">对象的泛型</a></li>
+        <li><a href="#class-相关">class 相关</a></li>
+        <li><a href="#enum-枚举类型">enum 枚举类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#类型操控">类型操控</a>
+      <ul>
+        <li><a href="#keyof">keyof</a></li>
+        <li><a href="#typeof">typeof</a></li>
+        <li><a href="#索引访问类型">索引访问类型</a></li>
+        <li><a href="#映射类型">映射类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#有用内置类型操作">有用内置类型操作</a>
+      <ul>
+        <li><a href="#infer-关键字">infer 关键字</a></li>
+        <li><a href="#declare">declare</a></li>
+      </ul>
+    </li>
+    <li><a href="#tsconfigjson">tsconfig.json</a></li>
+    <li><a href="#常见报错持续更新">常见报错(持续更新)</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="details admonition warning open">
+                <div class="details-summary admonition-title">
+                    <span class="icon warning"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></svg></span>警告<span class="details-icon"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span>
+                </div>
+                <div class="details-content">
+                    <div class="admonition-content">
+                        本文最后更新于 <span class="timeago" datetime="2023-03-07T11:39:43" title="March 7, 2023">2023-03-07</span>，文中内容可能已过时。</div>
+                </div>
+            </div><p>编程语言，用进废退 🤦🏻‍♀️ 好久没用感觉都忘了，还是整理一下常用的东西吧，太基础的就看文档好了，记录一下必要的以及平时踩的坑。</p>
+<blockquote>
+<p>基于 TypeScript v4.9.5</p>
+</blockquote>
+<hr>
+<h2 id="基础" class="headerLink">
+    <a href="#%e5%9f%ba%e7%a1%80" class="header-mark"></a>基础</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># ts-node是为了直接运行 ts 文件，避免先tsc再node脚本</span>
+</span></span><span class="line"><span class="cl">npm i typescript ts-node -g
+</span></span></code></pre></div><ul>
+<li><a href="https://github.com/type-challenges/type-challenges/blob/main/README.md" target="_blank" rel="noopener noreferrer">Type Challenge</a>，TS 类型中的 leetcode👻</li>
+</ul>
+<details>
+<summary>点击查看详细内容</summary>
+<h3 id="两个基础配置" class="headerLink">
+    <a href="#%e4%b8%a4%e4%b8%aa%e5%9f%ba%e7%a1%80%e9%85%8d%e7%bd%ae" class="header-mark"></a>两个基础配置</h3><ul>
+<li>noImplicitAny，开启后，类型被推断为 any 将会报错</li>
+<li>strictNullChecks，开启后，null 和 undefined 只能被赋值给对应的自身类型了</li>
+</ul>
+<h3 id="联合类型" class="headerLink">
+    <a href="#%e8%81%94%e5%90%88%e7%b1%bb%e5%9e%8b" class="header-mark"></a>联合类型</h3><p>注意点是：在调用联合类型的方法前，除非这个方法在联合类型的所有类型上都有，否则必须明确指定是哪个类型，才能调用。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">test</span><span class="p">(</span><span class="kr">type</span><span class="o">:</span> <span class="kt">string</span> <span class="o">|</span> <span class="kt">string</span><span class="p">[])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">type</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>    <span class="c1">// no problem, both have methods toString()
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">type</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">();</span> <span class="c1">// error 👇🏻
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// it should be： typeof type === &#39;string&#39; &amp;&amp; type.toLowerCase()
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 在 TS 中，这叫做 收紧 Narrow，typeof/instanceof/in/boolean/equal/assert
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>对于下方类似对象中某个值使用联合类型且「作为函数入参」的处理：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="c1">// bad
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">interface</span> <span class="nx">Shape</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">kind</span><span class="o">:</span> <span class="s2">&#34;circle&#34;</span> <span class="o">|</span> <span class="s2">&#34;square&#34;</span><span class="p">;</span>  <span class="c1">// 即使确定了是circle, 但是使用radius还得做一次非空断言
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">radius?</span>: <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">sideLength?</span>: <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">getArea</span><span class="p">(</span><span class="nx">shape</span>: <span class="kt">Shape</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">shape</span><span class="p">.</span><span class="nx">kind</span> <span class="o">===</span> <span class="s1">&#39;circle&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">*</span> <span class="nx">shape</span><span class="p">.</span><span class="nx">radius</span><span class="o">!</span> <span class="o">**</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// 需要非空断言 (在变量后添加!,用以排除null和undefined)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// good
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">interface</span> <span class="nx">Circle</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">kind</span><span class="o">:</span> <span class="s2">&#34;circle&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">radius</span>: <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">Square</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">kind</span><span class="o">:</span> <span class="s2">&#34;square&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">sideLength</span>: <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">Shape</span> <span class="o">=</span> <span class="nx">Circle</span> <span class="o">|</span> <span class="nx">Square</span><span class="p">;</span> <span class="c1">// 这样确定为某一个类型后,使用对应的属性不再用作非空断言了
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">getArea</span><span class="p">(</span><span class="nx">shape</span>: <span class="kt">Shape</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">shape</span><span class="p">.</span><span class="nx">kind</span> <span class="o">===</span> <span class="s1">&#39;circle&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">*</span> <span class="nx">shape</span><span class="p">.</span><span class="nx">radius</span> <span class="o">**</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="type-和-interface" class="headerLink">
+    <a href="#type-%e5%92%8c-interface" class="header-mark"></a>type 和 interface</h3><ul>
+<li>type
+<ul>
+<li>其他类型的别名，可以是任何类型。</li>
+<li>不能重复声明</li>
+<li>对象类型通过 <code>&amp;</code> 实现拓展</li>
+</ul>
+</li>
+<li>interface
+<ul>
+<li>只能表示对象。</li>
+<li>重复声明会合并</li>
+<li>对象类型通过 <code>extends</code> 实现拓展</li>
+</ul>
+</li>
+</ul>
+<h3 id="类型断言" class="headerLink">
+    <a href="#%e7%b1%bb%e5%9e%8b%e6%96%ad%e8%a8%80" class="header-mark"></a>类型断言</h3><p>有 <code>as</code> 和 <code>&lt;T&gt;var</code> 两种方式。在 <code>tsx</code>中只能使用<code>as</code>的方式。遇到复杂类型断言，可以先断言为<code>any</code>或<code>unknown</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">demo</span> <span class="o">=</span> <span class="p">(</span><span class="nx">variable</span> <span class="kr">as</span> <span class="kt">any</span><span class="p">)</span> <span class="kr">as</span> <span class="nx">T</span>
+</span></span></code></pre></div><h3 id="对象中的字面量类型" class="headerLink">
+    <a href="#%e5%af%b9%e8%b1%a1%e4%b8%ad%e7%9a%84%e5%ad%97%e9%9d%a2%e9%87%8f%e7%b1%bb%e5%9e%8b" class="header-mark"></a>对象中的字面量类型</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="c1">// 此处的method会被推断为 string
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">req</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">url</span><span class="o">:</span> <span class="s2">&#34;https://example.com&#34;</span><span class="p">,</span> <span class="nx">method</span><span class="o">:</span> <span class="s2">&#34;GET&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 想要让 「整个」 对象的所有字符串都变成字面量类型，可以使用 as const
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">req</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">url</span><span class="o">:</span> <span class="s2">&#34;https://example.com&#34;</span><span class="p">,</span> <span class="nx">method</span><span class="o">:</span> <span class="s2">&#34;GET&#34;</span><span class="p">}</span> <span class="kr">as</span> <span class="kr">const</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 如果只想让对象中的某个属性变为字面量类型，单独使用断言即可
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">req</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">url</span><span class="o">:</span> <span class="s2">&#34;https://example.com&#34;</span><span class="p">,</span> <span class="nx">method</span><span class="o">:</span> <span class="s2">&#34;GET&#34;</span> <span class="kr">as</span> <span class="s2">&#34;GET&#34;</span><span class="p">}</span>
+</span></span></code></pre></div><p><code>as const</code> 类似的断言也出现在 rest arguments</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="c1">// Inferred as 2-length tuple
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">args</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="kr">as</span> <span class="kr">const</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">angle</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">atan2</span><span class="p">(...</span><span class="nx">args</span><span class="p">);</span>
+</span></span></code></pre></div><hr>
+<h3 id="函数类型" class="headerLink">
+    <a href="#%e5%87%bd%e6%95%b0%e7%b1%bb%e5%9e%8b" class="header-mark"></a>函数类型</h3><ul>
+<li>函数表达式
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">Fn</span> <span class="o">=</span> <span class="p">(</span><span class="nx">p</span>: <span class="kt">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">void</span>
+</span></span></code></pre></div></li>
+<li>调用签名
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">DescribableFunction</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">description</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nx">someArg</span>: <span class="kt">number</span><span class="p">)</span><span class="o">:</span> <span class="kr">boolean</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">CallOrConstruct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="p">(</span><span class="nx">s</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nb">Date</span><span class="p">;</span> <span class="c1">// 构造函数类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">(</span><span class="nx">n?</span>: <span class="kt">number</span><span class="p">)</span><span class="o">:</span> <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="函数的泛型" class="headerLink">
+    <a href="#%e5%87%bd%e6%95%b0%e7%9a%84%e6%b3%9b%e5%9e%8b" class="header-mark"></a>函数的泛型</h3><p>当函数的『输入、输出有关联』或者『输入的参数之间』有关联，那么就可以考虑到使用泛型了。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="c1">// 这样函数调用后的返回数据的类型会被 「自动推断」 出来
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">firstEl</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;(</span><span class="nx">arr</span>: <span class="kt">T</span><span class="p">[])</span><span class="o">:</span> <span class="nx">T</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 「泛型约束」 也使用 extends 关键字, 下方T必须具有一个length属性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">first</span><span class="p">&lt;</span><span class="nt">T</span> <span class="na">extends</span> <span class="p">{</span><span class="na">length</span><span class="err">:</span> <span class="na">number</span><span class="p">}&gt;(</span><span class="nx">p</span>: <span class="kt">T</span><span class="p">[])</span><span class="o">:</span> <span class="nx">T</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">p</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 有时候泛型不确定可能有不同值，那么在--调用的时候--需要 「手动指明」
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">combine</span><span class="p">&lt;</span><span class="nt">Type</span><span class="p">&gt;(</span><span class="nx">arr1</span>: <span class="kt">Type</span><span class="p">[],</span> <span class="nx">arr2</span>: <span class="kt">Type</span><span class="p">[])</span><span class="o">:</span> <span class="nx">Type</span><span class="p">[]</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">arr1</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">arr2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">demo</span> <span class="o">=</span> <span class="nx">combine</span><span class="p">&lt;</span><span class="nt">string</span> <span class="err">|</span> <span class="na">number</span><span class="p">&gt;([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;hello&#39;</span><span class="p">])</span>
+</span></span></code></pre></div><h3 id="函数约束" class="headerLink">
+    <a href="#%e5%87%bd%e6%95%b0%e7%ba%a6%e6%9d%9f" class="header-mark"></a>函数约束</h3><p>两个函数类型之间约束涉及到两个概念：</p>
+<ul>
+<li>协变：子类型赋值给父类型</li>
+<li>逆变：父类型赋值给子类型。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">Animal</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">Dog</span> <span class="kr">extends</span> <span class="nx">Animal</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">bark</span><span class="o">:</span> <span class="s1">&#39;wang&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">(</span><span class="nx">value</span>: <span class="kt">Animal</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Dog</span>
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">b</span> <span class="o">=</span> <span class="p">(</span><span class="nx">value</span>: <span class="kt">Dog</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Animal</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">a</span> <span class="kr">extends</span> <span class="nx">b</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span> <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">e</span> <span class="o">=</span> <span class="p">(</span><span class="nx">value</span>: <span class="kt">Dog</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Dog</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">f</span> <span class="o">=</span> <span class="p">(</span><span class="nx">value</span>: <span class="kt">Animal</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Animal</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">g</span> <span class="o">=</span> <span class="nx">e</span> <span class="kr">extends</span> <span class="nx">f</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// false
+</span></span></span></code></pre></div><p>结论：入参逆变，返回值协变。</p>
+<p>逆变的一大特性是在逆变位置时的推断类型为交叉类型。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">Demo</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;</span> <span class="o">=</span> <span class="nx">T</span> <span class="kr">extends</span> <span class="p">{</span> <span class="nx">a</span><span class="o">:</span> <span class="p">(</span><span class="nx">x</span>: <span class="kt">infer</span> <span class="nx">U</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">,</span> <span class="nx">b</span><span class="o">:</span> <span class="p">(</span><span class="nx">x</span>: <span class="kt">infer</span> <span class="nx">U</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">void</span> <span class="p">}</span> <span class="o">?</span> <span class="nx">U</span> : <span class="kt">never</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">SSS</span> <span class="o">=</span> <span class="nx">Demo</span><span class="o">&lt;</span><span class="p">{</span><span class="nx">a</span><span class="o">:</span> <span class="p">(</span><span class="nx">x</span>: <span class="kt">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">,</span> <span class="nx">b</span><span class="o">:</span> <span class="p">(</span><span class="nx">x</span>:<span class="kt">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">}</span><span class="o">&gt;</span> <span class="c1">// string &amp; number ==&gt; never
+</span></span></span></code></pre></div><p>这一特性在把对象联合类型转变为对象交叉类型还是挺好用的。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">Value</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">a</span>: <span class="kt">string</span> <span class="p">}</span> <span class="o">|</span> <span class="p">{</span> <span class="nx">b</span>: <span class="kt">number</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// extends 分发联合类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">type</span> <span class="nx">ToUnionFunction</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;</span> <span class="o">=</span> <span class="nx">T</span> <span class="kr">extends</span> <span class="kt">unknown</span> <span class="o">?</span> <span class="p">(</span><span class="nx">x</span>: <span class="kt">T</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">void</span> <span class="o">:</span> <span class="kt">never</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">UnionToIntersection</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;</span> <span class="o">=</span> <span class="nx">ToUnionFunction</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;</span> <span class="kr">extends</span> <span class="p">(</span><span class="nx">x</span>: <span class="kt">infer</span> <span class="nx">R</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">unknown</span>
+</span></span><span class="line"><span class="cl">        <span class="o">?</span> <span class="nx">R</span>
+</span></span><span class="line"><span class="cl">        : <span class="kt">never</span>
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">Res</span> <span class="o">=</span> <span class="nx">UnionToIntersection</span><span class="p">&lt;</span><span class="nt">Value</span><span class="p">&gt;</span> <span class="c1">// type Res= {  a: string } &amp; { b: number };
+</span></span></span></code></pre></div><h3 id="函数重载" class="headerLink">
+    <a href="#%e5%87%bd%e6%95%b0%e9%87%8d%e8%bd%bd" class="header-mark"></a>函数重载</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">fn</span><span class="p">(</span><span class="nx">x</span>: <span class="kt">boolean</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">fn</span><span class="p">(</span><span class="nx">x</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Note, implementation signature needs to cover all overloads
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">fn</span><span class="p">(</span><span class="nx">x</span>: <span class="kt">boolean</span> <span class="o">|</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="unknown--void--never" class="headerLink">
+    <a href="#unknown--void--never" class="header-mark"></a>unknown | void | never</h3><ul>
+<li>
+<p>unknown，相比 any 更加安全，比如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">demo</span><span class="p">(</span><span class="nx">a</span>: <span class="kt">unknown</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">a</span><span class="p">.</span><span class="nx">b</span><span class="p">()</span> <span class="c1">// ts 会提示 &#39;a&#39; is of type &#39;unknown&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div></li>
+<li>
+<p>void， 不是表示不返回值，而是会忽略返回值</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">voidFunc</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">fn</span>: <span class="kt">voidFunc</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">;</span> <span class="c1">// is ok
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">fn</span><span class="p">()</span> <span class="c1">// a is void type
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// but! 如果直接字面量function声明的话 机会报错
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">f2</span><span class="p">()</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// @ts-expect-error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">return</span> <span class="kc">true</span><span class="p">;</span> <span class="c1">// 没有上方注释就会报错了
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div></li>
+<li>
+<p>never，表示不存在的类型</p>
+</li>
+</ul>
+<hr>
+<h3 id="索引签名" class="headerLink">
+    <a href="#%e7%b4%a2%e5%bc%95%e7%ad%be%e5%90%8d" class="header-mark"></a>索引签名</h3><p>预先不清楚具体属性名，但是知道数据结构就可以使用这个了。</p>
+<p>能做索引签名的有这几种：</p>
+<ul>
+<li>string</li>
+<li>number</li>
+<li>symbol</li>
+<li>模板字符串</li>
+<li>以上四种的组合的联合类型</li>
+</ul>
+<p>需要注意的是，如果对象中同时存在两个索引，那么其他索引的返回类型必须是 string 索引的子集：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">Animal</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">Dog</span> <span class="kr">extends</span> <span class="nx">Animal</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">age</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Animal 和 Dog 交换一下才对
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">interface</span> <span class="nx">Demo</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">x</span>: <span class="kt">number</span><span class="p">]</span><span class="o">:</span> <span class="nx">Animal</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">x</span>: <span class="kt">string</span><span class="p">]</span><span class="o">:</span> <span class="nx">Dog</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="对象的泛型" class="headerLink">
+    <a href="#%e5%af%b9%e8%b1%a1%e7%9a%84%e6%b3%9b%e5%9e%8b" class="header-mark"></a>对象的泛型</h3><p>更优雅的处理对象类型，这可以帮助我们避免写函数重载。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">Demo</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">type</span><span class="o">:</span> <span class="nx">T</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">a</span>: <span class="kt">Demo</span><span class="p">&lt;</span><span class="nt">string</span><span class="p">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;hello&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><code>type</code> 别名表示范围比 <code>interface</code> 接口更大，所以对于泛型的使用范围更广：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">OrNull</span><span class="p">&lt;</span><span class="nt">Type</span><span class="p">&gt;</span> <span class="o">=</span> <span class="nx">Type</span> <span class="o">|</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">OneOrMany</span><span class="p">&lt;</span><span class="nt">Type</span><span class="p">&gt;</span> <span class="o">=</span> <span class="nx">Type</span> <span class="o">|</span> <span class="nx">Type</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">OneOrManyOrNull</span><span class="p">&lt;</span><span class="nt">Type</span><span class="p">&gt;</span> <span class="o">=</span> <span class="nx">OrNull</span><span class="p">&lt;</span><span class="nt">OneOrMany</span><span class="err">&lt;</span><span class="na">Type</span><span class="p">&gt;</span><span class="o">&gt;</span><span class="p">;</span> <span class="c1">// 等价于 OneOrMany&lt;Type&gt; | null
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">OneOrManyOrNullStrings</span> <span class="o">=</span> <span class="nx">OneOrManyOrNull</span><span class="p">&lt;</span><span class="nt">string</span><span class="p">&gt;;</span> <span class="c1">// 等价于 string | string[] | null
+</span></span></span></code></pre></div><hr>
+<h3 id="class-相关" class="headerLink">
+    <a href="#class-%e7%9b%b8%e5%85%b3" class="header-mark"></a>class 相关</h3><p><code>strictPropertyInitialization</code> 控制 class 中的属性必须初始化。</p>
+<ul>
+<li>public，默认值</li>
+<li>protected，父类自身和子类可以访问，实例不行</li>
+<li>private，只有父类自身访问，实例不行</li>
+</ul>
+<p>抽象类，(abstract) 不能被实例化，可以被继承，抽象属性和方法在子类中必须被实现。</p>
+<p><a href="https://www.typescriptlang.org/docs/handbook/2/classes.html" target="_blank" rel="noopener noreferrer">classes 基础</a></p>
+<details>
+<summary>一个高阶知识：1. 父类构造器总是会使用它自己字段的值，而不是被重写的那一个，2. 但是它会使用被重写的方法。这是类字段和类方法一大区别，另一大区别就是this的指向问题了，类字段赋值的方法可以保证this不丢失。</summary>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">Animal</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">showName</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;animal&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">showName</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">Rabbit</span> <span class="kr">extends</span> <span class="nx">Animal</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">showName</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;rabbit&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">new</span> <span class="nx">Animal</span><span class="p">();</span> <span class="c1">// animal
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">new</span> <span class="nx">Rabbit</span><span class="p">();</span> <span class="c1">// animal
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cm">/* ---------- 因为上方都是类字段，父构造器只使用自己的字段值而不是重写的---------- */</span>
+</span></span><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">Animal</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">showName</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;animal&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">showName</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">Rabbit</span> <span class="kr">extends</span> <span class="nx">Animal</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">showName</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;rabbit&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">new</span> <span class="nx">Animal</span><span class="p">();</span> <span class="c1">// animal
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">new</span> <span class="nx">Rabbit</span><span class="p">();</span> <span class="c1">// rabbit
+</span></span></span></code></pre></div><p>另一个知识点就是为什么子类构造器中想要使用 this 必须先调用 <code>super()</code>？</p>
+<p>在 JavaScript 中，继承类（所谓的“派生构造器”，英文为 “derived constructor”）的构造函数与其他函数之间是有区别的。派生构造器具有特殊的内部属性 [[ConstructorKind]]:&ldquo;derived&rdquo;。这是一个特殊的内部标签。该标签会影响它的 new 行为：</p>
+<ul>
+<li>当通过 new 执行一个常规函数时，它将创建一个空对象，并将这个空对象赋值给 this。</li>
+<li>但是当继承的 constructor 执行时，它不会执行此操作。它期望父类的 constructor 来完成这项工作</li>
+</ul>
+<p>因此，派生的 constructor 必须调用 super 才能执行其父类（base）的 constructor，否则 this 指向的那个对象将不会被创建。并且我们会收到一个报错。</p>
+</details>
+<h3 id="enum-枚举类型" class="headerLink">
+    <a href="#enum-%e6%9e%9a%e4%b8%be%e7%b1%bb%e5%9e%8b" class="header-mark"></a>enum 枚举类型</h3><p>枚举比较特别，它不是一个 type-level 的 JS 拓展。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">enum</span> <span class="nx">Direction</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">Up</span> <span class="o">=</span> <span class="s1">&#39;up&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">Down</span> <span class="o">=</span> <span class="s1">&#39;down&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">Left</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">Right</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* ---------- 编译后 ---------- */</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">Direction</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">Direction</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">Direction</span><span class="p">[</span><span class="s2">&#34;Up&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;up&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">Direction</span><span class="p">[</span><span class="s2">&#34;Down&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;down&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">Direction</span><span class="p">[</span><span class="s2">&#34;Left&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;left&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">Direction</span><span class="p">[</span><span class="s2">&#34;Right&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;right&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">})(</span><span class="nx">Direction</span> <span class="o">||</span> <span class="p">(</span><span class="nx">Direction</span> <span class="o">=</span> <span class="p">{}));</span>
+</span></span></code></pre></div><p>可以看见，枚举类型编译后实际上是创建了一个完完整整的对象的。</p>
+<p>如果枚举类型未被初始化，默认从 0 开始。值为数字的枚举会被编译成如下模式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">enum</span> <span class="nx">Type</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">key</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">Type</span><span class="p">[</span><span class="nx">Type</span><span class="p">[</span><span class="s2">&#34;key&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;key&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 这样 Type[0] == key || Type[key] == 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 如果想要只能通过 key 访问，可以设置为常量枚举:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="kr">enum</span> <span class="nx">Type</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">key</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">A</span>: <span class="kt">Type</span> <span class="o">=</span> <span class="nx">Type</span><span class="p">.</span><span class="nx">key</span> <span class="c1">// A === 0
+</span></span></span></code></pre></div></details>
+<h2 id="类型操控" class="headerLink">
+    <a href="#%e7%b1%bb%e5%9e%8b%e6%93%8d%e6%8e%a7" class="header-mark"></a>类型操控</h2><h3 id="keyof" class="headerLink">
+    <a href="#keyof" class="header-mark"></a>keyof</h3><p>获取其他类型的 「键」 收集起来 组合成联合类型。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">Point</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">x</span>: <span class="kt">number</span><span class="p">;</span> <span class="nx">1</span>: <span class="kt">number</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">P</span> <span class="o">=</span> <span class="k">keyof</span> <span class="nx">Point</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">d</span>: <span class="kt">P</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">d</span>: <span class="kt">P</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 对于索引签名 keyof 获取到其类型，特殊的：索引签名为字符串时，keyof拿到的类型是 string|number
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">type</span> <span class="nx">Mapish</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="nx">k</span>: <span class="kt">string</span><span class="p">]</span><span class="o">:</span> <span class="kr">boolean</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">M</span> <span class="o">=</span> <span class="k">keyof</span> <span class="nx">Mapish</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">a</span>: <span class="kt">M</span> <span class="o">=</span> <span class="s1">&#39;1234&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">b</span>: <span class="kt">M</span> <span class="o">=</span> <span class="mi">1234</span><span class="p">;</span>
+</span></span></code></pre></div><h3 id="typeof" class="headerLink">
+    <a href="#typeof" class="header-mark"></a>typeof</h3><p>对应基本类型，typeof 和 js 没什么区别。主要应用在引用类型。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">fn</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="kr">boolean</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">ReturnType</span><span class="p">&lt;</span><span class="nt">fn</span><span class="p">&gt;;</span> <span class="c1">// x: boolean
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* ---------- 如果想直接对一个函数进行返回类型的获取就得用到typeof了 ---------- */</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">demo</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">ReturnType</span><span class="p">&lt;</span><span class="nt">typeof</span> <span class="na">demo</span><span class="p">&gt;;</span> <span class="c1">// y: boolean
+</span></span></span></code></pre></div><h3 id="索引访问类型" class="headerLink">
+    <a href="#%e7%b4%a2%e5%bc%95%e8%ae%bf%e9%97%ae%e7%b1%bb%e5%9e%8b" class="header-mark"></a>索引访问类型</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">Person</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">age</span>: <span class="kt">number</span><span class="p">;</span> <span class="nx">name</span>: <span class="kt">string</span><span class="p">;</span> <span class="nx">alive</span>: <span class="kt">boolean</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">Age</span> <span class="o">=</span> <span class="nx">Person</span><span class="p">[</span><span class="s2">&#34;age&#34;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 注意: 不能通过设置变量 x 为 &#39;age&#39;，然后通过 Person[x] 来获取
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 但是，可以通过设置type x = ‘age&#39;，再通过 Person[x] 来获取
+</span></span></span></code></pre></div><p>特殊的，针对数组，可以通过 <code>number</code> 和 <code>typeof</code> 来获取到数组每个元素类型组成的联合类型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">Arr</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="s1">&#39;hello&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">18</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">man</span>: <span class="kt">true</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">demo</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">Arr</span><span class="p">[</span><span class="kt">number</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// type demo = string | number | {
+</span></span></span><span class="line"><span class="cl"><span class="c1">//     name: boolean;
+</span></span></span><span class="line"><span class="cl"><span class="c1">// }
+</span></span></span></code></pre></div><h3 id="映射类型" class="headerLink">
+    <a href="#%e6%98%a0%e5%b0%84%e7%b1%bb%e5%9e%8b" class="header-mark"></a>映射类型</h3><p>如果当两种类型 key 一样，只是改变了其对应的类型，那么就可以考虑基于索引类型的类型转换了。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">FeatureFlags</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">darkMode</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">newUserProfile</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">OptionsFlags</span><span class="p">&lt;</span><span class="nt">Type</span><span class="p">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">Property</span> <span class="k">in</span> <span class="k">keyof</span> <span class="nx">Type</span><span class="p">]</span><span class="o">:</span> <span class="kr">boolean</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">FeatureOptions</span> <span class="o">=</span> <span class="nx">OptionsFlags</span><span class="p">&lt;</span><span class="nt">FeatureFlags</span><span class="p">&gt;;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// type FeatureOptions = {
+</span></span></span><span class="line"><span class="cl"><span class="c1">//     darkMode: boolean;
+</span></span></span><span class="line"><span class="cl"><span class="c1">//     newUserProfile: boolean;
+</span></span></span><span class="line"><span class="cl"><span class="c1">// }
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 可以通过 -readonly -? 来去除原来的描述符
+</span></span></span></code></pre></div><p>TS4.1 版本之后，可以通过 <code>as</code> 关键字来重命名获取到的 key。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">MappedTypeWithNewProperties</span><span class="p">&lt;</span><span class="nt">Type</span><span class="p">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="nx">Properties</span> <span class="k">in</span> <span class="k">keyof</span> <span class="nx">Type</span> <span class="kr">as</span> <span class="nx">NewKeyType</span><span class="p">]</span><span class="o">:</span> <span class="nx">Type</span><span class="p">[</span><span class="nx">Properties</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// NewKeyType 往往是使用 模板字符串
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">type</span> <span class="nx">Getters</span><span class="p">&lt;</span><span class="nt">Type</span><span class="p">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="nx">Property</span> <span class="k">in</span> <span class="k">keyof</span> <span class="nx">Type</span> <span class="kr">as</span> <span class="sb">`get</span><span class="si">${</span><span class="nx">Capitalize</span><span class="p">&lt;</span><span class="nt">string</span> <span class="err">&amp;</span> <span class="na">Property</span><span class="p">&gt;</span><span class="si">}</span><span class="sb">`</span><span class="p">]</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">Type</span><span class="p">[</span><span class="nx">Property</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">Person</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">age</span>: <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">location</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">LazyPerson</span> <span class="o">=</span> <span class="nx">Getters</span><span class="p">&lt;</span><span class="nt">Person</span><span class="p">&gt;;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// type LazyPerson = {
+</span></span></span><span class="line"><span class="cl"><span class="c1">//     getName: () =&gt; string;
+</span></span></span><span class="line"><span class="cl"><span class="c1">//     getAge: () =&gt; number;
+</span></span></span><span class="line"><span class="cl"><span class="c1">//     getLocation: () =&gt; string;
+</span></span></span><span class="line"><span class="cl"><span class="c1">// }
+</span></span></span></code></pre></div><h2 id="有用内置类型操作" class="headerLink">
+    <a href="#%e6%9c%89%e7%94%a8%e5%86%85%e7%bd%ae%e7%b1%bb%e5%9e%8b%e6%93%8d%e4%bd%9c" class="header-mark"></a>有用内置类型操作</h2><p>参见 <a href="https://www.typescriptlang.org/docs/handbook/utility-types.html" target="_blank" rel="noopener noreferrer">Utility Types</a></p>
+<p>记几个常用的吧：</p>
+<ul>
+<li>
+<p>Awaited<Type></p>
+</li>
+<li>
+<p>Partial<Type></p>
+</li>
+<li>
+<p>Required<Type></p>
+</li>
+<li>
+<p>Readonly<Type></p>
+</li>
+<li>
+<p>Record&lt;Keys, Type&gt;
+类型约束时，<code>object</code> 不能接收原始类型，而 <code>{}</code>和 <code>Object</code> 都可以，这是它们的区别。</p>
+<p>而 <code>object</code> 一般会用 <code>Record&lt;string, any&gt;</code> 代替，约束索引类型更加语义化</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="c1">// keyof any  === string | number | symbol
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">type</span> <span class="nx">Record</span><span class="p">&lt;</span><span class="nt">K</span> <span class="na">extends</span> <span class="na">keyof</span> <span class="na">any</span><span class="err">,</span> <span class="na">T</span><span class="p">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">P</span> <span class="k">in</span> <span class="nx">K</span><span class="p">]</span><span class="o">:</span> <span class="nx">T</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 定义对象类型很方便
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">type</span> <span class="nx">keys</span> <span class="o">=</span> <span class="s1">&#39;A&#39;</span> <span class="o">|</span> <span class="s1">&#39;B&#39;</span> <span class="o">|</span> <span class="s1">&#39;C&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">result</span>: <span class="kt">Record</span><span class="p">&lt;</span><span class="nt">keys</span><span class="err">,</span> <span class="na">number</span><span class="p">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">A</span>: <span class="kt">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">B</span>: <span class="kt">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">C</span>: <span class="kt">3</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Pick&lt;Type, keys&gt;</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">Pick</span><span class="p">&lt;</span><span class="nt">T</span><span class="err">,</span> <span class="na">K</span> <span class="na">extends</span> <span class="na">keyof</span> <span class="na">T</span><span class="p">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">P</span> <span class="k">in</span> <span class="nx">K</span><span class="p">]</span><span class="o">:</span> <span class="nx">T</span><span class="p">[</span><span class="nx">P</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Omit&lt;Type, keys&gt;</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="c1">// omit 忽略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">type</span> <span class="nx">Omit</span><span class="p">&lt;</span><span class="nt">T</span> <span class="err">,</span> <span class="na">K</span> <span class="na">extends</span> <span class="na">keyof</span> <span class="na">any</span><span class="p">&gt;</span> <span class="o">=</span> <span class="nx">Pick</span><span class="p">&lt;</span><span class="nt">T</span><span class="err">,</span> <span class="na">Exclude</span><span class="err">&lt;</span><span class="na">keyof</span> <span class="na">T</span><span class="err">,</span> <span class="na">K</span><span class="p">&gt;</span><span class="o">&gt;</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Exclude&lt;UnionType，ExcludedMembers&gt;</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="c1">// 注意：这个是针对联合类型的，当 T 为联合类型时，会触发自动分发
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 1 | 2 extends 3 === 1 extends 3 | 2 extends 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">type</span> <span class="nx">Exclude</span><span class="p">&lt;</span><span class="nt">T</span><span class="err">,</span> <span class="na">U</span><span class="p">&gt;</span> <span class="o">=</span> <span class="nx">T</span> <span class="kr">extends</span> <span class="nx">U</span> <span class="o">?</span> <span class="kt">never</span> <span class="o">:</span> <span class="nx">T</span><span class="p">;</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Extract&lt;Type, Union&gt;</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="c1">// 提取
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">type</span> <span class="nx">Extract</span><span class="p">&lt;</span><span class="nt">T</span><span class="err">,</span> <span class="na">U</span><span class="p">&gt;</span> <span class="o">=</span> <span class="nx">T</span> <span class="kr">extends</span> <span class="nx">U</span> <span class="o">?</span> <span class="nx">T</span> : <span class="kt">never</span><span class="p">;</span>
+</span></span></code></pre></div></li>
+<li>
+<p>NonNullable<Type></p>
+</li>
+<li>
+<p>ReturnType<Type></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TS" data-lang="TS"><span class="line"><span class="cl"><span class="kr">type</span> <span class="nx">ReturnType</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;</span> <span class="o">=</span> <span class="nx">T</span> <span class="kr">extends</span> <span class="p">(...</span><span class="nx">args</span>: <span class="kt">any</span><span class="p">[])</span> <span class="o">=&gt;</span> <span class="k">infer</span> <span class="nx">P</span> <span class="o">?</span> <span class="nx">P</span> : <span class="kt">any</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 注意这里使用了一个  infer 关键字
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 如果 T 能赋值给 (arg: infer P) =&gt; any，则结果是 (arg: infer P) =&gt; any 类型中的参数 P，否则返回为 T
+</span></span></span></code></pre></div></li>
+</ul>
+<h3 id="infer-关键字" class="headerLink">
+    <a href="#infer-%e5%85%b3%e9%94%ae%e5%ad%97" class="header-mark"></a>infer 关键字</h3><p>个人理解，可以把 <code>infer</code> 理解为一个占位符，往往用在泛型约束中，只有确定了泛型的类型后，才能把这个 <code>infer</code> 的占位类型也确定。</p>
+<ul>
+<li><a href="https://juejin.cn/post/6844904170353328135" target="_blank" rel="noopener noreferrer">理解 TypeScript 中的 infer 关键字</a></li>
+</ul>
+<h3 id="declare" class="headerLink">
+    <a href="#declare" class="header-mark"></a>declare</h3><ul>
+<li><a href="https://juejin.cn/post/6844904034621456398" target="_blank" rel="noopener noreferrer">Typescript 书写声明文件</a></li>
+</ul>
+<h2 id="tsconfigjson" class="headerLink">
+    <a href="#tsconfigjson" class="header-mark"></a>tsconfig.json</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-JSON" data-lang="JSON"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;compilerOptions&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="err">/*</span> <span class="err">基本选项</span> <span class="err">*/</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="s2">&#34;es5&#34;</span><span class="p">,</span>                       <span class="c1">// 指定 ECMAScript 目标版本: &#39;ES3&#39; (default), &#39;ES5&#39;, &#39;ES6&#39;/&#39;ES2015&#39;, &#39;ES2016&#39;, &#39;ES2017&#39;, or &#39;ESNEXT&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;module&#34;</span><span class="p">:</span> <span class="s2">&#34;commonjs&#34;</span><span class="p">,</span>                  <span class="c1">// 指定使用模块: &#39;commonjs&#39;, &#39;amd&#39;, &#39;system&#39;, &#39;umd&#39; or &#39;es2015&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;lib&#34;</span><span class="p">:</span> <span class="p">[],</span>                             <span class="c1">// 指定要包含在编译中的库文件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;allowJs&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                       <span class="c1">// 允许编译 javascript 文件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;checkJs&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                       <span class="c1">// 报告 javascript 文件中的错误
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;jsx&#34;</span><span class="p">:</span> <span class="s2">&#34;preserve&#34;</span><span class="p">,</span>                     <span class="c1">// 指定 jsx 代码的生成: &#39;preserve&#39;, &#39;react-native&#39;, or &#39;react&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;declaration&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                   <span class="c1">// 生成相应的 &#39;.d.ts&#39; 文件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;sourceMap&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                     <span class="c1">// 生成相应的 &#39;.map&#39; 文件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;outFile&#34;</span><span class="p">:</span> <span class="s2">&#34;./&#34;</span><span class="p">,</span>                       <span class="c1">// 将输出文件合并为一个文件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;outDir&#34;</span><span class="p">:</span> <span class="s2">&#34;./&#34;</span><span class="p">,</span>                        <span class="c1">// 指定输出目录
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;rootDir&#34;</span><span class="p">:</span> <span class="s2">&#34;./&#34;</span><span class="p">,</span>                       <span class="c1">// 用来控制输出目录结构 --outDir.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;removeComments&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                <span class="c1">// 删除编译后的所有的注释
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;noEmit&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                        <span class="c1">// 不生成输出文件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;importHelpers&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                 <span class="c1">// 从 tslib 导入辅助工具函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;isolatedModules&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>               <span class="c1">// 将每个文件做为单独的模块 （与 &#39;ts.transpileModule&#39; 类似）.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="err">/*</span> <span class="err">严格的类型检查选项</span> <span class="err">*/</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;strict&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                        <span class="c1">// 启用所有严格类型检查选项
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;noImplicitAny&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                 <span class="c1">// 在表达式和声明上有隐含的 any类型时报错
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;strictNullChecks&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>              <span class="c1">// 启用严格的 null 检查
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;noImplicitThis&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                <span class="c1">// 当 this 表达式值为 any 类型的时候，生成一个错误
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;alwaysStrict&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                  <span class="c1">// 以严格模式检查每个模块，并在每个文件里加入 &#39;use strict&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="err">/*</span> <span class="err">额外的检查</span> <span class="err">*/</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;noUnusedLocals&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                <span class="c1">// 有未使用的变量时，抛出错误
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;noUnusedParameters&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>            <span class="c1">// 有未使用的参数时，抛出错误
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;noImplicitReturns&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>             <span class="c1">// 并不是所有函数里的代码都有返回值时，抛出错误
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;noFallthroughCasesInSwitch&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>    <span class="c1">// 报告 switch 语句的 fallthrough 错误。（即，不允许 switch 的 case 语句贯穿）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="err">/*</span> <span class="err">模块解析选项</span> <span class="err">*/</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;moduleResolution&#34;</span><span class="p">:</span> <span class="s2">&#34;node&#34;</span><span class="p">,</span>            <span class="c1">// 选择模块解析策略： &#39;node&#39; (Node.js) or &#39;classic&#39; (TypeScript pre-1.6)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;baseUrl&#34;</span><span class="p">:</span> <span class="s2">&#34;./&#34;</span><span class="p">,</span>                       <span class="c1">// 用于解析非相对模块名称的基目录
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;paths&#34;</span><span class="p">:</span> <span class="p">{},</span>                           <span class="c1">// 模块名到基于 baseUrl 的路径映射的列表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;rootDirs&#34;</span><span class="p">:</span> <span class="p">[],</span>                        <span class="c1">// 根文件夹列表，其组合内容表示项目运行时的结构内容
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;typeRoots&#34;</span><span class="p">:</span> <span class="p">[],</span>                       <span class="c1">// 包含类型声明的文件列表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;types&#34;</span><span class="p">:</span> <span class="p">[],</span>                           <span class="c1">// 需要包含的类型声明文件名列表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;allowSyntheticDefaultImports&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>  <span class="c1">// 允许从没有设置默认导出的模块中默认导入。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="err">/*</span> <span class="err">Source</span> <span class="err">Map</span> <span class="err">Options</span> <span class="err">*/</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;sourceRoot&#34;</span><span class="p">:</span> <span class="s2">&#34;./&#34;</span><span class="p">,</span>                    <span class="c1">// 指定调试器应该找到 TypeScript 文件而不是源文件的位置
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;mapRoot&#34;</span><span class="p">:</span> <span class="s2">&#34;./&#34;</span><span class="p">,</span>                       <span class="c1">// 指定调试器应该找到映射文件而不是生成文件的位置
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;inlineSourceMap&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>               <span class="c1">// 生成单个 soucemaps 文件，而不是将 sourcemaps 生成不同的文件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;inlineSources&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                 <span class="c1">// 将代码与 sourcemaps 生成到一个文件中，要求同时设置了 --inlineSourceMap 或 --sourceMap 属性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="err">/*</span> <span class="err">其他选项</span> <span class="err">*/</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;experimentalDecorators&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>        <span class="c1">// 启用装饰器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nt">&#34;emitDecoratorMetadata&#34;</span><span class="p">:</span> <span class="kc">true</span>          <span class="c1">// 为装饰器提供元数据的支持
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="常见报错持续更新" class="headerLink">
+    <a href="#%e5%b8%b8%e8%a7%81%e6%8a%a5%e9%94%99%e6%8c%81%e7%bb%ad%e6%9b%b4%e6%96%b0" class="header-mark"></a>常见报错(持续更新)</h2><ul>
+<li><code>Cannot redeclare block-scoped variable 'xxx'</code> || <code>Duplicate function implementation</code> 这种错误除了在自身文件中有重复声明，也有可能是因为在上下文中被声明了，比如你 tsc 一个 ts 文件后，ts 文件内的代码就会飘出此类报错~</li>
+</ul>
+<h2 id="参考" class="headerLink">
+    <a href="#%e5%8f%82%e8%80%83" class="header-mark"></a>参考</h2><ul>
+<li><a href="https://www.typescriptlang.org/" target="_blank" rel="noopener noreferrer">TypeScript 官网</a></li>
+<li><a href="https://basarat.gitbook.io/typescript/" target="_blank" rel="noopener noreferrer">TypeScript Deep Dive</a></li>
+</ul>
+<p>其他：</p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s/Uw5FzVCopxi4uDM1VmjukA" target="_blank" rel="noopener noreferrer">React + TypeScript 实践</a></li>
+<li><a href="https://mp.weixin.qq.com/s/KuR-_CCYE2qkg2AV8RWcAw" target="_blank" rel="noopener noreferrer">TypeScript 类型中的逆变协变</a></li>
+<li><a href="https://mp.weixin.qq.com/s/CweuipYoHwOL2tpQpKlYLg" target="_blank" rel="noopener noreferrer">接近天花板的 TS 类型体操，看懂你就能玩转 TS 了</a></li>
+<li><a href="https://mp.weixin.qq.com/s/Bo3Z8vzFkCvfDJDoKzxr8w" target="_blank" rel="noopener noreferrer">细数这些年被困扰过的 TS 问题</a></li>
+</ul>
+<p>周边：</p>
+<ul>
+<li>ts-node - node 端直接运行 ts 文件</li>
+<li>typedoc - ts 项目自动生成 API 文档</li>
+<li>DefinitelyTyped - @types 仓库</li>
+<li>type-coverage - 静态类型覆盖率检测</li>
+<li>ts-loader、rollup-plugin-typescript2 - rollup、webpack 插件</li>
+<li>typeorm - 一个 ts 支持度非常高的、易用的数据库 orm 库</li>
+</ul>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2023-03-07</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line print:!tw-hidden">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/%E9%87%8D%E5%AD%A6typescript/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span></div>
+            <div class="post-info-share"><button title="分享到 Twitter" data-sharer="twitter" data-url="http://localhost:1313/%E9%87%8D%E5%AD%A6typescript/" data-title="TypeScript自用手册" data-hashtags="TypeScript"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></button><button title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/%E9%87%8D%E5%AD%A6typescript/" data-hashtag="TypeScript"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg></button><button title="分享到 WhatsApp" data-sharer="whatsapp" data-url="http://localhost:1313/%E9%87%8D%E5%AD%A6typescript/" data-title="TypeScript自用手册" data-web><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></button><button title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/%E9%87%8D%E5%AD%A6typescript/" data-title="TypeScript自用手册"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg></button><button title="分享到 Evernote" data-sharer="evernote" data-url="http://localhost:1313/%E9%87%8D%E5%AD%A6typescript/" data-title="TypeScript自用手册"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M120.82 132.21c1.6 22.31-17.55 21.59-21.61 21.59-68.93 0-73.64-1-83.58 3.34-.56.22-.74 0-.37-.37L123.79 46.45c.38-.37.6-.22.38.37-4.35 9.99-3.35 15.09-3.35 85.39zm79 308c-14.68-37.08 13-76.93 52.52-76.62 17.49 0 22.6 23.21 7.95 31.42-6.19 3.3-24.95 1.74-25.14 19.2-.05 17.09 19.67 25 31.2 24.89A45.64 45.64 0 0 0 312 393.45v-.08c0-11.63-7.79-47.22-47.54-55.34-7.72-1.54-65-6.35-68.35-50.52-3.74 16.93-17.4 63.49-43.11 69.09-8.74 1.94-69.68 7.64-112.92-36.77 0 0-18.57-15.23-28.23-57.95-3.38-15.75-9.28-39.7-11.14-62 0-18 11.14-30.45 25.07-32.2 81 0 90 2.32 101-7.8 9.82-9.24 7.8-15.5 7.8-102.78 1-8.3 7.79-30.81 53.41-24.14 6 .86 31.91 4.18 37.48 30.64l64.26 11.15c20.43 3.71 70.94 7 80.6 57.94 22.66 121.09 8.91 238.46 7.8 238.46C362.15 485.53 267.06 480 267.06 480c-18.95-.23-54.25-9.4-67.27-39.83zm80.94-204.84c-1 1.92-2.2 6 .85 7 14.09 4.93 39.75 6.84 45.88 5.53 3.11-.25 3.05-4.43 2.48-6.65-3.53-21.85-40.83-26.5-49.24-5.92z"/></svg></button></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg>&nbsp;<a href="/tags/typescript/">TypeScript</a></section>
+        <section class="print:!tw-hidden">
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav print:tw-hidden"><a href="/%E5%9B%BE/" class="prev" rel="prev" title="图"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>图</a>
+            <a href="/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F--%E5%88%9B%E5%BB%BA%E5%9E%8B/" class="next" rel="next" title="重学设计模式 -- 创建型">重学设计模式 -- 创建型<svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div>
+</div>
+</article></div>
+        </main><footer class="footer">
+  <div class="footer-container"><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+        &nbsp;
+        <a
+          href="/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          EricYuan
+        </a>
+      </span>&nbsp;|&nbsp;
+      <span class="license">All rights reserved</span></div>
+    <div class="footer-line">
+      <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: inline">
+        <span class="post-meta-item-icon"><i class="fa fa-eye"></i></span>
+        <span class="site-pv" title="总访问量">
+          本站总访问量
+          <span id="busuanzi_value_site_pv"></span>
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数
+          <span id="busuanzi_value_site_uv"></span>
+          人次
+        </span>
+      </span></div>
+    <div class="footer-line"></div>
+  </div></footer></div>
+
+    <div id="fixed-buttons" class="print:!tw-hidden"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4 0 256-93.1 256-208S397.4 32 256 32z"/></svg>
+        </a>
+    </div><div id="cookieconsent-container"></div><div class="assets"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.css">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":null,"ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":8,"minMatchCharLength":3,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"sharerjs":true};</script><script
+    src="/lib/clipboard/clipboard.min.js"
+    
+  ></script><script
+    src="/lib/sharer/sharer.min.js"
+    
+  ></script><script
+    src="/lib/katex/katex.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/katex/auto-render.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/katex/copy-tex.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/katex/mhchem.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/js/katex.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/lib/cookieconsent/cookieconsent.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/js/cookieconsent.min.js"
+    
+      defer
+    
+  ></script><script
+    src="/js/theme.min.js"
+    
+      defer
+    
+  ></script></div>
+</body>
+
+</html>

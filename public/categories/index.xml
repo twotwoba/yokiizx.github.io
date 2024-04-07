@@ -1,0 +1,43 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Categories - 分类 - Hello World</title>
+        <link>http://localhost:1313/categories/</link>
+        <description>Categories - 分类 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Wed, 21 Feb 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://localhost:1313/categories/" rel="self" type="application/rss+xml" /><item>
+    <title>Algorithm</title>
+    <link>http://localhost:1313/categories/algorithm/</link>
+    <pubDate>Wed, 21 Feb 2024 00:00:00 &#43;0000</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/categories/algorithm/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Study Notes</title>
+    <link>http://localhost:1313/categories/study-notes/</link>
+    <pubDate>Fri, 08 Dec 2023 22:10:34 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/categories/study-notes/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>React Hooks</title>
+    <link>http://localhost:1313/categories/react-hooks/</link>
+    <pubDate>Thu, 27 Jul 2023 11:47:25 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/categories/react-hooks/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Git</title>
+    <link>http://localhost:1313/categories/git/</link>
+    <pubDate>Mon, 19 Sep 2022 20:36:01 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/categories/git/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Tool</title>
+    <link>http://localhost:1313/categories/tool/</link>
+    <pubDate>Sun, 18 Sep 2022 20:37:14 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/categories/tool/</guid>
+    <description><![CDATA[]]></description>
+</item></channel>
+</rss>

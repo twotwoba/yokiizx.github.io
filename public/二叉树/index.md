@@ -1,0 +1,1529 @@
+# 二叉树
+
+
+## 二叉树
+
+```java
+class Node<V> {
+  V value;
+  Node left;
+  Node right;
+}
+```
+
+### 递归序
+
+```java
+/**
+ *        1
+ *       / \
+ *      2   3
+ *     / \ / \
+ *    4  5 6  7
+ *
+ * 下方 go 函数就是对这棵二叉树的递归序遍历
+ * 每个节点都会结果 3 次，分别在1，2，3位置；实际遍历顺序：
+ *
+ * 1(1)，2(1)，4(1)，4(2)，4(3)，
+ * 2(2)，5(1)，5(2)，5(3)，2(3)，
+ * 1(2)，3(1)，6(1)，6(2)，6(3)，
+ * 3(2)，7(1)，7(2)，7(3)，3(3)，1(3)
+ *
+ * 前序（根左右（1））结果：1，2，4，5，3，6，7
+ * 前序（左根右（2））结果：4，2，5，1，6，3，7
+ * 前序（左右根（3））结果：4，5，2，6，7，3，1
+ */
+public void go(Node head) {
+  if(head == null) return;
+  // 1
+  go(head.left);
+  // 2
+  go(head.right);
+  // 3
+}
+```
+
+### 前/中/后序遍历
+
+#### 递归
+
+递归方法比较好理解，前中后序就是分别在上方 1，2，3 对应的位置访问(打印等操作)节点。
+
+```java
+public void traverse(Node head) {
+  if(head == null) return;
+  System.out.println(head.val); // 前序遍历
+  traverse(head.left);
+  System.out.println(head.val); // 中序遍历
+  traverse(head.right);
+  System.out.println(head.val); // 后序遍历
+}
+```
+
+```java
+// 距离 lc.144
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        if (root == null) return list;
+        traverse(root, list);
+        return list;
+    }
+
+    public void traverse(TreeNode root, List list) {
+        if (root == null) return;
+        list.add(root.val);
+        traverse(root.left, list);
+        traverse(root.right, list);
+    }
+}
+```
+
+#### 迭代
+
+递归转成迭代，核心就是要自己模拟出栈。
+
+##### 前 lc.144
+
+```java
+public List<Integer> preorderTraversal(TreeNode root) {
+    List<Integer> list = new ArrayList<>();
+    if (root == null) return list;
+    Stack<TreeNode> stack = new Stack<>();
+    stack.push(root);
+    while (!stack.empty()) {
+        TreeNode top = (TreeNode) stack.pop();
+        list.add(top.val);
+        if (top.right != null) stack.push(top.right);
+        if (top.left != null) stack.push(top.left);
+    }
+    return list;
+}
+```
+
+> java 的 Stack 是 Vector 的一个子类  
+> java 的 Queue 是由 LinkedList 类实现了 Queue 接口
+
+##### 中 lc.94
+
+```java
+public List<Integer> inorderTraversal(TreeNode root) {
+    List<Integer> list = new ArrayList<>();
+    if (root == null) return list;
+    Stack<TreeNode> stack = new Stack<>();
+    while (!stack.empty() || root != null) {
+        while (root != null) {
+            stack.push(root);
+            root = root.left;
+        }
+        TreeNode top = stack.pop();
+        list.add(top.val);
+        root = top.right;
+    }
+    return list;
+}
+```
+
+##### 后 1c.145
+
+-   一种方法是，把前序遍历的 stack 依次出栈时不打印，而是装到另一个栈中，最后对另一个栈依次出栈就是后序遍历的结果
+-   另一种方法稍微节约点内存，从上面的二叉树递归序我们知道每个节点有三次遍历到的情况（1 次进入，1 次从左节点返回，1 次从右节点返回），
+    那么，在节点出栈的时候，先判定是否有右节点，如果有的话，就先别出栈了，把右节点入栈；问题是当从右节点再回到这个节点的时候，
+    就需要一个额外变量来确定右侧的节点是否已经访问过了。
+
+```java
+public List<Integer> postorderTraversal(TreeNode root) {
+    List<Integer> list = new ArrayList<>();
+    if (root == null) return list;
+    Stack<TreeNode> stack = new Stack<>();
+    TreeNode visited = null;
+    while (!stack.empty() || root != null) {
+        while (root != null) {
+            stack.push(root);
+            root = root.left;
+        }
+        TreeNode top = stack.pop();
+        if (top.right == null || top.right == visited) {
+            list.add(top.val);
+            visited = top;
+        } else {
+            stack.push(top);
+            root = top.right;
+        }
+    }
+    return list;
+}
+```
+
+```js
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var postorderTraversal = function (root) {
+    if (!root) return []
+    const res = []
+    const stack = []
+    let visited = null
+    while (stack.length || root) {
+        while (root) {
+            stack.push(root)
+            root = root.left
+        }
+        const node = stack.pop()
+        if (node.right !== null && node.right !== visited) {
+            stack.push(node)
+            root = node.right
+        } else {
+            res.push(node.val)
+            visited = node
+        }
+    }
+    return res
+}
+```
+
+### 层序遍历 lc.102
+
+想要实现层序遍历的方法非常多，DFS 也可以，只不过一般不这么用，需要掌握的是 BFS。BFS 的应用非常广泛，其中包括寻找图中的最短路径、解决迷宫问题、树的层序遍历等等。
+
+在遍历过程中，BFS 使用「队列」来存储已经访问的节点，以确保按照广度优先的顺序进行遍历。
+
+```java
+/**
+ * 如果只是对逐层从上到下从左到右打印出节点，是很容易的，一个queue就解决了。
+ * 但是lc102是要返回形如 [[1],[2,3],...] 这样List<List<Integer>>的数据结构，那么就需要两个队列了
+ * 当然，（也有更省空间的方法，双指针记住每一层的结尾节点）
+ */
+public List<List<Integer>> levelOrder(TreeNode root) {
+    List<List<Integer>> list = new ArrayList<>();
+    if (root == null) return list;
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.offer(root);
+    while (!queue.isEmpty()) {
+        List<Integer> level = new ArrayList<>();
+        int size = queue.size(); // 因为queue在变化，所以需要缓存一下size。当然也可以用两个队列，不断交换来实现，那我个人觉得这种方式更好一点。
+        for (int i = 0; i < size; i++) {
+            TreeNode top = queue.poll();
+            level.add(top.val);
+            if (top.left != null) queue.offer(top.left);
+            if (top.right != null) queue.offer(top.right);
+        }
+        list.add(level);
+    }
+    return list;
+}
+```
+
+> 以上都是考验的基础硬编码能力，没什么难的，就是要多练。
+
+---
+
+## 特殊二叉树
+
+### 二叉搜索树
+
+左 < 根 < 右，整体上也是：左子树所有值 < 根 < 右字树所有值。
+
+根据 BST 的特性，判定是否为 BST 的最简单的办法是，中序遍历后，看是否按照升序排序。
+
+```java
+/**
+ * 判定是否为二叉搜索树 lc.98
+ */
+class Solution {
+    long preValue = Long.MIN_VALUE;
+
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) return true;
+        boolean isLeftValid = isValidBST(root.left);
+        if (!isLeftValid) return false; // 注意这里，拿到了左树信息后，就可以及时判断了，当然也可以放到后序的位置做~
+        if (preValue == Long.MIN_VALUE) preValue = Long.MIN_VALUE; // // 力扣测试用例里超过了 int 的范围，懂得思想即可
+        if (root.val <= preValue) return false;
+        preValue = root.val;
+        return isValidBST(root.right); // 不在中序立即对左树判断，放到最后也行，return isLeftValid && isValidBST(root.right);
+    }
+}
+```
+
+这一题非常好，好在可以帮助我们更好的理解当递归中出现返回值的情况：
+
+-   递归中的 return，是结束当前的调用栈，他并不会阻塞后续的递归栈的执行
+-   每一次 return 的东西是用来看对后续的程序产生的影响，只需在对应的前中后序位置做好逻辑处理即可，具体问题，具体分析
+
+### 完全二叉树
+
+就是堆那样子的~挨个从上到下，从左到右排列在树中。毫无疑问，很容易联想到层序遍历，问题是怎么判断呢？
+
+1. 当遍历到一个节点没有左节点的时候，它也不应该有右节点
+2. 当遍历到一个节点没有右节点的时候，后面所有的节点，都不应该有子节点
+
+```java
+/**
+ * 判定是否为完全二叉树 lc.958
+ */
+class Solution {
+    public boolean isCompleteTree(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        boolean restShouldBeLeaf = false;
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (restShouldBeLeaf && (node.left != null || node.right != null)) {
+                return false;
+            }
+            if (node.left == null && node.right != null) {
+                return false;
+            }
+            if (node.left != null) {
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+            }
+            if (node.right == null) {
+                restShouldBeLeaf = true;
+            }
+        }
+        return true;
+    }
+}
+```
+
+### 满二叉树
+
+满二叉树，特性：满了，所以深度为 `h`，则节点数为 `2^h - 1`。
+
+根据特性去做，很简单，一次 dfs 就能用两个变量统计出深度和节点数。
+
+```java
+/**
+ * 判定是否为满二叉树
+ */
+int maxDeep = 0;
+int deep = 0;
+int count = 0;
+
+public boolean isFullTree(TreeNode root) {
+    traverse(root);
+    return Math.pow(2, maxDeep) - 1 == count;
+}
+
+public void traverse(TreeNode root) {
+    if (root == null) return;
+    count++;
+    deep++;
+    maxDeep = Math.max(deep, maxDeep); // 这一步在哪都行，只要在 deep++ 和 deep--之间就都是 ok 的
+    traverse(root.left);
+    traverse(root.right);
+    deep--;
+}
+```
+
+### 平衡二叉树
+
+平衡二叉树的左右子树的高度之差不超过 1，**且**左右子树也都是平衡的。AVL 树和红黑树都是平衡二叉树，采取了不同的方法自动维持树的平衡。
+
+```java
+/**
+ * 判定是否为平衡二叉树
+ *
+ * 定义一个返回体，是需要从左右子树获取的信息
+ */
+class ReturnType {
+    int height;
+    boolean isBalance;
+    public ReturnType(int height, boolean isBalance) {
+        this.height = height;
+        this.isBalance = isBalance;
+    }
+}
+
+public static ReturnType isBalanceTree(TreeNode root) {
+    if (root == null) {
+        return new ReturnType(0, true);
+    }
+    /**
+     * 第一步，甭管三七二十一，先把递归序写上来
+     */
+    ReturnType left = isBalanceTree(root.left);
+    ReturnType right = isBalanceTree(root.right);
+    /**
+     * 第二步，需要向左右子树拿信息了。
+     */
+    int height = Math.max(left.height, right.height);
+    boolean isBalance = left.isBalance && right.isBalance && Math.abs(left.height - right.height) <= 1;
+    return new ReturnType(height, isBalance);
+}
+```
+
+定义好 ReturnType，整个递归的算法就很容易实现了。
+
+## 二叉树套路技巧
+
+其实经过一部分的训练，可以感受到后序遍历的“魔法了”，后序位置我们可以获取到左子树和右子树的信息，关键在于我们需要什么信息，具体问题，具体分析。由此，可以解决很多问题。
+
+试着把上方没有用树形 DP 方式解决的方法改写成树形 DP。
+
+```java
+/**
+ * 二叉搜索树判定
+ *
+ * 思考需要向左右子树获取什么信息：左、右子树是否是 bst，左子树最大值，右子树最小值
+ *
+ * 好，这里出现了分歧，向左树要最大，向右树要最小，同一个递归中这咋处理？
+ *
+ * 答案：**合并处理！我全都要~**
+ */
+class ReturnType {
+    boolean isBst;
+    int max;
+    int min;
+
+    public ReturnType(boolean isBst, int max, int min) {
+        this.isBst = isBst;
+        this.max = max;
+        this.min = min;
+    }
+}
+public boolean isValidBST(TreeNode root) {
+    return traverse(root).isBst;
+}
+public ReturnType traverse(TreeNode root) {
+    if (root == null) return null; // 有最大最小值的时候 遇到 null 还是返回 null 吧，若是用语言自带的最大最小值处理比较麻烦
+    ReturnType l = traverse(root.left);
+    ReturnType r = traverse(root.right);
+    long min = root.val, max = root.val;
+    if (l != null) {
+        min = Math.min(min, l.min);
+        max = Math.max(max, l.max);
+    }
+    if (r != null) {
+        min = Math.min(min, r.min);
+        max = Math.max(max, r.max);
+    }
+    boolean isBst = true;
+    if (l != null && (!l.isBst || l.max >= root.val)) {
+        isBst = false;
+    }
+    if (r != null && (!r.isBst || r.min <= root.val)) {
+        isBst = false;
+    }
+    return new ReturnType(isBst, min, max);
+}
+```
+
+上方的写法其实还可以更简化，这么写是为了更好理解递归里的最优子结构。
+
+```java
+/**
+ * 满二叉树判定 ReturnType(nodes, deep)
+ */
+public ReturnType traverse(TreeNode root) {
+    if (root == null) return new ReturnType(0, 0);
+    ReturnType l = traverse(root.left);
+    ReturnType r = traverse(root.right);
+    int nodes = l.nodes + r.nodes + 1;
+    int deep = Math.max(l.deep, r.deep) + 1;
+    return new ReturnType(nodes, deep);
+}
+public boolean isFullTree(TreeNode root) {
+    ReturnType res = traverse(root);
+    System.out.println(res);
+    return Math.pow(2, res.height) - 1 == res.nodes;
+}
+```
+
+> 注意，还是那句话，具体问题具体分析，这种技巧，并不适合每种二叉树的问题，比如，一颗树，让你求整个树的中位数，树形 DP 的方式就做不到，其实就是没有最优子结构。
+> 无法进行分解子问题然后进行后序树形 dp 的问题，就只能进行遍历解决，这种一般运用「回溯」的算法思想。
+
+---
+
+## 练习
+
+### lc.104 二叉树的最大深度 easy
+
+题简单，思想很重要。
+
+方法一：深度优先遍历，回溯
+
+```js
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var maxDepth = function (root) {
+    if (root == null) return 0
+    let deep = 0
+    let maxDeep = 0
+    const traverse = root => {
+        if (root == null) return
+        deep++
+        maxDeep = Math.max(maxDeep, deep)
+        traverse(root.left)
+        traverse(root.right)
+        deep--
+    }
+    traverse(root)
+    return maxDeep
+}
+```
+
+方法二：分解为子问题，树形 DP
+
+```js
+var maxDepth = function (root) {
+    const traverse = root => {
+        if (root == null) return 0
+        const left = traverse(root.left)
+        const right = traverse(root.right)
+        // 当前节点的最大深度为 左右较大的高度加上自身的 1
+        return Math.max(left, right) + 1
+    }
+    return traverse(root)
+}
+```
+
+### lc.543 二叉树的直径 easy
+
+思考：dfs 遍历好像没啥好办法，但是如果分解为子问题，就很简单了，无非就是左边最长加上右边最长嘛~
+
+```js
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var diameterOfBinaryTree = function (root) {
+    if (root == null) return 0
+    let res = 0
+    const traverse = root => {
+        if (root == null) return 0
+        const l = traverse(root.left)
+        const r = traverse(root.right)
+        res = Math.max(l + r, res) // 就是左右子树最大深度之和，保证最大
+        return Math.max(l, r) + 1
+    }
+    traverse(root)
+    return res
+}
+```
+
+---
+
+### lc.226 翻转二叉树 easy
+
+```js
+/**
+ * @param {TreeNode} root
+ * @return {TreeNode}
+ */
+var invertTree = function (root) {
+    if (root == null) return null
+    let p = root
+    const traverse = root => {
+        if (root == null) return null
+        const l = traverse(root.left)
+        const r = traverse(root.right)
+        root.right = l
+        root.left = r
+        return root
+    }
+    traverse(p)
+    return root
+}
+```
+
+### lc.114 二叉树展开为链表
+
+```js
+/**
+ * @param {TreeNode} root
+ * @return {void} Do not return anything, modify root in-place instead.
+ */
+var flatten = function (root) {
+    if (root == null) return null
+    const traverse = root => {
+        if (root == null) return null
+        let l = traverse(root.left)
+        let r = traverse(root.right)
+        if (l) {
+            root.left = null
+            root.right = l
+            // 没啥难度就是注意拼接过去的时候可能是一个链表
+            while (l.right) {
+                l = l.right
+            }
+            l.right = r
+        }
+        return root
+    }
+    traverse(root)
+}
+```
+
+### lc.116 填充每个节点的下一个右侧节点指针
+
+观察发现这道题，左右子树的操作都不一样，所以用分解问题的方式没什么思路。
+
+那么遍历呢？那就比较简单了，就是把 root.left -> root.right, root.right -> 兄弟节点的 left，关键就在于这一步怎么做。
+
+```js
+/**
+ * @param {Node} root
+ * @return {Node}
+ */
+var connect = function (root) {
+    if (root == null) return root
+    const traverse = (left, right) => {
+        if (left == null || right == null) return
+        left.next = right
+        traverse(left.left, left.right)
+        traverse(right.left, right.right)
+        traverse(left.right, right.left)
+    }
+    traverse(root.left, root.right)
+    return root
+}
+```
+
+官解中，是根据父节点的 next 指针去获取到父节点的兄弟节点。
+
+### lcr.143 子结构判断
+
+```js
+/**
+ * @param {TreeNode} A
+ * @param {TreeNode} B
+ * @return {boolean}
+ */
+var isSubStructure = function (A, B) {
+    if (A == null || B == null) return false
+    return traverse(A, B) || isSubStructure(A.left, B) || isSubStructure(A.right, B)
+}
+
+function traverse(nodeA, nodeB) {
+    if (nodeB === null) return true
+    if (nodeA === null || nodeA.val !== nodeB.val) return false
+    const leftOk = traverse(nodeA.left, nodeB.left)
+    const rightOk = traverse(nodeA.right, nodeB.right)
+    return leftOk && rightOk
+}
+```
+
+这道题还是挺有意义的，我一开始写 traverse 函数的时候就陷进去了，老想的先找到 `A === B` 的节点之后再开始一一比对，实际上可以通过 `isSubStructure(A.left, B)` 和 `isSubStructure(A.right, B)` 来巧妙地处理，只要有一个返回了 true，那么就是 ok 的。
+
+[力扣大佬题解，写的不错](https://leetcode.cn/problems/shu-de-zi-jie-gou-lcof/solutions/791039/yi-pian-wen-zhang-dai-ni-chi-tou-dui-che-uhgs)
+
+---
+
+构造类的问题，一般都是使用分解子问题的方式去解决，一个树 = 根+构造左子树+构造右子树。
+
+### lc.654 最大二叉树
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {number[]} nums
+ * @return {TreeNode}
+ */
+var constructMaximumBinaryTree = function (nums) {
+    const build = (l, r) => {
+        if (l > r) return null
+        let maxIndex = l
+        for (let i = l + 1; i <= r; ++i) {
+            if (nums[i] > nums[maxIndex]) maxIndex = i
+        }
+        const node = new TreeNode(nums[maxIndex])
+        node.left = build(l, maxIndex - 1)
+        node.right = build(maxIndex + 1, r)
+        return node
+    }
+    return build(0, nums.length - 1)
+}
+```
+
+按照题目要求，很容易完成，但是此题的最优解是 「单调栈」。。。我的天哪，题目不是要递归地构建嘛，这谁想得到啊 😂
+
+### lc.105 从前序与中序遍历序列构造二叉树
+
+-   前序遍历，第一个节点是根节点
+-   中序遍历，根节点左侧为左树，右侧为右树
+
+两者结合，中序从前序中确定根节点，前序根据中序根节点分割取到左侧有子树的 size。
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {number[]} preorder
+ * @param {number[]} inorder
+ * @return {TreeNode}
+ */
+var buildTree = function (preorder, inorder) {
+    // 缓存中序的索引
+    const map = new Map()
+    for (let i = 0; i < inorder.length; ++i) {
+        map.set(inorder[i], i)
+    }
+    const build = (pl, pr, il, ir) => {
+        if (pl > pr) return null // 一定注意不要忘记递归结束条件。。。
+
+        const rootVal = preorder[pl]
+        const node = new TreeNode(rootVal)
+
+        const inIndex = map.get(rootVal)
+        const leftSize = inIndex - il
+        node.left = build(pl + 1, pl + leftSize, il, inIndex - 1)
+        node.right = build(pl + leftSize + 1, pr, inIndex + 1, ir)
+        return node
+    }
+    return build(0, preorder.length - 1, 0, inorder.length - 1)
+}
+```
+
+### lc.106 从中序与后序遍历序列构造二叉树
+
+与 lc.105 逻辑一样
+
+```js
+/**
+ * @param {number[]} inorder
+ * @param {number[]} postorder
+ * @return {TreeNode}
+ */
+var buildTree = function (inorder, postorder) {
+    const map = new Map()
+    for (let i = 0; i < inorder.length; ++i) {
+        map.set(inorder[i], i)
+    }
+    const build = (pl, pr, il, ir) => {
+        if (pl > pr) return null
+
+        const rootVal = postorder[pr]
+        const node = new TreeNode(rootVal)
+
+        const inIndex = map.get(rootVal)
+        const leftSize = inIndex - il
+        node.left = build(pl, pl + leftSize - 1, il, inIndex - 1)
+        node.right = build(pl + leftSize, pr - 1, inIndex + 1, ir)
+        return node
+    }
+
+    return build(0, postorder.length - 1, 0, inorder.length - 1)
+}
+```
+
+### lc.889 根据前序和后序遍历构造二叉树
+
+一个头是根，一个尾是根，无法通过根节点来区分左右子树了，但是仔细观察后，可以使用 pre 的左子树的第一个节点来区分。
+
+```js
+/**
+ * @param {number[]} preorder
+ * @param {number[]} postorder
+ * @return {TreeNode}
+ */
+var constructFromPrePost = function (preorder, postorder) {
+    const map = new Map()
+    for (let i = 0; i < postorder.length; ++i) {
+        map.set(postorder[i], i)
+    }
+
+    const build = (pl, pr, tl, tr) => {
+        if (pl > pr) return null
+        if (pl === pr) return new TreeNode(preorder[pl]) // ! 这个关键点很容易漏掉, 只有一个节点的时候
+
+        const rootVal = preorder[pl]
+        const root = new TreeNode(rootVal)
+
+        const leftRootVal = preorder[pl + 1] // 这里很可能会越界，所以上方需要单独判断 pl == pr 的情况
+        const leftRootIndex = map.get(leftRootVal)
+        const leftSize = leftRootIndex - tl + 1
+
+        root.left = build(pl + 1, pl + leftSize, tl, leftRootIndex)
+        root.right = build(pl + leftSize + 1, pr, leftRootIndex + 1, tr - 1)
+        return root
+    }
+    return build(0, preorder.length - 1, 0, postorder.length - 1)
+}
+```
+
+> 前序+后序还原的二叉树不唯一，比如一直左子树和一直右子树的前后序遍历结果是一样的。
+
+### LCR.152 验证二叉搜索树的后序遍历序列
+
+二叉搜索树：左 > 根 > 右，然而给出的是后序的遍历，最右边为 根，观察归纳：从左往右第一个大于根的为右子树，并且其后都应当大于根，由此找到突破口。
+
+```js
+/**
+ * @param {number[]} postorder
+ * @return {boolean}
+ */
+var verifyTreeOrder = function (postorder) {
+    if (postorder.length <= 1) return true
+
+    const justify = (l, r) => {
+        if (l >= r) return true
+
+        const root = postorder[r]
+
+        let i = l
+        while (postorder[i] < root) i++
+        let j = i
+        while (j < r) {
+            if (postorder[j++] < root) return false
+        }
+
+        return justify(l, i - 1) && justify(i, r - 1)
+    }
+
+    return justify(0, postorder.length - 1)
+}
+```
+
+[力扣不错的解](https://leetcode.cn/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/solutions/383115/di-gui-he-zhan-liang-chong-fang-shi-jie-jue-zui-ha)
+
+### lc.297 二叉树序列化和反序列化
+
+```js
+/**
+ * Encodes a tree to a single string.
+ * @param {TreeNode} root
+ * @return {string}
+ */
+var serialize = function (root) {
+    const traverse = root => {
+        if (root == null) return '#_'
+        let str = root.val + '_'
+        str += traverse(root.left)
+        str += traverse(root.right)
+        return str
+    }
+    return traverse(root)
+}
+
+/**
+ * Decodes your encoded data to tree.
+ * @param {string} data
+ * @return {TreeNode}
+ */
+var deserialize = function (data) {
+    const arr = data.split('_')
+    const generate = arr => {
+        const val = arr.shift() // 每次弹出，对剩下的递归建树
+        if (val === '#') return null
+        const node = new TreeNode(val)
+        node.left = generate(arr)
+        node.right = generate(arr)
+        return node
+    }
+    return generate(arr)
+}
+/**
+ * Your functions will be called as such:
+ * deserialize(serialize(root));
+ */
+```
+
+<!-- lc.1008 也是构造题 -->
+
+---
+
+### lc.652 寻找重复的子树
+
+常规能想到的方法就是序列化，为了保证能区分结构，使用 `(,)` 来进行序列化。
+
+```js
+var findDuplicateSubtrees = function (root) {
+    const map = new Map()
+    const res = new Set()
+    const dfs = node => {
+        if (!node) {
+            return ''
+        }
+        let str = ''
+        str += node.val
+        str += '('
+        str += dfs(node.left)
+        str += ')('
+        str += dfs(node.right)
+        str += ')'
+        if (map.has(str)) {
+            res.add(map.get(str))
+        } else {
+            map.set(str, node)
+        }
+        return str
+    }
+    dfs(root)
+    return [...res]
+}
+```
+
+这道题有个技巧是使用 --- 三元组 (长见识了 😭)
+
+```js
+var findDuplicateSubtrees = function (root) {
+    const map = new Map()
+    const res = new Set()
+    let idx = 0 // 关键点
+    const dfs = node => {
+        if (!node) {
+            return 0
+        }
+        const tri = [node.val, dfs(node.left), dfs(node.right)] // 三元数组 [根节点的值，左子树序号，右子树序号]
+        const hash = tri.toString() // 相同的字数 三元数组完全一样
+        if (map.has(hash)) {
+            const pair = map.get(hash)
+            res.add(pair[0]) //
+            return pair[1] //
+        } else {
+            map.set(hash, [node, ++idx]) //
+            return idx
+        }
+    }
+    dfs(root)
+    return [...res]
+}
+// https://leetcode.cn/problems/find-duplicate-subtrees/solutions/1798953/xun-zhao-zhong-fu-de-zi-shu-by-leetcode-zoncw
+```
+
+### lc.236 最低公共祖先
+
+常用的 git merge 用的就是这题原理。
+
+```js
+var lowestCommonAncestor = function (root, p, q) {
+    let ans = null
+    const dfs = node => {
+        if (node == null) {
+            return false
+        }
+        const leftRes = dfs(node.left)
+        const rightRes = dfs(node.right)
+        // 更容易理解的做法，向左右子树要信息，定义 dfs 返回是否含有 p 或 q
+        if (
+            (leftRes && rightRes) ||
+            ((node.val == p.val || node.val == q.val) && (leftRes || rightRes))
+        ) {
+            ans = node
+            return
+        }
+        if (node.val == p.val || node.val == q.val || leftRes || rightRes) {
+            return true
+        }
+        return false
+    }
+    dfs(root)
+    return ans
+}
+```
+
+```js
+// 更加抽象的代码
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {TreeNode}
+ */
+var lowestCommonAncestor = function (root, p, q) {
+    const traverse = root => {
+        if (root === null) return null
+        if (root == p || root == q) return root
+        const left = traverse(root.left)
+        const right = traverse(root.right)
+        if (left && right) return root
+        return left ? left : right
+    }
+    return traverse(root)
+}
+```
+
+### lc.235 二叉搜索树的最近公共祖先
+
+BST 一般都要充分利用它的特性。
+
+```js
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {TreeNode}
+ */
+var lowestCommonAncestor = function (root, p, q) {
+    let res = root
+    while (true) {
+        if (p.val > res.val && q.val > res.val) {
+            res = res.right
+        } else if (p.val < res.val && q.val < res.val) {
+            res = res.left
+        } else {
+            break
+        }
+    }
+    return res
+}
+```
+
+### lc.285 二叉树中序后继节点
+
+这道题被力扣设为 vip 题目了，可以看 lcr053。
+
+顾名思义，最简单的，根据题意中序遍历即可得到答案：
+
+```js
+var inorderSuccessor = function (root, p) {
+    const stack = []
+    let nextIsRes = false
+    while (stack.length || root) {
+        while (root) {
+            stack.push(root)
+            root = root.left
+        }
+        const node = stack.pop()
+        if (nextIsRes) return node
+        if (node == p) nextIsRes = true
+        if (node.right) root = node.right
+    }
+    return null
+}
+```
+
+但是面试怎么可能这么简单呢，挑选候选人，当然需要更优解，因此需要探索到新的思路
+
+1. 节点有右侧节点，那么根据中序规则，后继节点是 右侧节点的最左边的子节点
+2. 节点无右侧节点，那么根据中序规则，后续节点是 父节点中第一个作为左子节点的节点
+
+另外，如果遇上了 BST，则往往有需要利用上 BST 的性质
+
+```js
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} p
+ * @return {TreeNode}
+ */
+var inorderSuccessor = function (root, p) {
+    if (p.right) {
+        let p1 = p.right
+        while (p1 && p1.left) {
+            p1 = p1.left
+        }
+        return p1
+    }
+    let res = null
+    let p1 = root
+    while (p1) {
+        if (p1.val > p.val) {
+            res = p1
+            p1 = p1.left
+        } else {
+            p1 = p1.right
+        }
+    }
+    return res
+}
+```
+
+拓展姊妹题：假设每个节点有一个 parent 指针指向父节点，怎么找后继节点？原理基本一样，不做过多介绍。
+
+---
+
+接下来是二叉搜索树的相关题目
+
+### lc.230 二叉搜索树中第 K 小的元素
+
+```js
+/**
+ * @param {TreeNode} root
+ * @param {number} k
+ * @return {number}
+ */
+var kthSmallest = function (root, k) {
+    let res
+    const dfs = root => {
+        if (root === null) return
+        dfs(root.left)
+        if (--k == 0) res = root.val
+        dfs(root.right)
+    }
+    dfs(root)
+    return res
+}
+```
+
+这道题很简单的利用了 BST 的性质，但是每次查找 k 都是要从头找，频繁查找的效率比较低下。进阶的做法就是**记录下每个节点在当前树中的位置**，根据目标与节点的大小比较来决定向左树查还是向右树找。频繁查找的优化见 [「官解」](https://leetcode.cn/problems/kth-smallest-element-in-a-bst/solutions/1050055/er-cha-sou-suo-shu-zhong-di-kxiao-de-yua-8o07)
+
+### lc.538 把二叉搜索树转换为累加树
+
+观察发现累加的顺序和中序遍历正好相反，那就很简单啦~
+
+```js
+/**
+ * @param {TreeNode} root
+ * @return {TreeNode}
+ */
+var convertBST = function (root) {
+    let newRoot = root
+    const stack = []
+    let newVal = 0
+    while (stack.length || root) {
+        while (root) {
+            stack.push(root)
+            root = root.right
+        }
+        const node = stack.pop()
+        newVal += node.val
+        node.val = newVal
+        if (node.left) root = node.left
+    }
+    return newRoot
+}
+// 递归的中序反向就更简单啦，先 right，再 left 即可
+// 这题与 lc.1038 题目相同
+```
+
+然而这道题的考点是 「Morris 遍历」，又又又涨新知识啦 😭**Morris 遍历的核心思想是利用树的大量空闲指针，实现空间开销的极限缩减**
+上方的时间空间复杂度都是 O(n)，用了莫里斯遍历后，空间复杂度可以降到 O(1) 水平。
+
+> Morris 遍历是一种不使用递归或栈的树遍历算法。在这种遍历中，通过创建链接作为后继节点，使用这些链接打印节点。最后，将更改恢复以恢复原始树。
+
+```js
+// 先看一个正常的 Morris 中序遍历，说白了，之前是用栈来让我们从左回到根，
+// Morris 只是利用了二叉树自身的指针，来达到从左回到根的操作。
+function morrisInorder(root) {
+    let curr = root
+    let res = []
+
+    while (curr !== null) {
+        // 没有左树，直接输出当前节点，并且走向右树
+        // 当建立了 新的连接后，也可能是向后回退到根节点的操作
+        if (curr.left === null) {
+            res.push(curr.val)
+            curr = curr.right
+        } else {
+            // 有左树就走到下一层左树，然后迭代找到左树的最右子树节点，这里判断 !== curr 是因为后面建立了连接
+            let temp = curr.left
+            while (temp.right !== null && temp.right !== curr) {
+                temp = temp.right
+            }
+
+            if (temp.right === null) {
+                /** 在这里输出则就是前序了 */
+                temp.right = curr // 建立连接，比如题目中的 3 --> 4
+                curr = curr.left
+            } else {
+                temp.right = null // 恢复原树，断开连接，比如从 0 回到到 1 时，0.right 指向 1
+                res.push(curr.val) // 中序输出
+                curr = curr.right // 退回父节点
+            }
+        }
+    }
+    return res
+}
+/** 后序的 Morris 略微复杂一点点 */
+function morrisPostorder(root) {
+    let reverseOutput = []
+    let curr = root
+
+    while (curr !== null) {
+        if (curr.right === null) {
+            //判断右是否为空
+            reverseOutput.push(curr.val)
+            curr = curr.left
+        } else {
+            let temp = curr.right
+            while (temp.left !== null && temp.left !== curr) {
+                // 寻找左尽头
+                temp = temp.left
+            }
+
+            if (temp.left === null) {
+                reverseOutput.push(curr.val)
+                temp.left = curr // 连接左尽头到当前节点
+                curr = curr.right
+            } else {
+                temp.left = null
+                curr = curr.left
+            }
+        }
+    }
+    // Reverse the output array to get the correct postorder traversal
+    return reverseOutput.reverse() // 最终还得反转一下
+}
+```
+
+那么这道题，是中序的反向遍历，那就是 Morris 正常中序遍历的镜像：
+
+```js
+/**
+ * @param {TreeNode} root
+ * @return {TreeNode}
+ */
+var convertBST = function (root) {
+    let curr = root
+    let sum = 0
+    while (curr !== null) {
+        if (curr.right == null) {
+            sum += curr.val
+            curr.val = sum
+            curr = curr.left
+        } else {
+            let prev = curr.right
+            while (prev.left !== null && prev.left !== curr) {
+                prev = prev.left
+            }
+
+            if (prev.left === null) {
+                prev.left = curr
+                curr = curr.right
+            } else {
+                prev.left = null
+                sum += curr.val
+                curr.val = sum
+                curr = curr.left
+            }
+        }
+    }
+    return root
+}
+```
+
+### lc.98 验证二叉搜索树
+
+在上方已经做过了，最简单的就是中序遍历的结果是否为升序。
+
+```js
+var isValidBST = function (root) {
+    let res = true
+    let pre = -Infinity
+    const traverse = root => {
+        if (!root) return
+        traverse(root.left)
+        if (root.val <= pre) {
+            res = false
+            return
+        } else {
+            pre = root.val
+        }
+        traverse(root.right)
+    }
+    traverse(root)
+    return res
+}
+```
+
+### lc.700 二叉搜索树中的搜索 easy
+
+没啥难度，根据 BST 的性质进行左右半区搜索即可。
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} val
+ * @return {TreeNode}
+ */
+var searchBST = function (root, val) {
+    if (root === null) return null
+    while (root) {
+        if (root.val === val) return root
+        root = val > root.val ? root.right : root.left
+    }
+    return null
+}
+```
+
+### lc.701 二叉搜索树中的插入操作
+
+二叉树的「改」类似于构造，如过用递归遍历的函数需要返回 TreeNode 类型。
+
+先来看下迭代的做法，比较简单，就是找到它合适的位置后，插入即可，由于 BST 的特性，插入的数字一定可以走到叶节点。
+
+```js
+/**
+ * @param {TreeNode} root
+ * @param {number} val
+ * @return {TreeNode}
+ */
+var insertIntoBST = function (root, val) {
+    if (root === null) return new TreeNode(val)
+    let p = root
+    while (p !== null) {
+        if (p.val < val) {
+            if (p.right === null) {
+                p.right = new TreeNode(val)
+                break
+            }
+            p = p.right
+        } else {
+            if (p.left === null) {
+                p.left = new TreeNode(val)
+                break
+            }
+            p = p.left
+        }
+    }
+    return root
+}
+```
+
+```js
+var insertIntoBST = function (root, val) {
+    // 递归做法
+    if (root === null) return new TreeNode(val)
+    if (root.val < val) {
+        root.right = insertIntoBST(root.right, val) // 往右树里加
+    } else {
+        root.left = insertIntoBST(root.left, val) // 往左树里加
+    }
+    return root
+}
+```
+
+### lc.450 删除二叉搜索树中的节点
+
+插入是直接加在了叶节点，删除操作会对结构产生变化，需要进行不同情况的判断：
+
+-   删除节点没有左右子树，直接删除
+-   有一个子树，返回有的那个子树即可
+-   左右子树都有，这就比较麻烦了，它需要**把左子树的最大值或者右子树的最小值替换到被删的节点处**
+
+```js
+/**
+ * 迭代法，比较容易出错，最好是同时画图，不然很容易漏掉一些指针操作
+ * /
+/**
+ * @param {TreeNode} root
+ * @param {number} key
+ * @return {TreeNode}
+ */
+var deleteNode = function (root, key) {
+    if (root === null) return null
+    let p = root,
+        parent = null
+    while (p && p.val !== key) {
+        parent = p
+        if (key < p.val) {
+            p = p.left
+        } else {
+            p = p.right
+        }
+    }
+
+    if (p == null) return root // 没找到 key
+    if (p.left === null && p.right === null) {
+        p = null
+    } // key 在叶节点，直接删
+    /** 如果没有 parent 指针，这后面逻辑走不下去 */
+    else if (p.left === null) {
+        p = p.right
+    } else if (p.right === null) {
+        p = p.left
+    } else if (p.left && p.right) {
+        // 和堆排序的操作类似，核心：找到左子树最大值或者右子树最小值和 p 交换即可
+        let r = p.right,
+            rp = p
+        // 找到右树最小节点
+        while (r.left) {
+            rp = r
+            r = r.left
+        }
+
+        /**
+         * 断掉 右树最小节点的父指针
+         *
+         * 个人建议： 这块最好多画画图，脑补确实不易 [捂脸]
+         */
+        // 压根没有左树节点
+        if (rp.val === p.val) {
+            rp.right = r.right
+        } else {
+            // 有左子树节点，那么 r 的右侧节点应当在 rp 的左树
+            rp.left = r.right
+        }
+
+        // 这里好理解，把右树最小节点和删除节点交换
+        r.right = p.right
+        r.left = p.left
+        p = r
+    }
+
+    // 删除的是根节点
+    if (parent === null) return p
+    // 把新的 P 节点重新连接
+    if (parent.left && parent.left.val === key) {
+        parent.left = p
+    } else {
+        parent.right = p
+    }
+    return root
+}
+```
+
+迭代法，通过指针操作，有很多需要注意的点，相比较之下，递归做起来就比较容易了。
+
+```js
+/**
+ *  再次提醒 --- 递归千万不要套进去，再就是定义好 出参/入参/结束条件， 其他都好说，都好说~
+ *
+ *  定义： 返回删除树 root 中 key 后的根节点 root
+ */
+var deleteNode = function (root, key) {
+    if (root === null) return null
+    if (root.val === key) {
+        if (root.left === null) return root.right
+        if (root.right === null) return root.left
+
+        // 否则和迭代一样，找左树最大值或右树最小值来替换删除的节点
+        let r = root.right
+        while (r.left) {
+            r = r.left
+        }
+        // 断开右树最小值的连接
+        root.right = deleteNode(root.right, r.val)
+        // 交换节点
+        r.left = root.left
+        r.right = root.right
+        root = r
+    } else if (root.val < key) {
+        root.right = deleteNode(root.right, key)
+    } else if (root.val > key) {
+        root.left = deleteNode(root.left, key)
+    }
+    return root
+}
+```
+
+### lc.95 不同的二叉搜索树 II
+
+这个题目一看就是穷举的问题，穷举~~~暴力递归 yyds！！！由于 BST 的性质，而不用去回溯。
+
+另外，涉及到数组构造树，一般会使用「区间指针」去构造。
+
+```js
+/**
+ * @param {number} n
+ * @return {TreeNode[]}
+ */
+var generateTrees = function (n) {
+    // if(n == 1) return new TreeNode(n)
+    /**
+     * 定义递归： 输入：区间 [l..r]，输出： TreeNode[]
+     * 结束条件： l > r
+     *
+     */
+    const build = (l, r) => {
+        const res = []
+        if (l > r) {
+            res.push(null) // 注意要加入空节点,易错
+            return res
+        }
+        // 穷尽枚举
+        for (let i = l; i <= r; ++i) {
+            const left = build(l, i - 1)
+            const right = build(i + 1, r)
+            for (const l of left) {
+                for (const r of right) {
+                    const root = new TreeNode(i)
+                    root.left = l
+                    root.right = r
+                    res.push(root)
+                }
+            }
+        }
+
+        return res
+    }
+
+    return build(1, n)
+}
+```
+
+### lc.96 不同的二叉搜索树
+
+做了 lc.95 那么这道题的思路还是挺容易的。这种穷尽枚举的题目，一般使用递归解决。因为是 BST，所以利用 bst 的性质即可，而不用去回溯。
+
+```js
+/**
+ * 这道题需要注意的是，需要加 「备忘录」，否则会超时~
+ */
+var numTrees = function (n) {
+    const memo = Array.from(Array(n + 1), () => Array(n + 1).fill(0))
+    /**
+     * 定义递归: 输入：区间 [l..r], 输出：不同的个数 number
+     * 结束条件：l > r, return 1
+     */
+    const build = (l, r) => {
+        let res = 0
+        if (l > r) return 1
+        if (memo[l][r]) return memo[l][r]
+
+        for (let i = l; i <= r; i++) {
+            const left = build(l, i - 1)
+            const right = build(i + 1, r)
+            res += left * right
+        }
+
+        memo[l][r] = res
+        return res
+    }
+    return build(1, n)
+}
+```
+
+当然啦，这道题用动态规划去做，时间复杂度空间复杂度都会更低一点，详细见官解，另外官解给出了这道题的奥义 「卡塔兰数」，又又又长知识啦~~~~
+
+```js
+/**
+ * dp
+ */
+var numTrees = function (n) {
+    const G = new Array(n + 1).fill(0)
+    G[0] = 1
+    G[1] = 1
+
+    for (let i = 2; i <= n; ++i) {
+        for (let j = 1; j <= i; ++j) {
+            G[i] += G[j - 1] * G[i - j]
+        }
+    }
+    return G[n]
+}
+/**
+ * 卡塔兰数
+ */
+var numTrees = function (n) {
+    let C = 1
+    for (let i = 0; i < n; ++i) {
+        C = (C * 2 * (2 * i + 1)) / (i + 2)
+    }
+    return C
+}
+```
+
+---
+
+总的来说，二叉树的问题，还是很有意思的，同时对指针迭代和递归思想的培养很有效，需要多思考，另外基础的操作需要多练习。
+

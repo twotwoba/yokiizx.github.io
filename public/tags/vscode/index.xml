@@ -1,0 +1,21 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Vscode - 标签 - Hello World</title>
+        <link>http://localhost:1313/tags/vscode/</link>
+        <description>Vscode - 标签 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Sun, 18 Sep 2022 20:37:14 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/vscode/" rel="self" type="application/rss+xml" /><item>
+    <title>VsCode格式化建议</title>
+    <link>http://localhost:1313/vscode%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%BB%BA%E8%AE%AE/</link>
+    <pubDate>Sun, 18 Sep 2022 20:37:14 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/vscode%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%BB%BA%E8%AE%AE/</guid>
+    <description><![CDATA[前言做项目时，独木难支，难免会有多人合作的场景，甚至是跨地区协调来的小伙伴进行配合。如果两个人有着不同的编码风格，再不幸两人同时修改了同一份文件，就极有可能会产生不必要的代码冲突，因此，一个项目的代码格式化一定要统一。这对于上线前的代码 codereview 也是极好的，能有效避免产生大片红大片绿的情况。。。废话不多说，上菜！
+插件进行配置前，确保安装了以下两个插件：
+ESLint Prettier - Code formatter 配置 项目根目录下创建.vscode/settings.json，用以覆盖本地的保存配置
+{ &#34;editor.formatOnSave&#34;: true, // 保存时自动格式化 &#34;editor.codeActionsOnSave&#34;: { &#34;source.fixAll.eslint&#34;: true // 保存时自动修复 } } 项目根目录下创建.prettierrc，配置如下（按需配置）：
+{ &#34;printWidth&#34;: 80, &#34;tabWidth&#34;: 2, &#34;useTabs&#34;: false, &#34;semi&#34;: false, &#34;singleQuote&#34;: true, &#34;trailingComma&#34;: &#34;none&#34;, &#34;bracketSpacing&#34;: true, &#34;arrowParens&#34;: &#34;always&#34;, &#34;htmlWhitespaceSensitivity&#34;: &#34;ignore&#34;, &#34;endOfLine&#34;: &#34;auto&#34; } 当然了，如果你乐意也可以在本地 vscode 的 settings.json 中做一份配置，只是需要注意如果本地项目中有.editorconfig 文件，settings.json 中关于 prettier 的配置会失效。
+解决冲突
+prettier 是专门做代码格式化的，eslint 是用来控制代码质量的，但是 eslint 同时也做了一些代码格式化的工作，而 vscode 中，prettier 是在 eslint &ndash;fix 之后进行格式化的，这导致把 eslint 对格式化的一些操作改变为 prettier 的格式化，从而产生了冲突。]]></description>
+</item></channel>
+</rss>

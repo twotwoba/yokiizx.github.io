@@ -1,0 +1,310 @@
+# 单调栈
+
+
+## 概念及实现
+
+栈，同端进同端出，具有先进后出的特性，当栈内所有元素具有单调性(递增/递减)就是一个**单调栈**了。
+
+自行干预单调栈的实现：当一个元素入栈时破坏了单调性，那么就 pop 栈顶（可能需要迭代），直到能使得新加入的元素保持栈的单调性。
+
+```js
+for (const item of arr) {
+    if(stack.length && item (>= | <=) stack[stack.length - 1]) {
+        stack.pop()
+    }
+    stack.push(item)
+}
+```
+
+> 栈存储的信息，可以是索引、元素，根据实际情况进行处理
+> 灵活控制遍历顺序来简化算法
+
+## 场景
+
+单调栈的应用场景比较单一，只处理一类典型的问题：比如 「下一个更/最...」 之类的问题，另一类是接雨水，柱状图中的最大矩形这种变形问题。
+
+## 练一练
+
+### lc.402 移掉 K 位数字
+
+分析：为了让数字最小，从左往右遍历，左侧为高位，所以高位越小越好，那么从左往右遍历的过程中，当索引位置的元素 index > index + 1，时，把 index 位置的数字删掉即可。
+
+```js
+/**
+ * @param {string} num
+ * @param {number} k
+ * @return {string}
+ */
+var removeKdigits = function (num, k) {
+    const nums = num.split('')
+    const monoStack = []
+    for (const item of nums) {
+        while (monoStack.length && item < monoStack[monoStack.length - 1] && k) {
+            monoStack.pop()
+            k--
+        }
+        monoStack.push(item)
+    }
+
+    /** k 还有富余继续pop */
+    while (k > 0) {
+        monoStack.pop()
+        k--
+    }
+
+    while (monoStack[0] === '0') monoStack.shift() // 到这里，单调栈变成了双端队列的角色了，由于 js 的语言特性，很容易
+    if (monoStack.length) return monoStack.join('')
+    return '0'
+}
+```
+
+### lc.496 下一个更大元素 I easy
+
+```js
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
+var nextGreaterElement = function (nums1, nums2) {
+    // 思路：对 nums2 构建单调栈，同时用哈希表存储信息，最后遍历 nums1 并从哈希表中取出数据即可
+    const map = {}
+    const monoStack = []
+    for (const num of nums2) {
+        while (monoStack.length && num > monoStack[monoStack.length - 1]) {
+            const lastNum = monoStack.pop() // 拍扁过程中记录上一个元素a和新元素b，他两的关系就是 b 是 a 的下一个更大元素
+            map[lastNum] = num
+        }
+        monoStack.push(num)
+    }
+
+    let res = []
+    for (const num of nums1) {
+        res.push(map[num] || -1)
+    }
+    return res
+}
+```
+
+### lc.503 下一个更大元素 II
+
+处理循环数组有个常规的技巧是将循环数组拉直 --- 即复制该序列的前 n−1 个元素拼接在原序列的后面，访问拼接位置元素的索引为 `index % arr.length`
+
+> 本题值的注意的是：如过数组中有重复的元素，那么就不能用 map 存储 「元素」 作为 key 了，索引是单调的，因为可以在单调栈中存储索引。
+
+```js
+// [ 0,1,2,3,4,0,1,2,3 ]   5 % 5 == 0, 6 % 5 ==1
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var nextGreaterElements = function (nums) {
+    const res = Array(nums.length).fill(-1)
+    const monoStack = []
+    for (let i = 0; i < nums.length * 2 - 1; ++i) {
+        const index = i % nums.length
+        const item = nums[index]
+        // 存储索引，根据索引去获取上一个元素
+        while (monoStack.length && item > nums[monoStack[monoStack.length - 1]]) {
+            // res[monoStack[monoStack.length - 1]] = item
+            // monoStack.pop()
+            res[monoStack.pop()] = item
+        }
+        monoStack.push(index)
+    }
+    return res
+}
+```
+
+### lc.739 每日温度
+
+看见下一个更高温度，直接单调栈解决，根据题意，要求的是几天后，那么根据数组索引去解决即可。
+
+```js
+/**
+ * @param {number[]} temperatures
+ * @return {number[]}
+ */
+var dailyTemperatures = function (temperatures) {
+    const n = temperatures.length
+    const res = Array(n).fill(0)
+    const monoStack = []
+    for (let i = 0; i < n; ++i) {
+        const item = temperatures[i]
+        while (monoStack.length && item > temperatures[monoStack[monoStack.length - 1]]) {
+            const lastIndex = monoStack.pop()
+            res[lastIndex] = i - lastIndex
+        }
+        monoStack.push(i)
+    }
+    return res
+}
+```
+
+### lc.901 股票价格跨度
+
+```js
+var StockSpanner = function () {
+    this.arr = []
+    this.monoStack = []
+}
+
+/**
+ * @param {number} price
+ * @return {number}
+ */
+StockSpanner.prototype.next = function (price) {
+    this.arr.push(price)
+    while (this.monoStack.length && price > this.arr[this.monoStack[this.monoStack.length - 1]]) {
+        this.monoStack.pop()
+    }
+    // -1 表示-1 天，用来计算间距
+    let lastIndex = this.monoStack.length ? this.monoStack[this.monoStack.length - 1] : -1
+    const interval = this.arr.length - lastIndex - 1 // (lastIndex...this.arr.length)
+    this.monoStack.push(this.arr.length - 1)
+    return interval
+}
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * var obj = new StockSpanner()
+ * var param_1 = obj.next(price)
+ */
+```
+
+---
+
+下方两道 hard 题，加深对单调栈的理解。
+
+### lc.84 柱状图中的最大矩形 hard
+
+首先暴力解，枚举每个柱子的高度，对每个柱子找到其左边和右边第一个比它矮的柱子，那么这个柱子的最大面积就是 w \* h 了
+
+暴力解的时间复杂度可以用单调栈来降低。暴力寻找左右第一个矮的柱子，时间复杂度是 `O(n^2)`，用上单调栈后，时间复杂度可以降到 `O(n)`。
+
+```js
+/**
+ * @param {number[]} heights
+ * @return {number}
+ */
+var largestRectangleArea = function (heights) {
+    const left = []
+    const right = []
+
+    const monoStack = []
+    for (let i = 0; i < heights.length; ++i) {
+        // 找到索引 i 左边第一个比 i 的高要小的
+        while (monoStack.length && heights[i] <= heights[monoStack[monoStack.length - 1]]) {
+            monoStack.pop()
+        }
+        left[i] = monoStack.length > 0 ? monoStack[monoStack.length - 1] : -1
+        monoStack.push(i)
+    }
+
+    monoStack.length = 0
+    for (let i = heights.length - 1; i >= 0; --i) {
+        while (monoStack.length && heights[i] <= heights[monoStack[monoStack.length - 1]]) {
+            monoStack.pop()
+        }
+        right[i] = monoStack.length ? monoStack[monoStack.length - 1] : heights.length
+        monoStack.push(i)
+    }
+    let max = 0
+    for (let i = 0; i < heights.length; ++i) {
+        max = Math.max(max, (right[i] - left[i] - 1) * heights[i])
+    }
+    return max
+}
+```
+
+> 这题有个小技巧是：因为是根据索引求宽度，那么首尾的时候就有可能有越界行为，上面使用了 -1 和 数组的长度作为 0 前面和最后一个索引后面的索引，这么做是比较麻烦的，那么就可以使用老熟人**哨兵守卫**了，先把 heights 变成 `[0, ...heights, 0]`，后面就不用担心首尾索引了。
+
+在上方的解题中，每次迭代 pop 完之后找到最左、右第一个小于 i 的边界，这就把 pop 出的这个信息给浪费了。而当有了守卫的时候，这道题的常数项优化就更简单了（[官解的常数项优化](https://leetcode.cn/problems/largest-rectangle-in-histogram/solutions/266844/zhu-zhuang-tu-zhong-zui-da-de-ju-xing-by-leetcode-/)）。
+
+因为有了最左侧的 0，会保证左侧边界不越界；因为有了右侧的 0 会保证每个柱子都会遍历到。当每个柱子被 pop 的时候，它的左边界就是它在栈中的的上一个，它的右边界就是新进入的，在这个时候去计算并更新最大值即可。
+
+```js
+/**
+ * @param {number[]} heights
+ * @return {number}
+ */
+var largestRectangleArea = function (heights) {
+    let max = 0
+    const monoStack = []
+    heights = [0, ...heights, 0]
+    for (let i = 0; i < heights.length; ++i) {
+        while (monoStack.length && heights[i] < heights[monoStack[monoStack.length - 1]]) {
+            const h = heights[monoStack.pop()]
+            const left = monoStack[monoStack.length - 1]
+            max = Math.max(max, (i - left - 1) * h)
+        }
+        monoStack.push(i)
+    }
+    return max
+}
+```
+
+### lc.42 接雨水 hard
+
+这道题是经典中的经典了，解法很多：双指针/动态规划/单调栈，此处使用单调栈的方式来解题。
+
+```js
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var trap = function (height) {
+    let area = 0
+    const monoStack = []
+    for (let i = 0; i < height.length; ++i) {
+        // 找到下一个更大的元素，就能形成 凹 槽
+        while (monoStack.length && height[i] > height[monoStack[monoStack.length - 1]]) {
+            const lowH = height[monoStack.pop()] // 中间的凹槽的高度
+            // 注意这里，对边界做判断
+            if (monoStack.length) {
+                const highH = Math.min(height[monoStack[monoStack.length - 1]], height[i])
+                area += (highH - lowH) * (i - monoStack[monoStack.length - 1] - 1)
+            }
+        }
+        monoStack.push(i)
+    }
+    return area
+}
+```
+
+补充一下这道题的最优解：双指针法，能做到空间复杂度 O(1)
+
+```js
+// 相比单调栈横向计算面积, 双指针是纵向计算面积的，主要根据两边高度的较小个
+var trap = function (height) {
+    // 每个坐标点能装下的水是 左右最高柱子较小的那一个 减去自身的高度
+    const n = height.length
+    let l = 0,
+        r = n - 1
+    let res = 0
+    let l_max = 0,
+        r_max = 0
+    while (l < r) {
+        l_max = Math.max(l_max, height[l])
+        r_max = Math.max(r_max, height[r])
+        if (l_max < r_max) {
+            res += l_max - height[l]
+            l++
+        } else {
+            res += r_max - height[r]
+            r--
+        }
+    }
+    return res
+}
+```
+
+---
+
+总结：对于应用类型的问题，要学会转化问题
+
+-   接雨水需要找到「盛水的凹点」，被 pop 出来的就是 凹槽
+-   最大矩形需要找到「左右的低点」，被 pop 出来的就是 峰顶
+
+此类根据凹凸边界去求解的问题，应当联想到单调栈~
+

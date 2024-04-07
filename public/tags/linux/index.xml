@@ -1,0 +1,29 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Linux - 标签 - Hello World</title>
+        <link>http://localhost:1313/tags/linux/</link>
+        <description>Linux - 标签 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Thu, 01 Dec 2022 11:31:39 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/linux/" rel="self" type="application/rss+xml" /><item>
+    <title>Shell 基础</title>
+    <link>http://localhost:1313/shell%E5%9F%BA%E7%A1%80/</link>
+    <pubDate>Thu, 01 Dec 2022 11:31:39 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/shell%E5%9F%BA%E7%A1%80/</guid>
+    <description><![CDATA[前言补齐一下计算机的短板，抽时间学习一下 shell 的基础知识。
+笔记 脚本执行 shell 脚本 xxx.sh 以.sh 结尾，此类文件执行方式有两种：
+文件头使用 #! 指定 shell 程序，比如 #! /bin/zsh，然后带上目录执行 ./demo.sh 直接命令行中指定 shell 程序，比如 /bin/zsh demo.sh 注意第一种方式，不能直接 dmeo.sh，得使用 ./demo.sh，是因为这样系统会直接去 PATH 里寻找有没有叫 demo.sh 的，而 PATH 里一般只有 /bin,/sbin,/usr/bin,/usr/sbin。
+另外 .sh 脚本文件执行时如果出现 permission denied 是因为没有权限，chmod +x [文件路径] 即可。
+# 比如 demo.sh 文件内容如下 # ------------------------ #! /bin/zsh echo &#34;hello world&#34; # 执行两步走 chmod +x demo.sh ./demo.sh # 如果是如下执行，内文件内的 第一行#！xxx 是无效的，写了也没用 /bin/zsh demo.sh 变量 # 声明 variable_name=&#39;demo&#39; readonly variable_name # 只读变量 # 使用 $variable_name # 可以加上{}来确认边界 ${variable_name} # 删除变量 unset variable_name # 不能删除只读变量 字符串 # 单引号 str=&#39;hello world&#39; # 单引号中变量是无效的 # 双引号 str=&#34;hello $world&#34; # 可以识别变量 # 字符串长度 ${#str} # 字符串查找 $str[(I)ll] # 小i 从左往右 找不到返回 长度+1 $str[(i)ll] # 大i 从右往左 找不到返回 0 # 提取字符串 ${str:1:4} # 与js的subStr类似 1为索引,4为长度 $str[1,4] # 这个都是索引(注意是从第一位开始) 推荐这个吧 # 遍历 for i ({1.]]></description>
+</item><item>
+    <title>Linux基础</title>
+    <link>http://localhost:1313/linux%E5%9F%BA%E7%A1%80/</link>
+    <pubDate>Thu, 01 Dec 2022 08:08:31 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/linux%E5%9F%BA%E7%A1%80/</guid>
+    <description><![CDATA[前言使用 mac 很多地方和 linux 是很像的，配置环境的时候总是去各种百度，让我很不爽，虽然本人只是个小前端，但是谁规定我只能学前端呢？计算机是个广阔的天地，只要我感兴趣，必拿下~
+linux 系统目录记录一下&quot;常识&quot;目录：
+/bin， Binaries (二进制文件) 的缩写, 存放着最经常使用的基本命令 /sbin，s 为 super，管理员权限，存放的是最基本系统命令 /etc， Etcetera（等等）的缩写，存放所有系统管理所需要的配置文件和子目录 /lib， Library（库）的缩写，存放着系统最基本的动态连接共享库，与 windows 的 DLL 文件作用类似。 /usr， Unix Shared resources（共享资源） 的缩写，存放用户的应用程序和文件 /opt， Optional（可选）的缩写，安装额外软件的目录 /var， Variable（变量）的缩写，一般存放经常修改的东西，比如各种日志文件 /home，用户的主目录，在 mac 上是~，等价于Users/主机名 /usr/bin，系统用户使用的应用程序(后续安装的程序) /usr/sbin，管理员使用的应用程序(但不是必须的) linux 文件属性查看文件完整属性命令
+ls -l # 或者 ll total 0 drwx------ 5 yokiizx staff 160B Mar 15 2022 Applications drwx------ 42 yokiizx staff 1.3K Dec 3 21:27 Desktop drwxr-xr-x 4 yokiizx staff 128B Aug 7 2021 Public drwxr-xr-x：文件属性就是由这十个字符来表示的，r-可读，w-可写，x-可执行。]]></description>
+</item></channel>
+</rss>

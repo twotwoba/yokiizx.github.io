@@ -1,0 +1,19 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Git - 标签 - Hello World</title>
+        <link>http://localhost:1313/tags/git/</link>
+        <description>Git - 标签 - Hello World</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Mon, 19 Sep 2022 20:36:01 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/git/" rel="self" type="application/rss+xml" /><item>
+    <title>Git自用手册</title>
+    <link>http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/</link>
+    <pubDate>Mon, 19 Sep 2022 20:36:01 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/</guid>
+    <description><![CDATA[本文基于 git version 2.32.0
+我知道有很多人在使用 SourceTree 之类的图形界面进行版本管理，但是从入行就习惯使用命令行和喜欢简约风的我还是喜欢在 terminal 内敲命令行来进行 git 的相关操作，本文把这几年来常用的命令和经验分享一下。
+鉴于是老生常谈的东西了，分为老手和新手两块。
+老手命令换电脑或者重做系统后，需要重新配置 git 命令别名，帮助简化命令（复制进 terminal 执行一下即可）。
+# 普通流程 git config --global alias.g git # 只 clone 对应分支, git cloneb [br] [url], 对于 react 之类的大仓库，就很舒服~ git config --global alias.cloneb &#39;clone --single-branch --branch&#39; git config --global alias.ad &#39;add -A&#39; git config --global alias.cm &#39;commit -m&#39; git config --global alias.ps push git config --global alias.pl pull # 修改最后一次commit（会变更commitId） git config --global alias.cam &#39;commit --amend -m&#39; # 追加修改，不加新commit git config --global alias.]]></description>
+</item></channel>
+</rss>
