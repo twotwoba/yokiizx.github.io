@@ -285,7 +285,7 @@ var findOrder = function (numCourses, prerequisites) {
 }
 ```
 
-<!-- 从检测环的角度来说：「拓扑排序」可以判断-有向图-是否有环，「并查集」可以判断-无向图-是否有环  -->
+从检测环的角度来说：「拓扑排序」可以判断-有向图-是否有环，「并查集」可以判断-无向图-是否有环
 
 ### 并查集
 
@@ -353,10 +353,29 @@ class Dsu {
 
 ##### lc.684 冗余连接
 
-此题是无向图检测环的经典题目了。
+检测无向图的环~ 思想也很简单，利用并查集的 find，当新加入的边如果找到了同一个根，则说明新加入的边使得原来的树形成了环；否则就 union 新加入的边即可。
 
 ```js
-
+/**
+ * @param {number[][]} edges
+ * @return {number[]}
+ */
+var findRedundantConnection = function (edges) {
+    const len = edges.length
+    const DSU = Array.from(Array(len + 1), (_, index) => index)
+    for (let i = 0; i < len; ++i) {
+        const [u, v] = edges[i]
+        const u1 = find(DSU, u)
+        const v1 = find(DSU, v)
+        if (u1 === v1) return edges[i]
+        DSU[v1] = u1 // union 简化到这里
+    }
+    return [0]
+}
+function find(p, u) {
+    if (u === p[u]) return u
+    return (p[u] = find(p, p[u]))
+}
 ```
 
 ##### lc.130 被围绕的区域

@@ -36,7 +36,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http://localhost:1313/%E5%9B%BE/"
-        },"genre": "posts","wordcount":  890 ,
+        },"genre": "posts","wordcount":  981 ,
         "url": "http://localhost:1313/%E5%9B%BE/","datePublished": "2023-02-19T16:03:41+08:00","dateModified": "2024-04-03T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -206,7 +206,7 @@
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/algorithm/"><i class="far fa-folder fa-fw"></i>Algorithm</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/data-structure/"><i class="far fa-list-alt fa-fw"></i>Data Structure</a></span><span id="busuanzi_container_page_pv">&nbsp;
                         <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
             </div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-02-19">2023-02-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2024-04-03">2024-04-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 890 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-02-19">2023-02-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2024-04-03">2024-04-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 981 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -518,7 +518,7 @@
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">visitedCount</span> <span class="o">!==</span> <span class="nx">numCourses</span><span class="p">)</span> <span class="k">return</span> <span class="p">[]</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">res</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><!-- 从检测环的角度来说：「拓扑排序」可以判断-有向图-是否有环，「并查集」可以判断-无向图-是否有环  -->
+</span></span></code></pre></div><p>从检测环的角度来说：「拓扑排序」可以判断-有向图-是否有环，「并查集」可以判断-无向图-是否有环</p>
 <h3 id="并查集" class="headerLink">
     <a href="#%e5%b9%b6%e6%9f%a5%e9%9b%86" class="header-mark"></a>并查集</h3><blockquote>
 <p>参考了此篇文章 <a href="https://oi-wiki.org/ds/dsu/" target="_blank" rel="noopener noreferrer">https://oi-wiki.org/ds/dsu/</a></p>
@@ -576,8 +576,28 @@
 </ul>
 <h4 id="练习" class="headerLink">
     <a href="#%e7%bb%83%e4%b9%a0" class="header-mark"></a>练习</h4><h5 id="lc684-冗余连接" class="headerLink">
-    <a href="#lc684-%e5%86%97%e4%bd%99%e8%bf%9e%e6%8e%a5" class="header-mark"></a>lc.684 冗余连接</h5><p>此题是无向图检测环的经典题目了。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"></code></pre></div><h5 id="lc130-被围绕的区域" class="headerLink">
+    <a href="#lc684-%e5%86%97%e4%bd%99%e8%bf%9e%e6%8e%a5" class="header-mark"></a>lc.684 冗余连接</h5><p>检测无向图的环~ 思想也很简单，利用并查集的 find，当新加入的边如果找到了同一个根，则说明新加入的边使得原来的树形成了环；否则就 union 新加入的边即可。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param {number[][]} edges
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @return {number[]}
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">findRedundantConnection</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">edges</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">edges</span><span class="p">.</span><span class="nx">length</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">DSU</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">from</span><span class="p">(</span><span class="nb">Array</span><span class="p">(</span><span class="nx">len</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="nx">_</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">len</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="p">[</span><span class="nx">u</span><span class="p">,</span> <span class="nx">v</span><span class="p">]</span> <span class="o">=</span> <span class="nx">edges</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">u1</span> <span class="o">=</span> <span class="nx">find</span><span class="p">(</span><span class="nx">DSU</span><span class="p">,</span> <span class="nx">u</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">v1</span> <span class="o">=</span> <span class="nx">find</span><span class="p">(</span><span class="nx">DSU</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">u1</span> <span class="o">===</span> <span class="nx">v1</span><span class="p">)</span> <span class="k">return</span> <span class="nx">edges</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">DSU</span><span class="p">[</span><span class="nx">v1</span><span class="p">]</span> <span class="o">=</span> <span class="nx">u1</span> <span class="c1">// union 简化到这里
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">find</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">u</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">u</span> <span class="o">===</span> <span class="nx">p</span><span class="p">[</span><span class="nx">u</span><span class="p">])</span> <span class="k">return</span> <span class="nx">u</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="nx">p</span><span class="p">[</span><span class="nx">u</span><span class="p">]</span> <span class="o">=</span> <span class="nx">find</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">p</span><span class="p">[</span><span class="nx">u</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h5 id="lc130-被围绕的区域" class="headerLink">
     <a href="#lc130-%e8%a2%ab%e5%9b%b4%e7%bb%95%e7%9a%84%e5%8c%ba%e5%9f%9f" class="header-mark"></a>lc.130 被围绕的区域</h5><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"></code></pre></div><ul>
 <li>lc.200 &amp; lc.1905 与本题类似，之前用的 dfs flood fill 算法去做的，有时间可以用 DSU 也做一做。</li>
 </ul>
