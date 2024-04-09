@@ -36,7 +36,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http://localhost:1313/%E5%9B%BE/"
-        },"genre": "posts","wordcount":  1316 ,
+        },"genre": "posts","wordcount":  1469 ,
         "url": "http://localhost:1313/%E5%9B%BE/","datePublished": "2023-02-19T16:03:41+08:00","dateModified": "2024-04-03T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -206,7 +206,7 @@
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/algorithm/"><i class="far fa-folder fa-fw"></i>Algorithm</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/data-structure/"><i class="far fa-list-alt fa-fw"></i>Data Structure</a></span><span id="busuanzi_container_page_pv">&nbsp;
                         <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
             </div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-02-19">2023-02-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2024-04-03">2024-04-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1316 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-02-19">2023-02-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2024-04-03">2024-04-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1469 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -739,40 +739,53 @@ var solve = function(board) {
 ```
  -->
 <h5 id="lc990-等式方程的可满足性" class="headerLink">
-    <a href="#lc990-%e7%ad%89%e5%bc%8f%e6%96%b9%e7%a8%8b%e7%9a%84%e5%8f%af%e6%bb%a1%e8%b6%b3%e6%80%a7" class="header-mark"></a>lc.990 等式方程的可满足性</h5><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"></code></pre></div><!-- -->
+    <a href="#lc990-%e7%ad%89%e5%bc%8f%e6%96%b9%e7%a8%8b%e7%9a%84%e5%8f%af%e6%bb%a1%e8%b6%b3%e6%80%a7" class="header-mark"></a>lc.990 等式方程的可满足性</h5><p>知道用并查集的前提下，这还不是小 case~ 又是一个无向图检测环的问题罢了。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param {string[]} equations
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @return {boolean}
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">equationsPossible</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">equations</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 很明显的环检测问题
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kr">const</span> <span class="nx">DSU</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">from</span><span class="p">(</span><span class="nb">Array</span><span class="p">(</span><span class="mi">26</span><span class="p">),</span> <span class="p">(</span><span class="nx">_</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">equations</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">edge</span> <span class="o">=</span> <span class="nx">equations</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">isConnected</span> <span class="o">=</span> <span class="nx">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;=&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">isConnected</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kr">const</span> <span class="nx">u</span> <span class="o">=</span> <span class="nx">edge</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="s1">&#39;a&#39;</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="kr">const</span> <span class="nx">v</span> <span class="o">=</span> <span class="nx">edge</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="s1">&#39;a&#39;</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">union</span><span class="p">(</span><span class="nx">DSU</span><span class="p">,</span> <span class="nx">u</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">equations</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">edge</span> <span class="o">=</span> <span class="nx">equations</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">isNotConnected</span> <span class="o">=</span> <span class="nx">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;!&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">isNotConnected</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kr">const</span> <span class="nx">u</span> <span class="o">=</span> <span class="nx">edge</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="s1">&#39;a&#39;</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="kr">const</span> <span class="nx">v</span> <span class="o">=</span> <span class="nx">edge</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="s1">&#39;a&#39;</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="nx">find</span><span class="p">(</span><span class="nx">DSU</span><span class="p">,</span> <span class="nx">u</span><span class="p">)</span> <span class="o">===</span> <span class="nx">find</span><span class="p">(</span><span class="nx">DSU</span><span class="p">,</span> <span class="nx">v</span><span class="p">))</span> <span class="k">return</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">find</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">u</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">u</span> <span class="o">===</span> <span class="nx">p</span><span class="p">[</span><span class="nx">u</span><span class="p">])</span> <span class="k">return</span> <span class="nx">u</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="nx">p</span><span class="p">[</span><span class="nx">u</span><span class="p">]</span> <span class="o">=</span> <span class="nx">find</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">p</span><span class="p">[</span><span class="nx">u</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">union</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">u</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">u</span> <span class="o">=</span> <span class="nx">find</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">u</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">v</span> <span class="o">=</span> <span class="nx">find</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">u</span> <span class="o">===</span> <span class="nx">v</span><span class="p">)</span> <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">p</span><span class="p">[</span><span class="nx">v</span><span class="p">]</span> <span class="o">=</span> <span class="nx">u</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><!-- -->
 <hr>
-<!-- -   初始化：每个元素位于一个单独的集合，根节点为自身
-    ```js
-    const father = []
-    function init() {
-        for (let i = 0; i < n; ++i) {
-            father[i] = i
-        }
-    }
-    ```
--   合并到一个集合
-    ```js
-    function join(u, v) {
-        u = find(u) // find(u) 为寻根的过程
-        v = find(v)
-        if (u === v) return // 有相同的根，已经连通
-        father[u] = v
-    }
-    ```
--   寻根的过程
-
-    ```js
-    function find(u) {
-        if (u === father[u]) return u
-        return find(father[u])
-    }
-    ``` -->
 <!-- 并查集在经过修改后可以支持单个元素的删除、移动；使用动态开点线段树还可以实现可持久化并查集。 -->
-<!-- TODO 鉴于时间关系，
+<!-- TODO 鉴于时间关系，以下内容后续学习
 
-二分图判定算法： lc.785 lc.886  后续学习
+二分图判定算法： lc.785 lc.886
 最小生成树算法： Prim 算法和 Kruskal 算法（基于并查集）
 Dijkstra 最小路径算法
+
 -->
 </div>
 

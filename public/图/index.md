@@ -525,46 +525,59 @@ var solve = function(board) {
 
 ##### lc.990 等式方程的可满足性
 
-```js
+知道用并查集的前提下，这还不是小 case~ 又是一个无向图检测环的问题罢了。
 
+```js
+/**
+ * @param {string[]} equations
+ * @return {boolean}
+ */
+var equationsPossible = function (equations) {
+    // 很明显的环检测问题
+    const DSU = Array.from(Array(26), (_, index) => index)
+    for (let i = 0; i < equations.length; ++i) {
+        const edge = equations[i]
+        const isConnected = edge[1] === '='
+        if (isConnected) {
+            const u = edge.charCodeAt(0) - 'a'.charCodeAt()
+            const v = edge.charCodeAt(3) - 'a'.charCodeAt()
+            union(DSU, u, v)
+        }
+    }
+    for (let i = 0; i < equations.length; ++i) {
+        const edge = equations[i]
+        const isNotConnected = edge[1] === '!'
+        if (isNotConnected) {
+            const u = edge.charCodeAt(0) - 'a'.charCodeAt()
+            const v = edge.charCodeAt(3) - 'a'.charCodeAt()
+            if (find(DSU, u) === find(DSU, v)) return false
+        }
+    }
+    return true
+}
+function find(p, u) {
+    if (u === p[u]) return u
+    return (p[u] = find(p, p[u]))
+}
+function union(p, u, v) {
+    u = find(p, u)
+    v = find(p, v)
+    if (u === v) return
+    p[v] = u
+}
 ```
 
 <!-- -->
 
 ---
 
-<!-- -   初始化：每个元素位于一个单独的集合，根节点为自身
-    ```js
-    const father = []
-    function init() {
-        for (let i = 0; i < n; ++i) {
-            father[i] = i
-        }
-    }
-    ```
--   合并到一个集合
-    ```js
-    function join(u, v) {
-        u = find(u) // find(u) 为寻根的过程
-        v = find(v)
-        if (u === v) return // 有相同的根，已经连通
-        father[u] = v
-    }
-    ```
--   寻根的过程
-
-    ```js
-    function find(u) {
-        if (u === father[u]) return u
-        return find(father[u])
-    }
-    ``` -->
 <!-- 并查集在经过修改后可以支持单个元素的删除、移动；使用动态开点线段树还可以实现可持久化并查集。 -->
 
-<!-- TODO 鉴于时间关系，
+<!-- TODO 鉴于时间关系，以下内容后续学习
 
-二分图判定算法： lc.785 lc.886  后续学习
+二分图判定算法： lc.785 lc.886
 最小生成树算法： Prim 算法和 Kruskal 算法（基于并查集）
 Dijkstra 最小路径算法
+
 -->
 
