@@ -36,7 +36,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http://localhost:1313/%E5%9B%BE/"
-        },"genre": "posts","wordcount":  981 ,
+        },"genre": "posts","wordcount":  1301 ,
         "url": "http://localhost:1313/%E5%9B%BE/","datePublished": "2023-02-19T16:03:41+08:00","dateModified": "2024-04-03T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -206,8 +206,8 @@
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/algorithm/"><i class="far fa-folder fa-fw"></i>Algorithm</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/data-structure/"><i class="far fa-list-alt fa-fw"></i>Data Structure</a></span><span id="busuanzi_container_page_pv">&nbsp;
                         <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
             </div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-02-19">2023-02-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2024-04-03">2024-04-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 981 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-02-19">2023-02-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2024-04-03">2024-04-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1301 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
                                     <span>系列 - </span>
@@ -598,9 +598,146 @@
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="nx">p</span><span class="p">[</span><span class="nx">u</span><span class="p">]</span> <span class="o">=</span> <span class="nx">find</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">p</span><span class="p">[</span><span class="nx">u</span><span class="p">]))</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h5 id="lc130-被围绕的区域" class="headerLink">
-    <a href="#lc130-%e8%a2%ab%e5%9b%b4%e7%bb%95%e7%9a%84%e5%8c%ba%e5%9f%9f" class="header-mark"></a>lc.130 被围绕的区域</h5><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"></code></pre></div><ul>
+    <a href="#lc130-%e8%a2%ab%e5%9b%b4%e7%bb%95%e7%9a%84%e5%8c%ba%e5%9f%9f" class="header-mark"></a>lc.130 被围绕的区域</h5><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param {character[][]} board
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @return {void} Do not return anything, modify board in-place instead.
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">solve</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">board</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">board</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 这道题一看就是岛屿类的问题，自然可以用 flood fill 算法去搞定，但本次重点是并查集~
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kr">const</span> <span class="nx">rowLen</span> <span class="o">=</span> <span class="nx">board</span><span class="p">.</span><span class="nx">length</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">colLen</span> <span class="o">=</span> <span class="nx">board</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">length</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">DSU</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">from</span><span class="p">(</span><span class="nb">Array</span><span class="p">(</span><span class="nx">rowLen</span> <span class="o">*</span> <span class="nx">colLen</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="nx">_</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">index</span><span class="p">)</span> <span class="c1">// 多一个最后的节点用于给 dummyNode
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kr">const</span> <span class="nx">dummyNode</span> <span class="o">=</span> <span class="nx">rowLen</span> <span class="o">*</span> <span class="nx">colLen</span> <span class="c1">// 如果不用 dummyNode 就略微复杂了
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 遍历四条件边，把四条边上的 O 与 dummyNode 连通
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">rowLen</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">board</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;O&#39;</span><span class="p">)</span> <span class="nx">union</span><span class="p">(</span><span class="nx">DSU</span><span class="p">,</span> <span class="nx">i</span> <span class="o">*</span> <span class="nx">colLen</span><span class="p">,</span> <span class="nx">dummyNode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">board</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">colLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;O&#39;</span><span class="p">)</span> <span class="nx">union</span><span class="p">(</span><span class="nx">DSU</span><span class="p">,</span> <span class="nx">i</span> <span class="o">*</span> <span class="nx">colLen</span> <span class="o">+</span> <span class="nx">colLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">dummyNode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">colLen</span><span class="p">;</span> <span class="o">++</span><span class="nx">j</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">board</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="nx">j</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;O&#39;</span><span class="p">)</span> <span class="nx">union</span><span class="p">(</span><span class="nx">DSU</span><span class="p">,</span> <span class="nx">j</span><span class="p">,</span> <span class="nx">dummyNode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">board</span><span class="p">[</span><span class="nx">rowLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="nx">j</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;O&#39;</span><span class="p">)</span> <span class="nx">union</span><span class="p">(</span><span class="nx">DSU</span><span class="p">,</span> <span class="p">(</span><span class="nx">rowLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">colLen</span> <span class="o">+</span> <span class="nx">j</span><span class="p">,</span> <span class="nx">dummyNode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 遍历整个内部节点，把所有的 O 连通起来（连完后，如果和边缘连接的就会在一个集合，否则在另一个集合）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 利用方向数组遍历上下左右
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kr">const</span> <span class="nx">dirs</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">rowLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">colLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="nx">j</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="nx">board</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;O&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">]</span> <span class="k">of</span> <span class="nx">dirs</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="kr">const</span> <span class="nx">nx</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">+</span> <span class="nx">x</span>
+</span></span><span class="line"><span class="cl">                    <span class="kr">const</span> <span class="nx">ny</span> <span class="o">=</span> <span class="nx">j</span> <span class="o">+</span> <span class="nx">y</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="p">(</span><span class="nx">board</span><span class="p">[</span><span class="nx">nx</span><span class="p">][</span><span class="nx">ny</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;O&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="nx">union</span><span class="p">(</span><span class="nx">DSU</span><span class="p">,</span> <span class="nx">i</span> <span class="o">*</span> <span class="nx">colLen</span> <span class="o">+</span> <span class="nx">j</span><span class="p">,</span> <span class="nx">nx</span> <span class="o">*</span> <span class="nx">colLen</span> <span class="o">+</span> <span class="nx">ny</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 遍历整个 board， 把中间包围的且没有和 dummyNode 连通的 O 变为 X
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">rowLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">colLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="nx">j</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="nx">board</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;O&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">find</span><span class="p">(</span><span class="nx">DSU</span><span class="p">,</span> <span class="nx">i</span> <span class="o">*</span> <span class="nx">colLen</span> <span class="o">+</span> <span class="nx">j</span><span class="p">)</span> <span class="o">!==</span> <span class="nx">find</span><span class="p">(</span><span class="nx">DSU</span><span class="p">,</span> <span class="nx">dummyNode</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">board</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;X&#39;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">find</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">u</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">u</span> <span class="o">===</span> <span class="nx">p</span><span class="p">[</span><span class="nx">u</span><span class="p">])</span> <span class="k">return</span> <span class="nx">u</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="nx">p</span><span class="p">[</span><span class="nx">u</span><span class="p">]</span> <span class="o">=</span> <span class="nx">find</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">p</span><span class="p">[</span><span class="nx">u</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">union</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">u</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">u</span> <span class="o">=</span> <span class="nx">find</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">u</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">v</span> <span class="o">=</span> <span class="nx">find</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">u</span> <span class="o">===</span> <span class="nx">v</span><span class="p">)</span> <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">p</span><span class="p">[</span><span class="nx">v</span><span class="p">]</span> <span class="o">=</span> <span class="nx">u</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
 <li>lc.200 &amp; lc.1905 与本题类似，之前用的 dfs flood fill 算法去做的，有时间可以用 DSU 也做一做。</li>
 </ul>
+<!--
+这是不使用虚拟节点的并查集，就得需要维护 isEdge 来标记是否与边缘相连了
+```js
+class UnionFind {
+    constructor(n) {
+        this.parent = new Array(n).fill(null).map((_, idx) => idx);
+        this.isEdge = new Array(n).fill(false); // 标记是否与边缘相连
+    }
+
+    find(x) {
+        if (this.parent[x] !== x) {
+            this.parent[x] = this.find(this.parent[x]);
+        }
+        return this.parent[x];
+    }
+
+    union(x, y) {
+        let rootX = this.find(x);
+        let rootY = this.find(y);
+
+        if (rootX !== rootY) {
+            this.parent[rootY] = rootX;
+            // 更新rootX的边缘状态
+            this.isEdge[rootX] = this.isEdge[rootX] || this.isEdge[rootY];
+        }
+    }
+}
+
+/**
+ * @param {character[][]} board
+ * @return {void} Do not return anything, modify board in-place instead.
+ */
+var solve = function(board) {
+    if (board.length === 0) {
+        return;
+    }
+
+    const rows = board.length;
+    const cols = board[0].length;
+    const uf = new UnionFind(rows * cols);
+
+    // 定义边界条件
+    const isEdge = (i, j) => i == 0 || i == rows - 1 || j == 0 || j == cols - 1;
+
+    // 遍历矩阵中所有的'O'节点
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (board[i][j] === 'O') {
+                let idx = i * cols + j;
+                // 如果是边缘节点，则将其标记为与边缘相连
+                uf.isEdge[idx] = isEdge(i, j);
+
+                // 将当前'O'节点与相邻的'O'节点进行连接
+                let neighbors = [[i+1, j], [i-1, j], [i, j+1], [i, j-1]];
+                for (let [ni, nj] of neighbors) {
+                    if (ni >= 0 && ni < rows && nj >= 0 && nj < cols && board[ni][nj] === 'O') {
+                        uf.union(idx, ni * cols + nj);
+                    }
+                }
+            }
+        }
+    }
+
+    // 遍历矩阵，将不与边缘相连的'O'节点改为'X'
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (board[i][j] === 'O' && !uf.isEdge[uf.find(i * cols + j)]) {
+                board[i][j] = 'X';
+            }
+        }
+    }
+};
+```
+ -->
 <h5 id="lc990-等式方程的可满足性" class="headerLink">
     <a href="#lc990-%e7%ad%89%e5%bc%8f%e6%96%b9%e7%a8%8b%e7%9a%84%e5%8f%af%e6%bb%a1%e8%b6%b3%e6%80%a7" class="header-mark"></a>lc.990 等式方程的可满足性</h5><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"></code></pre></div><!-- -->
 <hr>

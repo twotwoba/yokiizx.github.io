@@ -381,10 +381,147 @@ function find(p, u) {
 ##### lc.130 被围绕的区域
 
 ```js
+/**
+ * @param {character[][]} board
+ * @return {void} Do not return anything, modify board in-place instead.
+ */
+var solve = function (board) {
+    if (board.length === 0) return
+    // 这道题一看就是岛屿类的问题，自然可以用 flood fill 算法去搞定，但本次重点是并查集~
+    const rowLen = board.length
+    const colLen = board[0].length
 
+    const DSU = Array.from(Array(rowLen * colLen + 1), (_, index) => index) // 多一个最后的节点用于给 dummyNode
+    const dummyNode = rowLen * colLen // 如果不用 dummyNode 就略微复杂了
+
+    // 遍历四条件边，把四条边上的 O 与 dummyNode 连通
+    for (let i = 0; i < rowLen; ++i) {
+        if (board[i][0] === 'O') union(DSU, i * colLen, dummyNode)
+        if (board[i][colLen - 1] === 'O') union(DSU, i * colLen + colLen - 1, dummyNode)
+    }
+    for (let j = 0; j < colLen; ++j) {
+        if (board[0][j] === 'O') union(DSU, j, dummyNode)
+        if (board[rowLen - 1][j] === 'O') union(DSU, (rowLen - 1) * colLen + j, dummyNode)
+    }
+
+    // 遍历整个内部节点，把所有的 O 连通起来（连完后，如果和边缘连接的就会在一个集合，否则在另一个集合）
+    // 利用方向数组遍历上下左右
+    const dirs = [
+        [-1, 0],
+        [1, 0],
+        [0, -1],
+        [0, 1]
+    ]
+    for (let i = 1; i < rowLen - 1; ++i) {
+        for (let j = 1; j < colLen - 1; ++j) {
+            if (board[i][j] === 'O') {
+                for (const [x, y] of dirs) {
+                    const nx = i + x
+                    const ny = j + y
+                    if (board[nx][ny] === 'O') {
+                        union(DSU, i * colLen + j, nx * colLen + ny)
+                    }
+                }
+            }
+        }
+    }
+    // 遍历整个 board， 把中间包围的且没有和 dummyNode 连通的 O 变为 X
+    for (let i = 1; i < rowLen - 1; ++i) {
+        for (let j = 1; j < colLen - 1; ++j) {
+            if (board[i][j] === 'O' && find(DSU, i * colLen + j) !== find(DSU, dummyNode)) {
+                board[i][j] = 'X'
+            }
+        }
+    }
+}
+function find(p, u) {
+    if (u === p[u]) return u
+    return (p[u] = find(p, p[u]))
+}
+function union(p, u, v) {
+    u = find(p, u)
+    v = find(p, v)
+    if (u === v) return
+    p[v] = u
+}
 ```
 
 -   lc.200 & lc.1905 与本题类似，之前用的 dfs flood fill 算法去做的，有时间可以用 DSU 也做一做。
+
+<!--
+这是不使用虚拟节点的并查集，就得需要维护 isEdge 来标记是否与边缘相连了
+```js
+class UnionFind {
+    constructor(n) {
+        this.parent = new Array(n).fill(null).map((_, idx) => idx);
+        this.isEdge = new Array(n).fill(false); // 标记是否与边缘相连
+    }
+
+    find(x) {
+        if (this.parent[x] !== x) {
+            this.parent[x] = this.find(this.parent[x]);
+        }
+        return this.parent[x];
+    }
+
+    union(x, y) {
+        let rootX = this.find(x);
+        let rootY = this.find(y);
+
+        if (rootX !== rootY) {
+            this.parent[rootY] = rootX;
+            // 更新rootX的边缘状态
+            this.isEdge[rootX] = this.isEdge[rootX] || this.isEdge[rootY];
+        }
+    }
+}
+
+/**
+ * @param {character[][]} board
+ * @return {void} Do not return anything, modify board in-place instead.
+ */
+var solve = function(board) {
+    if (board.length === 0) {
+        return;
+    }
+
+    const rows = board.length;
+    const cols = board[0].length;
+    const uf = new UnionFind(rows * cols);
+
+    // 定义边界条件
+    const isEdge = (i, j) => i == 0 || i == rows - 1 || j == 0 || j == cols - 1;
+
+    // 遍历矩阵中所有的'O'节点
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (board[i][j] === 'O') {
+                let idx = i * cols + j;
+                // 如果是边缘节点，则将其标记为与边缘相连
+                uf.isEdge[idx] = isEdge(i, j);
+
+                // 将当前'O'节点与相邻的'O'节点进行连接
+                let neighbors = [[i+1, j], [i-1, j], [i, j+1], [i, j-1]];
+                for (let [ni, nj] of neighbors) {
+                    if (ni >= 0 && ni < rows && nj >= 0 && nj < cols && board[ni][nj] === 'O') {
+                        uf.union(idx, ni * cols + nj);
+                    }
+                }
+            }
+        }
+    }
+
+    // 遍历矩阵，将不与边缘相连的'O'节点改为'X'
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (board[i][j] === 'O' && !uf.isEdge[uf.find(i * cols + j)]) {
+                board[i][j] = 'X';
+            }
+        }
+    }
+};
+```
+ -->
 
 ##### lc.990 等式方程的可满足性
 
