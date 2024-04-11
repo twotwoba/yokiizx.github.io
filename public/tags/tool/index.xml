@@ -4,51 +4,7 @@
         <link>http://localhost:1313/tags/tool/</link>
         <description>Tool - 标签 - Hello World</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
-            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Mon, 30 Jan 2023 10:54:44 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/tool/" rel="self" type="application/rss+xml" /><item>
-    <title>Webpack之琐碎知识点</title>
-    <link>http://localhost:1313/webpack%E4%B9%8B%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
-    <pubDate>Mon, 30 Jan 2023 10:54:44 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/webpack%E4%B9%8B%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
-    <description><![CDATA[HMR
-webpack-dev-server 启动服务后，当文件发生了变动，会触发重新构建，让我们专注于 coding，但是如果不做任何配置，它会刷新页面导致丢失掉应用状态，为此，webpack 提供了 hot module replacement 即 HMR 热更新。
-当文件发生变化后，webpack 会重新打包，打包完成后，发布 done 事件。 done回调函数执行，通过服务端与客户端建立的长连接发送hash` 值到客户端。 客户端收到 hash 值之后，确认是否要更新。如果更新，则会通过 Ajax 去请求 manifest.json 文件，该文件记录了所有发生变动的模块。 通过 manifest.json 文件，客户端使用 jsonp 方式去拉取每一个变动模块的最新代码。 客户端更新模块，加入了 3 个属性：parents、children、hot。 通过模块 id 找到父模块中所有依赖该模块的回调函数并执行。 页面自动更新，热替换完成 manifest
-模块热替换(hot module replacement)
-split chunk讲代码分割的方式之前，先回顾一下 chunk 形成的途径，一共有三种：
-entry 配置，一个入口文件链路对应一个 chunk 动态引入 import() optimization.splitChunks 我们平时说的代码分割优化指的就是第三种 optimization.splitChunks，一般配置长这样：
-module.exports = { optimization:{ splitChunks:{ cacheGroups:{ vendors:{ chunks:&#39;initial&#39;,//指定分割的类型，默认3种选项 all async initial name:&#39;vendors&#39;,//给分割出去的代码块起一个名字叫vendors test:/node_modules/,//如果模块ID匹配这个正则的话，就会添加一vendors代码块 priority:-10 //优先级 }, commons:{ chunks:&#39;initial&#39;, name:&#39;commons&#39;, minSize:0,//如果模块的大小大于多少的话才需要提取 minChunks:2,//最少最几个chunk引用才需要提取 priority:-20 } } } } } 详细配置见官网split-chunks-plugin]]></description>
-</item><item>
-    <title>Webpack之plugin</title>
-    <link>http://localhost:1313/webpack%E4%B9%8Bplugin/</link>
-    <pubDate>Thu, 05 Jan 2023 22:12:22 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/webpack%E4%B9%8Bplugin/</guid>
-    <description><![CDATA[TapableTapable 是 webpack 实现的一个包，webpack 打包全流程都有它的影子，是 webpack 的核心库，webpack 的插件系统离不开它。
-const { SyncHook, SyncBailHook, SyncWaterfallHook, SyncLoopHook, AsyncParallelHook, AsyncParallelBailHook, AsyncSeriesHook, AsyncSeriesBailHook, AsyncSeriesWaterfallHook } = require(&#39;tapable&#39;) 钩子名称 执行方式 使用要点 SyncHook 同步串行 不关心监听函数的返回值 SyncBailHook 同步串行 只要监听函数中有一个函数的返回值不为 null,则跳过剩余逻辑 SyncWaterfallHook 同步串行 上一个监听函数的返回值将作为参数传递给下一个监听函数 SyncLoopHook 同步串行 当监听函数被触发的时候，如果该监听函数返回 true 时则这个监听函数会反复执行，如果返回 undefined 则表示退出循环 AsyncParallelHook 异步串行 不关心监听函数的返回值 AsyncParallelBailHook 异步串行 只要监听函数的返回值不为 null，就会忽略后面的监听函数执行，直接跳跃到 callAsync 等触发函数绑定的回调函数，然后执行这个被绑定的回调函数 AsyncSeriesHook 异步串行 不关心 callback()的参数 AsyncSeriesBailHook 异步串行 callback()的参数不为 null，就会直接执行 callAsync 等触发函数绑定的回调函数 AsyncSeriesWaterfallHook 异步串行 上一个监听函数的中的 callback(err, data)的第二个参数,可以作为下一个监听函数的参数 我们从命名就能看出来大致的区别，分为同步/异步，串行/并行/瀑布流/循环类型等。钩子的目的是为了显示的声明触发监听事件时传入的参数，以及订阅该钩子的 callback 函数所接收到的参数，举个简单例子：]]></description>
-</item><item>
-    <title>Webpack之loader</title>
-    <link>http://localhost:1313/webpack%E4%B9%8Bloader/</link>
-    <pubDate>Thu, 05 Jan 2023 22:12:13 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/webpack%E4%B9%8Bloader/</guid>
-    <description><![CDATA[Loader 就像一个翻译员，能将源文件经过转化后输出新的结果，并且一个文件还可以链式地经过多个翻译员翻译。
-基础打包非 JS 和 JSON 格式的文件，需要使用 loader 来转换一下，在构建阶段，所有 module 都会被对应的 loader 转成可以被 acorn 转译的 JS 脚本。
-也就很好理解为什么 loader 的配置是在 module 内的：
-module.exports = { module: { rules: [ { test: /\.js$/, use: [&#39;loaderA&#39;, &#39;loaderB&#39;, &#39;loaderC&#39;] } ] } } 一个小知识点，loader 总是从右往左调用的，但是，在实际执行之前，会先从左到右调用 loader 的 pitch 方法，如果某个 loader 在 pitch 方法中给出一个结果，那么这个过程会回过身来，并跳过剩下的 loader，详细见Loader Interface。
-自定义 loader开发一个 loader 的基本形式：
-module.exports = function (source ) { // 做你想做的~ return source; } 既然是一个 node.js 模块，那就有很大的发挥空间了，几乎想做什么就做什么，webpack 还有一些内置接口，见Loader Interface]]></description>
-</item><item>
-    <title>Webpack核心流程</title>
-    <link>http://localhost:1313/webpack/</link>
-    <pubDate>Wed, 04 Jan 2023 17:15:44 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/webpack/</guid>
-    <description><![CDATA[本文基于 webpack5，不说废话
-webpack 官网
-调试一般调试 npm 包，使用 npm link 创建软链的方式进行 debug。这里单纯调试 Node， 一般也有两种方式：
-Chrome devtools &ndash; Node 官网 debugger terminal 输入命令： node inspect xxx.js chrome 浏览器输入：chrome://inspect 点击 Open dedicated DevTools for Node 就能进行 node 的调试了 VsCode debugger（推荐） &ndash; microsoft/vscode-js-debug；VsCode 官网 debugger 禁用插件 @builtin @id:ms-vscode.js-debug 启用插件 @id:ms-vscode.js-debug-nightly cmd + shift + p：输入 debug，选择合适的 debug 策略即可 前期准备：
-# 克隆 webpack 的 main 分支到本地，cloneb 是我配置的别名 g cloneb main https://github.com/webpack/webpack.git # yarn 安装依赖 yarn # ------ 创建调试目录并初始化 ----- cd webpack &amp;&amp; mkdir debug_webpack1; cd $_ &amp;&amp; npm init -y # 进入文件夹创建测试文件和配置文件 touch index.]]></description>
-</item><item>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Sun, 18 Sep 2022 20:37:14 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/tool/" rel="self" type="application/rss+xml" /><item>
     <title>VsCode格式化建议</title>
     <link>http://localhost:1313/vscode%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%BB%BA%E8%AE%AE/</link>
     <pubDate>Sun, 18 Sep 2022 20:37:14 &#43;0800</pubDate><author>

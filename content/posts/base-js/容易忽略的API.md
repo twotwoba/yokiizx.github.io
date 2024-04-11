@@ -9,10 +9,10 @@ tags: [JavaScript, DOM]
 监测 DOM，发生变动时触发。
 
 ```js
-const observer = new MutationObserver(callback);
+const observer = new MutationObserver(callback)
 // callback 回调参数是 MutationRecord 对象 的数组，第二个参数是观察器自身
 
-observer.observe(node, config);
+observer.observe(node, config)
 // node 为观察节点
 // config 是对观察节点的一系列配置
 // 详细见 https://zh.javascript.info/mutation-observer
@@ -23,8 +23,8 @@ observer.takeRecords() // 获取已经发生但未处理的变动
 
 **重要特性：**
 
-- MutationObserver 是异步的，等待所有脚本任务完成后才会运行，也就是说当节点有多次变动，它是在最后才执行一次 Callback
-- 把所有变动装进一个数组中处理，而不是一条条地个别处理 DOM 变动
+-   MutationObserver 是异步的，等待所有脚本任务完成后才会运行，也就是说当节点有多次变动，它是在最后才执行一次 Callback
+-   把所有变动装进一个数组中处理，而不是一条条地个别处理 DOM 变动
 
 ## IntersectionObserver
 
@@ -53,25 +53,25 @@ io.disconnect()
 ```js
 const imgs = document.querySelectorAll('img[data-src]')
 const config = {
-  rootMargin: '0px',
-  threshold: 0
+    rootMargin: '0px',
+    threshold: 0
 }
 let observer = new IntersectionObserver((entries, self) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      let img = entry.target
-      let src = img.dataset.src
-      if (src) {
-        img.src = src
-        img.removeAttribute('data-src')
-      }
-      self.unobserve(entry.target) // 解除观察
-    }
-  })
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            let img = entry.target
+            let src = img.dataset.src
+            if (src) {
+                img.src = src
+                img.removeAttribute('data-src')
+            }
+            self.unobserve(entry.target) // 解除观察
+        }
+    })
 }, config)
 
-imgs.forEach((image) => {
-  observer.observe(image)
+imgs.forEach(image => {
+    observer.observe(image)
 })
 ```
 
@@ -81,21 +81,21 @@ imgs.forEach((image) => {
 
 优点：
 
-- CPU 节能：使用 setTimeout 实现的动画，当页面被隐藏或最小化时，setTimeout 仍然在后台执行动画任务，由于此时页面处于不可见或不可用状态，刷新动画是没有意义的，完全是浪费 CPU 资源。而 requestAnimationFrame 则完全不同，当页面处理未激活的状态下，该页面的屏幕刷新任务也会被系统暂停，因此跟着系统步伐走的 requestAnimationFrame 也会停止渲染，当页面被激活时，动画就从上次停留的地方继续执行，有效节省了 CPU 开销。
-- 函数节流：在高频率事件(resize,scroll 等)中，为了防止在一个刷新间隔内发生多次函数执行，使用 requestAnimationFrame 可保证每个刷新间隔内，函数只被执行一次，这样既能保证流畅性，也能更好的节省函数执行的开销。一个刷新间隔内函数执行多次时没有意义的，因为显示器每 16.7ms 刷新一次，多次绘制并不会在屏幕上体现出来。
+-   CPU 节能：使用 setTimeout 实现的动画，当页面被隐藏或最小化时，setTimeout 仍然在后台执行动画任务，由于此时页面处于不可见或不可用状态，刷新动画是没有意义的，完全是浪费 CPU 资源。而 requestAnimationFrame 则完全不同，当页面处理未激活的状态下，该页面的屏幕刷新任务也会被系统暂停，因此跟着系统步伐走的 requestAnimationFrame 也会停止渲染，当页面被激活时，动画就从上次停留的地方继续执行，有效节省了 CPU 开销。
+-   函数节流：在高频率事件(resize,scroll 等)中，为了防止在一个刷新间隔内发生多次函数执行，使用 requestAnimationFrame 可保证每个刷新间隔内，函数只被执行一次，这样既能保证流畅性，也能更好的节省函数执行的开销。一个刷新间隔内函数执行多次时没有意义的，因为显示器每 16.7ms 刷新一次，多次绘制并不会在屏幕上体现出来。
 
 兼容性处理：
 
 ```js
 window._requestAnimationFrame = (function () {
-  return (
-    window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    function (callback) {
-      window.setTimeout(callback, 1000 / 60)
-    }
-  )
+    return (
+        window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        function (callback) {
+            window.setTimeout(callback, 1000 / 60)
+        }
+    )
 })()
 ```
 
@@ -103,19 +103,19 @@ window._requestAnimationFrame = (function () {
 
 eg:
 
-- 平滑滚动到顶部
+-   平滑滚动到顶部
 
 ```js
 const scrollToTop = () => {
-  const c = document.documentElement.scrollTop || document.body.scrollTop
-  if (c > 0) {
-    window.requestAnimationFrame(scrollToTop)
-    window.scrollTo(0, c - c / 8)
-  }
+    const c = document.documentElement.scrollTop || document.body.scrollTop
+    if (c > 0) {
+        window.requestAnimationFrame(scrollToTop)
+        window.scrollTo(0, c - c / 8)
+    }
 }
 ```
 
-- 十万条数据渲染
+-   十万条数据渲染
 
 ```js
 //需要插入的容器
@@ -130,19 +130,19 @@ let page = total / once
 let index = 0
 //循环加载数据
 function loop(curTotal, curIndex) {
-  if (curTotal <= 0) {
-    return false
-  }
-  //每页多少条
-  let pageCount = Math.min(curTotal, once)
-  window.requestAnimationFrame(function () {
-    for (let i = 0; i < pageCount; i++) {
-      let li = document.createElement('li')
-      li.innerText = curIndex + i + ' : ' + ~~(Math.random() * total)
-      ul.appendChild(li)
+    if (curTotal <= 0) {
+        return false
     }
-    loop(curTotal - pageCount, curIndex + pageCount)
-  })
+    //每页多少条
+    let pageCount = Math.min(curTotal, once)
+    window.requestAnimationFrame(function () {
+        for (let i = 0; i < pageCount; i++) {
+            let li = document.createElement('li')
+            li.innerText = curIndex + i + ' : ' + ~~(Math.random() * total)
+            ul.appendChild(li)
+        }
+        loop(curTotal - pageCount, curIndex + pageCount)
+    })
 }
 loop(total, index)
 ```
@@ -156,20 +156,20 @@ loop(total, index)
 发送
 
 ```js
-window.postMessage(message, targetOrigin, [transfer]);;
+window.postMessage(message, targetOrigin, [transfer])
 ```
 
 接收
 
 ```js
-window.addEventListener("message", function(event) {
-  if (event.origin != 'http://javascript.info') {
-    // 来自未知的源的内容，我们忽略它
-    return;
-  }
-  alert( "received: " + event.data );
-  // 可以使用 event.source.postMessage(...) 向回发送消息
-});
+window.addEventListener('message', function (event) {
+    if (event.origin != 'http://javascript.info') {
+        // 来自未知的源的内容，我们忽略它
+        return
+    }
+    alert('received: ' + event.data)
+    // 可以使用 event.source.postMessage(...) 向回发送消息
+})
 ```
 
 场景：
@@ -180,4 +180,4 @@ window.addEventListener("message", function(event) {
 
 ### 推荐阅读
 
-- [postMessage 可太有用了](https://juejin.cn/post/6844903665694687240#heading-11)
+-   [postMessage 可太有用了](https://juejin.cn/post/6844903665694687240#heading-11)

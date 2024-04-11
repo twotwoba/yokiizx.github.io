@@ -1,5 +1,7 @@
 # 动态规划之打家劫舍
 
+t: true
+---
 
 ### [198.打家劫舍](https://leetcode.cn/problems/house-robber/description/)
 

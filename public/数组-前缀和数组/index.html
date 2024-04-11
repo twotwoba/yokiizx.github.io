@@ -8,20 +8,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" /><title>数组-前缀和数组 - Hello World</title><meta name="Description" content="A website documenting front-end technology and everyday life"><meta property="og:title" content="数组-前缀和数组" />
 <meta property="og:description" content="概念应用场景：在原始数组不会被修改的情况下，快速、频繁查询某个区间的累加和。通常涉及到连续子数组和相关问题时，就可以考虑使用前缀和技巧了。
-核心思路：开辟新数组 preSum[i] 来存储原数组 nums[0..i-1] 的累加和，preSum[0] = 0。这样，当求原数组区间和就比较容易了，区间 [i..j] 的和等于 preSum[j&#43;1] - preSum[i] 的结果值。
-const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件 for (let i = 0; i &lt; arr.length; &#43;&#43;i) { preSum[i &#43; 1] = preSum[i] &#43; nums[i] // 构建前缀和数组 } // 查询 sum([i..j]) preSum[j &#43; 1] - preSum[i] 构造：lc.303 区域和检索-数组不可变/** * @param {number[]} nums */ var NumArray = function (nums) { this.preSum = [0] // preSum 首位为0 便于计算 for (let i = 1; i &lt;= nums." />
+核心思路：开辟新数组 preSum[i] 来存储原数组 nums[0..i-1] 的累加和，preSum[0] = 0。这样，当求原数组区间和就比较容易了，区间 [i:j] 的和等于 preSum[j&#43;1] - preSum[i] 的结果值。
+const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件 for (let i = 0; i &lt; arr.length; &#43;&#43;i) { preSum[i &#43; 1] = preSum[i] &#43; nums[i] // 构建前缀和数组 } // 查询 sum([i:j]) preSum[j &#43; 1] - preSum[i] 构造：lc.303 区域和检索-数组不可变/** * @param {number[]} nums */ var NumArray = function (nums) { this.preSum = [0] // preSum 首位为0 便于计算 for (let i = 1; i &lt;= nums." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%89%8D%E7%BC%80%E5%92%8C%E6%95%B0%E7%BB%84/" /><meta property="og:image" content="http://localhost:1313/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-02-19T15:57:07+08:00" />
 <meta property="article:modified_time" content="2024-02-20T00:00:00+00:00" />
 
-<meta property="og:see_also" content="http://localhost:1313/%E6%95%B0%E7%BB%84-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" /><meta property="og:see_also" content="http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%8F%8C%E6%8C%87%E9%92%88/" /><meta property="og:see_also" content="http://localhost:1313/%E5%BF%85%E6%8E%8C%E6%8F%A1%E7%9A%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" /><meta property="og:see_also" content="http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/" /><meta property="og:see_also" content="http://localhost:1313/%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2/" />
+<meta property="og:see_also" content="http://localhost:1313/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" /><meta property="og:see_also" content="http://localhost:1313/%E5%8F%8C%E6%8C%87%E9%92%88/" /><meta property="og:see_also" content="http://localhost:1313/%E5%BF%85%E6%8E%8C%E6%8F%A1%E7%9A%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" /><meta property="og:see_also" content="http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/" /><meta property="og:see_also" content="http://localhost:1313/%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2/" />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="http://localhost:1313/" /><meta name="twitter:title" content="数组-前缀和数组"/>
 <meta name="twitter:description" content="概念应用场景：在原始数组不会被修改的情况下，快速、频繁查询某个区间的累加和。通常涉及到连续子数组和相关问题时，就可以考虑使用前缀和技巧了。
-核心思路：开辟新数组 preSum[i] 来存储原数组 nums[0..i-1] 的累加和，preSum[0] = 0。这样，当求原数组区间和就比较容易了，区间 [i..j] 的和等于 preSum[j&#43;1] - preSum[i] 的结果值。
-const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件 for (let i = 0; i &lt; arr.length; &#43;&#43;i) { preSum[i &#43; 1] = preSum[i] &#43; nums[i] // 构建前缀和数组 } // 查询 sum([i..j]) preSum[j &#43; 1] - preSum[i] 构造：lc.303 区域和检索-数组不可变/** * @param {number[]} nums */ var NumArray = function (nums) { this.preSum = [0] // preSum 首位为0 便于计算 for (let i = 1; i &lt;= nums."/>
+核心思路：开辟新数组 preSum[i] 来存储原数组 nums[0..i-1] 的累加和，preSum[0] = 0。这样，当求原数组区间和就比较容易了，区间 [i:j] 的和等于 preSum[j&#43;1] - preSum[i] 的结果值。
+const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件 for (let i = 0; i &lt; arr.length; &#43;&#43;i) { preSum[i &#43; 1] = preSum[i] &#43; nums[i] // 构建前缀和数组 } // 查询 sum([i:j]) preSum[j &#43; 1] - preSum[i] 构造：lc.303 区域和检索-数组不可变/** * @param {number[]} nums */ var NumArray = function (nums) { this.preSum = [0] // preSum 首位为0 便于计算 for (let i = 1; i &lt;= nums."/>
 <meta name="application-name" content="前端后花园">
 <meta name="apple-mobile-web-app-title" content="前端后花园">
 
@@ -226,11 +226,12 @@ const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件 for
                                 <div class="details-content series-content">
                                     <nav>
                                         <ul>
-                                                    <li><a href="/%E6%95%B0%E7%BB%84-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">滑动窗口</a></li>
-                                                    <li><a href="/%E6%95%B0%E7%BB%84-%E5%8F%8C%E6%8C%87%E9%92%88/">数组-双指针应用</a></li>
+                                                    <li><a href="/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">滑动窗口</a></li>
+                                                    <li><a href="/%E5%8F%8C%E6%8C%87%E9%92%88/">数组-双指针应用</a></li>
                                                     <li><a href="/%E5%BF%85%E6%8E%8C%E6%8F%A1%E7%9A%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">必须掌握的排序方法&amp;递归时间复杂度</a></li>
                                                     <li><a href="/%E6%95%B0%E7%BB%84-%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/">数组-差(cha)分数组</a></li><li><span class="active">数组-前缀和数组</span></li>
                                                     <li><a href="/%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2/">二分搜索</a></li>
+                                                    <li><a href="/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a></li>
                                                     <li><a href="/%E6%9A%B4%E5%8A%9B%E9%80%92%E5%BD%92-bfs/">暴力递归-BFS</a></li>
                                                     <li><a href="/%E6%9A%B4%E5%8A%9B%E9%80%92%E5%BD%92-dfs%E5%9B%9E%E6%BA%AF/">暴力递归-dfs&amp;回溯</a></li></ul>
                                     </nav>
@@ -268,14 +269,14 @@ const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件 for
 </nav></div>
             </div><div class="content" id="content"><h3 id="概念" class="headerLink">
     <a href="#%e6%a6%82%e5%bf%b5" class="header-mark"></a>概念</h3><p>应用场景：在原始数组不会被修改的情况下，<strong>快速、频繁查询某个区间的累加和</strong>。通常涉及到连续子数组和相关问题时，就可以考虑使用前缀和技巧了。</p>
-<p>核心思路：开辟新数组 <code>preSum[i]</code> 来存储原数组 <code>nums[0..i-1] </code>的累加和，<code>preSum[0] = 0</code>。这样，当求原数组区间和就比较容易了，区间 <code>[i..j]</code> 的和等于 <code>preSum[j+1] - preSum[i]</code> 的结果值。</p>
+<p>核心思路：开辟新数组 <code>preSum[i]</code> 来存储原数组 <code>nums[0..i-1] </code>的累加和，<code>preSum[0] = 0</code>。这样，当求原数组区间和就比较容易了，区间 <code>[i:j]</code> 的和等于 <code>preSum[j+1] - preSum[i]</code> 的结果值。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">preSum</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">// 一般可使用虚拟 0 节点，来避免边界条件
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="nx">preSum</span><span class="p">[</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nx">preSum</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="c1">// 构建前缀和数组
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">// 查询 sum([i..j])
+</span></span><span class="line"><span class="cl"><span class="c1">// 查询 sum([i:j])
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">preSum</span><span class="p">[</span><span class="nx">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="nx">preSum</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
 </span></span></code></pre></div><h3 id="构造lc303-区域和检索-数组不可变httpsleetcodecnproblemsrange-sum-query-immutable" class="headerLink">
     <a href="#%e6%9e%84%e9%80%a0lc303-%e5%8c%ba%e5%9f%9f%e5%92%8c%e6%a3%80%e7%b4%a2-%e6%95%b0%e7%bb%84%e4%b8%8d%e5%8f%af%e5%8f%98httpsleetcodecnproblemsrange-sum-query-immutable" class="header-mark"></a>构造：<a href="https://leetcode.cn/problems/range-sum-query-immutable/" target="_blank" rel="noopener noreferrer">lc.303 区域和检索-数组不可变</a></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="cm">/**

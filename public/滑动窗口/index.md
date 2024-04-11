@@ -1,0 +1,448 @@
+# 滑动窗口
+
+
+## 核心
+
+滑动窗口的核心就是维持一个 `[i..j)` 的区间窗口，在数据上游走，来获取到需要的信息，在数组,字符串等中的表现，往往如下：
+
+```js
+function slideWindow() {
+  // 前后快慢双指针
+  let left = 0
+  let right = 0
+  /** 具体的条件逻辑根据实际问题实际处理，多做练习 */
+  while(slide condition) {
+    window.push(s[left]) // s 为总数据（字符串、数组）
+    right++
+    while(shrink condition) {
+      window.shift(s[left])
+      left++
+    }
+  }
+}
+```
+
+> 滑动窗口的算法时间复杂度为 `O(n)`，适用于处理大型数据集
+
+## 练一练
+
+### lc.3 无重复字符的最长子串
+
+```js
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLongestSubstring = function (s) {
+    let max = 0
+    let l = 0,
+        r = 0
+    let window = {}
+    while (r < s.length) {
+        const c = s[r]
+        window[c] ? ++window[c] : (window[c] = 1)
+        r++
+        while (window[c] > 1) {
+            const d = s[l]
+            window[d]--
+            l++
+        }
+        const len = r - l
+        max = Math.max(max, len)
+    }
+    return max
+}
+```
+
+### lc.76 最小覆盖子串
+
+```js
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {string}
+ */
+var minWindow = function (s, t) {
+    if (s.length < t.length) return ''
+    let minCoverStr = ''
+
+    let need = {}
+    for (const c of t) {
+        need[c] ? ++need[c] : (need[c] = 1)
+    }
+    const ValidCount = Object.keys(need).length
+
+    let l = 0,
+        r = 0
+    let window = {}
+    let validCount = 0
+    while (r < s.length) {
+        const c = s[r]
+        window[c] ? ++window[c] : (window[c] = 1)
+        if (window[c] == need[c]) validCount++
+        r++
+
+        while (validCount === ValidCount) {
+            const d = s[l]
+            if (window[d] === need[d]) {
+                validCount--
+                // 分析出，此时字符串区间 应当为[left, right)，因为 此时 right 已经++，left 还未++
+                const str = s.slice(l, r)
+                if (!minCoverStr) minCoverStr = str // 这一步很容易忘记。。。
+                minCoverStr = str.length < minCoverStr.length ? str : minCoverStr
+            }
+            window[d]--
+            l++
+        }
+    }
+
+    return minCoverStr
+}
+```
+
+### lc.438 找到字符串中所有字母异位词
+
+```js
+/**
+ * @param {string} s
+ * @param {string} p
+ * @return {number[]}
+ */
+var findAnagrams = function (s, p) {
+    if (s.length < p.length) return []
+    let res = []
+    const need = {}
+    for (const c of p) {
+        need[c] ? need[c]++ : (need[c] = 1)
+    }
+    const ValidCount = Object.keys(need).length
+
+    let l = 0,
+        r = 0
+    const window = {}
+    let count = 0
+    while (r < s.length) {
+        const c = s[r]
+        window[c] ? window[c]++ : (window[c] = 1)
+        if (window[c] === need[c]) count++
+        r++
+        // 收缩条件容易犯错的地方，不能 AC的时候可以考虑一下是不是收缩条件有问题
+        while (r - l >= p.length) {
+            if (count === ValidCount) res.push(l)
+            const d = s[l]
+            if (window[d] === need[d]) {
+                count--
+            }
+            window[d]--
+            l++
+        }
+
+        /**
+        奇葩的我写第二遍的时候也是这么写的。。。。
+        因为比如 s=abbc，p=abc，这种情况，在统计 count 的时候就会有漏洞
+        while(count === ValidCount) {
+            const d = s[l]
+            if(window[d] === need[d]) {
+                res.push(l)
+                count--
+            }
+            window[d]--
+            l++
+        }
+         */
+    }
+
+    return res
+}
+```
+
+### lc.567 字符串的排列
+
+```js
+/**
+ * @param {string} s1
+ * @param {string} s2
+ * @return {boolean}
+ */
+var checkInclusion = function (s1, s2) {
+    if (s1.length > s2.length) return false
+    const need = {}
+    for (const c of s1) {
+        need[c] ? need[c]++ : (need[c] = 1)
+    }
+    const ValidCount = Object.keys(need).length
+    const size = s1.length
+
+    let l = 0,
+        r = 0
+    let window = {}
+    let count = 0
+    while (r < s2.length) {
+        const c = s2[r]
+        window[c] ? window[c]++ : (window[c] = 1)
+        if (window[c] === need[c]) count++
+        r++
+
+        while (r - l == size) {
+            if (count === ValidCount) return true
+            const d = s2[l]
+            if (window[d] === need[d]) count--
+            window[d]--
+            l++
+        }
+    }
+
+    return false
+}
+```
+
+### lc.209 长度最小的子数组
+
+```js
+/**
+ * @param {number} target
+ * @param {number[]} nums
+ * @return {number}
+ */
+var minSubArrayLen = function (target, nums) {
+    // 求数组区间和 自然想到前缀和数组的啦~
+    const preSum = [0]
+    for (let i = 0; i < nums.length; ++i) {
+        preSum[i + 1] = preSum[i] + nums[i]
+    }
+
+    let l = 0,
+        r = 0
+    let min = Infinity
+    while (r < nums.length) {
+        r++
+        while (preSum[r] - preSum[l] >= target) {
+            min = Math.min(min, r - l)
+            l++
+        }
+    }
+
+    return min === Infinity ? 0 : min
+}
+
+/**
+ * 一般这种都可以空间优化一下
+ */
+var minSubArrayLen = function (target, nums) {
+    let res = Infinity
+    let l = 0,
+        r = 0
+    let sum = 0
+    while (r < nums.length) {
+        sum += nums[r]
+        r++
+        while (sum >= target) {
+            res = Math.min(r - l, res)
+            sum -= nums[l]
+            l++
+        }
+    }
+    return res === Infinity ? 0 : res
+}
+```
+
+### lc.219 存在重复元素 II easy (形式)
+
+这道题是 easy 题，用哈希表做会非常容易，但是面试和做链表题一样，最好能做出空间复杂度更小的解法。
+
+```js
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {boolean}
+ */
+var containsNearbyDuplicate = function (nums, k) {
+    const set = new Set()
+    for (let i = 0; i < nums.length; ++i) {
+        if (set.has(nums[i])) return true
+        set.add(nums[i])
+        if (set.size > k) set.delete(nums[i - k])
+    }
+    return false
+}
+```
+
+这道题的窗口和上方其他题的窗口形式，略有不同，首先没有使用双指针，其次使用了 set 集合而不是 map，这样就可以**通过固定 set 的大小来作为窗口**，就很巧妙。
+
+> 在前缀和 lc.918 中，通过控制单调队列的大小来控制窗口，与本题类似，此种形式，也应当熟练运用
+
+<!--
+
+### lc.220 存在重复元素 III hard
+
+这道题暴力 + 滑动窗口，会超时，官解给的是桶排序方法，后序有时间要再看看奥
+
+```js
+var containsNearbyAlmostDuplicate = function (nums, k, t) {
+    const map = new Map()
+    const len = nums.length
+    for (let i = 0; i < len; i++) {
+        if (i > k) {
+            map.delete(nums[i - k - 1])
+        }
+        for (let [key, val] of map) {
+            if (Math.abs(nums[i] - key) <= t && Math.abs(i - val) <= k) {
+                return true
+            }
+        }
+        map.set(nums[i], i)
+    }
+    return false
+}
+```
+
+### lc.862 前缀和 + 滑动窗口 hard
+-->
+
+### lc.395 至少有 K 个重复字符的最长子串
+
+这道题还是比较特殊的，因为窗口也与常规的不一样，需要换个思路。
+
+枚举最长子串中的字符种类数目，它最小为 1，最大为 26，所以把字符种类数作为窗口，同时统计每个字符在窗口内出现的次数，这样：
+
+-   当字符种类数 total 固定时，一旦 total > t，就去移动左指针，同时更新 window 内的字符出现次数统计
+-   判断字符出现次数是否小于 k，可以通过 less 变量来控制
+
+当限定字符种类数目为 t 时，满足题意的最长子串，就一定出自某个 s[l..r]。因此，在滑动窗口的维护过程中，就可以直接得到最长子串的大小。
+
+```js
+var longestSubstring = function (s, k) {
+    let res = 0
+    // 限定字符种类数，创造窗口，注意是 [1..26]
+    for (let t = 1; t <= 26; t++) {
+        let l = 0,
+            r = 0
+        const window = {} // 维护窗口内每个字符出现的次数
+        let total = 0 // 字符种类数
+        let less = 0 // 当前出现次数小于 k 的字符的数量 （避免遍历整个 window）
+        while (r < s.length) {
+            const c = s[r]
+            window[c] ? window[c]++ : (window[c] = 1)
+            if (window[c] === 1) {
+                total++
+                less++
+            }
+            if (window[c] === k) {
+                less--
+            }
+            r++
+
+            while (total > t) {
+                const d = s[l]
+                if (window[d] === k) {
+                    less++
+                }
+                if (window[d] === 1) {
+                    total--
+                    less--
+                }
+                window[d]--
+                l++
+            }
+            // 当没有存在小于 k 的字符时，此时满足条件
+            if (less == 0) {
+                res = Math.max(res, r - l)
+            }
+        }
+    }
+    return res
+}
+/** 此题还有分治解法，见官解 */
+```
+
+### lc.424 替换后的最长重复字符
+
+这道题算是滑动窗口的进阶了，收缩时，left 只向右移动一步（即与 right 一起向右平移），原因是更小的窗口没有考虑的必要了。
+
+```js
+/**
+ * @param {string} s
+ * @param {number} k
+ * @return {number}
+ */
+var characterReplacement = function (s, k) {
+    let l = 0,
+        r = 0
+    let window = {}
+    let maxN = 0 // 记录窗口内最大的相同字符出现次数
+    while (r < s.length) {
+        const c = s[r]
+        window[c] ? window[c]++ : (window[c] = 1)
+        maxN = Math.max(maxN, window[c])
+        r++
+
+        // 窗口大到 k 不够换下除了最大出现次数字符外的其他所有字符时，收缩左指针
+        if (r - l - maxN > k) {
+            // 好像换成 while 也没问题，但是小于 r - l 的长度没有必要考虑
+            window[s[l]]--
+            l++
+        }
+    }
+
+    return r - l
+}
+```
+
+### lc.713 乘积小于 K 的子数组
+
+这道题是变长窗口
+
+```js
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var numSubarrayProductLessThanK = function (nums, k) {
+    // 读完题目，感觉要用到前缀积 + 滑动窗口
+    let res = 0
+    let multi = 1,
+        l = 0
+
+    for (let r = 0; r < nums.length; ++r) {
+        multi *= nums[r]
+        while (multi >= k && l <= r) {
+            multi /= nums[l]
+            l++
+        }
+        // 每次右指针位移到一个新位置，应该加上 x 种数组组合：
+        // nums[right]
+        // nums[right-1], nums[right]
+        // nums[right-2], nums[right-1], nums[right]
+        // nums[left], ......, nums[right-2], nums[right-1], nums[right]
+        // 共有 right - left + 1 种
+        res += r - l + 1
+    }
+    return res
+}
+/** 本题 与  lc.209 相似，把求和或求积变成窗口，寻找与索引的关系 */
+```
+
+> 这个[「题解」](https://leetcode.cn/problems/subarray-product-less-than-k/solutions/1373555/hua-dong-chuang-kou-by-fenjue-xvg5) 不错
+
+---
+
+## 总结
+
+滑动窗口算法适用于解决以下类型的问题：
+
+-   查找最大子数组和
+-   查找具有 K 个不同字符的最长(短)子串
+-   查找具有特定条件的最长(短)子串或子数组
+-   查找连续 1 的最大序列长度（可以在允许将最多 K 个 0 替换为 1 的情况下）
+-   查找具有特定和的子数组
+-   查找具有不同元素的子数组
+-   查找具有特定条件的最大或最小子数组
+-   ...
+
+滑动窗口算法通常用于解决需要在数组或字符串上维护一个固定大小的窗口，并在窗口内执行特定操作或计算的问题。这种算法技术可以有效降低时间复杂度，通常为 `O(n)`，适用于处理大型数据集。
+
+> 对于窗口大小的区间可以设计两端都开或者两端都闭的区间，但设计为左闭右开区间是最方便处理的。因为这样初始化 left = right = 0 时区间 [0, 0) 中没有元素，但只要让 right 向右移动（扩大）一位，区间 [0, 1) 就包含一个元素 0 了。如果你设置为两端都开的区间，那么让 right 向右移动一位后开区间 (0, 1) 仍然没有元素；如果你设置为两端都闭的区间，那么初始区间 [0, 0] 就包含了一个元素。这两种情况都会给边界处理带来不必要的麻烦。
+
+> 滑动窗口可以分为固定窗口大小，非固定窗口大小。**存储窗口数据的数据类型可以为 hashMap,hashSet 或者简单的数字(比如前缀和前缀积)**
+

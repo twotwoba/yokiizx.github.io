@@ -11,11 +11,11 @@
 function debounce(fn, wait) {
     let timeout = null
     return function () {
-      if(timeout) clearTimeout(timeout)
-      const args = [...arguments]
-      timeout = setTimeout(() => {
-          fn.apply(this, args)
-      }, wait)
+        if (timeout) clearTimeout(timeout)
+        const args = [...arguments]
+        timeout = setTimeout(() => {
+            fn.apply(this, args)
+        }, wait)
     }
 }
 ```
@@ -32,20 +32,20 @@ function debounce(fn, wait) {
  * @author: yk
  */
 function debounce(fn, time, immediate) {
-  let timeout;
-  return (...args) => {
-    if (timeout) clearTimeout(timeout);
-    if (immediate) {
-      if (!timeout) fn.apply(this, args);
-      timeout = setTimeout(() => {
-        timeout = null;
-      }, time);
-    } else {
-      timeout = setTimeout(() => {
-        fn.apply(this, args);
-      }, time);
+    let timeout
+    return (...args) => {
+        if (timeout) clearTimeout(timeout)
+        if (immediate) {
+            if (!timeout) fn.apply(this, args)
+            timeout = setTimeout(() => {
+                timeout = null
+            }, time)
+        } else {
+            timeout = setTimeout(() => {
+                fn.apply(this, args)
+            }, time)
+        }
     }
-  };
 }
 ```
 
@@ -56,30 +56,30 @@ function debounce(fn, time, immediate) {
 ```js
 // timeout 版本
 function throttle(fn, time) {
-  let timeout;
-  return (...args) => {
-    if (timeout) return;
-    /** 若是想先执行把 fn.apply 提到这里即可 */
-    timeout = setTimeout(() => {
-      fn.apply(this, args);
-      timeout = null;
-      clearTimeout(timeout);
-    }, time);
-  };
+    let timeout
+    return (...args) => {
+        if (timeout) return
+        /** 若是想先执行把 fn.apply 提到这里即可 */
+        timeout = setTimeout(() => {
+            fn.apply(this, args)
+            timeout = null
+            clearTimeout(timeout)
+        }, time)
+    }
 }
 ```
 
 ```js
 // 时间戳版本
 function throttle(fn, time) {
-  /** 若想先执行，把 prev 设为 0 即可 */
-  let prev = new Date();
-  return (...args) => {
-    if (new Date() - prev > time) {
-      fn.apply(this, args);
-      prev = new Date();
+    /** 若想先执行，把 prev 设为 0 即可 */
+    let prev = new Date()
+    return (...args) => {
+        if (new Date() - prev > time) {
+            fn.apply(this, args)
+            prev = new Date()
+        }
     }
-  };
 }
 ```
 

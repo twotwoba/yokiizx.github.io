@@ -2,6 +2,7 @@
 title: 'HTTP的前世今生'
 date: 2022-09-21T23:22:07+08:00
 tags: [http]
+draft: true
 ---
 
 Hypertext transfer protocol，超文本传输协议。

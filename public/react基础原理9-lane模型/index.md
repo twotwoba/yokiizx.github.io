@@ -1,5 +1,7 @@
 # React基础原理9 - Lane模型
 
+t: true
+---
 
 React 与 Scheduler 是两套不同的优先级机制。它们之间是可以转换的`lanePriorityToSchedulerPriority/schedulerPriorityToLanePriority`。
 

@@ -10,7 +10,7 @@
     <pubDate>Sat, 24 Sep 2022 11:28:25 &#43;0800</pubDate><author>
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/%E5%AE%B9%E6%98%93%E6%B7%B7%E6%B7%86%E7%9A%84api/</guid>
-    <description><![CDATA[getElement VS querySelector 性质不同 getElementsBy* 是动态的， 类似于引用类型，若之后 dom 发生了改变，则已获取到的 dom 也会相应改变 querySelectorAll 是静态的，类似于快照的意思，获取后就不会再变了 &lt;div class=&#34;demo&#34;&gt;First div&lt;/div&gt; &lt;script&gt; let divs1 = document.getElementsByTagName(&#39;div&#39;); let divs2 = document.querySelectorAll(&#39;div&#39;); console.info(divs1.length); // 1 console.info(divs2.length); // 1 &lt;/script&gt; &lt;div class=&#34;demo&#34;&gt;Second div&lt;/div&gt; &lt;script&gt; console.info(divs1.length); // 2 console.info(divs2.length); // 1 console.log(document.getElementsByClassName(&#39;demo&#39;)); console.log(document.querySelectorAll(&#39;.demo&#39;)); &lt;/script&gt; 返回值不同 getElementsBy* 返回的是 HTMLCollection querySelectorAll 返回值是 NodeList HTMLCollection 比 NodeList 多了个 namedItem(name) 方法，根据 name 属性获取 dom NodeList 相比 HTMLCollection 多了更多的信息，比如注释，文本等
+    <description><![CDATA[getElement VS querySelector 性质不同 getElementsBy* 是动态的， 类似于引用类型，若之后 dom 发生了改变，则已获取到的 dom 也会相应改变 querySelectorAll 是静态的，类似于快照的意思，获取后就不会再变了 &lt;div class=&#34;demo&#34;&gt;First div&lt;/div&gt; &lt;script&gt; let divs1 = document.getElementsByTagName(&#39;div&#39;) let divs2 = document.querySelectorAll(&#39;div&#39;) console.info(divs1.length) // 1 console.info(divs2.length) // 1 &lt;/script&gt; &lt;div class=&#34;demo&#34;&gt;Second div&lt;/div&gt; &lt;script&gt; console.info(divs1.length) // 2 console.info(divs2.length) // 1 console.log(document.getElementsByClassName(&#39;demo&#39;)) console.log(document.querySelectorAll(&#39;.demo&#39;)) &lt;/script&gt; 返回值不同 getElementsBy* 返回的是 HTMLCollection querySelectorAll 返回值是 NodeList HTMLCollection 比 NodeList 多了个 namedItem(name) 方法，根据 name 属性获取 dom NodeList 相比 HTMLCollection 多了更多的信息，比如注释，文本等
 navigator | location | history]]></description>
 </item><item>
     <title>被忽略的一些API</title>
@@ -19,7 +19,7 @@ navigator | location | history]]></description>
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/%E5%AE%B9%E6%98%93%E5%BF%BD%E7%95%A5%E7%9A%84api/</guid>
     <description><![CDATA[MutationObserver监测 DOM，发生变动时触发。
-const observer = new MutationObserver(callback); // callback 回调参数是 MutationRecord 对象 的数组，第二个参数是观察器自身 observer.observe(node, config); // node 为观察节点 // config 是对观察节点的一系列配置 // 详细见 https://zh.javascript.info/mutation-observer observe.disconnect() // 注销观察 observer.takeRecords() // 获取已经发生但未处理的变动 重要特性：
+const observer = new MutationObserver(callback) // callback 回调参数是 MutationRecord 对象 的数组，第二个参数是观察器自身 observer.observe(node, config) // node 为观察节点 // config 是对观察节点的一系列配置 // 详细见 https://zh.javascript.info/mutation-observer observe.disconnect() // 注销观察 observer.takeRecords() // 获取已经发生但未处理的变动 重要特性：
 MutationObserver 是异步的，等待所有脚本任务完成后才会运行，也就是说当节点有多次变动，它是在最后才执行一次 Callback 把所有变动装进一个数组中处理，而不是一条条地个别处理 DOM 变动 IntersectionObserver监听元素是否进入了视口(viewport)。
 // callback 一般会触发两次。一次是目标元素刚刚进入视口（开始可见），另一次是完全离开视口（开始不可见）。 var io = new IntersectionObserver(callback, option) // callback 参数是 IntersectionObserverEntry 对象 的数组，观察了几个元素就有几个对象 // 开始观察 io.observe(document.getElementById(&#39;example&#39;)) // 停止观察 io.unobserve(element) // 关闭观察器 io.disconnect() 比过往监听 scroll，然后 getBoundingClientRect 的优势：
 scroll 事件密集发生，IntersectionObserver 没有大量计算 不会引起重绘回流 适合场景比如图片懒加载，无线滚动等，但是如果需要 buffer 好像就不行了。]]></description>

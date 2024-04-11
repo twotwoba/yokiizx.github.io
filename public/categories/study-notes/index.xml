@@ -41,7 +41,7 @@ Access denied for user &lsquo;root&rsquo;@&rsquo;localhost&rsquo;解决办法：
 user 表中重要的三个字段：
 host, 允许登陆的位置，localhost &ndash; 本机登陆；可以指定 ip user, 用户名 authentication_string，密码，通过 PASSWORD() 机密过的 # 创建用户 create user &#39;user_name&#39;@&#39;host&#39; identified by &#39;password_str&#39; # 删除用户 drop user &#39;user_name&#39;@&#39;host&#39; # 修改自己密码 set password = PASSWORD(&#39;ps_str&#39;) # 修改别人密码 set password for &#39;user_name&#39;@&#39;host&#39; = PASSWORD(&#39;ps_str&#39;) 权限管理 常用权限 权限字段 意义 SELECT 允许用户读取数据库中的数据 INSERT 允许用户向数据库中的表中插入新的行 UPDATE 允许用户修改数据库中表中已有的行 DELETE 允许用户删除数据库中表中的行 CREATE 允许用户创建新的数据库或表 DROP 允许用户删除数据库或表 ALTER 允许用户修改数据库或表的结构 GRANT 允许用户授予或撤销权限给其他用户 REFERENCES 允许用户定义外键 INDEX 允许用户创建或删除索引 ALL 允许用户执行所有权限操作 USAGE 允许用户登录到服务器，但没有其他权限 基本操作# 赋予权限 grant 权限1[,权限2,.]]></description>
 </item><item>
-    <title>Jdbc_1</title>
+    <title>jdbc</title>
     <link>http://localhost:1313/jdbc/</link>
     <pubDate>Fri, 08 Dec 2023 22:10:34 &#43;0800</pubDate><author>
         <name>EricYuan</name>

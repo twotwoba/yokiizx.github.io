@@ -60,14 +60,14 @@ const dp = Array.from(Array(m), () => Array(n).fill(0))
 
 ### 索引区间长度
 
-- `[i..j]`，闭区间索引之间的长度是`j - i + 1`
+- `[i:j]`，闭区间索引之间的长度是`j - i + 1`
 - `(i..j)`，开区间索引之间的长度是`j - i - 1`
 - `[i..j)`，表示从 i 到 j 需要多少步，`j - i`
 
 ### 随机数小技巧
 
 - 区间 `[i..j)` 随机数：`i + Math.random() * (j - i) | 0`
-- 区间 `[i..j]` 随机数：`i + Math.random() * (j - i + 1) | 0`
+- 区间 `[i:j]` 随机数：`i + Math.random() * (j - i + 1) | 0`
 
 > [JS 生成限定范围内随机整数](https://www.cnblogs.com/f6056/p/13362504.html)
 

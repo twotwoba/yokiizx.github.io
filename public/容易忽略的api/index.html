@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" /><title>被忽略的一些API - Hello World</title><meta name="Description" content="A website documenting front-end technology and everyday life"><meta property="og:title" content="被忽略的一些API" />
 <meta property="og:description" content="MutationObserver监测 DOM，发生变动时触发。
-const observer = new MutationObserver(callback); // callback 回调参数是 MutationRecord 对象 的数组，第二个参数是观察器自身 observer.observe(node, config); // node 为观察节点 // config 是对观察节点的一系列配置 // 详细见 https://zh.javascript.info/mutation-observer observe.disconnect() // 注销观察 observer.takeRecords() // 获取已经发生但未处理的变动 重要特性：
+const observer = new MutationObserver(callback) // callback 回调参数是 MutationRecord 对象 的数组，第二个参数是观察器自身 observer.observe(node, config) // node 为观察节点 // config 是对观察节点的一系列配置 // 详细见 https://zh.javascript.info/mutation-observer observe.disconnect() // 注销观察 observer.takeRecords() // 获取已经发生但未处理的变动 重要特性：
 MutationObserver 是异步的，等待所有脚本任务完成后才会运行，也就是说当节点有多次变动，它是在最后才执行一次 Callback 把所有变动装进一个数组中处理，而不是一条条地个别处理 DOM 变动 IntersectionObserver监听元素是否进入了视口(viewport)。
 // callback 一般会触发两次。一次是目标元素刚刚进入视口（开始可见），另一次是完全离开视口（开始不可见）。 var io = new IntersectionObserver(callback, option) // callback 参数是 IntersectionObserverEntry 对象 的数组，观察了几个元素就有几个对象 // 开始观察 io.observe(document.getElementById(&#39;example&#39;)) // 停止观察 io.unobserve(element) // 关闭观察器 io.disconnect() 比过往监听 scroll，然后 getBoundingClientRect 的优势：
 scroll 事件密集发生，IntersectionObserver 没有大量计算 不会引起重绘回流 适合场景比如图片懒加载，无线滚动等，但是如果需要 buffer 好像就不行了。" />
@@ -20,7 +20,7 @@ scroll 事件密集发生，IntersectionObserver 没有大量计算 不会引起
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="http://localhost:1313/" /><meta name="twitter:title" content="被忽略的一些API"/>
 <meta name="twitter:description" content="MutationObserver监测 DOM，发生变动时触发。
-const observer = new MutationObserver(callback); // callback 回调参数是 MutationRecord 对象 的数组，第二个参数是观察器自身 observer.observe(node, config); // node 为观察节点 // config 是对观察节点的一系列配置 // 详细见 https://zh.javascript.info/mutation-observer observe.disconnect() // 注销观察 observer.takeRecords() // 获取已经发生但未处理的变动 重要特性：
+const observer = new MutationObserver(callback) // callback 回调参数是 MutationRecord 对象 的数组，第二个参数是观察器自身 observer.observe(node, config) // node 为观察节点 // config 是对观察节点的一系列配置 // 详细见 https://zh.javascript.info/mutation-observer observe.disconnect() // 注销观察 observer.takeRecords() // 获取已经发生但未处理的变动 重要特性：
 MutationObserver 是异步的，等待所有脚本任务完成后才会运行，也就是说当节点有多次变动，它是在最后才执行一次 Callback 把所有变动装进一个数组中处理，而不是一条条地个别处理 DOM 变动 IntersectionObserver监听元素是否进入了视口(viewport)。
 // callback 一般会触发两次。一次是目标元素刚刚进入视口（开始可见），另一次是完全离开视口（开始不可见）。 var io = new IntersectionObserver(callback, option) // callback 参数是 IntersectionObserverEntry 对象 的数组，观察了几个元素就有几个对象 // 开始观察 io.observe(document.getElementById(&#39;example&#39;)) // 停止观察 io.unobserve(element) // 关闭观察器 io.disconnect() 比过往监听 scroll，然后 getBoundingClientRect 的优势：
 scroll 事件密集发生，IntersectionObserver 没有大量计算 不会引起重绘回流 适合场景比如图片懒加载，无线滚动等，但是如果需要 buffer 好像就不行了。"/>
@@ -39,7 +39,7 @@ scroll 事件密集发生，IntersectionObserver 没有大量计算 不会引起
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http://localhost:1313/%E5%AE%B9%E6%98%93%E5%BF%BD%E7%95%A5%E7%9A%84api/"
-        },"genre": "posts","keywords":["JavaScript","DOM"],"wordcount":  349 ,
+        },"genre": "posts","keywords":["JavaScript","DOM"],"wordcount":  348 ,
         "url": "http://localhost:1313/%E5%AE%B9%E6%98%93%E5%BF%BD%E7%95%A5%E7%9A%84api/","datePublished": "2022-09-24T11:26:53+08:00","dateModified": "2022-09-24T11:26:53+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -185,7 +185,7 @@ scroll 事件密集发生，IntersectionObserver 没有大量计算 不会引起
                 </span><span id="busuanzi_container_page_pv">&nbsp;
                         <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
             </div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-09-24">2022-09-24</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-09-24">2022-09-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 349 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-09-24">2022-09-24</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-09-24">2022-09-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 348 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -216,10 +216,10 @@ scroll 事件密集发生，IntersectionObserver 没有大量计算 不会引起
                 </div>
             </div><h2 id="mutationobserver" class="headerLink">
     <a href="#mutationobserver" class="header-mark"></a>MutationObserver</h2><p>监测 DOM，发生变动时触发。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">observer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MutationObserver</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">observer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MutationObserver</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// callback 回调参数是 MutationRecord 对象 的数组，第二个参数是观察器自身
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="nx">observer</span><span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="nx">config</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">observer</span><span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// node 为观察节点
 </span></span></span><span class="line"><span class="cl"><span class="c1">// config 是对观察节点的一系列配置
 </span></span></span><span class="line"><span class="cl"><span class="c1">// 详细见 https://zh.javascript.info/mutation-observer
@@ -251,25 +251,25 @@ scroll 事件密集发生，IntersectionObserver 没有大量计算 不会引起
 <p>适合场景比如图片懒加载，无线滚动等，但是如果需要 buffer 好像就不行了。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">imgs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;img[data-src]&#39;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">rootMargin</span><span class="o">:</span> <span class="s1">&#39;0px&#39;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">threshold</span><span class="o">:</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">rootMargin</span><span class="o">:</span> <span class="s1">&#39;0px&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">threshold</span><span class="o">:</span> <span class="mi">0</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">observer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">IntersectionObserver</span><span class="p">((</span><span class="nx">entries</span><span class="p">,</span> <span class="nx">self</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">entries</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">entry</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">entry</span><span class="p">.</span><span class="nx">isIntersecting</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="kd">let</span> <span class="nx">img</span> <span class="o">=</span> <span class="nx">entry</span><span class="p">.</span><span class="nx">target</span>
-</span></span><span class="line"><span class="cl">      <span class="kd">let</span> <span class="nx">src</span> <span class="o">=</span> <span class="nx">img</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">src</span>
-</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">src</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nx">img</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">src</span>
-</span></span><span class="line"><span class="cl">        <span class="nx">img</span><span class="p">.</span><span class="nx">removeAttribute</span><span class="p">(</span><span class="s1">&#39;data-src&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">      <span class="p">}</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">self</span><span class="p">.</span><span class="nx">unobserve</span><span class="p">(</span><span class="nx">entry</span><span class="p">.</span><span class="nx">target</span><span class="p">)</span> <span class="c1">// 解除观察
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">entries</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">entry</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">entry</span><span class="p">.</span><span class="nx">isIntersecting</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">let</span> <span class="nx">img</span> <span class="o">=</span> <span class="nx">entry</span><span class="p">.</span><span class="nx">target</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">let</span> <span class="nx">src</span> <span class="o">=</span> <span class="nx">img</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">src</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="nx">src</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">img</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">src</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">img</span><span class="p">.</span><span class="nx">removeAttribute</span><span class="p">(</span><span class="s1">&#39;data-src&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">self</span><span class="p">.</span><span class="nx">unobserve</span><span class="p">(</span><span class="nx">entry</span><span class="p">.</span><span class="nx">target</span><span class="p">)</span> <span class="c1">// 解除观察
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
 </span></span><span class="line"><span class="cl"><span class="p">},</span> <span class="nx">config</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nx">imgs</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">image</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">observer</span><span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nx">image</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">imgs</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">image</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">observer</span><span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nx">image</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">})</span>
 </span></span></code></pre></div><h2 id="requestanimationframe" class="headerLink">
     <a href="#requestanimationframe" class="header-mark"></a>requestAnimationFrame</h2><p><code>window.requestAnimationFrame()</code> 告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。</p>
@@ -280,14 +280,14 @@ scroll 事件密集发生，IntersectionObserver 没有大量计算 不会引起
 </ul>
 <p>兼容性处理：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nb">window</span><span class="p">.</span><span class="nx">_requestAnimationFrame</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">window</span><span class="p">.</span><span class="nx">requestAnimationFrame</span> <span class="o">||</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">window</span><span class="p">.</span><span class="nx">webkitRequestAnimationFrame</span> <span class="o">||</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">window</span><span class="p">.</span><span class="nx">mozRequestAnimationFrame</span> <span class="o">||</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nb">window</span><span class="p">.</span><span class="nx">setTimeout</span><span class="p">(</span><span class="nx">callback</span><span class="p">,</span> <span class="mi">1000</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">window</span><span class="p">.</span><span class="nx">requestAnimationFrame</span> <span class="o">||</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">window</span><span class="p">.</span><span class="nx">webkitRequestAnimationFrame</span> <span class="o">||</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">window</span><span class="p">.</span><span class="nx">mozRequestAnimationFrame</span> <span class="o">||</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">function</span> <span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">window</span><span class="p">.</span><span class="nx">setTimeout</span><span class="p">(</span><span class="nx">callback</span><span class="p">,</span> <span class="mi">1000</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">})()</span>
 </span></span></code></pre></div><p>场景: 1. scroll 类密集型监听, 2. 大量数据渲染</p>
 <p>eg:</p>
@@ -295,11 +295,11 @@ scroll 事件密集发生，IntersectionObserver 没有大量计算 不会引起
 <li>平滑滚动到顶部</li>
 </ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">scrollToTop</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">c</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">.</span><span class="nx">scrollTop</span> <span class="o">||</span> <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">scrollTop</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">c</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">window</span><span class="p">.</span><span class="nx">requestAnimationFrame</span><span class="p">(</span><span class="nx">scrollToTop</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">window</span><span class="p">.</span><span class="nx">scrollTo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">c</span> <span class="o">-</span> <span class="nx">c</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">c</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">.</span><span class="nx">scrollTop</span> <span class="o">||</span> <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">scrollTop</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">c</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">window</span><span class="p">.</span><span class="nx">requestAnimationFrame</span><span class="p">(</span><span class="nx">scrollToTop</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">window</span><span class="p">.</span><span class="nx">scrollTo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">c</span> <span class="o">-</span> <span class="nx">c</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><ul>
 <li>十万条数据渲染</li>
@@ -316,19 +316,19 @@ scroll 事件密集发生，IntersectionObserver 没有大量计算 不会引起
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">index</span> <span class="o">=</span> <span class="mi">0</span>
 </span></span><span class="line"><span class="cl"><span class="c1">//循环加载数据
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">loop</span><span class="p">(</span><span class="nx">curTotal</span><span class="p">,</span> <span class="nx">curIndex</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">curTotal</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">false</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="c1">//每页多少条
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kd">let</span> <span class="nx">pageCount</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">curTotal</span><span class="p">,</span> <span class="nx">once</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nb">window</span><span class="p">.</span><span class="nx">requestAnimationFrame</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">pageCount</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="kd">let</span> <span class="nx">li</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">li</span><span class="p">.</span><span class="nx">innerText</span> <span class="o">=</span> <span class="nx">curIndex</span> <span class="o">+</span> <span class="nx">i</span> <span class="o">+</span> <span class="s1">&#39; : &#39;</span> <span class="o">+</span> <span class="o">~~</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">total</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">ul</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">li</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">curTotal</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">false</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">loop</span><span class="p">(</span><span class="nx">curTotal</span> <span class="o">-</span> <span class="nx">pageCount</span><span class="p">,</span> <span class="nx">curIndex</span> <span class="o">+</span> <span class="nx">pageCount</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//每页多少条
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">let</span> <span class="nx">pageCount</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">curTotal</span><span class="p">,</span> <span class="nx">once</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">window</span><span class="p">.</span><span class="nx">requestAnimationFrame</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">pageCount</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">let</span> <span class="nx">li</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">li</span><span class="p">.</span><span class="nx">innerText</span> <span class="o">=</span> <span class="nx">curIndex</span> <span class="o">+</span> <span class="nx">i</span> <span class="o">+</span> <span class="s1">&#39; : &#39;</span> <span class="o">+</span> <span class="o">~~</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">total</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">ul</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">li</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">loop</span><span class="p">(</span><span class="nx">curTotal</span> <span class="o">-</span> <span class="nx">pageCount</span><span class="p">,</span> <span class="nx">curIndex</span> <span class="o">+</span> <span class="nx">pageCount</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="nx">loop</span><span class="p">(</span><span class="nx">total</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span>
 </span></span></code></pre></div><blockquote>
@@ -337,16 +337,16 @@ scroll 事件密集发生，IntersectionObserver 没有大量计算 不会引起
 <h2 id="postmessage" class="headerLink">
     <a href="#postmessage" class="header-mark"></a>postMessage</h2><p>跨窗口通信。</p>
 <p>发送</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nb">window</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="nx">message</span><span class="p">,</span> <span class="nx">targetOrigin</span><span class="p">,</span> <span class="p">[</span><span class="nx">transfer</span><span class="p">]);;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nb">window</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="nx">message</span><span class="p">,</span> <span class="nx">targetOrigin</span><span class="p">,</span> <span class="p">[</span><span class="nx">transfer</span><span class="p">])</span>
 </span></span></code></pre></div><p>接收</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&#34;message&#34;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">origin</span> <span class="o">!=</span> <span class="s1">&#39;http://javascript.info&#39;</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// 来自未知的源的内容，我们忽略它
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">alert</span><span class="p">(</span> <span class="s2">&#34;received: &#34;</span> <span class="o">+</span> <span class="nx">event</span><span class="p">.</span><span class="nx">data</span> <span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="c1">// 可以使用 event.source.postMessage(...) 向回发送消息
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">});</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">origin</span> <span class="o">!=</span> <span class="s1">&#39;http://javascript.info&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 来自未知的源的内容，我们忽略它
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;received: &#39;</span> <span class="o">+</span> <span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 可以使用 event.source.postMessage(...) 向回发送消息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">})</span>
 </span></span></code></pre></div><p>场景：</p>
 <ol>
 <li>可以跨域通信</li>

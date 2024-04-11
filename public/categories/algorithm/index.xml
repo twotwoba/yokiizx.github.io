@@ -6,19 +6,19 @@
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
             <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Wed, 21 Feb 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://localhost:1313/categories/algorithm/" rel="self" type="application/rss+xml" /><item>
     <title>滑动窗口</title>
-    <link>http://localhost:1313/%E6%95%B0%E7%BB%84-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
+    <link>http://localhost:1313/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
     <pubDate>Wed, 21 Feb 2024 00:00:00 &#43;0000</pubDate><author>
         <name>EricYuan</name>
-    </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</guid>
+    </author><guid>http://localhost:1313/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</guid>
     <description><![CDATA[核心滑动窗口的核心就是维持一个 [i..j) 的区间窗口，在数据上游走，来获取到需要的信息，在数组,字符串等中的表现，往往如下：
 function slideWindow() { // 前后快慢双指针 let left = 0 let right = 0 /** 具体的条件逻辑根据实际问题实际处理，多做练习 */ while(slide condition) { window.push(s[left]) // s 为总数据（字符串、数组） right++ while(shrink condition) { window.shift(s[left]) left++ } } } 滑动窗口的算法时间复杂度为 O(n)，适用于处理大型数据集
 练一练 lc.3 无重复字符的最长子串/** * @param {string} s * @return {number} */ var lengthOfLongestSubstring = function (s) { let max = 0 let l = 0, r = 0 let window = {} while (r &lt; s.]]></description>
 </item><item>
     <title>数组-双指针应用</title>
-    <link>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%8F%8C%E6%8C%87%E9%92%88/</link>
+    <link>http://localhost:1313/%E5%8F%8C%E6%8C%87%E9%92%88/</link>
     <pubDate>Fri, 16 Feb 2024 00:00:00 &#43;0000</pubDate><author>
         <name>EricYuan</name>
-    </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%8F%8C%E6%8C%87%E9%92%88/</guid>
+    </author><guid>http://localhost:1313/%E5%8F%8C%E6%8C%87%E9%92%88/</guid>
     <description><![CDATA[数组双指针双指针，一般两种，快慢指针和左右指针，根据不同场景使用不同方法。
 以下题基本都是简单题，知道使用双指针就没啥难度了~
 lc.167 两数之和 II - 有序数组/** * @param {number[]} numbers * @param {number} target * @return {number[]} */ var twoSum = function (numbers, target) { let left = 0, right = numbers.length - 1 while (left &lt; right) { if (numbers[left] + numbers[right] &lt; target) { left++ } else if (numbers[left] + numbers[right] &gt; target) { right-- } else if (numbers[left] + numbers[right] === target) { return [left + 1, right + 1] } } } lc.]]></description>
@@ -75,7 +75,7 @@ class TrieNode { constructor(pass = 0, end = 0) { this.pass = pass // 通过下�
     </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/</guid>
     <description><![CDATA[前缀和数组 是应对数组区间被频繁访问求和查询
 差分数组 是为了应对区间内元素的频繁加减修改
-概念const diff = [nums[0]] for (let i = 1; i &lt; arr.length; ++i) { diff[i] = nums[i] - nums[i - 1] // 构建差分数组 } 对区间 [i..j] 进行加减 val 操作只需要对差分数组 diff[i] += val, diff[j+1] -= val 进行更新，然后依据更新后的差分数组还原出最终数组即可：
+概念const diff = [nums[0]] for (let i = 1; i &lt; arr.length; ++i) { diff[i] = nums[i] - nums[i - 1] // 构建差分数组 } 对区间 [i:j] 进行加减 val 操作只需要对差分数组 diff[i] += val, diff[j+1] -= val 进行更新，然后依据更新后的差分数组还原出最终数组即可：
 nums[0] = diff[0] for (let i = 1; i &lt; diff[i]; ++i) { nums[i] = diff[i] + nums[i - 1] } 原理也很简单：
 diff[i] += val，等于对 [i...] 之后的所有元素都加了 val diff[j+1] -=val，等于对 [j+1.]]></description>
 </item><item>
@@ -85,8 +85,8 @@ diff[i] += val，等于对 [i...] 之后的所有元素都加了 val diff[j+1] -
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%89%8D%E7%BC%80%E5%92%8C%E6%95%B0%E7%BB%84/</guid>
     <description><![CDATA[概念应用场景：在原始数组不会被修改的情况下，快速、频繁查询某个区间的累加和。通常涉及到连续子数组和相关问题时，就可以考虑使用前缀和技巧了。
-核心思路：开辟新数组 preSum[i] 来存储原数组 nums[0..i-1] 的累加和，preSum[0] = 0。这样，当求原数组区间和就比较容易了，区间 [i..j] 的和等于 preSum[j+1] - preSum[i] 的结果值。
-const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件 for (let i = 0; i &lt; arr.length; ++i) { preSum[i + 1] = preSum[i] + nums[i] // 构建前缀和数组 } // 查询 sum([i..j]) preSum[j + 1] - preSum[i] 构造：lc.303 区域和检索-数组不可变/** * @param {number[]} nums */ var NumArray = function (nums) { this.preSum = [0] // preSum 首位为0 便于计算 for (let i = 1; i &lt;= nums.]]></description>
+核心思路：开辟新数组 preSum[i] 来存储原数组 nums[0..i-1] 的累加和，preSum[0] = 0。这样，当求原数组区间和就比较容易了，区间 [i:j] 的和等于 preSum[j+1] - preSum[i] 的结果值。
+const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件 for (let i = 0; i &lt; arr.length; ++i) { preSum[i + 1] = preSum[i] + nums[i] // 构建前缀和数组 } // 查询 sum([i:j]) preSum[j + 1] - preSum[i] 构造：lc.303 区域和检索-数组不可变/** * @param {number[]} nums */ var NumArray = function (nums) { this.preSum = [0] // preSum 首位为0 便于计算 for (let i = 1; i &lt;= nums.]]></description>
 </item><item>
     <title>单调队列</title>
     <link>http://localhost:1313/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/</link>

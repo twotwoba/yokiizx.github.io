@@ -1,4 +1,4 @@
-# Jdbc_1
+# jdbc
 
 
 > 公司项目用的是 `MybatisPlus`，在此之前，先了解下 JDBC

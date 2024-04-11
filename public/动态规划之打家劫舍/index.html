@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" /><title>动态规划之打家劫舍 - Hello World</title><meta name="Description" content="A website documenting front-end technology and everyday life"><meta property="og:title" content="动态规划之打家劫舍" />
-<meta property="og:description" content="198.打家劫舍这道题比较简单，属于比较常规的动态规划，转移方程也比较好写。题目说：“如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。”
+<meta property="og:description" content="t: true 198.打家劫舍这道题比较简单，属于比较常规的动态规划，转移方程也比较好写。题目说：“如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。”
 状态：持续影响偷 💰 结果的因素，是 &ndash;&gt; 房屋索引区间 [0&hellip;i] 的变化。状态只有一个，所以一维 dp 数组即可 选择：到这个房屋偷/还是不偷 /** * @param {number[]} nums * @return {number} */ var rob = function(nums) { // 定义 dp[i] 表示 房屋[0..i] 能偷到的最大金额 const m = nums.length const dp = new Array(m).fill(0) dp[0] = nums[0] dp[1] = Math.max(nums[0], nums[1]) // dp[i] = max(dp[i-1](不偷这家), dp[i-2] &#43; nums[i](偷这家)) for(let i = 2; i &lt; m; &#43;&#43;i) { dp[i] = Math.max(dp[i-1], dp[i-2] &#43; nums[i]) } return dp[m - 1] }; 213." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%B9%8B%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/" /><meta property="og:image" content="http://localhost:1313/" /><meta property="article:section" content="posts" />
@@ -16,7 +16,7 @@
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="http://localhost:1313/" /><meta name="twitter:title" content="动态规划之打家劫舍"/>
-<meta name="twitter:description" content="198.打家劫舍这道题比较简单，属于比较常规的动态规划，转移方程也比较好写。题目说：“如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。”
+<meta name="twitter:description" content="t: true 198.打家劫舍这道题比较简单，属于比较常规的动态规划，转移方程也比较好写。题目说：“如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。”
 状态：持续影响偷 💰 结果的因素，是 &ndash;&gt; 房屋索引区间 [0&hellip;i] 的变化。状态只有一个，所以一维 dp 数组即可 选择：到这个房屋偷/还是不偷 /** * @param {number[]} nums * @return {number} */ var rob = function(nums) { // 定义 dp[i] 表示 房屋[0..i] 能偷到的最大金额 const m = nums.length const dp = new Array(m).fill(0) dp[0] = nums[0] dp[1] = Math.max(nums[0], nums[1]) // dp[i] = max(dp[i-1](不偷这家), dp[i-2] &#43; nums[i](偷这家)) for(let i = 2; i &lt; m; &#43;&#43;i) { dp[i] = Math.max(dp[i-1], dp[i-2] &#43; nums[i]) } return dp[m - 1] }; 213."/>
 <meta name="application-name" content="前端后花园">
 <meta name="apple-mobile-web-app-title" content="前端后花园">
@@ -25,7 +25,7 @@
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
-<link rel="canonical" href="http://localhost:1313/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%B9%8B%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/" /><link rel="prev" href="http://localhost:1313/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%B9%8B%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8/" /><link rel="next" href="http://localhost:1313/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%B9%8B%E5%AD%90%E5%BA%8F%E5%88%97/" />
+<link rel="canonical" href="http://localhost:1313/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%B9%8B%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/" /><link rel="prev" href="http://localhost:1313/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%B9%8B%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/" /><link rel="next" href="http://localhost:1313/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/" />
 <link rel="stylesheet" href="/css/main.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
         <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">{"@context": "https://schema.org","@type": "BlogPosting",
         "headline": "动态规划之打家劫舍",
@@ -33,7 +33,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http://localhost:1313/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%B9%8B%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/"
-        },"genre": "posts","wordcount":  240 ,
+        },"genre": "posts","wordcount":  241 ,
         "url": "http://localhost:1313/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%B9%8B%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/","datePublished": "2022-10-12T09:31:28+08:00","dateModified": "2022-10-12T09:31:28+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -162,7 +162,7 @@
         <h2 class="toc-title">目录</h2>
         <div class="toc-content always-active" id="toc-content-auto"><nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#t-true">t: true</a>
       <ul>
         <li><a href="#198打家劫舍httpsleetcodecnproblemshouse-robberdescription"><a href="https://leetcode.cn/problems/house-robber/description/">198.打家劫舍</a></a></li>
         <li><a href="#213打家劫舍-iihttpsleetcodecnproblemshouse-robber-ii"><a href="https://leetcode.cn/problems/house-robber-ii/">213.打家劫舍 II</a></a></li>
@@ -178,7 +178,7 @@
                 </span><span id="busuanzi_container_page_pv">&nbsp;
                         <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
             </div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-10-12">2022-10-12</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-10-12">2022-10-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 240 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-10-12">2022-10-12</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-10-12">2022-10-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 241 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -187,7 +187,7 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#t-true">t: true</a>
       <ul>
         <li><a href="#198打家劫舍httpsleetcodecnproblemshouse-robberdescription"><a href="https://leetcode.cn/problems/house-robber/description/">198.打家劫舍</a></a></li>
         <li><a href="#213打家劫舍-iihttpsleetcodecnproblemshouse-robber-ii"><a href="https://leetcode.cn/problems/house-robber-ii/">213.打家劫舍 II</a></a></li>
@@ -206,7 +206,8 @@
                     <div class="admonition-content">
                         本文最后更新于 <span class="timeago" datetime="2022-10-12T09:31:28" title="October 12, 2022">2022-10-12</span>，文中内容可能已过时。</div>
                 </div>
-            </div><h3 id="198打家劫舍httpsleetcodecnproblemshouse-robberdescription" class="headerLink">
+            </div><h2 id="t-true" class="headerLink">
+    <a href="#t-true" class="header-mark"></a>t: true</h2><h3 id="198打家劫舍httpsleetcodecnproblemshouse-robberdescription" class="headerLink">
     <a href="#198%e6%89%93%e5%ae%b6%e5%8a%ab%e8%88%8dhttpsleetcodecnproblemshouse-robberdescription" class="header-mark"></a><a href="https://leetcode.cn/problems/house-robber/description/" target="_blank" rel="noopener noreferrer">198.打家劫舍</a></h3><p>这道题比较简单，属于比较常规的动态规划，转移方程也比较好写。题目说：“如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。”</p>
 <ul>
 <li>状态：持续影响偷 💰 结果的因素，是 &ndash;&gt; 房屋索引区间 [0&hellip;i] 的变化。状态只有一个，所以一维 dp 数组即可</li>
@@ -276,8 +277,7 @@
 </span></span><span class="line"><span class="cl">        <span class="c1">// [不偷，偷]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="p">[</span><span class="nx">DoNot</span><span class="p">,</span> <span class="nx">Do</span><span class="p">];</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(...</span><span class="nx">traverse</span><span class="p">(</span><span class="nx">root</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(...</span><span class="nx">traverse</span><span class="p">(</span><span class="nx">ro</span>
 </span></span></code></pre></div></div>
 
         <div class="post-footer" id="post-footer">
@@ -307,9 +307,9 @@
         </section>
     </div>
 
-    <div class="post-nav print:tw-hidden"><a href="/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%B9%8B%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8/" class="prev" rel="prev" title="动态规划之买卖股票"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>动态规划之买卖股票</a>
-            <a href="/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%B9%8B%E5%AD%90%E5%BA%8F%E5%88%97/" class="next" rel="next" title="动态规划之子序列">动态规划之子序列<svg class="icon"
+    <div class="post-nav print:tw-hidden"><a href="/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%B9%8B%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/" class="prev" rel="prev" title="动态规划之状态压缩"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>动态规划之状态压缩</a>
+            <a href="/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/" class="next" rel="next" title="Vue2响应式原理">Vue2响应式原理<svg class="icon"
     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div>
 </div>
 </article></div>

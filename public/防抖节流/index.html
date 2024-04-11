@@ -9,8 +9,8 @@
     <meta name="robots" content="noodp" /><title>防抖节流 - Hello World</title><meta name="Description" content="A website documenting front-end technology and everyday life"><meta property="og:title" content="防抖节流" />
 <meta property="og:description" content="诸如 scroll 之类的高频事件，或者恶意疯狂点击，往往需要防抖节流来帮我们做一些优化。
 防抖如果事件再设定事件内再次触发，就取消之前的一次事件。
-function debounce(fn, wait) { let timeout = null return function () { if(timeout) clearTimeout(timeout) const args = [...arguments] timeout = setTimeout(() =&gt; { fn.apply(this, args) }, wait) } } 是否立即先执行一次版：
-/** * @description: 防抖函数 * @param {Function}: fn - 需要添加防抖的函数 * @param {Number}: wait - 延迟执行时间 * @param {Boolean}: immediate - true,立即执行,wait内不能再次执行;false,wait后执行 * @return {Function}: function - 返回防抖后的函数 * @author: yk */ function debounce(fn, time, immediate) { let timeout; return (." />
+function debounce(fn, wait) { let timeout = null return function () { if (timeout) clearTimeout(timeout) const args = [...arguments] timeout = setTimeout(() =&gt; { fn.apply(this, args) }, wait) } } 是否立即先执行一次版：
+/** * @description: 防抖函数 * @param {Function}: fn - 需要添加防抖的函数 * @param {Number}: wait - 延迟执行时间 * @param {Boolean}: immediate - true,立即执行,wait内不能再次执行;false,wait后执行 * @return {Function}: function - 返回防抖后的函数 * @author: yk */ function debounce(fn, time, immediate) { let timeout return (." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/%E9%98%B2%E6%8A%96%E8%8A%82%E6%B5%81/" /><meta property="og:image" content="http://localhost:1313/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-09-25T19:26:40+08:00" />
@@ -20,8 +20,8 @@ function debounce(fn, wait) { let timeout = null return function () { if(timeout
 <meta name="twitter:image" content="http://localhost:1313/" /><meta name="twitter:title" content="防抖节流"/>
 <meta name="twitter:description" content="诸如 scroll 之类的高频事件，或者恶意疯狂点击，往往需要防抖节流来帮我们做一些优化。
 防抖如果事件再设定事件内再次触发，就取消之前的一次事件。
-function debounce(fn, wait) { let timeout = null return function () { if(timeout) clearTimeout(timeout) const args = [...arguments] timeout = setTimeout(() =&gt; { fn.apply(this, args) }, wait) } } 是否立即先执行一次版：
-/** * @description: 防抖函数 * @param {Function}: fn - 需要添加防抖的函数 * @param {Number}: wait - 延迟执行时间 * @param {Boolean}: immediate - true,立即执行,wait内不能再次执行;false,wait后执行 * @return {Function}: function - 返回防抖后的函数 * @author: yk */ function debounce(fn, time, immediate) { let timeout; return (."/>
+function debounce(fn, wait) { let timeout = null return function () { if (timeout) clearTimeout(timeout) const args = [...arguments] timeout = setTimeout(() =&gt; { fn.apply(this, args) }, wait) } } 是否立即先执行一次版：
+/** * @description: 防抖函数 * @param {Function}: fn - 需要添加防抖的函数 * @param {Number}: wait - 延迟执行时间 * @param {Boolean}: immediate - true,立即执行,wait内不能再次执行;false,wait后执行 * @return {Function}: function - 返回防抖后的函数 * @author: yk */ function debounce(fn, time, immediate) { let timeout return (."/>
 <meta name="application-name" content="前端后花园">
 <meta name="apple-mobile-web-app-title" content="前端后花园">
 
@@ -37,7 +37,7 @@ function debounce(fn, wait) { let timeout = null return function () { if(timeout
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http://localhost:1313/%E9%98%B2%E6%8A%96%E8%8A%82%E6%B5%81/"
-        },"genre": "posts","keywords":["JavaScript"],"wordcount":  188 ,
+        },"genre": "posts","keywords":["JavaScript"],"wordcount":  189 ,
         "url": "http://localhost:1313/%E9%98%B2%E6%8A%96%E8%8A%82%E6%B5%81/","datePublished": "2022-09-25T19:26:40+08:00","dateModified": "2022-09-25T19:26:40+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -177,7 +177,7 @@ function debounce(fn, wait) { let timeout = null return function () { if(timeout
                 </span><span id="busuanzi_container_page_pv">&nbsp;
                         <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
             </div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-09-25">2022-09-25</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-09-25">2022-09-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 188 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-09-25">2022-09-25</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-09-25">2022-09-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 189 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -206,11 +206,11 @@ function debounce(fn, wait) { let timeout = null return function () { if(timeout
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">debounce</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span> <span class="nx">wait</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">timeout</span> <span class="o">=</span> <span class="kc">null</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="k">if</span><span class="p">(</span><span class="nx">timeout</span><span class="p">)</span> <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">timeout</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">args</span> <span class="o">=</span> <span class="p">[...</span><span class="nx">arguments</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">          <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">      <span class="p">},</span> <span class="nx">wait</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">timeout</span><span class="p">)</span> <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">timeout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">args</span> <span class="o">=</span> <span class="p">[...</span><span class="nx">arguments</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span> <span class="nx">wait</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>是否立即先执行一次版：</p>
@@ -223,46 +223,46 @@ function debounce(fn, wait) { let timeout = null return function () { if(timeout
 </span></span></span><span class="line"><span class="cl"><span class="cm"> * @author: yk
 </span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
 </span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">debounce</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span> <span class="nx">time</span><span class="p">,</span> <span class="nx">immediate</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">timeout</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">timeout</span><span class="p">)</span> <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">timeout</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">immediate</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">timeout</span><span class="p">)</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nx">timeout</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">      <span class="p">},</span> <span class="nx">time</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">      <span class="p">},</span> <span class="nx">time</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">timeout</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">timeout</span><span class="p">)</span> <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">timeout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">immediate</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">timeout</span><span class="p">)</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">timeout</span> <span class="o">=</span> <span class="kc">null</span>
+</span></span><span class="line"><span class="cl">            <span class="p">},</span> <span class="nx">time</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">},</span> <span class="nx">time</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">};</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h2 id="节流" class="headerLink">
     <a href="#%e8%8a%82%e6%b5%81" class="header-mark"></a>节流</h2><p>事件高频触发，让事件根据设定的时间，按照一定的频率触发。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// timeout 版本
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">throttle</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span> <span class="nx">time</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">timeout</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">timeout</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="cm">/** 若是想先执行把 fn.apply 提到这里即可 */</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">timeout</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">timeout</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span> <span class="nx">time</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">timeout</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">timeout</span><span class="p">)</span> <span class="k">return</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/** 若是想先执行把 fn.apply 提到这里即可 */</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">timeout</span> <span class="o">=</span> <span class="kc">null</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">timeout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span> <span class="nx">time</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// 时间戳版本
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">throttle</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span> <span class="nx">time</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="cm">/** 若想先执行，把 prev 设为 0 即可 */</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">prev</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()</span> <span class="o">-</span> <span class="nx">prev</span> <span class="o">&gt;</span> <span class="nx">time</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">prev</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/** 若想先执行，把 prev 设为 0 即可 */</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">prev</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()</span> <span class="o">-</span> <span class="nx">prev</span> <span class="o">&gt;</span> <span class="nx">time</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">prev</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">};</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div></div>
 
@@ -294,8 +294,8 @@ function debounce(fn, wait) { let timeout = null return function () { if(timeout
         </section>
     </div>
 
-    <div class="post-nav print:tw-hidden"><a href="/%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E5%8E%9F%E7%90%86/" class="prev" rel="prev" title="常用手写原理"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>常用手写原理</a>
+    <div class="post-nav print:tw-hidden"><a href="/%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E5%8E%9F%E7%90%86/" class="prev" rel="prev" title="常用内置 API 的实现"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>常用内置 API 的实现</a>
             <a href="/curry%E5%92%8Ccompose/" class="next" rel="next" title="curry 和 compose">curry 和 compose<svg class="icon"
     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div>
 </div>

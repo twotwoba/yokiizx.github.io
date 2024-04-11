@@ -121,10 +121,10 @@ useCallbackconst cachedFn = useCallback(fn, dependencies)
 reference useMemo useCallback ]]></description>
 </item><item>
     <title>滑动窗口</title>
-    <link>http://localhost:1313/%E6%95%B0%E7%BB%84-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
+    <link>http://localhost:1313/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
     <pubDate>Wed, 21 Feb 2024 00:00:00 &#43;0000</pubDate><author>
         <name>EricYuan</name>
-    </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</guid>
+    </author><guid>http://localhost:1313/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</guid>
     <description><![CDATA[核心滑动窗口的核心就是维持一个 [i..j) 的区间窗口，在数据上游走，来获取到需要的信息，在数组,字符串等中的表现，往往如下：
 function slideWindow() { // 前后快慢双指针 let left = 0 let right = 0 /** 具体的条件逻辑根据实际问题实际处理，多做练习 */ while(slide condition) { window.push(s[left]) // s 为总数据（字符串、数组） right++ while(shrink condition) { window.shift(s[left]) left++ } } } 滑动窗口的算法时间复杂度为 O(n)，适用于处理大型数据集
 练一练 lc.3 无重复字符的最长子串/** * @param {string} s * @return {number} */ var lengthOfLongestSubstring = function (s) { let max = 0 let l = 0, r = 0 let window = {} while (r &lt; s.]]></description>

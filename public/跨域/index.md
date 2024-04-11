@@ -94,7 +94,7 @@ server {
     server_name  www.target.com;
 
     location / {
-        proxy_pass   http://www.turntoweb.com:8080;  # 反向代理 目标服务器
+        proxy_pass   http://www.turntoweb.com:8080/;  # 反向代理 目标服务器
         proxy_cookie_domain www.turntoweb.com www.target.com; # 修改cookie里域名
         index  index.html index.htm;
 

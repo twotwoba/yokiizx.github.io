@@ -2,6 +2,7 @@
 title: 'XSS和CSRF'
 date: 2022-10-06T23:29:05+08:00
 tags: [http, browser]
+draft: true
 ---
 
 XSS 和 CSRF 问题是很基础、传统的安全问题，本文不做安全拓展，仅学习这两个知识点，对安全感兴趣的大佬，各种“帽子”书看起来 😄。

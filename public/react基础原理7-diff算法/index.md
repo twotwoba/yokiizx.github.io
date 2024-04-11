@@ -1,5 +1,7 @@
 # React基础原理7 - Diff算法
 
+t: true
+---
 
 在 render 阶段的 beginWork 如果是 update 最终走入 `reconcileChildFibers`，这个方法就是通过 diff 算法创建新 Fiber 并加上 flags，并尝试复用 currentFiber。
 

@@ -49,7 +49,7 @@ class TrieNode { constructor(pass = 0, end = 0) { this.pass = pass // 通过下�
     </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/</guid>
     <description><![CDATA[前缀和数组 是应对数组区间被频繁访问求和查询
 差分数组 是为了应对区间内元素的频繁加减修改
-概念const diff = [nums[0]] for (let i = 1; i &lt; arr.length; ++i) { diff[i] = nums[i] - nums[i - 1] // 构建差分数组 } 对区间 [i..j] 进行加减 val 操作只需要对差分数组 diff[i] += val, diff[j+1] -= val 进行更新，然后依据更新后的差分数组还原出最终数组即可：
+概念const diff = [nums[0]] for (let i = 1; i &lt; arr.length; ++i) { diff[i] = nums[i] - nums[i - 1] // 构建差分数组 } 对区间 [i:j] 进行加减 val 操作只需要对差分数组 diff[i] += val, diff[j+1] -= val 进行更新，然后依据更新后的差分数组还原出最终数组即可：
 nums[0] = diff[0] for (let i = 1; i &lt; diff[i]; ++i) { nums[i] = diff[i] + nums[i - 1] } 原理也很简单：
 diff[i] += val，等于对 [i...] 之后的所有元素都加了 val diff[j+1] -=val，等于对 [j+1.]]></description>
 </item><item>
@@ -59,8 +59,8 @@ diff[i] += val，等于对 [i...] 之后的所有元素都加了 val diff[j+1] -
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%89%8D%E7%BC%80%E5%92%8C%E6%95%B0%E7%BB%84/</guid>
     <description><![CDATA[概念应用场景：在原始数组不会被修改的情况下，快速、频繁查询某个区间的累加和。通常涉及到连续子数组和相关问题时，就可以考虑使用前缀和技巧了。
-核心思路：开辟新数组 preSum[i] 来存储原数组 nums[0..i-1] 的累加和，preSum[0] = 0。这样，当求原数组区间和就比较容易了，区间 [i..j] 的和等于 preSum[j+1] - preSum[i] 的结果值。
-const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件 for (let i = 0; i &lt; arr.length; ++i) { preSum[i + 1] = preSum[i] + nums[i] // 构建前缀和数组 } // 查询 sum([i..j]) preSum[j + 1] - preSum[i] 构造：lc.303 区域和检索-数组不可变/** * @param {number[]} nums */ var NumArray = function (nums) { this.preSum = [0] // preSum 首位为0 便于计算 for (let i = 1; i &lt;= nums.]]></description>
+核心思路：开辟新数组 preSum[i] 来存储原数组 nums[0..i-1] 的累加和，preSum[0] = 0。这样，当求原数组区间和就比较容易了，区间 [i:j] 的和等于 preSum[j+1] - preSum[i] 的结果值。
+const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件 for (let i = 0; i &lt; arr.length; ++i) { preSum[i + 1] = preSum[i] + nums[i] // 构建前缀和数组 } // 查询 sum([i:j]) preSum[j + 1] - preSum[i] 构造：lc.303 区域和检索-数组不可变/** * @param {number[]} nums */ var NumArray = function (nums) { this.preSum = [0] // preSum 首位为0 便于计算 for (let i = 1; i &lt;= nums.]]></description>
 </item><item>
     <title>单调队列</title>
     <link>http://localhost:1313/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/</link>
