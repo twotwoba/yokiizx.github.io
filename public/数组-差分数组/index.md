@@ -109,13 +109,14 @@ var corpFlightBookings = function (bookings, n) {
     const diff = Array(n + 1).fill(0)
     for (const [from, to, seat] of bookings) {
         diff[from] += seat
-        if (to + 1 < diff.length) diff[to + 1] -= seat // 确保 diff 的容量大小 不要越界影响后续还原时的计算
+        // if (to + 1 < diff.length)  // 题目保证了不会越界，因此也可以不写
+        diff[to + 1] -= seat // to + 1 的时候才下去
     }
     const ans = [diff[0]]
     for (let i = 1; i < diff.length; ++i) {
         ans[i] = ans[i - 1] + diff[i]
     }
-    return ans.slice(1)
+    return ans.slice(1) // 题目是 [1:n]
 }
 ```
 

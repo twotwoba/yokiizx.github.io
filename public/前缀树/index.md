@@ -42,7 +42,7 @@ class Trie {
         let p = this.root
         for (const c of str) {
             if (!p.next[c]) return 0
-            if (!p.next[c].pass) return 0
+            // if (!p.next[c].pass) return 0 // 根据实际情况看是否需要做什么额外操作
             p = p.next[c]
         }
         return p.end
@@ -52,7 +52,7 @@ class Trie {
         let p = this.root
         for (const c of prefix) {
             if (!p.next[c]) return 0
-            if (!p.next[c].pass) return 0
+            // if (!p.next[c].pass) return 0 // 根据实际情况看是否需要做什么额外操作
             p = p.next[c]
         }
         return p.pass
@@ -81,10 +81,11 @@ class Trie {
 /**
  * 自定义前缀树节点
  */
+
 class TrieNode {
-    constructor(pass = 0, end = 0) {
-        this.pass = pass
-        this.end = end
+    constructor() {
+        this.pass = 0
+        this.end = 0
         this.next = {}
     }
 }
@@ -105,7 +106,7 @@ Trie.prototype.insert = function (word) {
         p = p.next[c]
         p.pass++
     }
-    p.end++ // p 走到最后一个节点了
+    p.end++
 }
 
 /**
@@ -116,7 +117,6 @@ Trie.prototype.search = function (word) {
     let p = this.root
     for (const c of word) {
         if (!p.next[c]) return false
-        if (!p.next[c].pass) return false
         p = p.next[c]
     }
     return p.end > 0
@@ -130,7 +130,6 @@ Trie.prototype.startsWith = function (prefix) {
     let p = this.root
     for (const c of prefix) {
         if (!p.next[c]) return false
-        if (!p.next[c].pass) return false
         p = p.next[c]
     }
     return true
@@ -179,6 +178,7 @@ WordDictionary.prototype.addWord = function (word) {
  * @param {string} word
  * @return {boolean}
  */
+    // 注意第二个参数 是后来自己写的时候添加的，因为要寻找 . 之后的
 WordDictionary.prototype.search = function (word, newRoot) {
     let p = this.root
     if (newRoot) p = newRoot

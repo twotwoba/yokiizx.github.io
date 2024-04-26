@@ -42,26 +42,6 @@ class TrieNode { constructor(pass = 0, end = 0) { this.pass = pass // 通过下�
 // 邻接表，当然也可以用 hashmap 来实现 const graph: Array&lt;number[]&gt; = [[1, 3, 4], [2, 3, 4], [3], [4], []] // 邻接矩阵，当然元素不仅仅只能为 Boolean 值 const graph: Array&lt;boolean[]&gt; = [ [false, true, false, true, true], [false, false, true, true, true], [false, false, false, true, false], [false, false, false, false, true], [false, false, false, false, false] ] 邻接表：占用空间少；判断两个节点是否相邻，需要遍历所有相邻的节点 邻接矩阵：存在很多空洞，占用空间大；判断两个节点是否相邻简单，获取 matrix[i][j] 的值即可 图的遍历图的遍历，需要注意的是图可能有环：
 必须要有 visited 变量来防止走入死循环 遍历过程中可以使用 onPath 变量判断当时的路径是否成环（类比贪吃蛇蛇身） /** visited 类似贪吃蛇走过的所有路径；onPath 类似设蛇身 */ // 记录所有遍历过的节点 const visited = [] // 记录从起点到当前节点的路径 const onPath = [] /* 图遍历框架 DFS */ function traverse(graph, s) { if (visited[s]) return // 经过节点 s，标记为已遍历 visited[s] = true // 做选择：标记节点 s 在路径上 onPath[s] = true for (const neighbor of graph.]]></description>
 </item><item>
-    <title>数组-差(cha)分数组</title>
-    <link>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/</link>
-    <pubDate>Sun, 19 Feb 2023 16:02:32 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/</guid>
-    <description><![CDATA[前缀和数组 是应对数组区间被频繁访问求和查询
-差分数组 是为了应对区间内元素的频繁加减修改
-概念const diff = [nums[0]] for (let i = 1; i &lt; arr.length; ++i) { diff[i] = nums[i] - nums[i - 1] // 构建差分数组 } 对区间 [i:j] 进行加减 val 操作只需要对差分数组 diff[i] += val, diff[j+1] -= val 进行更新，然后依据更新后的差分数组还原出最终数组即可：
-nums[0] = diff[0] for (let i = 1; i &lt; diff[i]; ++i) { nums[i] = diff[i] + nums[i - 1] } 原理也很简单：
-diff[i] += val，等于对 [i...] 之后的所有元素都加了 val diff[j+1] -=val，等于对 [j+1.]]></description>
-</item><item>
-    <title>数组-前缀和数组</title>
-    <link>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%89%8D%E7%BC%80%E5%92%8C%E6%95%B0%E7%BB%84/</link>
-    <pubDate>Sun, 19 Feb 2023 15:57:07 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/%E6%95%B0%E7%BB%84-%E5%89%8D%E7%BC%80%E5%92%8C%E6%95%B0%E7%BB%84/</guid>
-    <description><![CDATA[概念应用场景：在原始数组不会被修改的情况下，快速、频繁查询某个区间的累加和。通常涉及到连续子数组和相关问题时，就可以考虑使用前缀和技巧了。
-核心思路：开辟新数组 preSum[i] 来存储原数组 nums[0..i-1] 的累加和，preSum[0] = 0。这样，当求原数组区间和就比较容易了，区间 [i:j] 的和等于 preSum[j+1] - preSum[i] 的结果值。
-const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件 for (let i = 0; i &lt; arr.length; ++i) { preSum[i + 1] = preSum[i] + nums[i] // 构建前缀和数组 } // 查询 sum([i:j]) preSum[j + 1] - preSum[i] 构造：lc.303 区域和检索-数组不可变/** * @param {number[]} nums */ var NumArray = function (nums) { this.preSum = [0] // preSum 首位为0 便于计算 for (let i = 1; i &lt;= nums.]]></description>
-</item><item>
     <title>单调队列</title>
     <link>http://localhost:1313/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/</link>
     <pubDate>Tue, 31 Jan 2023 09:15:05 &#43;0800</pubDate><author>
@@ -80,10 +60,10 @@ const preSum = [0] // 一般可使用虚拟 0 节点，来避免边界条件 for
     </author><guid>http://localhost:1313/%E5%8D%95%E8%B0%83%E6%A0%88/</guid>
     <description><![CDATA[概念及实现栈，同端进同端出，具有先进后出的特性，当栈内所有元素具有单调性(递增/递减)就是一个单调栈了。
 自行干预单调栈的实现：当一个元素入栈时破坏了单调性，那么就 pop 栈顶（可能需要迭代），直到能使得新加入的元素保持栈的单调性。
-for (const item of arr) { if(stack.length &amp;&amp; item (&gt;= | &lt;=) stack[stack.length - 1]) { stack.pop() } stack.push(item) } 栈存储的信息，可以是索引、元素，根据实际情况进行处理 灵活控制遍历顺序来简化算法
+for (const item of arr) { while(stack.length &amp;&amp; item (&gt;= | &lt;=) stack[stack.length - 1]) { stack.pop() } stack.push(item) } 栈存储的信息，可以是索引、元素，根据实际情况进行处理 灵活控制遍历顺序来简化算法
 场景单调栈的应用场景比较单一，只处理一类典型的问题：比如 「下一个更/最&hellip;」 之类的问题，另一类是接雨水，柱状图中的最大矩形这种变形问题。
 练一练 lc.402 移掉 K 位数字分析：为了让数字最小，从左往右遍历，左侧为高位，所以高位越小越好，那么从左往右遍历的过程中，当索引位置的元素 index &gt; index + 1，时，把 index 位置的数字删掉即可。
-/** * @param {string} num * @param {number} k * @return {string} */ var removeKdigits = function (num, k) { const nums = num.split(&#39;&#39;) const monoStack = [] for (const item of nums) { while (monoStack.]]></description>
+/** * @param {string} num * @param {number} k * @return {string} */ var removeKdigits = function (num, k) { const nums = num.split(&#39;&#39;) const stack = [] for (const el of num) { while (stack.]]></description>
 </item><item>
     <title>缓存淘汰算法 -- LRU</title>
     <link>http://localhost:1313/lru/</link>
@@ -104,6 +84,6 @@ class LRU { constructor(size) { this.cache = new Map() this.size = size } // 新
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/</guid>
     <description><![CDATA[JavaScript 中没有内置优先队列这个数据结构，需要自己来实现一下~👻
-class PriorityQueue { constructor(data, comp) { this.data = data this.comp = comp for (let i = data.length &gt;&gt; 1; i &gt;= 0; --i) { this.down(i) } } down(i) { let left = 2 * i + 1 while (left &lt; this.size()) { let min = left + 1 &amp;&amp; this.comp(this.data[left + 1], this.data[left]) ? left + 1 : left // 细节，left+1 在前 min = this.comp(this.data[i], this.data[min]) ? i : min if (min === i) { break } this.]]></description>
+class PriorityQueue { constructor(data, cmp) { this.data = data this.cmp = cmp for (let i = data.length &gt;&gt; 1; i &gt;= 0; --i) { this.down(i) } } down(i) { let left = 2 * i + 1 while (left &lt; this.data.length) { let temp if (left + 1) { temp = this.cmp(this.data[left + 1], this.data[i]) ? left + 1 : i } temp = this.cmp(this.data[temp], this.data[left]) ? temp : left if (temp === i) { break } this.]]></description>
 </item></channel>
 </rss>

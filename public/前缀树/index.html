@@ -38,7 +38,7 @@ class TrieNode { constructor(pass = 0, end = 0) { this.pass = pass // 通过下�
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http://localhost:1313/%E5%89%8D%E7%BC%80%E6%A0%91/"
-        },"genre": "posts","wordcount":  972 ,
+        },"genre": "posts","wordcount":  967 ,
         "url": "http://localhost:1313/%E5%89%8D%E7%BC%80%E6%A0%91/","datePublished": "2024-02-13T17:54:23+08:00","dateModified": "2024-02-28T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -185,7 +185,7 @@ class TrieNode { constructor(pass = 0, end = 0) { this.pass = pass // 通过下�
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/algorithm/"><i class="far fa-folder fa-fw"></i>Algorithm</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/data-structure/"><i class="far fa-list-alt fa-fw"></i>Data Structure</a></span><span id="busuanzi_container_page_pv">&nbsp;
                         <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
             </div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2024-02-13">2024-02-13</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2024-02-28">2024-02-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 972 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2024-02-13">2024-02-13</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2024-02-28">2024-02-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 967 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -198,8 +198,6 @@ class TrieNode { constructor(pass = 0, end = 0) { this.pass = pass // 通过下�
                                                     <li><a href="/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</a></li>
                                                     <li><a href="/%E9%93%BE%E8%A1%A8/">链表</a></li>
                                                     <li><a href="/%E5%9B%BE/">图</a></li>
-                                                    <li><a href="/%E6%95%B0%E7%BB%84-%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/">数组-差(cha)分数组</a></li>
-                                                    <li><a href="/%E6%95%B0%E7%BB%84-%E5%89%8D%E7%BC%80%E5%92%8C%E6%95%B0%E7%BB%84/">数组-前缀和数组</a></li>
                                                     <li><a href="/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/">单调队列</a></li>
                                                     <li><a href="/%E5%8D%95%E8%B0%83%E6%A0%88/">单调栈</a></li>
                                                     <li><a href="/lru/">缓存淘汰算法 -- LRU</a></li>
@@ -260,8 +258,8 @@ class TrieNode { constructor(pass = 0, end = 0) { this.pass = pass // 通过下�
 </span></span><span class="line"><span class="cl">        <span class="kd">let</span> <span class="nx">p</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">root</span>
 </span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">c</span> <span class="k">of</span> <span class="nx">str</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">p</span><span class="p">.</span><span class="nx">next</span><span class="p">[</span><span class="nx">c</span><span class="p">])</span> <span class="k">return</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">p</span><span class="p">.</span><span class="nx">next</span><span class="p">[</span><span class="nx">c</span><span class="p">].</span><span class="nx">pass</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">            <span class="nx">p</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">next</span><span class="p">[</span><span class="nx">c</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// if (!p.next[c].pass) return 0 // 根据实际情况看是否需要做什么额外操作
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nx">p</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">next</span><span class="p">[</span><span class="nx">c</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">end</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
@@ -270,8 +268,8 @@ class TrieNode { constructor(pass = 0, end = 0) { this.pass = pass // 通过下�
 </span></span><span class="line"><span class="cl">        <span class="kd">let</span> <span class="nx">p</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">root</span>
 </span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">c</span> <span class="k">of</span> <span class="nx">prefix</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">p</span><span class="p">.</span><span class="nx">next</span><span class="p">[</span><span class="nx">c</span><span class="p">])</span> <span class="k">return</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">p</span><span class="p">.</span><span class="nx">next</span><span class="p">[</span><span class="nx">c</span><span class="p">].</span><span class="nx">pass</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">            <span class="nx">p</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">next</span><span class="p">[</span><span class="nx">c</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// if (!p.next[c].pass) return 0 // 根据实际情况看是否需要做什么额外操作
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nx">p</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">next</span><span class="p">[</span><span class="nx">c</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">pass</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
@@ -295,10 +293,11 @@ class TrieNode { constructor(pass = 0, end = 0) { this.pass = pass // 通过下�
     <a href="#lc208-%e5%ae%9e%e7%8e%b0%e5%89%8d%e7%bc%80%e6%a0%91" class="header-mark"></a>lc.208 实现前缀树</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="cm">/**
 </span></span></span><span class="line"><span class="cl"><span class="cm"> * 自定义前缀树节点
 </span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">TrieNode</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">constructor</span><span class="p">(</span><span class="nx">pass</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">end</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="nx">pass</span> <span class="o">=</span> <span class="nx">pass</span>
-</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="nx">end</span> <span class="o">=</span> <span class="nx">end</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="nx">pass</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="nx">end</span> <span class="o">=</span> <span class="mi">0</span>
 </span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="nx">next</span> <span class="o">=</span> <span class="p">{}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -319,8 +318,8 @@ class TrieNode { constructor(pass = 0, end = 0) { this.pass = pass // 通过下�
 </span></span><span class="line"><span class="cl">        <span class="nx">p</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">next</span><span class="p">[</span><span class="nx">c</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">        <span class="nx">p</span><span class="p">.</span><span class="nx">pass</span><span class="o">++</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">p</span><span class="p">.</span><span class="nx">end</span><span class="o">++</span> <span class="c1">// p 走到最后一个节点了
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">p</span><span class="p">.</span><span class="nx">end</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="cm">/**
 </span></span></span><span class="line"><span class="cl"><span class="cm"> * @param {string} word
@@ -330,7 +329,6 @@ class TrieNode { constructor(pass = 0, end = 0) { this.pass = pass // 通过下�
 </span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">p</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">root</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">c</span> <span class="k">of</span> <span class="nx">word</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">p</span><span class="p">.</span><span class="nx">next</span><span class="p">[</span><span class="nx">c</span><span class="p">])</span> <span class="k">return</span> <span class="kc">false</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">p</span><span class="p">.</span><span class="nx">next</span><span class="p">[</span><span class="nx">c</span><span class="p">].</span><span class="nx">pass</span><span class="p">)</span> <span class="k">return</span> <span class="kc">false</span>
 </span></span><span class="line"><span class="cl">        <span class="nx">p</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">next</span><span class="p">[</span><span class="nx">c</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">end</span> <span class="o">&gt;</span> <span class="mi">0</span>
@@ -344,7 +342,6 @@ class TrieNode { constructor(pass = 0, end = 0) { this.pass = pass // 通过下�
 </span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">p</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">root</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">c</span> <span class="k">of</span> <span class="nx">prefix</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">p</span><span class="p">.</span><span class="nx">next</span><span class="p">[</span><span class="nx">c</span><span class="p">])</span> <span class="k">return</span> <span class="kc">false</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">p</span><span class="p">.</span><span class="nx">next</span><span class="p">[</span><span class="nx">c</span><span class="p">].</span><span class="nx">pass</span><span class="p">)</span> <span class="k">return</span> <span class="kc">false</span>
 </span></span><span class="line"><span class="cl">        <span class="nx">p</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">next</span><span class="p">[</span><span class="nx">c</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">true</span>
@@ -389,7 +386,8 @@ class TrieNode { constructor(pass = 0, end = 0) { this.pass = pass // 通过下�
 </span></span></span><span class="line"><span class="cl"><span class="cm"> * @param {string} word
 </span></span></span><span class="line"><span class="cl"><span class="cm"> * @return {boolean}
 </span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
-</span></span><span class="line"><span class="cl"><span class="nx">WordDictionary</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">search</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">word</span><span class="p">,</span> <span class="nx">newRoot</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 注意第二个参数 是后来自己写的时候添加的，因为要寻找 . 之后的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">WordDictionary</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">search</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">word</span><span class="p">,</span> <span class="nx">newRoot</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">p</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">root</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">newRoot</span><span class="p">)</span> <span class="nx">p</span> <span class="o">=</span> <span class="nx">newRoot</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">word</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
