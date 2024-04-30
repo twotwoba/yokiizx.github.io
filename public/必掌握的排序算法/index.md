@@ -277,7 +277,7 @@ public int merge(int[] arr, int left, int mid, int right) {
 
 ```java
 /**
- * 荷兰国旗问题，可以想象两个游标卡尺两端往中间挤；
+ * 荷兰国旗问题，可以想象游标卡尺的两端往中间挤；
  *
  * @param arr
  * @param target

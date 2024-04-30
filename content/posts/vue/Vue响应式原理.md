@@ -1,7 +1,9 @@
 ---
 title: 'Vue2响应式原理'
 date: 2022-10-26T09:58:34+08:00
-tags: [Vue]
+series: []
+categories: [Vue]
+weight:
 ---
 
 ![](https://cdn.jsdelivr.net/gh/yokiizx/picgo@main/img/202210261654753.png)
