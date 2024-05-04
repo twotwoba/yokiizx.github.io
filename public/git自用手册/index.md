@@ -5,7 +5,7 @@
 
 ---
 
-我知道有很多人在使用 SourceTree 之类的图形界面进行版本管理，但是从入行就习惯使用命令行和喜欢简约风的我还是喜欢在 terminal 内敲命令行来进行 git 的相关操作，本文把这几年来常用的命令和经验分享一下。
+我知道有很多人在使用 SourceTree 之类的图形界面进行版本管理，但是从入行就习惯使用命令行和喜欢简约风的我还是喜欢在 terminal 内敲命令来进行 git 的相关操作，本文把这几年来常用的命令和经验分享一下。
 
 鉴于是老生常谈的东西了，分为老手和新手两块。
 
@@ -16,12 +16,14 @@
 ```sh
 # 普通流程
 git config --global alias.g git
-# 只 clone 对应分支, git cloneb [br] [url], 对于 react 之类的大仓库，就很舒服~
+# 只 clone 对应分支, g cloneb [br] [url], 对于 react 之类的大仓库，就很舒服~
 git config --global alias.cloneb 'clone --single-branch --branch'
 git config --global alias.ad 'add -A'
 git config --global alias.cm 'commit -m'
 git config --global alias.ps push
+git config --global alias.pso 'push origin'
 git config --global alias.pl pull
+git config --global alias.plo 'pull origin'
 # 修改最后一次commit（会变更commitId）
 git config --global alias.cam 'commit --amend -m'
 # 追加修改，不加新commit
@@ -31,26 +33,24 @@ git config --global alias.ri 'rebase -i'
 
 # 分支相关
 git config --global alias.br branch
-git config --global alias.rename 'branch --move' # g rename oldname newname
+git config --global alias.rn 'branch --move' # g rn oldname newname
 git config --global alias.ck checkout # 常用命令 g ck -, 快速返回上一个分支
 git config --global alias.cb 'checkout -b'
 git config --global alias.cp cherry-pick # g cp [commit/brname] 如果是brname则是把该分支最新commit合并
 # cherry-pick 可以与 reflog (查看HEAD指针的行走轨迹,包括因为reset被移出的commit) 配合，来找回被删除的 commit
 git config --global alias.db 'branch -d'
 git config --global alias.fdb 'branch -D' # 强制删除
-# 删除远程 g drb brname; 也可以推送一个空本地分支: g ps origin :brname
+# 删除远程 g drb brname; 也可以推送一个空本地分支: g po :brname
 git config --global alias.drb 'push origin --delete'
 
 # tag 相关 g tag [tname]
-git config --global alias.pt 'push origin' # g pt [tag]
-git config --global alias.pat 'push origin --tags'
+# 推送某个 tag: g po [tag]
+git config --global alias.psot 'push origin --tags'
 git config --global alias.dt 'tag -d'
-git config --global alias.drt 'push origin --delete' # 也可以推送空tag g ps origin :refs/tags/[version]
+git config --global alias.drt 'push origin --delete' # 也可以推送空tag g po :refs/tags/[version]
 
 git config --global alias.st status
 git config --global alias.ss 'status -s'
-git config --global alias.res restore
-git config --global alias.rss 'restore --staged'
 
 # 查看配置
 git config --global alias.cl 'config --list'
@@ -63,6 +63,10 @@ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Crese
 git config --global alias.find "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --grep"
 # 根据 commit 用户查找 commit
 git config --global alias.findby "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author"
+
+# 下面两个命令倒是不常用，一般用 vscode 里的可视化操作
+git config --global alias.res restore
+git config --global alias.rss 'restore --staged'
 ```
 
 命令简化完后，需要配置下个人信息，我个人习惯是公司的项目都单独配置，全局给自己用。
@@ -123,8 +127,9 @@ git restore --staged [filename]
 ### 处理 fatal: refusing to merge unrelated histories
 
 ```sh
-g pl origin develop --allow-unrelated-histories
+g plo develop --allow-unrelated-histories
 ```
+
 ---
 
 ## 新手概念
@@ -133,16 +138,16 @@ g pl origin develop --allow-unrelated-histories
 
 git 目录下的所有文件一共有四种状态：
 
-- untracked (就是新增但是未 add 的文件)
-- unmodified
-- unstaged
-- staged
+-   untracked (就是新增但是未 add 的文件)
+-   unmodified
+-   unstaged
+-   staged
 
 本地三个 git 分区：
 
-- 工作区：存放着`untracked`、`unmodified`、`unstaged`的文件
-- 暂存区：当工作区文件被`git add` 后加入，文件状态为 `unstaged`
-- 仓库区：当暂存区文件被`commit` 后加入
+-   工作区：存放着`untracked`、`unmodified`、`unstaged`的文件
+-   暂存区：当工作区文件被`git add` 后加入，文件状态为 `unstaged`
+-   仓库区：当暂存区文件被`commit` 后加入
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/017fb508b89d45a88c33383cdc4681eb~tplv-k3u1fbpfcp-zoom-1.image)
 
@@ -154,8 +159,8 @@ HEAD 是特殊的分支指针，指向的是当前所在分支。这里得说一
 
 长话短说：
 
-- HEAD^^^ 等价于 HEAD~3 表示父父父提交
-- HEAD^3 表示的是父提交的第三个提交，即合并进来的其他提交
+-   HEAD^^^ 等价于 HEAD~3 表示父父父提交
+-   HEAD^3 表示的是父提交的第三个提交，即合并进来的其他提交
 
 ## 提交规范
 
@@ -186,11 +191,11 @@ export LESSHARESET=utf-8
 
 ### 补充
 
-- [Git Tools - Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
-- [Git submodule 子模块的管理和使用](https://www.jianshu.com/p/9000cd49822c)
+-   [Git Tools - Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
+-   [Git submodule 子模块的管理和使用](https://www.jianshu.com/p/9000cd49822c)
 
 ## 参考
 
-- [Pro Git 2nd Edition](https://git-scm.com)
-- [“纸上谈兵”之 Git 原理](https://mp.weixin.qq.com/s/FSBEM2GqhpVJ6yw9FkxnGA)
+-   [Pro Git 2nd Edition](https://git-scm.com)
+-   [“纸上谈兵”之 Git 原理](https://mp.weixin.qq.com/s/FSBEM2GqhpVJ6yw9FkxnGA)
 

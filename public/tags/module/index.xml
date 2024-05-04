@@ -14,8 +14,11 @@
 module 就是当前模块，通过它的属性 exports 对外暴露变量和方法，通过 require(path/模块名) 来引入。
 CJS 输出的是值的拷贝。
 module.exports：
+js
 // node 对 js 文件编译后添加了呃顶层变量 (function(exports,require,module,__filename,__dirname) { // 文件模块 }) // module.exports最终返给了调用方 require 模块加载一次就会被缓存，后续再加载就是加载的缓存。也就是说，一旦输出一个值，模块内部的变化就影响不到这个值
+js
 // main.js const {a, aPlusOne} = require(&#39;./b&#39;) // b 中 a = 100 console.log(a); // 100 aPlusOne(); console.log(a); // 100 require：
-// id 为路径标识符 function require(id) { /* 查找 Module 上有没有已经加载的 js 对象*/ const cachedModule = Module._cache[id] /* 如果已经加载了那么直接取走缓存的 exports 对象 */ if(cachedModule){ return cachedModule.exports } /* 创建当前模块的 module */ const module = { exports: {} ,loaded: false , .]]></description>
+js
+// id 为路径标识符 function require(id) { /* 查找 Module 上有没有已经加载的 js 对象*/ const cachedModule = Module._cache[id] /* 如果已经加载了那么直接取走缓存的 exports 对象 */ if(cachedModule){ return cachedModule.]]></description>
 </item></channel>
 </rss>

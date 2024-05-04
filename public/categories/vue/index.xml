@@ -10,7 +10,8 @@
     <pubDate>Tue, 30 Apr 2024 00:00:00 &#43;0000</pubDate><author>
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/vue%E6%BA%90%E7%A0%81%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BE%8E%E5%AD%A6/</guid>
-    <description><![CDATA[ 为什么能通过 this.xxx 就能访问到对应的 methods 和 datafunction test { this.name = &#39;hello world&#39; } ]]></description>
+    <description><![CDATA[ 为什么能通过 this.xxx 就能访问到对应的 methods 和 data js
+// test function sayHello() {} ]]></description>
 </item><item>
     <title>Vue2响应式原理</title>
     <link>http://localhost:1313/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/</link>
@@ -25,6 +26,7 @@ vue 监听不到 data 中的对象属性的增加和删除，必须在初始化�
 Vue 也监听不到数组索引和长度的变化，因为当数据是数组时，Vue 会直接停止对数据属性的监测。至于为什么这么做，尤大的解释是：解决性能问题。
 解决方案：新增用 $set，删除用 splice，Vue 对数组的一些方法进行了重写来实现响应式。
 看下 defineReactive 源码：
+js
 // 以下所有代码为简化后的核心代码，详细的见vue2的gihub仓库哈 export function defineReactive(obj: object, key: string, val?: any, ...otehrs) { const dep = new Dep() Object.defineProperty(obj, key, { enumerable: true, configurable: true, get: function reactiveGetter() { if (Dep.]]></description>
 </item></channel>
 </rss>

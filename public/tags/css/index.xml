@@ -13,6 +13,7 @@
     <description><![CDATA[学习 BFC 时，知道利用 BFC 特性，可以制作两栏自适应布局，这里复习一下经典的三栏布局吧。
 圣杯布局重点就是利用 container 的 padding 来给杯壁空间。
 关键代码如下：
+html
 &lt;style&gt; /* padding 留下空位 */ .container { width: 100%; height: 100%; padding: 0 200px; box-sizing: border-box; } /* 中间设置100%宽度 */ .m { width: 100%; height: 100%; background-color: red; word-break: break-all; } /* 左右设置固定宽度 */ .l, .r { width: 200px; height: 100%; background-color: yellowgreen; } /* 脱离文档流 确定定位 */ .l, .r, .m { position: relative; float: left; } /* 左右偏移到占位 */ .]]></description>
 </item><item>
     <title>层叠上下文(SC)</title>
@@ -27,6 +28,7 @@
 特性 层叠上下文的层叠水平要比普通元素高 层叠上下文可以阻断元素的混合模式(isolation: isolate) 层叠上下文可以嵌套，内部层叠上下文及其所有子元素均受制于外部的层叠上下文 每个层叠上下文和兄弟元素独立，也就是当进行层叠变化或渲染的时候，只需要考虑后代元素 每个层叠上下文是自成体系的，当元素发生层叠的时候，整个元素被认为是在父层叠上下文的层叠顺序中 创建 根 html position 为 relative/absolute/fixed 且具有 z-index 为数值的元素 目前 chrome 单独 position: fixed 也会变成层叠上下文 父 display: flex/inline-flex，具有 z-index 为数值的子元素(注意是子元素) opacity 不为 1 transform 不为 none filter 不为 none 其他 css3 属性，见下方张鑫旭大佬的博客。 层叠等级同一个层叠上下文中，元素在垂直方向的显示顺序。
 所有元素都有层叠等级，普通元素的层叠等级由所在的层叠上下文决定，否则无意义。
 规则 谁大谁上：在同一个层叠上下文领域，层叠等级值大的那一个覆盖小的那一个。 后来居上：当元素的层叠等级一致、层叠顺序相同的时候，在 DOM 流中处于后面的元素会覆盖前面的元素。 一道经典题改动下方代码，让方框内显示红色。
+html
 &lt;!DOCTYPE html&gt; &lt;html lang=&#34;en&#34;&gt; &lt;head&gt; &lt;meta charset=&#34;UTF-8&#34; /&gt; &lt;meta http-equiv=&#34;X-UA-Compatible&#34; content=&#34;IE=edge&#34; /&gt; &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.]]></description>
 </item><item>
     <title>块级格式化上下文(BFC)</title>
@@ -50,8 +52,9 @@ BFC 特性 同一个 BFC 内的元素 上下 margin 会发生重叠 BFC 元素�
     <description><![CDATA[flex 是 css 界的宠儿，基础的就不记录了，直接参考Flex 布局教程：语法篇
 主要记录下需要注意的地方。
 上下文影响 flex 会让元素变成 BFC 会让具有 z-index 且值不为 auto 的子元素成为 SC align-items 和 align-content align-items 针对 单行，作用于行内所有盒子的对齐行为 align-content 针对 多行，对于 flex-wrap: no-wrap 无效，作用于行的对齐行为 flex 的计算flex 能完美自适应大小，是因为有一套计算逻辑，学习一下。
+css
 /* grow shrink basis */ /* 1 1 0 */ flex: 1; /* 1 1 auto */ flex: auto; /* 0 0 auto */ flex: none; 涉及到计算的比较重要的属性是 flex-basis，表示分配空间之前，占据主轴的空间大小，auto 表示为元素本身的大小。 flex-basis 为百分比时，会忽略自身的 width 来计算空间。
 下面说下大致的计算过程：
-得到剩余空间 = 总空间 - 确定的空间 得到需要分配的数量 = flex-grow 为 1 的盒子数量 得到单位空间大小 = 剩余空间 / 分配数量 得到最终长度 = 单位空间 * 分配数量 + 原来的长度 &lt;div class=&#34;wrap&#34;&gt; &lt;div class=&#34;item-1&#34;&gt;&lt;/div&gt; &lt;div class=&#34;item-2&#34;&gt;&lt;/div&gt; &lt;div class=&#34;item-3&#34;&gt;&lt;/div&gt; &lt;/div&gt; &lt;style&gt; .]]></description>
+得到剩余空间 = 总空间 - 确定的空间 得到需要分配的数量 = flex-grow 为 1 的盒子数量 得到单位空间大小 = 剩余空间 / 分配数量 得到最终长度 = 单位空间 * 分配数量 + 原来的长度 html]]></description>
 </item></channel>
 </rss>

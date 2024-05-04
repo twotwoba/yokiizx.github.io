@@ -12,6 +12,7 @@
     </author><guid>http://localhost:1313/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F--%E8%A1%8C%E4%B8%BA%E5%9E%8B/</guid>
     <description><![CDATA[设计模式其实并不是多么高大尚的东西，都是码农届前辈积累下来的一些编程经验，在工作中可以说随处可见，作为前端开发者，学习这些&quot;套路&quot;很有必要，跟着 desing-patterns 再来回顾一下吧。
 行为型 职责链核心：使得多个对象都有机会处理请求，从而避免了请求发送者和接收者之间的耦合关系，将这些对象形成一条链，并沿着这条链传递请求，直到有一个对象能够处理该请求为止。
+TS
 abstract class Handler { nextHandler: Handler; setNextHandler(handler: Handler): Handler { this.nextHandler = handler; return handler; } handleRequest(request: string): string { if (this.nextHandler) { return this.nextHandler.handleRequest(request); } return null; } } class ConcreteHandler1 extends Handler { handleRequest(request: string): string { if (request === &#39;type1&#39;) { return &#39;Type 1 handled&#39;; } return super.handleRequest(request); } } class ConcreteHandler2 extends Handler { handleRequest(request: string): string { if (request === &#39;type2&#39;) { return &#39;Type 2 handled&#39;; } return super.]]></description>
 </item><item>
     <title>重学设计模式 -- 结构型</title>
@@ -22,6 +23,7 @@ abstract class Handler { nextHandler: Handler; setNextHandler(handler: Handler):
     <description><![CDATA[设计模式其实并不是多么高大尚的东西，都是码农届前辈积累下来的一些编程经验，在工作中可以说随处可见，作为前端开发者，学习这些&quot;套路&quot;很有必要，跟着 desing-patterns 再来回顾一下吧。
 结构型 适配器模式顾名思义，最简单的例子就是苹果笔记本 type-c 接口转 HDMI，这就是一种适配器模式，让不兼容的对象都够相互合作，这里的对象就是 mac 笔记本和外接显示器。
 往往我们会对接口使用这种模式。
+TS
 class Old { public request(): string { return &#39;old: the default behavior&#39;; } } class New { public request(): string { return &#39;.eetpadA eht fo roivaheb laicepS :wen&#39;; } } class Adapter extends Old { private adaptee: New; constructor(adaptee: New) { super(); this.adaptee = adaptee; } request(): string { const result = this.adaptee.request().split(&#39;&#39;).reverse().join(&#39;&#39;); return `Adapter: (TRANSLATED) ${result}`; } } // test const new1 = new New(); const adaptee = new Adapter(new1); console.]]></description>
 </item><item>
     <title>重学设计模式 -- 创建型</title>
@@ -34,6 +36,7 @@ class Old { public request(): string { return &#39;old: the default behavior&#39
 工厂方法模式一句话：父类工厂提供创建对象的方法，由子类去决定实例化什么样的对象。
 意义：可以在子类中重写工厂方法， 从而改变其创建「产品」的类型 注意：仅当「产品」具有共同的基类或者接口时， 子类才能返回不同类型的「产品」 工厂方法返回的对象被称作 “产品”
 想象一下 Audi 的工厂，一开始只生产 A3，每台车出厂前都要做一次最高时速测试。随着发展，后面又要生产 A4，A5&hellip;省略不了的步骤是 &ndash; 出厂前最高时速测试，很明显这是可以与 A3 共用测试车间，但同时又可以用不同的测试方案，这就可以利用起 「工厂方法」 模式了。
+TS
 /* ---------- 生产类 -- 提供 「抽象工厂方法」 ---------- */ abstract class Produce { /** * 抽象工厂方法 */ abstract produceAudi(): Car; /** * 重点是: 1. 一些业务逻辑是依赖于工厂方法返回的产品 * 2. 这些产品都有相同的业务逻辑 */ fastSpeed(): void { const car = this.produceAudi(); car.run(); } } /** * 实现具体工厂方法 */ class ProduceA3 extends Produce { produceAudi() { return new A3(); } } class ProduceA4 extends Produce { produceAudi() { return new A4(); } } /* ---------- 产品类 -- 具体对象的创建和业务逻辑的重写 ---------- */ type Model = &#39;A3&#39; | &#39;A4&#39; | &#39;A5&#39;; type Engine = &#39;EA888&#39; | &#39;EA777&#39; | &#39;EA666&#39;; interface Car { model: Model; engine: Engine; run: () =&gt; void; } class A3 implements Car { model: Model = &#39;A3&#39;; engine: Engine = &#39;EA666&#39;; run(): void { console.]]></description>
 </item></channel>
 </rss>

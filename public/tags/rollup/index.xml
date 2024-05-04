@@ -18,6 +18,7 @@
 rollup-plugin-serve
 rollup-plugin-less
 @rollup/plugin-json question：即使装了插件，这么导入 import pkg from './package.json' 也会报错，需要按照下面方式导入：
+JS
 import { readFileSync } from &#39;fs&#39; // now, read package.json like this: const pkg = JSON.parse(readFileSync(new URL(&#39;./package.json&#39;, import.meta.url), &#39;utf8&#39;)); @rollup/plugin-image
 @rollup/plugin-url
 @rollup/plugin-strip，移出 debugger 类的语句，如：console.log()

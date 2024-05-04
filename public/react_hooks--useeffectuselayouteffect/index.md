@@ -3,7 +3,7 @@
 
 ## useEffect
 
-`useEffect(() => { setup, dependencies?)`
+`useEffect(() => { setup }, dependencies?)`
 
 ### 执行时机
 

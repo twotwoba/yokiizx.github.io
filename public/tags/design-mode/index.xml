@@ -13,6 +13,7 @@
     <description><![CDATA[在前端领域，这两个设计模式，有着很多的应用，必须熟练掌握。
 观察者模式在 promsie A+ 实现时，我们初始化了两个数组 &ndash; onFulfilledCb 和 onRejectedCb，它们用来收集依赖，当 promise 注册了多个 then 且因为 promise 是可能进行时，就把 onFulfilled 函数加入 onFulfilledCb 中，当得到 resolve 的通知后，再去通知执行。
 这个过程其实就是一个简单的观察者模式。这里被观察者是: promise，观察者是: 两个队列里的回调函数，promise 的 resolve 通知回调执行。 两者的关系是通过 被观察者 建立起来的，被观察者有添加，删除和通知观察者的功能。
+js
 // 简单实现一下 class Subject { constructor() { this.subs = [] } addObserver(observer) { this.subs.push(observer) } removeObserver(observer) { const rmIndex = this.subs.findIndex((ob) =&gt; ob.id === observer.id ) &gt;&gt;&gt; 0 this.subs.splice(rmIndex,1) } notify(message) { this.subs.forEach(ob =&gt; ob.notified(message)) } } class Observer { constructor(id, name, subject) { this.]]></description>
 </item></channel>
 </rss>

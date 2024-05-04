@@ -4,14 +4,7 @@
         <link>http://localhost:1313/tags/</link>
         <description>Tags - 标签 - Hello World</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
-            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Tue, 10 Oct 2023 23:40:56 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/" rel="self" type="application/rss+xml" /><item>
-    <title>Bug</title>
-    <link>http://localhost:1313/tags/bug/</link>
-    <pubDate>Tue, 10 Oct 2023 23:40:56 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/tags/bug/</guid>
-    <description><![CDATA[]]></description>
-</item><item>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Thu, 30 Mar 2023 16:50:12 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/" rel="self" type="application/rss+xml" /><item>
     <title>Cli</title>
     <link>http://localhost:1313/tags/cli/</link>
     <pubDate>Thu, 30 Mar 2023 16:50:12 &#43;0800</pubDate><author>
@@ -73,6 +66,13 @@
     <pubDate>Thu, 01 Dec 2022 11:31:39 &#43;0800</pubDate><author>
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/tags/mac/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Shell</title>
+    <link>http://localhost:1313/tags/shell/</link>
+    <pubDate>Thu, 01 Dec 2022 11:31:39 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/tags/shell/</guid>
     <description><![CDATA[]]></description>
 </item></channel>
 </rss>

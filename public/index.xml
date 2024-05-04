@@ -14,9 +14,11 @@
     </author><guid>http://localhost:1313/mysql_1/</guid>
     <description><![CDATA[安装本人 m1 的 mac，下载地址，选择合适自己的版本下载安装。
 据说 mysql5.x 的版本比较稳定，比如 5.7，很多公司在用；那我现在的公司使用的是 8.x 的版本，而且有 arm 版。
-起停# 基本命令 sudo /usr/local/mysql/support-files/mysql.server start sudo /usr/local/mysql/support-files/mysql.server restart sudo /usr/local/mysql/support-files/mysql.server stop sudo /usr/local/mysql/support-files/mysql.server status # 查看状态 环境配置，简化命令:
-# .zshrc export MYSQL_HOME=/usr/local/mysql export PATH=$MYSQL_HOME/support-files:$MYSQL_HOME/bin:$PATH # 按需配置 sudo mysql.server start sudo mysql.server restart sudo mysql.server stop 登录# 登录 mysql [-h 主机] [-P 端口] -u 用户 -p 密码 # mysql 端口默认 3306 # 退出 exit 也可使用图形化软件进行连接，我选择了 DataGrip，当然也可以使用 navicat。
-Access denied for user &lsquo;root&rsquo;@&rsquo;localhost&rsquo;解决办法：]]></description>
+起停 shell
+# 基本命令 sudo /usr/local/mysql/support-files/mysql.server start sudo /usr/local/mysql/support-files/mysql.server restart sudo /usr/local/mysql/support-files/mysql.server stop sudo /usr/local/mysql/support-files/mysql.server status # 查看状态 环境配置，简化命令:
+shell
+# .zshrc export MYSQL_HOME=/usr/local/mysql export PATH=$MYSQL_HOME/support-files:$MYSQL_HOME/bin:$PATH # 按需配置 sudo mysql.server start sudo mysql.server restart sudo mysql.server stop 登录 shell
+# 登录 mysql [-h 主机] [-P 端口] -u 用户 -p 密码 # mysql 端口默认 3306 # 退出 exit 也可使用图形化软件进行连接，我选择了 DataGrip，当然也可以使用 navicat。]]></description>
 </item><item>
     <title>React hooks--useState&amp;useReducer</title>
     <link>http://localhost:1313/react_hooks--usestateusereducer/</link>
@@ -25,7 +27,9 @@ Access denied for user &lsquo;root&rsquo;@&rsquo;localhost&rsquo;解决办法：
     </author><guid>http://localhost:1313/react_hooks--usestateusereducer/</guid>
     <description><![CDATA[useStateReact hooks 的出现一大作用就是让函数具有了 state，进而才能全面的拥抱函数式编程。
 函数式编程的好处就是两个字：干净，进而可以很好的实现逻辑复用。
+tsx
 const [state, setState] = useState(initialState) 心智模型(重要)在函数组件中所有的状态在一次渲染中实际上都是不变的，是静态的，你所能看到的 setState 引起的渲染其实已经是下一次渲染了。理解这一点尤为重要，感谢 Dan 的文章讲解。
+tsx
 const [number, setNumber] = useState(0) const plus = () =&gt; { setNumber(number + 1) setNumber(number + 1) setNumber(number + 1) console.log(&#39;plus ---&#39;, number) // 输出仍然为 0, 就像一个快照 } useEffect(() =&gt; { console.log(&#39;effect ---&#39;, number) // 输出为 1，因为setNumber(number + 1) 的number在这次渲染流程中始终都是 0 !!! }, [number]) /* ---------- 如果依赖于前一次的状态那么应该使用函数式写法 ---------- */ const plus = () =&gt; { setNumber((prev) =&gt; prev + 1) // 更新函数 prev 准确的说是pending state setNumber((prev) =&gt; prev + 1) setNumber((prev) =&gt; prev + 1) console.]]></description>
 </item><item>
     <title>Mac上的高效软件与配置</title>
@@ -38,9 +42,12 @@ const [number, setNumber] = useState(0) const plus = () =&gt; { setNumber(number
 软件推荐 Homebrew官网
 懂得都懂，mac 的包管理器，可以直接去官网按照提示安装即可。
 安装完成后记得替换一下镜像源，推荐腾讯镜像源。
-# 替换brew.git cd &#34;$(brew --repo)&#34; git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/brew.git # 替换homebrew-core.git cd &#34;$(brew --repo)/Library/Taps/homebrew/homebrew-core&#34; git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/homebrew-core.git 如果没有 🪜，可以使用国内大神的脚本傻瓜式安装： # 按照提示操作下去即可 /bin/zsh -c &#34;$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)&#34; oh-my-zsh直接点击官网安装即可。
+sh
+# 替换brew.git cd &#34;$(brew --repo)&#34; git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/brew.git # 替换homebrew-core.git cd &#34;$(brew --repo)/Library/Taps/homebrew/homebrew-core&#34; git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/homebrew-core.git 如果没有 🪜，可以使用国内大神的脚本傻瓜式安装： sh
+# 按照提示操作下去即可 /bin/zsh -c &#34;$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)&#34; oh-my-zsh直接点击官网安装即可。
 ~/.zshrc 配置文件的部分配置：
-# zsh theme；default robbyrussell，prefer miloshadzic ZSH_THEME=&#34;miloshadzic&#34; # plugins plugins=( # 默认的,配置了很多别名 ~/.oh-my-zsh/plugins/git/git.plugin.zsh git # 语法高亮 # https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh zsh-syntax-highlighting # 输入命令的时候给出提示 # https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh zsh-autosuggestions ) # 让terminal标题干净 DISABLE_AUTO_TITLE=&#34;true&#34; 当VsCode终端出现git乱码问题，添加以下代码进 `~/.zshrc`： # solve git messy code in vscode terminal export LC_ALL=en_US.]]></description>
+sh
+# zsh theme；default robbyrussell，prefer miloshadzic ZSH_THEME=&#34;miloshadzic&#34; # plugins plugins=( # 默认的,配置了很多别名 ~/.oh-my-zsh/plugins/git/git.plugin.zsh git # 语法高亮 # https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh zsh-syntax-highlighting # 输入命令的时候给出提示 # https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh zsh-autosuggestions ) # 让terminal标题干净 DISABLE_AUTO_TITLE=&#34;true&#34; 当VsCode终端出现git乱码问题，添加以下代码进 `~/.]]></description>
 </item><item>
     <title>Mysql_2_索引和事务</title>
     <link>http://localhost:1313/mysql_2/</link>
@@ -48,22 +55,25 @@ const [number, setNumber] = useState(0) const plus = () =&gt; { setNumber(number
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/mysql_2/</guid>
     <description><![CDATA[索引 基础说起提高数据库性能，索引是最物美价廉的东西了。不用加内存，不用改程序，不用调 sql，查询速度就可能提高百倍干倍。
+sql
 # 给表的某列添加索引 create index index_name on tb_name (tb_col_name); 创建索引后，查询只对创建了索引的列有效，性能提高显著
 副作用：
-索引自身也是占用空间的，添加索引后，表占用空间会变大 对 DML (insert into, update, delete) 语句有效率影响 (因为需要重新构建索引) 原理 没有索引时：从头到尾全表扫描 创建索引后：存储引擎 innodb，B+树，牺牲空间换时间～ TODO 索引类型 主键索引，主键自动地为主索引 唯一索引，unique 修饰的列 普通索引，index 全文索引，FULLTEXT，一般不用 mysql 自带的全文索引 开发中考虑使用全文搜索 solr，或者 ElasticSearch（即 es） 使用# 查询是否有索引 SHOW INDEXES FROM tb_name # 创建或修改 create [unique] index index_name on tb_name (col_name [(length)]) alter table tb_name add index index_name (col_name) # 删除索引 drop index index_name on tb_name # 删除主键索引 alter table tb_name drop primary key 场景 一般频繁查询的字段应该创建索引 唯一性太差的字段不适合创建索引 更新非常频繁的字段不适合创建索引 不会出现在 where 子句中的字段不该创建索引 事务事务 用于保证数据的一致性，它由一组 dml 语句组成，该组的 dml 语句，要么全部成功，要么全部失败。&ndash; 比如转账，如果转出成功，转入失败，是很恐怖的事情。这就需要事务确保了。]]></description>
+索引自身也是占用空间的，添加索引后，表占用空间会变大 对 DML (insert into, update, delete) 语句有效率影响 (因为需要重新构建索引) 原理 没有索引时：从头到尾全表扫描 创建索引后：存储引擎 innodb，B+树，牺牲空间换时间～ TODO 索引类型 主键索引，主键自动地为主索引 唯一索引，unique 修饰的列 普通索引，index 全文索引，FULLTEXT，一般不用 mysql 自带的全文索引 开发中考虑使用全文搜索 solr，或者 ElasticSearch（即 es） 使用 sql
+# 查询是否有索引 SHOW INDEXES FROM tb_name # 创建或修改 create [unique] index index_name on tb_name (col_name [(length)]) alter table tb_name add index index_name (col_name) # 删除索引 drop index index_name on tb_name # 删除主键索引 alter table tb_name drop primary key 场景 一般频繁查询的字段应该创建索引 唯一性太差的字段不适合创建索引 更新非常频繁的字段不适合创建索引 不会出现在 where 子句中的字段不该创建索引 事务事务 用于保证数据的一致性，它由一组 dml 语句组成，该组的 dml 语句，要么全部成功，要么全部失败。&ndash; 比如转账，如果转出成功，转入失败，是很恐怖的事情。这就需要事务确保了。]]></description>
 </item><item>
     <title>React hooks--useEffect&amp;useLayoutEffect</title>
     <link>http://localhost:1313/react_hooks--useeffectuselayouteffect/</link>
     <pubDate>Tue, 25 Jul 2023 21:47:25 &#43;0800</pubDate><author>
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/react_hooks--useeffectuselayouteffect/</guid>
-    <description><![CDATA[useEffectuseEffect(() =&gt; { setup, dependencies?)
+    <description><![CDATA[useEffectuseEffect(() =&gt; { setup }, dependencies?)
 执行时机useEffect 是异步的：
 setup 函数在 DOM 被渲染后执行。如果 setup 返回了 cleanup 函数，会先执行 cleanup，再执行 setup。
 当组件挂载时都会先调用一次 setup，当组件被卸载时，也会调用一次 cleanup。
 值得注意，cleanup 里的状态是上一次的状态，即它被 return 那一刻的状态，因为它是函数嘛，类似快照。
 关于 dependencies：
 无，每次都会执行 setup []，只会执行一次 setup [dep1,dep2,&hellip;]，当有依赖项改变时（依据 Object.is），才会执行 setup 心智模型&ndash;每一次渲染的 everything 都是独立的一个看上去反常的例子：
+tsx
 // Note： 假设 count 为 0 useEffect( () =&gt; { const id = setInterval(() =&gt; { setCount(count + 1) // 只会触发一次 因为实际上这次渲染的count永远为 0，永远是0+1 }, 1000) return () =&gt; clearInterval(id) }, [] // Never re-runs ) 因此需要把 count 正确的设为依赖，才会触发再次渲染，但是这么做又会导致每次渲染都先 cleanup 再 setup，这显然不是高效的。可以使用类似于 setState 的函数式写法：setCount(c =&gt; c + 1) 即可。这么做是既告诉 React 依赖了哪个值，又不会再次触发 effect 。]]></description>
 </item><item>
     <title>Mysql_3_视图和管理</title>
@@ -74,12 +84,14 @@ setup 函数在 DOM 被渲染后执行。如果 setup 返回了 cleanup 函数�
     <description><![CDATA[视图 基本概念MySQL 中的视图是虚拟的表，是基于 SELECT 查询结果的表。视图包含行和列，就像一个真实的表一样，但实际上并不存储任何数据。视图的数据是从基本表中检索出来的，每当使用视图时，都会动态地检索基本表中的数据。
 视图的使用可以简化复杂的查询操作，隐藏基本表的复杂性，提供安全性和简化权限管理。视图还可以用于重用 SQL 查询，减少重复编写相同的查询语句。
 基本语法如下：
+sql
 # 创建 CREATE VIEW view_name AS SELECT 语句 # 删除 DROP VIEW view_name; # 改 alter vie view_name as select 语句 # 查 show create view view_name 创建视图后，可以像操作普通表一样使用视图。
 注意：修改基表和视图，会互相影响。
 最佳实践 安全：一些数据表的重要信息，有些字段保密，不能让用户直接看到，就可以创建视图只保留部分字段。 性能：关系数据库的数据通常会分表存储，使用外键建立这些表之间的关系。这样做不但麻烦，而且效率相对较低，如果建立一个视图，将相关的表和字段组合在一起，就可以避免使用 join 查询数据。 灵活：如果有一张旧表，由于设计问题，需要废弃，然而很多应用基于这张表，不易修改。就可以建立一张视图，视图中的数据直接映射新建的表。这样既轻改动，又升级了数据表。 管理当做项目开发时，需要根据不同的开发人员，赋予相应的 mysql 权限。
 用户管理一个 DBMS 的用户都存储在系统数据库 mysql 的 user 表中。
 user 表中重要的三个字段：
-host, 允许登陆的位置，localhost &ndash; 本机登陆；可以指定 ip user, 用户名 authentication_string，密码，通过 PASSWORD() 机密过的 # 创建用户 create user &#39;user_name&#39;@&#39;host&#39; identified by &#39;password_str&#39; # 删除用户 drop user &#39;user_name&#39;@&#39;host&#39; # 修改自己密码 set password = PASSWORD(&#39;ps_str&#39;) # 修改别人密码 set password for &#39;user_name&#39;@&#39;host&#39; = PASSWORD(&#39;ps_str&#39;) 权限管理 常用权限 权限字段 意义 SELECT 允许用户读取数据库中的数据 INSERT 允许用户向数据库中的表中插入新的行 UPDATE 允许用户修改数据库中表中已有的行 DELETE 允许用户删除数据库中表中的行 CREATE 允许用户创建新的数据库或表 DROP 允许用户删除数据库或表 ALTER 允许用户修改数据库或表的结构 GRANT 允许用户授予或撤销权限给其他用户 REFERENCES 允许用户定义外键 INDEX 允许用户创建或删除索引 ALL 允许用户执行所有权限操作 USAGE 允许用户登录到服务器，但没有其他权限 基本操作# 赋予权限 grant 权限1[,权限2,.]]></description>
+host, 允许登陆的位置，localhost &ndash; 本机登陆；可以指定 ip user, 用户名 authentication_string，密码，通过 PASSWORD() 机密过的 sql
+# 创建用户 create user &#39;user_name&#39;@&#39;host&#39; identified by &#39;password_str&#39; # 删除用户 drop user &#39;user_name&#39;@&#39;host&#39; # 修改自己密码 set password = PASSWORD(&#39;ps_str&#39;) # 修改别人密码 set password for &#39;user_name&#39;@&#39;host&#39; = PASSWORD(&#39;ps_str&#39;) 权限管理 常用权限 权限字段 意义 SELECT 允许用户读取数据库中的数据 INSERT 允许用户向数据库中的表中插入新的行 UPDATE 允许用户修改数据库中表中已有的行 DELETE 允许用户删除数据库中表中的行 CREATE 允许用户创建新的数据库或表 DROP 允许用户删除数据库或表 ALTER 允许用户修改数据库或表的结构 GRANT 允许用户授予或撤销权限给其他用户 REFERENCES 允许用户定义外键 INDEX 允许用户创建或删除索引 ALL 允许用户执行所有权限操作 USAGE 允许用户登录到服务器，但没有其他权限 基本操作 sql]]></description>
 </item><item>
     <title>React hooks--useRef</title>
     <link>http://localhost:1313/react_hooks--useref/</link>
@@ -103,6 +115,7 @@ Type '{ ref: RefObject&lt;never&gt;; }' is not assignable to type 'IntrinsicAttr
 简单理解就是使用传递下来的 context 上下文，这个 hook 不是独立使用的，需要先创建上下文。
 createContextconst SomeContext = createContext(defaultValue)
 创建的上下文有 Provider 和 Consumer(过时)：
+tsx
 &lt;SomeContext.Provider value={name: &#39;hello world&#39;}&gt; &lt;YourComponent /&gt; &lt;/SomeContext.Provider&gt; // useContext 替代 Consumer const value = useContext(SomeContext) useContext 获取的是离它最近的 Provider 提供的 value 属性，如果没有 Provider 就去读取对应 context 的 defaultValue。
 性能优化当 context 发生变化时，会自动触发使用了它的组件重新渲染。因此，当 Provider 的 value 传递的值为对象或函数时，应该使用 useMemo 或 useCallback 将传递的值包裹一下避免整个子树组件的无效渲染(比如在 useEffect 中讲过的：函数在每次渲染中都是新的函数)。
 reference createContext useContext ]]></description>
@@ -125,6 +138,7 @@ reference useMemo useCallback ]]></description>
     <pubDate>Tue, 30 Apr 2024 00:00:00 &#43;0000</pubDate><author>
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/vue%E6%BA%90%E7%A0%81%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BE%8E%E5%AD%A6/</guid>
-    <description><![CDATA[ 为什么能通过 this.xxx 就能访问到对应的 methods 和 datafunction test { this.name = &#39;hello world&#39; } ]]></description>
+    <description><![CDATA[ 为什么能通过 this.xxx 就能访问到对应的 methods 和 data js
+// test function sayHello() {} ]]></description>
 </item></channel>
 </rss>

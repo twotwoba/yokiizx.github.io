@@ -15,9 +15,12 @@
 软件推荐 Homebrew官网
 懂得都懂，mac 的包管理器，可以直接去官网按照提示安装即可。
 安装完成后记得替换一下镜像源，推荐腾讯镜像源。
-# 替换brew.git cd &#34;$(brew --repo)&#34; git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/brew.git # 替换homebrew-core.git cd &#34;$(brew --repo)/Library/Taps/homebrew/homebrew-core&#34; git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/homebrew-core.git 如果没有 🪜，可以使用国内大神的脚本傻瓜式安装： # 按照提示操作下去即可 /bin/zsh -c &#34;$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)&#34; oh-my-zsh直接点击官网安装即可。
+sh
+# 替换brew.git cd &#34;$(brew --repo)&#34; git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/brew.git # 替换homebrew-core.git cd &#34;$(brew --repo)/Library/Taps/homebrew/homebrew-core&#34; git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/homebrew-core.git 如果没有 🪜，可以使用国内大神的脚本傻瓜式安装： sh
+# 按照提示操作下去即可 /bin/zsh -c &#34;$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)&#34; oh-my-zsh直接点击官网安装即可。
 ~/.zshrc 配置文件的部分配置：
-# zsh theme；default robbyrussell，prefer miloshadzic ZSH_THEME=&#34;miloshadzic&#34; # plugins plugins=( # 默认的,配置了很多别名 ~/.oh-my-zsh/plugins/git/git.plugin.zsh git # 语法高亮 # https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh zsh-syntax-highlighting # 输入命令的时候给出提示 # https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh zsh-autosuggestions ) # 让terminal标题干净 DISABLE_AUTO_TITLE=&#34;true&#34; 当VsCode终端出现git乱码问题，添加以下代码进 `~/.zshrc`： # solve git messy code in vscode terminal export LC_ALL=en_US.]]></description>
+sh
+# zsh theme；default robbyrussell，prefer miloshadzic ZSH_THEME=&#34;miloshadzic&#34; # plugins plugins=( # 默认的,配置了很多别名 ~/.oh-my-zsh/plugins/git/git.plugin.zsh git # 语法高亮 # https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh zsh-syntax-highlighting # 输入命令的时候给出提示 # https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh zsh-autosuggestions ) # 让terminal标题干净 DISABLE_AUTO_TITLE=&#34;true&#34; 当VsCode终端出现git乱码问题，添加以下代码进 `~/.]]></description>
 </item><item>
     <title>Shell 基础</title>
     <link>http://localhost:1313/shell%E5%9F%BA%E7%A1%80/</link>
@@ -28,7 +31,9 @@
 笔记 脚本执行 shell 脚本 xxx.sh 以.sh 结尾，此类文件执行方式有两种：
 文件头使用 #! 指定 shell 程序，比如 #! /bin/zsh，然后带上目录执行 ./demo.sh 直接命令行中指定 shell 程序，比如 /bin/zsh demo.sh 注意第一种方式，不能直接 dmeo.sh，得使用 ./demo.sh，是因为这样系统会直接去 PATH 里寻找有没有叫 demo.sh 的，而 PATH 里一般只有 /bin,/sbin,/usr/bin,/usr/sbin。
 另外 .sh 脚本文件执行时如果出现 permission denied 是因为没有权限，chmod +x [文件路径] 即可。
-# 比如 demo.sh 文件内容如下 # ------------------------ #! /bin/zsh echo &#34;hello world&#34; # 执行两步走 chmod +x demo.sh ./demo.sh # 如果是如下执行，内文件内的 第一行#！xxx 是无效的，写了也没用 /bin/zsh demo.sh 变量 # 声明 variable_name=&#39;demo&#39; readonly variable_name # 只读变量 # 使用 $variable_name # 可以加上{}来确认边界 ${variable_name} # 删除变量 unset variable_name # 不能删除只读变量 字符串 # 单引号 str=&#39;hello world&#39; # 单引号中变量是无效的 # 双引号 str=&#34;hello $world&#34; # 可以识别变量 # 字符串长度 ${#str} # 字符串查找 $str[(I)ll] # 小i 从左往右 找不到返回 长度+1 $str[(i)ll] # 大i 从右往左 找不到返回 0 # 提取字符串 ${str:1:4} # 与js的subStr类似 1为索引,4为长度 $str[1,4] # 这个都是索引(注意是从第一位开始) 推荐这个吧 # 遍历 for i ({1.]]></description>
+sh
+# 比如 demo.sh 文件内容如下 # ------------------------ #! /bin/zsh echo &#34;hello world&#34; # 执行两步走 chmod +x demo.sh ./demo.sh # 如果是如下执行，内文件内的 第一行#！xxx 是无效的，写了也没用 /bin/zsh demo.sh 变量 sh
+# 声明 variable_name=&#39;demo&#39; readonly variable_name # 只读变量 # 使用 $variable_name # 可以加上{}来确认边界 ${variable_name} # 删除变量 unset variable_name # 不能删除只读变量 字符串 sh]]></description>
 </item><item>
     <title>Linux基础</title>
     <link>http://localhost:1313/linux%E5%9F%BA%E7%A1%80/</link>
@@ -38,7 +43,9 @@
     <description><![CDATA[前言使用 mac 很多地方和 linux 是很像的，配置环境的时候总是去各种百度，让我很不爽，虽然本人只是个小前端，但是谁规定我只能学前端呢？计算机是个广阔的天地，只要我感兴趣，必拿下~
 linux 系统目录记录一下&quot;常识&quot;目录：
 /bin， Binaries (二进制文件) 的缩写, 存放着最经常使用的基本命令 /sbin，s 为 super，管理员权限，存放的是最基本系统命令 /etc， Etcetera（等等）的缩写，存放所有系统管理所需要的配置文件和子目录 /lib， Library（库）的缩写，存放着系统最基本的动态连接共享库，与 windows 的 DLL 文件作用类似。 /usr， Unix Shared resources（共享资源） 的缩写，存放用户的应用程序和文件 /opt， Optional（可选）的缩写，安装额外软件的目录 /var， Variable（变量）的缩写，一般存放经常修改的东西，比如各种日志文件 /home，用户的主目录，在 mac 上是~，等价于Users/主机名 /usr/bin，系统用户使用的应用程序(后续安装的程序) /usr/sbin，管理员使用的应用程序(但不是必须的) linux 文件属性查看文件完整属性命令
-ls -l # 或者 ll total 0 drwx------ 5 yokiizx staff 160B Mar 15 2022 Applications drwx------ 42 yokiizx staff 1.3K Dec 3 21:27 Desktop drwxr-xr-x 4 yokiizx staff 128B Aug 7 2021 Public drwxr-xr-x：文件属性就是由这十个字符来表示的，r-可读，w-可写，x-可执行。]]></description>
+sh
+ls -l # 或者 ll sh
+total 0 drwx------ 5 yokiizx staff 160B Mar 15 2022 Applications drwx------ 42 yokiizx staff 1.3K Dec 3 21:27 Desktop drwxr-xr-x 4 yokiizx staff 128B Aug 7 2021 Public drwxr-xr-x：文件属性就是由这十个字符来表示的，r-可读，w-可写，x-可执行。]]></description>
 </item><item>
     <title>Mac上bash/zsh</title>
     <link>http://localhost:1313/mac%E4%B8%8Abash%E5%92%8Czsh/</link>
@@ -46,10 +53,12 @@ ls -l # 或者 ll total 0 drwx------ 5 yokiizx staff 160B Mar 15 2022 Applicatio
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/mac%E4%B8%8Abash%E5%92%8Czsh/</guid>
     <description><![CDATA[基本概念 shell，就是人机交互的接口 bash/zsh 是执行 shell 的程序，输入 shell 命令，输出结果 在 mac 上，我们常用的就是 bash 和 zsh 了。其它还有 sh，csh 等。
-查看本机上所有 shell 程序cat /etc/shells 查看目前使用的 shell 程序echo $SHELL 设置默认 shell 程序# change shell 缩写 chsh chsh -s /bin/[bash/zsh...] bash 和 zsh 的区别都是 shell 程序，但是 zsh 基本完美兼容 bash，并且安装 oh-my-zsh 有自动列出目录/自动目录名简写补全/自动大小写更正/自动命令补全/自动补全命令参数的内置功能，还可以配置插件。
+查看本机上所有 shell 程序 sh
+cat /etc/shells 查看目前使用的 shell 程序 sh
+echo $SHELL 设置默认 shell 程序 sh
+# change shell 缩写 chsh chsh -s /bin/[bash/zsh...] bash 和 zsh 的区别都是 shell 程序，但是 zsh 基本完美兼容 bash，并且安装 oh-my-zsh 有自动列出目录/自动目录名简写补全/自动大小写更正/自动命令补全/自动补全命令参数的内置功能，还可以配置插件。
 bash 读取 ~/.bash_profile zsh 读取 ~/.zshrc 在 .zshrc 中添加 source ~/.bash_profile 就可以直接使用 .bash_profile 中的配置，无需再配置一遍。
 小技巧：
-对于常用的命令，一定要配置别名，git 可以，所有 shell 命令都可以
-# ~/.zshrc alias cra=&#34;npx create-react-app&#34; alias nlg=&#34;npm list -g&#34; oh-my-zsh都知道 zsh 推荐安装 oh-my-zsh，很强大。]]></description>
+对于常用的命令，一定要配置别名，git 可以，所有 shell 命令都可以]]></description>
 </item></channel>
 </rss>

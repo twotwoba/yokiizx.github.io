@@ -9,7 +9,7 @@ weight: 2
 
 ## useEffect
 
-`useEffect(() => { setup, dependencies?)`
+`useEffect(() => { setup }, dependencies?)`
 
 ### 执行时机
 

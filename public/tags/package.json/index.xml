@@ -20,6 +20,7 @@ main &amp; browser &amp; module &amp; exports main：这个是众所周知的，
 browser：这个顾名思义，作用就是指定浏览器环境下加载的文件，比如：&quot;axios&quot;: &quot;node_modules/axios/dist/axios.min.js&quot;
 module：该字段也是指定主文件入口，只不过是指定 ES6 模块环境下的入口文件路径，优先级高于 main
 exports：这个字段作用是指定导出内容，可以为多个，遵循 node 模块解析算法。
-{ &#34;name&#34;: &#34;example&#34;, &#34;version&#34;: &#34;1.0.0&#34;, &#34;main&#34;: &#34;./lib/example.js&#34;, &#34;exports&#34;: { &#34;.&#34;: &#34;./lib/example.js&#34;, // main显示 这里必须再指定一次 &#34;./module1&#34;: &#34;./lib/module1.js&#34;, &#34;./module2&#34;: &#34;./lib/module2.js&#34;, } } 举例：import { module1 } from 'example/module1']]></description>
+JSON
+{ &#34;name&#34;: &#34;example&#34;, &#34;version&#34;: &#34;1.0.0&#34;, &#34;main&#34;: &#34;./lib/example.js&#34;, &#34;exports&#34;: { &#34;.&#34;: &#34;./lib/example.js&#34;, // main显示 这里必须再指定一次 &#34;./module1&#34;: &#34;./lib/module1.js&#34;, &#34;./module2&#34;: &#34;.]]></description>
 </item></channel>
 </rss>
