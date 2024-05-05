@@ -4,9 +4,9 @@
 ### new
 
 ```js
-function _new(constructor, ...args) {
-    const obj = Object.create(constructor.prototype)
-    const ret = constructor.call(obj, ...args)
+function _new(ctor, ...args) {
+    const obj = Object.create(ctor.prototype)
+    const ret = ctor.call(obj, ...args)
     const isFunc = typeof ret === 'function'
     const isObj = typeof ret === 'object' && ret !== null
     return isFunc || isObj ? ret : obj
@@ -117,23 +117,20 @@ function deepClone(target, wm = new WeakMap()) {
 ### Promise.all & Promise.race
 
 ```js
-function promiseAll(promises) {
+const promiseAll = promises => {
+    let res = []
     let count = 0
-    const res = []
-    return new Promise((resolve, reject) => {
-        promises.forEach((p, index) => {
-            Promise.resolve(p).then(r => {
+    return new Promise(resolve => {
+        promises.forEach((p, i) => {
+            p().then(r => {
+                res[i] = r
                 count++
-                res[index] = r
                 if (count === promises.length) resolve(res)
             })
         })
     })
 }
-
-promiseAll([mockReq(2000), mockReq(1000), mockReq(3000)]).then(res => {
-    console.log(res)
-})
+promiseAll(reqs).then(res => console.log('🔥 ---', res))
 
 /* ---------- race ---------- */
 function promiseRace(promises) {

@@ -112,7 +112,18 @@ function arrToTree(arr) {
 /**
  * 2024.02.15 重新写了一版，应该更简单
  */
-const transToTree = (arr, pid) => {
+function arrToTree(arr, pid) {
+    if (!arr.length) return
+    const rootItems = arr.filter(item => item.pid === pid)
+    for (const el of rootItems) {
+        el.children = arr.filter(item => item.pid === el.id)
+        arrToTree(arr, el.id)
+    }
+    return rootItems
+}
+```
+
+<!-- const transToTree = (arr, pid) => {
     if (!arr.length) return
     const rootItems = arr.filter(item => item.pid === pid)
     for (let i = 0; i < rootItems.length; ++i) {
@@ -121,8 +132,7 @@ const transToTree = (arr, pid) => {
         transToTree(arr, item.id)
     }
     return rootItems
-}
-```
+} -->
 
 上方是写出来了，但是呢，这个复杂度有点高，怎么优化呢？往往需要借助数据结构 Map：
 

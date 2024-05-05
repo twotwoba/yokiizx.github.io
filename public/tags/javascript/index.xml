@@ -104,7 +104,7 @@ js
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E5%8E%9F%E7%90%86/</guid>
     <description><![CDATA[new js
-function _new(constructor, ...args) { const obj = Object.create(constructor.prototype) const ret = constructor.call(obj, ...args) const isFunc = typeof ret === &#39;function&#39; const isObj = typeof ret === &#39;object&#39; &amp;&amp; ret !== null return isFunc || isObj ? ret : obj } instanceof js
+function _new(ctor, ...args) { const obj = Object.create(ctor.prototype) const ret = ctor.call(obj, ...args) const isFunc = typeof ret === &#39;function&#39; const isObj = typeof ret === &#39;object&#39; &amp;&amp; ret !== null return isFunc || isObj ? ret : obj } instanceof js
 /** * ins - instance * ctor - constructor */ function _instanceof(ins, ctor) { let __proto__ = ins.__proto__ let prototype = ctor.prototype while (true) { if (__proto__ === null) return false if (__proto__ === prototype) return true __proto__ = __proto__.]]></description>
 </item><item>
     <title>位运算</title>
