@@ -4,18 +4,19 @@
         <link>http://localhost:1313/categories/vue/</link>
         <description>Vue - 分类 - Hello World</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
-            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Tue, 30 Apr 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://localhost:1313/categories/vue/" rel="self" type="application/rss+xml" /><item>
-    <title>Vue 源码中的设计美学</title>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Sat, 30 Apr 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://localhost:1313/categories/vue/" rel="self" type="application/rss+xml" /><item>
+    <title>Vue2 源码中的设计美学</title>
     <link>http://localhost:1313/vue%E6%BA%90%E7%A0%81%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BE%8E%E5%AD%A6/</link>
-    <pubDate>Tue, 30 Apr 2024 00:00:00 &#43;0000</pubDate><author>
+    <pubDate>Sat, 30 Apr 2022 00:00:00 &#43;0000</pubDate><author>
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/vue%E6%BA%90%E7%A0%81%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BE%8E%E5%AD%A6/</guid>
-    <description><![CDATA[ 为什么能通过 this.xxx 就能访问到对应的 methods 和 data js
-// test function sayHello() {} ]]></description>
+    <description><![CDATA[为什么能通过 this.xxx 就能访问到对应的 methods 和 datamethods 能通过 this 访问比较简单，就是在初始化的时候，通过 bind 修正 this 指向 vue 的实例。
+js
+class Person { constructor(name) { this.name = name } } /** * 源码中实现 this.methodXxx 的主要部分 */ function initMethods(vm, methods) { for (const key in methods) { vm[key] = typeof methods[key] === &#39;function&#39; ? methods[key].bind(vm) : () =&gt; {} } } const person = new Person(&#39;zhang san&#39;) const methods = { a: () =&gt; { console.]]></description>
 </item><item>
-    <title>Vue2响应式原理</title>
+    <title>Vue2 响应式原理</title>
     <link>http://localhost:1313/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/</link>
-    <pubDate>Wed, 26 Oct 2022 09:58:34 &#43;0800</pubDate><author>
+    <pubDate>Tue, 26 Apr 2022 00:00:00 &#43;0000</pubDate><author>
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/</guid>
     <description><![CDATA[核心VUE2 的响应式原理实现主要基于：

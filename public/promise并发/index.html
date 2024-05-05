@@ -7,11 +7,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" /><title>Promise并发 - Hello World</title><meta name="Description" content="A website documenting front-end technology and everyday life"><meta property="og:title" content="Promise并发" />
-<meta property="og:description" content="一个比较经典的问题，就是 n 个 请求，实现一个方法，让每次并发请求个数是 x 个这样子。
+<meta property="og:description" content="一个比较经典的问题，就是 n 个 请求，实现一个方法，让每次并发请求个数是 x 个。
 其实在前端中应该是比较常用的应用，如果 n 个请求瞬间被发送到后端，这个是不合理的，应该控制在一定的范围内，当某个请求返回时，再去发起下个请求。
 promise关键点，一个限定数量的请求池，一个 promise 有结果后，再去加入下一个请求，递归直到所有结束。
 js
-const mockReq = function (time) { return new Promise((resolve, reject) =&gt; { setTimeout(() =&gt; { resolve(time); }, time); }); }; const reqList = [1000, 2000, 2000, 3000, 3000, 5000]; const res = []; /** * 核心就是利用递归调用请求，在then回调中自动加入请求池 */ function concurrentPromise(limit) { const pool = []; for (let i = 0; i &lt; limit; &#43;&#43;i) { // pool.push(mockReq(reqList.shift()); managePool(pool, mockReq(reqList." />
+const mockReq = time =&gt; { return function () { return new Promise(resolve =&gt; { setTimeout(() =&gt; { resolve(time) }, time) }) } } const reqList = [1000, 3000, 2000, 2000, 3000, 4000, 2000] const reqs = reqList.map(item =&gt; mockReq(item)) /** * 核心就是利用递归调用请求，在then回调中自动加入请求池 */ const res = [] function concurrent(reqs, limit) { const pool = [] for (let i = 0; i &lt; limit; &#43;&#43;i) { // pool." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/promise%E5%B9%B6%E5%8F%91/" /><meta property="og:image" content="http://localhost:1313/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-09-20T14:41:20+08:00" />
@@ -19,11 +19,11 @@ const mockReq = function (time) { return new Promise((resolve, reject) =&gt; { s
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="http://localhost:1313/" /><meta name="twitter:title" content="Promise并发"/>
-<meta name="twitter:description" content="一个比较经典的问题，就是 n 个 请求，实现一个方法，让每次并发请求个数是 x 个这样子。
+<meta name="twitter:description" content="一个比较经典的问题，就是 n 个 请求，实现一个方法，让每次并发请求个数是 x 个。
 其实在前端中应该是比较常用的应用，如果 n 个请求瞬间被发送到后端，这个是不合理的，应该控制在一定的范围内，当某个请求返回时，再去发起下个请求。
 promise关键点，一个限定数量的请求池，一个 promise 有结果后，再去加入下一个请求，递归直到所有结束。
 js
-const mockReq = function (time) { return new Promise((resolve, reject) =&gt; { setTimeout(() =&gt; { resolve(time); }, time); }); }; const reqList = [1000, 2000, 2000, 3000, 3000, 5000]; const res = []; /** * 核心就是利用递归调用请求，在then回调中自动加入请求池 */ function concurrentPromise(limit) { const pool = []; for (let i = 0; i &lt; limit; &#43;&#43;i) { // pool.push(mockReq(reqList.shift()); managePool(pool, mockReq(reqList."/>
+const mockReq = time =&gt; { return function () { return new Promise(resolve =&gt; { setTimeout(() =&gt; { resolve(time) }, time) }) } } const reqList = [1000, 3000, 2000, 2000, 3000, 4000, 2000] const reqs = reqList.map(item =&gt; mockReq(item)) /** * 核心就是利用递归调用请求，在then回调中自动加入请求池 */ const res = [] function concurrent(reqs, limit) { const pool = [] for (let i = 0; i &lt; limit; &#43;&#43;i) { // pool."/>
 <meta name="application-name" content="前端后花园">
 <meta name="apple-mobile-web-app-title" content="前端后花园">
 
@@ -39,7 +39,7 @@ const mockReq = function (time) { return new Promise((resolve, reject) =&gt; { s
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http://localhost:1313/promise%E5%B9%B6%E5%8F%91/"
-        },"genre": "posts","keywords":["JavaScript","promise"],"wordcount":  182 ,
+        },"genre": "posts","keywords":["JavaScript","promise"],"wordcount":  199 ,
         "url": "http://localhost:1313/promise%E5%B9%B6%E5%8F%91/","datePublished": "2022-09-20T14:41:20+08:00","dateModified": "2022-09-20T14:41:20+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -194,7 +194,7 @@ const mockReq = function (time) { return new Promise((resolve, reject) =&gt; { s
                 </span><span id="busuanzi_container_page_pv">&nbsp;
                         <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
             </div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-09-20">2022-09-20</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-09-20">2022-09-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 182 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-09-20">2022-09-20</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-09-20">2022-09-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 199 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -218,11 +218,11 @@ const mockReq = function (time) { return new Promise((resolve, reject) =&gt; { s
                     <div class="admonition-content">
                         本文最后更新于 <span class="timeago" datetime="2022-09-20T14:41:20" title="September 20, 2022">2022-09-20</span>，文中内容可能已过时。</div>
                 </div>
-            </div><p>一个比较经典的问题，就是 n 个 请求，实现一个方法，让每次并发请求个数是 x 个这样子。<br>
+            </div><p>一个比较经典的问题，就是 n 个 请求，实现一个方法，让每次并发请求个数是 x 个。<br>
 其实在前端中应该是比较常用的应用，如果 n 个请求瞬间被发送到后端，这个是不合理的，应该控制在一定的范围内，当某个请求返回时，再去发起下个请求。</p>
 <h2 id="promise" class="headerLink">
     <a href="#promise" class="header-mark"></a>promise</h2><p>关键点，一个限定数量的请求池，一个 promise 有结果后，再去加入下一个请求，递归直到所有结束。</p>
-<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+<div class="code-block highlight is-open  is-wrap tw-group tw-my-2">
   <div class="
     code-block-title 
     
@@ -313,36 +313,40 @@ const mockReq = function (time) { return new Promise((resolve, reject) =&gt; { s
       group-[.is-closed]:!tw-max-h-0 
       group-[.is-wrap]:tw-text-wrap
       tw-overflow-y-hidden
-      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">mockReq</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">time</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">resolve</span><span class="p">(</span><span class="nx">time</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span> <span class="nx">time</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="p">});</span>
-</span></span><span class="line"><span class="cl"><span class="p">};</span>
-</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">reqList</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">res</span> <span class="o">=</span> <span class="p">[];</span>
+      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">mockReq</span> <span class="o">=</span> <span class="nx">time</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="nx">resolve</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">resolve</span><span class="p">(</span><span class="nx">time</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">},</span> <span class="nx">time</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">reqList</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">reqs</span> <span class="o">=</span> <span class="nx">reqList</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">item</span> <span class="p">=&gt;</span> <span class="nx">mockReq</span><span class="p">(</span><span class="nx">item</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="cm">/**
 </span></span></span><span class="line"><span class="cl"><span class="cm"> * 核心就是利用递归调用请求，在then回调中自动加入请求池
 </span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
-</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">concurrentPromise</span><span class="p">(</span><span class="nx">limit</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">pool</span> <span class="o">=</span> <span class="p">[];</span>
-</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">limit</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// pool.push(mockReq(reqList.shift());
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">managePool</span><span class="p">(</span><span class="nx">pool</span><span class="p">,</span> <span class="nx">mockReq</span><span class="p">(</span><span class="nx">reqList</span><span class="p">.</span><span class="nx">shift</span><span class="p">()));</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">res</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">concurrent</span><span class="p">(</span><span class="nx">reqs</span><span class="p">,</span> <span class="nx">limit</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">pool</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">limit</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// pool.push(reqs[i]())
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nx">poolControl</span><span class="p">(</span><span class="nx">pool</span><span class="p">,</span> <span class="nx">reqs</span><span class="p">.</span><span class="nx">shift</span><span class="p">(),</span> <span class="nx">reqs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">managePool</span><span class="p">(</span><span class="nx">pool</span><span class="p">,</span> <span class="nx">promise</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">pool</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">promise</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">promise</span><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">r</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">res</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">r</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">pool</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">pool</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">promise</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">reqList</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="nx">managePool</span><span class="p">(</span><span class="nx">pool</span><span class="p">,</span> <span class="nx">mockReq</span><span class="p">(</span><span class="nx">reqList</span><span class="p">.</span><span class="nx">shift</span><span class="p">()));</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">pool</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;ret&#39;</span><span class="p">,</span> <span class="nx">res</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">poolControl</span><span class="p">(</span><span class="nx">pool</span><span class="p">,</span> <span class="nx">req</span><span class="p">,</span> <span class="nx">reqs</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">pool</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">req</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">req</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="nx">r</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">res</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">r</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">pool</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">pool</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">req</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">reqs</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="nx">poolControl</span><span class="p">(</span><span class="nx">pool</span><span class="p">,</span> <span class="nx">reqs</span><span class="p">.</span><span class="nx">shift</span><span class="p">(),</span> <span class="nx">reqs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">pool</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;🔥🔥🔥 ---&#39;</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="nx">concurrentPromise</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span></span></span></code></pre>
+</span></span><span class="line"><span class="cl"><span class="nx">concurrent</span><span class="p">(</span><span class="nx">reqs</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span></span></span></code></pre>
 </div>
 <p>重点是：</p>
 <ol>
@@ -351,7 +355,7 @@ const mockReq = function (time) { return new Promise((resolve, reject) =&gt; { s
 </ol>
 <h2 id="async--promiserace" class="headerLink">
     <a href="#async--promiserace" class="header-mark"></a>async + promise.race</h2><p>通过 aync + promise.race 能更简单的控制。</p>
-<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+<div class="code-block highlight is-open  is-wrap tw-group tw-my-2">
   <div class="
     code-block-title 
     
@@ -442,22 +446,21 @@ const mockReq = function (time) { return new Promise((resolve, reject) =&gt; { s
       group-[.is-closed]:!tw-max-h-0 
       group-[.is-wrap]:tw-text-wrap
       tw-overflow-y-hidden
-      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="kr">async</span> <span class="kd">function</span> <span class="nx">concurrentPromise</span><span class="p">(</span><span class="nx">limit</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">pool</span> <span class="o">=</span> <span class="p">[];</span>
-</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">reqList</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">req</span> <span class="o">=</span> <span class="nx">mockReq</span><span class="p">(</span><span class="nx">reqList</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">pool</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">req</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">req</span><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">r</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">res</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">r</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">pool</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">pool</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">req</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">pool</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">});</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">pool</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">limit</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="kr">await</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">race</span><span class="p">(</span><span class="nx">pool</span><span class="p">);</span>
+      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="kr">async</span> <span class="kd">function</span> <span class="nx">concurrent</span><span class="p">(</span><span class="nx">reqs</span><span class="p">,</span> <span class="nx">limit</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">pool</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">reqs</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">pool</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">reqs</span><span class="p">[</span><span class="nx">i</span><span class="p">]())</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">reqs</span><span class="p">[</span><span class="nx">i</span><span class="p">]().</span><span class="nx">then</span><span class="p">(</span><span class="nx">r</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">res</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">r</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">pool</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">pool</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">reqs</span><span class="p">[</span><span class="nx">i</span><span class="p">]),</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="nx">pool</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;🔥🔥🔥 ---&#39;</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">})</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">pool</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">limit</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kr">await</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">race</span><span class="p">(</span><span class="nx">pool</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="nx">concurrentPromise</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span></span></span></code></pre>
+</span></span><span class="line"><span class="cl"><span class="nx">concurrent</span><span class="p">(</span><span class="nx">reqs</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span></span></span></code></pre>
 </div>
 <p>关键点：与原生 promise 维护一个请求池不同的是，直接通过<strong>普通 for</strong> 循环添加 await 和 Promise.race 来实现等待效果。</p>
 <blockquote>

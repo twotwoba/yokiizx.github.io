@@ -9,8 +9,8 @@
     <meta name="robots" content="noodp" /><title>Promise提前结束 - Hello World</title><meta name="Description" content="A website documenting front-end technology and everyday life"><meta property="og:title" content="Promise提前结束" />
 <meta property="og:description" content="常见的需求是，当点击一个按钮时，连续点击多次，就会触发多次请求，我们可以通过防抖来解决，也可以通过取消相同的重复请求来实现。
 axios 已经有了取消请求的功能：
-js
-const CancelToken = axios.CancelToken; let cancel; axios.get(&#39;/demo&#39;, { cancelToken: new CancelToken((c) =&gt; { cancel = c; }) }); cancel(); // 取消这个请求 /* ---------- 或者 ---------- */ const CancelToken = axios.CancelToken; const source = CancelToken.source(); axios.get(&#39;/user/12345&#39;, { cancelToken: source.token }).catch(function (thrown) { if (axios.isCancel(thrown)) { console.log(&#39;Request canceled&#39;, thrown.message); } else { // 处理错误 } }); axios.post(&#39;/user/12345&#39;, { name: &#39;new name&#39; }, { cancelToken: source.token }) // 取消请求（message 参数是可选的） source." />
+已废弃
+const CancelToken = axios.CancelToken let cancel axios.get(&#39;/demo&#39;, { cancelToken: new CancelToken(c =&gt; { cancel = c }) }) cancel() // 取消这个请求 /* ---------- 或者 ---------- */ const CancelToken = axios.CancelToken const source = CancelToken.source() axios .get(&#39;/user/12345&#39;, { cancelToken: source.token }) .catch(function (thrown) { if (axios.isCancel(thrown)) { console.log(&#39;Request canceled&#39;, thrown.message) } else { // 处理错误 } }) axios.post( &#39;/user/12345&#39;, { name: &#39;new name&#39; }, { cancelToken: source.token } ) // 取消请求（message 参数是可选的） source." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/promise%E6%8F%90%E5%89%8D%E7%BB%93%E6%9D%9F/" /><meta property="og:image" content="http://localhost:1313/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-09-20T14:41:30+08:00" />
@@ -20,8 +20,8 @@ const CancelToken = axios.CancelToken; let cancel; axios.get(&#39;/demo&#39;, { 
 <meta name="twitter:image" content="http://localhost:1313/" /><meta name="twitter:title" content="Promise提前结束"/>
 <meta name="twitter:description" content="常见的需求是，当点击一个按钮时，连续点击多次，就会触发多次请求，我们可以通过防抖来解决，也可以通过取消相同的重复请求来实现。
 axios 已经有了取消请求的功能：
-js
-const CancelToken = axios.CancelToken; let cancel; axios.get(&#39;/demo&#39;, { cancelToken: new CancelToken((c) =&gt; { cancel = c; }) }); cancel(); // 取消这个请求 /* ---------- 或者 ---------- */ const CancelToken = axios.CancelToken; const source = CancelToken.source(); axios.get(&#39;/user/12345&#39;, { cancelToken: source.token }).catch(function (thrown) { if (axios.isCancel(thrown)) { console.log(&#39;Request canceled&#39;, thrown.message); } else { // 处理错误 } }); axios.post(&#39;/user/12345&#39;, { name: &#39;new name&#39; }, { cancelToken: source.token }) // 取消请求（message 参数是可选的） source."/>
+已废弃
+const CancelToken = axios.CancelToken let cancel axios.get(&#39;/demo&#39;, { cancelToken: new CancelToken(c =&gt; { cancel = c }) }) cancel() // 取消这个请求 /* ---------- 或者 ---------- */ const CancelToken = axios.CancelToken const source = CancelToken.source() axios .get(&#39;/user/12345&#39;, { cancelToken: source.token }) .catch(function (thrown) { if (axios.isCancel(thrown)) { console.log(&#39;Request canceled&#39;, thrown.message) } else { // 处理错误 } }) axios.post( &#39;/user/12345&#39;, { name: &#39;new name&#39; }, { cancelToken: source.token } ) // 取消请求（message 参数是可选的） source."/>
 <meta name="application-name" content="前端后花园">
 <meta name="apple-mobile-web-app-title" content="前端后花园">
 
@@ -37,7 +37,7 @@ const CancelToken = axios.CancelToken; let cancel; axios.get(&#39;/demo&#39;, { 
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http://localhost:1313/promise%E6%8F%90%E5%89%8D%E7%BB%93%E6%9D%9F/"
-        },"genre": "posts","keywords":["JavaScript","promise"],"wordcount":  184 ,
+        },"genre": "posts","keywords":["JavaScript","promise"],"wordcount":  191 ,
         "url": "http://localhost:1313/promise%E6%8F%90%E5%89%8D%E7%BB%93%E6%9D%9F/","datePublished": "2022-09-20T14:41:30+08:00","dateModified": "2022-09-20T14:41:30+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -190,7 +190,7 @@ const CancelToken = axios.CancelToken; let cancel; axios.get(&#39;/demo&#39;, { 
                 </span><span id="busuanzi_container_page_pv">&nbsp;
                         <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
             </div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-09-20">2022-09-20</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-09-20">2022-09-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 184 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-09-20">2022-09-20</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-09-20">2022-09-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 191 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -214,7 +214,7 @@ const CancelToken = axios.CancelToken; let cancel; axios.get(&#39;/demo&#39;, { 
                 </div>
             </div><p>常见的需求是，当点击一个按钮时，连续点击多次，就会触发多次请求，我们可以通过防抖来解决，也可以通过取消相同的重复请求来实现。</p>
 <p>axios 已经有了取消请求的功能：</p>
-<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+<div class="code-block highlight is-closed  is-wrap tw-group tw-my-2">
   <div class="
     code-block-title 
     
@@ -237,7 +237,7 @@ const CancelToken = axios.CancelToken; let cancel; axios.get(&#39;/demo&#39;, { 
     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button>
 
     <div class="code-block-title-bar tw-w-full">
-      <p class="tw-select-none !tw-my-1">js</p>
+      <p class="tw-select-none !tw-my-1">已废弃</p>
     </div>
     <div class="tw-flex">
       <button 
@@ -305,42 +305,48 @@ const CancelToken = axios.CancelToken; let cancel; axios.get(&#39;/demo&#39;, { 
       group-[.is-closed]:!tw-max-h-0 
       group-[.is-wrap]:tw-text-wrap
       tw-overflow-y-hidden
-      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">CancelToken</span> <span class="o">=</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">CancelToken</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">cancel</span><span class="p">;</span>
+      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">CancelToken</span> <span class="o">=</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">CancelToken</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">cancel</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/demo&#39;</span><span class="p">,</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">cancelToken</span><span class="o">:</span> <span class="k">new</span> <span class="nx">CancelToken</span><span class="p">((</span><span class="nx">c</span><span class="p">)</span> <span class="p">=&gt;</span>  <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">cancel</span> <span class="o">=</span> <span class="nx">c</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">})</span>
-</span></span><span class="line"><span class="cl"><span class="p">});</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nx">cancel</span><span class="p">();</span> <span class="c1">// 取消这个请求
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="cm">/* ---------- 或者 ---------- */</span>
-</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">CancelToken</span> <span class="o">=</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">CancelToken</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">source</span> <span class="o">=</span> <span class="nx">CancelToken</span><span class="p">.</span><span class="nx">source</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/user/12345&#39;</span><span class="p">,</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">cancelToken</span><span class="o">:</span> <span class="nx">source</span><span class="p">.</span><span class="nx">token</span>
-</span></span><span class="line"><span class="cl"><span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">thrown</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">axios</span><span class="p">.</span><span class="nx">isCancel</span><span class="p">(</span><span class="nx">thrown</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Request canceled&#39;</span><span class="p">,</span> <span class="nx">thrown</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// 处理错误
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">});</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/user/12345&#39;</span><span class="p">,</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;new name&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="p">},</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">cancelToken</span><span class="o">:</span> <span class="nx">source</span><span class="p">.</span><span class="nx">token</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">cancelToken</span><span class="o">:</span> <span class="k">new</span> <span class="nx">CancelToken</span><span class="p">(</span><span class="nx">c</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">cancel</span> <span class="o">=</span> <span class="nx">c</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
 </span></span><span class="line"><span class="cl"><span class="p">})</span>
 </span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">cancel</span><span class="p">()</span> <span class="c1">// 取消这个请求
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* ---------- 或者 ---------- */</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">CancelToken</span> <span class="o">=</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">CancelToken</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">source</span> <span class="o">=</span> <span class="nx">CancelToken</span><span class="p">.</span><span class="nx">source</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">axios</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/user/12345&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">cancelToken</span><span class="o">:</span> <span class="nx">source</span><span class="p">.</span><span class="nx">token</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">thrown</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">axios</span><span class="p">.</span><span class="nx">isCancel</span><span class="p">(</span><span class="nx">thrown</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Request canceled&#39;</span><span class="p">,</span> <span class="nx">thrown</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 处理错误
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;/user/12345&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;new name&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">cancelToken</span><span class="o">:</span> <span class="nx">source</span><span class="p">.</span><span class="nx">token</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// 取消请求（message 参数是可选的）
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">source</span><span class="p">.</span><span class="nx">cancel</span><span class="p">(</span><span class="s1">&#39;Operation canceled by the user.&#39;</span><span class="p">);</span></span></span></code></pre>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">source</span><span class="p">.</span><span class="nx">cancel</span><span class="p">(</span><span class="s1">&#39;Operation canceled by the user.&#39;</span><span class="p">)</span></span></span></code></pre>
 </div>
-<p>上方的 CancelToken 从 v0.22.0 版本被废弃，最新的 axios 使用的是 fetch 的 api <code>AbortController</code>:</p>
-<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+<p>上方的 CancelToken 从 v0.22.0 版本被废弃，最新的 axios 使用的是与 fetch 一样的 api <code>AbortController</code>:</p>
+<div class="code-block highlight is-open  is-wrap tw-group tw-my-2">
   <div class="
     code-block-title 
     
@@ -431,19 +437,21 @@ const CancelToken = axios.CancelToken; let cancel; axios.get(&#39;/demo&#39;, { 
       group-[.is-closed]:!tw-max-h-0 
       group-[.is-wrap]:tw-text-wrap
       tw-overflow-y-hidden
-      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">controller</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AbortController</span><span class="p">();</span>
+      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">controller</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AbortController</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/foo/bar&#39;</span><span class="p">,</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">   <span class="nx">signal</span><span class="o">:</span> <span class="nx">controller</span><span class="p">.</span><span class="nx">signal</span>
-</span></span><span class="line"><span class="cl"><span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">   <span class="c1">//...
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="nx">axios</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/foo/bar&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">signal</span><span class="o">:</span> <span class="nx">controller</span><span class="p">.</span><span class="nx">signal</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">})</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// 取消请求
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">controller</span><span class="p">.</span><span class="nx">abort</span><span class="p">()</span></span></span></code></pre>
 </div>
 <p>还是那句话，我们主要学习思想嘛，针对一个 promise，怎么做到&quot;中断&quot; promise 的执行呢？一起来看看。</p>
 <p>首先我在&quot;中断&quot;上打了引号，因为 promise 一旦创建是无法取消的，所谓的”中断“，只是在合适的时候，提前结束 pending 状态而已，所以本文题目才是提前结束而不是“中断”。</p>
-<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+<div class="code-block highlight is-open  is-wrap tw-group tw-my-2">
   <div class="
     code-block-title 
     
@@ -535,22 +543,22 @@ const CancelToken = axios.CancelToken; let cancel; axios.get(&#39;/demo&#39;, { 
       group-[.is-wrap]:tw-text-wrap
       tw-overflow-y-hidden
       tw-overflow-x-auto"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">mockReq</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">time</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">req</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">resolve</span><span class="p">(</span><span class="nx">time</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span> <span class="nx">time</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="p">});</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">abort</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">stopHandler</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">abort</span> <span class="o">=</span> <span class="nx">reject</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">});</span>
-</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">p</span> <span class="o">=</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">race</span><span class="p">([</span><span class="nx">req</span><span class="p">,</span> <span class="nx">stopHandler</span><span class="p">]);</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">p</span><span class="p">.</span><span class="nx">abort</span> <span class="o">=</span> <span class="nx">abort</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">p</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">req</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">resolve</span><span class="p">(</span><span class="nx">time</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span> <span class="nx">time</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">abort</span> <span class="o">=</span> <span class="kc">null</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">stopHandler</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">abort</span> <span class="o">=</span> <span class="nx">reject</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">p</span> <span class="o">=</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">race</span><span class="p">([</span><span class="nx">req</span><span class="p">,</span> <span class="nx">stopHandler</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">p</span><span class="p">.</span><span class="nx">abort</span> <span class="o">=</span> <span class="nx">abort</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">p</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nx">mockReq</span><span class="p">(</span><span class="mi">2000</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl"><span class="nx">mockReq</span><span class="p">().</span><span class="nx">abort</span><span class="p">();</span></span></span></code></pre>
+</span></span><span class="line"><span class="cl"><span class="nx">mockReq</span><span class="p">(</span><span class="mi">2000</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">res</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nx">mockReq</span><span class="p">().</span><span class="nx">abort</span><span class="p">()</span></span></span></code></pre>
 </div>
 <p>其实核心就是借助另一个永远不会成功或失败的 promise 的 execute 函数，来让人可以手动改变 handle 的状态，进而影响 <code>Promise.race</code> 的执行。值得注意的是，req 仍然会执行完成，但是已经无意义了。</p>
 <p>promise 超时控制原理一样，把一个设定超时时间的 promise 和正常的请求放到 Promise.race()中即可。</p>

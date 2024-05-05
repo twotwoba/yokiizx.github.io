@@ -14,10 +14,11 @@
 比如 map 只关注输入和结果，用表达式来描述程序逻辑， 而 常规的 for 循环命令式控制过程还关注具体控制和状态变化 纯函数 仅取决于提供的输入 不会造成或超出其作用域的变化。 比如修改全局对象或引用传递的参数，打印日志，时间等 引用透明
 一个函数对于相同的输入始终产生相同的结果，那就是引用透明的 不可变性
 存储不可变数据，不可变数据就是创建后不能更改，但是对于对象、数组有可能改变其内容来产生副作用，如 sort 函数，会改变原数组的引用 柯里化与合成函数是函数式编程的典范，必须牢牢掌握。
-curry柯里化，其实就是针对函数多个参数的处理，把多个参数变为可以分步接收计算的方式。形如f(a,b,c) -&gt; f(a)(b)(c)
+curry柯里化，其实就是针对函数多个参数的处理，把多个参数变为可以分步接收计算的方式。
+f(a,b,c) -&gt; f(a)(b)(c)
 实现也比较简单：
-javascript
-function curry(fn) { return function curried(...args) { if (args.length &gt;= fn.length) { return fn.apply(this, args); } else { return function (...args2) { return curried.apply(this, args.concat(args2)); // 借助curried累加参数 }; } }; } // test const sum = (a, b, c) =&gt; a &#43; b &#43; c; const currySum = curry(sum); console." />
+js
+function curry(fn) { const argLen = fn.length return function curried(...args) { if (args.length === argLen) { return fn.call(this, ...args) } else { return function (...args2) { return curried.call(this, ...[...args, ...args2]) // 累加参数 } } } } // test const sum = (a, b, c) =&gt; a &#43; b &#43; c const currySum = curry(sum) console." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/curry%E5%92%8Ccompose/" /><meta property="og:image" content="http://localhost:1313/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-09-25T19:28:38+08:00" />
@@ -32,10 +33,11 @@ function curry(fn) { return function curried(...args) { if (args.length &gt;= fn
 比如 map 只关注输入和结果，用表达式来描述程序逻辑， 而 常规的 for 循环命令式控制过程还关注具体控制和状态变化 纯函数 仅取决于提供的输入 不会造成或超出其作用域的变化。 比如修改全局对象或引用传递的参数，打印日志，时间等 引用透明
 一个函数对于相同的输入始终产生相同的结果，那就是引用透明的 不可变性
 存储不可变数据，不可变数据就是创建后不能更改，但是对于对象、数组有可能改变其内容来产生副作用，如 sort 函数，会改变原数组的引用 柯里化与合成函数是函数式编程的典范，必须牢牢掌握。
-curry柯里化，其实就是针对函数多个参数的处理，把多个参数变为可以分步接收计算的方式。形如f(a,b,c) -&gt; f(a)(b)(c)
+curry柯里化，其实就是针对函数多个参数的处理，把多个参数变为可以分步接收计算的方式。
+f(a,b,c) -&gt; f(a)(b)(c)
 实现也比较简单：
-javascript
-function curry(fn) { return function curried(...args) { if (args.length &gt;= fn.length) { return fn.apply(this, args); } else { return function (...args2) { return curried.apply(this, args.concat(args2)); // 借助curried累加参数 }; } }; } // test const sum = (a, b, c) =&gt; a &#43; b &#43; c; const currySum = curry(sum); console."/>
+js
+function curry(fn) { const argLen = fn.length return function curried(...args) { if (args.length === argLen) { return fn.call(this, ...args) } else { return function (...args2) { return curried.call(this, ...[...args, ...args2]) // 累加参数 } } } } // test const sum = (a, b, c) =&gt; a &#43; b &#43; c const currySum = curry(sum) console."/>
 <meta name="application-name" content="前端后花园">
 <meta name="apple-mobile-web-app-title" content="前端后花园">
 
@@ -51,7 +53,7 @@ function curry(fn) { return function curried(...args) { if (args.length &gt;= fn
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http://localhost:1313/curry%E5%92%8Ccompose/"
-        },"genre": "posts","keywords":["JavaScript"],"wordcount":  244 ,
+        },"genre": "posts","keywords":["JavaScript"],"wordcount":  250 ,
         "url": "http://localhost:1313/curry%E5%92%8Ccompose/","datePublished": "2022-09-25T19:28:38+08:00","dateModified": "2022-09-25T19:28:38+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -210,7 +212,7 @@ function curry(fn) { return function curried(...args) { if (args.length &gt;= fn
                 </span><span id="busuanzi_container_page_pv">&nbsp;
                         <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
             </div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-09-25">2022-09-25</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-09-25">2022-09-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 244 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-09-25">2022-09-25</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-09-25">2022-09-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 250 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -258,9 +260,10 @@ function curry(fn) { return function curried(...args) { if (args.length &gt;= fn
 </ol>
 <p>柯里化与合成函数是函数式编程的典范，必须牢牢掌握。</p>
 <h3 id="curry" class="headerLink">
-    <a href="#curry" class="header-mark"></a>curry</h3><p>柯里化，其实就是针对函数多个参数的处理，把多个参数变为可以分步接收计算的方式。形如<code>f(a,b,c) -&gt; f(a)(b)(c)</code></p>
+    <a href="#curry" class="header-mark"></a>curry</h3><p>柯里化，其实就是针对函数多个参数的处理，把多个参数变为可以分步接收计算的方式。</p>
+<p><code>f(a,b,c) -&gt; f(a)(b)(c)</code></p>
 <p>实现也比较简单：</p>
-<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+<div class="code-block highlight is-open   tw-group tw-my-2">
   <div class="
     code-block-title 
     
@@ -283,7 +286,7 @@ function curry(fn) { return function curried(...args) { if (args.length &gt;= fn
     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button>
 
     <div class="code-block-title-bar tw-w-full">
-      <p class="tw-select-none !tw-my-1">javascript</p>
+      <p class="tw-select-none !tw-my-1">js</p>
     </div>
     <div class="tw-flex">
       <button 
@@ -352,28 +355,29 @@ function curry(fn) { return function curried(...args) { if (args.length &gt;= fn
       group-[.is-wrap]:tw-text-wrap
       tw-overflow-y-hidden
       tw-overflow-x-auto"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">curry</span><span class="p">(</span><span class="nx">fn</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="kd">function</span> <span class="nx">curried</span><span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">args</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;=</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="kd">function</span> <span class="p">(...</span><span class="nx">args2</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">curried</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">args</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">args2</span><span class="p">));</span> <span class="c1">// 借助curried累加参数
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">argLen</span> <span class="o">=</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">length</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kd">function</span> <span class="nx">curried</span><span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">args</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">argLen</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="p">...</span><span class="nx">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kd">function</span> <span class="p">(...</span><span class="nx">args2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="nx">curried</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="p">...[...</span><span class="nx">args</span><span class="p">,</span> <span class="p">...</span><span class="nx">args2</span><span class="p">])</span> <span class="c1">// 累加参数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">};</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// test
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">sum</span> <span class="o">=</span> <span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">,</span> <span class="nx">c</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span> <span class="o">+</span> <span class="nx">c</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">currySum</span> <span class="o">=</span> <span class="nx">curry</span><span class="p">(</span><span class="nx">sum</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">currySum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">));</span> <span class="c1">// 6
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">currySum</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">));</span> <span class="c1">// 6
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">currySum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)(</span><span class="mi">3</span><span class="p">));</span> <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">sum</span> <span class="o">=</span> <span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">,</span> <span class="nx">c</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span> <span class="o">+</span> <span class="nx">c</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">currySum</span> <span class="o">=</span> <span class="nx">curry</span><span class="p">(</span><span class="nx">sum</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">currySum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">currySum</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">currySum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)(</span><span class="mi">3</span><span class="p">))</span> <span class="c1">// 6
 </span></span></span></code></pre>
 </div>
 <p>柯里化的孪生兄弟 &ndash; 偏函数，个人见解：<br>
 就是在 curry 之上，初始化时固定了部分的参数，注意两者累加参数的方式不太一样哦。</p>
-<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+<div class="code-block highlight is-open   tw-group tw-my-2">
   <div class="
     code-block-title 
     
@@ -468,14 +472,14 @@ function curry(fn) { return function curried(...args) { if (args.length &gt;= fn
 </span></span></span><span class="line"><span class="cl"><span class="cm"> * args 为固定的参数
 </span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
 </span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">partial</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span> <span class="p">...</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="kd">function</span> <span class="p">(...</span><span class="nx">args2</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">_args</span> <span class="o">=</span> <span class="nx">args</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">args2</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">_args</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;=</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">_args</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">partial</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">fn</span><span class="p">,</span> <span class="p">...</span><span class="nx">_args</span><span class="p">);</span> <span class="c1">// 借助 partial 累加参数
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kd">function</span> <span class="p">(...</span><span class="nx">args2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">_args</span> <span class="o">=</span> <span class="nx">args</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">args2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">_args</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;=</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">_args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nx">partial</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">fn</span><span class="p">,</span> <span class="p">...</span><span class="nx">_args</span><span class="p">)</span> <span class="c1">// 借助 partial 累加参数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// test
@@ -486,7 +490,8 @@ function curry(fn) { return function curried(...args) { if (args.length &gt;= fn
 </div>
 <h3 id="compose" class="headerLink">
     <a href="#compose" class="header-mark"></a>compose</h3><p>compose 合成函数是把多层函数嵌套调用扁平化，内部函数执行的结果作为外部面函数的参数。</p>
-<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+<p><code>a(b(c(d()))) -&gt; compose(a,b,c,d)</code></p>
+<div class="code-block highlight is-open   tw-group tw-my-2">
   <div class="
     code-block-title 
     
@@ -577,17 +582,16 @@ function curry(fn) { return function curried(...args) { if (args.length &gt;= fn
       group-[.is-closed]:!tw-max-h-0 
       group-[.is-wrap]:tw-text-wrap
       tw-overflow-y-hidden
-      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">compose</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="c1">// 可以加个判断参数是否合格, 此处省略
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">const</span> <span class="nx">fns</span> <span class="o">=</span> <span class="p">[...</span><span class="nx">arguments</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">lastIndex</span> <span class="o">=</span> <span class="nx">fns</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">res</span> <span class="o">=</span> <span class="nx">fns</span><span class="p">[</span><span class="nx">lastIndex</span><span class="p">].</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="p">...</span><span class="nx">arguments</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="nx">lastIndex</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">res</span> <span class="o">=</span> <span class="nx">fns</span><span class="p">[</span><span class="nx">lastIndex</span><span class="p">].</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span>
+      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">compose</span><span class="p">(...</span><span class="nx">fns</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kd">function</span> <span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">let</span> <span class="nx">fnsLen</span> <span class="o">=</span> <span class="nx">fns</span><span class="p">.</span><span class="nx">length</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">let</span> <span class="nx">lastIndex</span> <span class="o">=</span> <span class="nx">fnsLen</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">let</span> <span class="nx">res</span> <span class="o">=</span> <span class="nx">fns</span><span class="p">[</span><span class="nx">lastIndex</span><span class="p">].</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="p">...</span><span class="nx">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="p">(</span><span class="nx">lastIndex</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">res</span> <span class="o">=</span> <span class="nx">fns</span><span class="p">[</span><span class="nx">lastIndex</span><span class="p">].</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">res</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">res</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// test
@@ -600,7 +604,7 @@ function curry(fn) { return function curried(...args) { if (args.length &gt;= fn
 </div>
 <p>也可以使用 reduceRight 来实现 compose</p>
 <p>与之对应的是 pipe 函数，只不过是从左往右执行。这里就用 reduce 来实现一下吧：</p>
-<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+<div class="code-block highlight is-open   tw-group tw-my-2">
   <div class="
     code-block-title 
     
@@ -692,9 +696,9 @@ function curry(fn) { return function curried(...args) { if (args.length &gt;= fn
       group-[.is-wrap]:tw-text-wrap
       tw-overflow-y-hidden
       tw-overflow-x-auto"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">pipe</span><span class="p">(...</span><span class="nx">fns</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">fns</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">t</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">cb</span><span class="p">(</span><span class="nx">t</span><span class="p">),</span> <span class="nx">args</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">fns</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">t</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">cb</span><span class="p">(</span><span class="nx">t</span><span class="p">),</span> <span class="nx">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
 </div>
 <h2 id="参考" class="headerLink">

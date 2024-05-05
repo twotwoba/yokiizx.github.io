@@ -25,19 +25,19 @@ js
     </author><guid>http://localhost:1313/promise%E6%8F%90%E5%89%8D%E7%BB%93%E6%9D%9F/</guid>
     <description><![CDATA[常见的需求是，当点击一个按钮时，连续点击多次，就会触发多次请求，我们可以通过防抖来解决，也可以通过取消相同的重复请求来实现。
 axios 已经有了取消请求的功能：
-js
-const CancelToken = axios.CancelToken; let cancel; axios.get(&#39;/demo&#39;, { cancelToken: new CancelToken((c) =&gt; { cancel = c; }) }); cancel(); // 取消这个请求 /* ---------- 或者 ---------- */ const CancelToken = axios.CancelToken; const source = CancelToken.source(); axios.get(&#39;/user/12345&#39;, { cancelToken: source.token }).catch(function (thrown) { if (axios.isCancel(thrown)) { console.log(&#39;Request canceled&#39;, thrown.message); } else { // 处理错误 } }); axios.post(&#39;/user/12345&#39;, { name: &#39;new name&#39; }, { cancelToken: source.token }) // 取消请求（message 参数是可选的） source.]]></description>
+已废弃
+const CancelToken = axios.CancelToken let cancel axios.get(&#39;/demo&#39;, { cancelToken: new CancelToken(c =&gt; { cancel = c }) }) cancel() // 取消这个请求 /* ---------- 或者 ---------- */ const CancelToken = axios.CancelToken const source = CancelToken.source() axios .get(&#39;/user/12345&#39;, { cancelToken: source.token }) .catch(function (thrown) { if (axios.isCancel(thrown)) { console.log(&#39;Request canceled&#39;, thrown.message) } else { // 处理错误 } }) axios.post( &#39;/user/12345&#39;, { name: &#39;new name&#39; }, { cancelToken: source.token } ) // 取消请求（message 参数是可选的） source.]]></description>
 </item><item>
     <title>Promise并发</title>
     <link>http://localhost:1313/promise%E5%B9%B6%E5%8F%91/</link>
     <pubDate>Tue, 20 Sep 2022 14:41:20 &#43;0800</pubDate><author>
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/promise%E5%B9%B6%E5%8F%91/</guid>
-    <description><![CDATA[一个比较经典的问题，就是 n 个 请求，实现一个方法，让每次并发请求个数是 x 个这样子。
+    <description><![CDATA[一个比较经典的问题，就是 n 个 请求，实现一个方法，让每次并发请求个数是 x 个。
 其实在前端中应该是比较常用的应用，如果 n 个请求瞬间被发送到后端，这个是不合理的，应该控制在一定的范围内，当某个请求返回时，再去发起下个请求。
 promise关键点，一个限定数量的请求池，一个 promise 有结果后，再去加入下一个请求，递归直到所有结束。
 js
-const mockReq = function (time) { return new Promise((resolve, reject) =&gt; { setTimeout(() =&gt; { resolve(time); }, time); }); }; const reqList = [1000, 2000, 2000, 3000, 3000, 5000]; const res = []; /** * 核心就是利用递归调用请求，在then回调中自动加入请求池 */ function concurrentPromise(limit) { const pool = []; for (let i = 0; i &lt; limit; ++i) { // pool.push(mockReq(reqList.shift()); managePool(pool, mockReq(reqList.]]></description>
+const mockReq = time =&gt; { return function () { return new Promise(resolve =&gt; { setTimeout(() =&gt; { resolve(time) }, time) }) } } const reqList = [1000, 3000, 2000, 2000, 3000, 4000, 2000] const reqs = reqList.map(item =&gt; mockReq(item)) /** * 核心就是利用递归调用请求，在then回调中自动加入请求池 */ const res = [] function concurrent(reqs, limit) { const pool = [] for (let i = 0; i &lt; limit; ++i) { // pool.]]></description>
 </item><item>
     <title>Promise A&#43;</title>
     <link>http://localhost:1313/promisea/</link>
