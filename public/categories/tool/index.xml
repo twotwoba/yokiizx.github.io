@@ -4,7 +4,7 @@
         <link>http://localhost:1313/categories/tool/</link>
         <description>Tool - 分类 - Hello World</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
-            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Tue, 13 Sep 2022 11:24:00 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/tool/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Mon, 19 Sep 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://localhost:1313/categories/tool/" rel="self" type="application/rss+xml" /><item>
     <title>Mac上的高效软件与配置</title>
     <link>http://localhost:1313/mac%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%92%8C%E6%95%88%E7%8E%87/</link>
     <pubDate>Tue, 13 Sep 2022 11:24:00 &#43;0800</pubDate><author>
@@ -21,5 +21,16 @@ sh
 ~/.zshrc 配置文件的部分配置：
 sh
 # zsh theme；default robbyrussell，prefer miloshadzic ZSH_THEME=&#34;miloshadzic&#34; # plugins plugins=( # 默认的,配置了很多别名 ~/.oh-my-zsh/plugins/git/git.plugin.zsh git # 语法高亮 # https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh zsh-syntax-highlighting # 输入命令的时候给出提示 # https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh zsh-autosuggestions ) # 让terminal标题干净 DISABLE_AUTO_TITLE=&#34;true&#34; 当VsCode终端出现git乱码问题，添加以下代码进 `~/.]]></description>
+</item><item>
+    <title>Git 自用手册</title>
+    <link>http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/</link>
+    <pubDate>Mon, 19 Sep 2022 00:00:00 &#43;0000</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/</guid>
+    <description><![CDATA[本文基于 git version 2.32.0
+当然，许多人选择使用 SourceTree 这样的图形界面来管理版本，但我作为一个习惯使用命令行和喜欢简约风格的人，更喜欢在终端中输入命令来进行 Git 相关操作。在这篇文章中，我将分享我这几年来常用的命令和经验。（一些基础的知识就不在本文中赘述了，可以自行网上搜索资料。）
+基础配置 配置别名别名可以极大简化命令号的操作复杂度~~~，是我换电脑或者重做系统后的必做的待办项之一。
+常用别名
+# 请直接复制进 terminal 执行一下即可。提高幸福度的别名使用⭐️标记。 # -------------------------------------------------------------------------------------- # 常规 git config --global alias.g git git config --global alias.c &#39;config&#39; # g c user.name eric git config --global alias.cg &#39;config --global&#39; # g cg user.email eric@gmail.com # 对于大型仓库只 clone 对应分支, g cloneb [bracnchName | tagName] [url] ⭐️ g cg alias.cloneb &#39;clone --single-branch --branch&#39; g cg alias.st status # 常用，提交前看一眼大致变化 g cg alias.]]></description>
 </item></channel>
 </rss>

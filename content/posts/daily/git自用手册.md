@@ -1,5 +1,11 @@
-# Git 自用手册
-
+---
+title: 'Git 自用手册'
+date: 2022-09-19
+lastmod: 2024-05-07
+series: []
+categories: [tool]
+weight:
+---
 
 **本文基于 git version 2.32.0**
 
@@ -176,4 +182,3 @@ g plo develop --allow-unrelated-histories
 -   [“纸上谈兵”之 Git 原理](https://mp.weixin.qq.com/s/FSBEM2GqhpVJ6yw9FkxnGA)
 -   [Git Tools - Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
 -   [Git submodule 子模块的管理和使用](https://www.jianshu.com/p/9000cd49822c)
-

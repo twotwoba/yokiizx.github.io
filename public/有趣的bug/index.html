@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" /><title>记项目重构中的bug - Hello World</title><meta name="Description" content="A website documenting front-end technology and everyday life"><meta property="og:title" content="记项目重构中的bug" />
-<meta property="og:description" content="背景我司某个项目一开始是基于 vue3 进行开发的，使用的是开源的 antd UI 组件库，结果开发完了，领导说界面要与公司主产品的 UI 契合，也就是说要改用公司的组件库，然而公司的组件库是基于 react 的，没有办法只能对整个项目进行重构。
+<meta property="og:description" content="背景s 我司某个项目一开始是基于 vue3 进行开发的，使用的是开源的 antd UI 组件库，结果开发完了，领导说界面要与公司主产品的 UI 契合，也就是说要改用公司的组件库，然而公司的组件库是基于 react 的，没有办法只能对整个项目进行重构。
 项目选型：React@18.2.0 &#43; react-router@6.11.0 &#43; rematch@2.2.0 &#43; typescript@5.0.4 tailwindss@3.3.3，基于 webpack5 搭建了一套脚手架。
 随后，我就开始了风风火火的重构之路 🔥
 问题 重构比我预计的要顺利，这一套技术栈的开发体检直接拉满，比较坑的是公司的组件库中 TreeSelect 组件有严重的 bug：从表象看，就是下拉时面板点击无反应，大致定位了下，是下拉框的 pointer-events: none 这么个 css 属性的加载时机刚好搞反了你敢信？一度怀疑是不是我哪里用错了。。。或者是我电脑环境（node，os 等）的问题，那么就控制变量进行对比，在同事的电脑上也复现出了这个 bug。
@@ -21,7 +21,7 @@
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="http://localhost:1313/" /><meta name="twitter:title" content="记项目重构中的bug"/>
-<meta name="twitter:description" content="背景我司某个项目一开始是基于 vue3 进行开发的，使用的是开源的 antd UI 组件库，结果开发完了，领导说界面要与公司主产品的 UI 契合，也就是说要改用公司的组件库，然而公司的组件库是基于 react 的，没有办法只能对整个项目进行重构。
+<meta name="twitter:description" content="背景s 我司某个项目一开始是基于 vue3 进行开发的，使用的是开源的 antd UI 组件库，结果开发完了，领导说界面要与公司主产品的 UI 契合，也就是说要改用公司的组件库，然而公司的组件库是基于 react 的，没有办法只能对整个项目进行重构。
 项目选型：React@18.2.0 &#43; react-router@6.11.0 &#43; rematch@2.2.0 &#43; typescript@5.0.4 tailwindss@3.3.3，基于 webpack5 搭建了一套脚手架。
 随后，我就开始了风风火火的重构之路 🔥
 问题 重构比我预计的要顺利，这一套技术栈的开发体检直接拉满，比较坑的是公司的组件库中 TreeSelect 组件有严重的 bug：从表象看，就是下拉时面板点击无反应，大致定位了下，是下拉框的 pointer-events: none 这么个 css 属性的加载时机刚好搞反了你敢信？一度怀疑是不是我哪里用错了。。。或者是我电脑环境（node，os 等）的问题，那么就控制变量进行对比，在同事的电脑上也复现出了这个 bug。
@@ -43,7 +43,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http://localhost:1313/%E6%9C%89%E8%B6%A3%E7%9A%84bug/"
-        },"genre": "posts","wordcount":  100 ,
+        },"genre": "posts","wordcount":  101 ,
         "url": "http://localhost:1313/%E6%9C%89%E8%B6%A3%E7%9A%84bug/","datePublished": "2023-10-10T23:40:56+08:00","dateModified": "2023-10-10T23:40:56+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -198,7 +198,7 @@
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href=""><i class="far fa-folder fa-fw"></i></a></span><span id="busuanzi_container_page_pv">&nbsp;
                         <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
             </div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-10-10">2023-10-10</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2023-10-10">2023-10-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 100 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-10-10">2023-10-10</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2023-10-10">2023-10-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 101 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -223,7 +223,8 @@
                         本文最后更新于 <span class="timeago" datetime="2023-10-10T23:40:56" title="October 10, 2023">2023-10-10</span>，文中内容可能已过时。</div>
                 </div>
             </div><h2 id="背景" class="headerLink">
-    <a href="#%e8%83%8c%e6%99%af" class="header-mark"></a>背景</h2><p>我司某个项目一开始是基于 vue3 进行开发的，使用的是开源的 antd UI 组件库，结果开发完了，领导说界面要与公司主产品的 UI 契合，也就是说要改用公司的组件库，然而公司的组件库是基于 react 的，没有办法只能对整个项目进行重构。</p>
+    <a href="#%e8%83%8c%e6%99%af" class="header-mark"></a>背景</h2><p>s
+我司某个项目一开始是基于 vue3 进行开发的，使用的是开源的 antd UI 组件库，结果开发完了，领导说界面要与公司主产品的 UI 契合，也就是说要改用公司的组件库，然而公司的组件库是基于 react 的，没有办法只能对整个项目进行重构。</p>
 <p>项目选型：<code>React@18.2.0 + react-router@6.11.0 + rematch@2.2.0 + typescript@5.0.4 tailwindss@3.3.3</code>，基于 <code>webpack5</code> 搭建了一套脚手架。</p>
 <p>随后，我就开始了风风火火的重构之路 🔥</p>
 <h2 id="问题" class="headerLink">

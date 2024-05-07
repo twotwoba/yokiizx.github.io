@@ -2,6 +2,7 @@
 title: 'Mac上bash/zsh'
 date: 2022-11-25T10:27:55+08:00
 tags: [mac, shell]
+draft: true
 ---
 
 ## 基本概念

@@ -13,9 +13,9 @@
 
 offsetParent: 获取最近的祖先：
 
-- position 为 absolute，relative 或 fixed
-- 或 body
-- 或 table, th, td
+-   position 为 absolute，relative 或 fixed
+-   或 body
+-   或 table, th, td
 
 offsetTop/offsetLeft： 元素带 border 相对于最近的祖先偏移距离
 
@@ -44,20 +44,20 @@ content + padding 的宽度，不包括滚动条
 ## 滚动
 
 ```js
-scrollBy(x,y) // 相对自身偏移
-scrollTo(pageX,pageY) // 滚动到绝对坐标
+scrollBy(x, y) // 相对自身偏移
+scrollTo(pageX, pageY) // 滚动到绝对坐标
 scrollToView() // 滚到视野里
 ```
 
 ## 常用的操作
 
-- 判断是否触底（无限加载之类）：`offsetHeight + scrollTop >= scollHeight`
-- 判断是否进入可视区域（懒加载图片之类）：`offsetTop < clientHeight + scrollTop`
+-   判断是否触底（无限加载之类）：`offsetHeight + scrollTop >= scollHeight`
+-   判断是否进入可视区域（懒加载图片之类）：`元素的offsetTop -  wrap的scrollTop < 窗口clientHeight`
 
 ## 坐标
 
-- clientX/clientY 相对于窗口
-- pageX/pageY 相对于文档
+-   clientX/clientY 相对于窗口
+-   pageX/pageY 相对于文档
 
 一个 API
 `dom.getBoundingClientRect()`
@@ -67,7 +67,7 @@ scrollToView() // 滚到视野里
 
 ## 获取 dom 样式的方式
 
-- dom.style，获取行内样式，并且可以修改
-- dom.currentStyle，只能获取样式
-- windwo.getComputedStyle(dom)，只能获取样式（IE 兼容较差）
+-   dom.style，获取行内样式，并且可以修改
+-   dom.currentStyle，只能获取样式
+-   windwo.getComputedStyle(dom)，只能获取样式（IE 兼容较差）
 

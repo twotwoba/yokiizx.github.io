@@ -6,26 +6,24 @@
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="noodp" /><title>Git自用手册 - Hello World</title><meta name="Description" content="A website documenting front-end technology and everyday life"><meta property="og:title" content="Git自用手册" />
+    <meta name="robots" content="noodp" /><title>Git 自用手册 - Hello World</title><meta name="Description" content="A website documenting front-end technology and everyday life"><meta property="og:title" content="Git 自用手册" />
 <meta property="og:description" content="本文基于 git version 2.32.0
-我知道有很多人在使用 SourceTree 之类的图形界面进行版本管理，但是从入行就习惯使用命令行和喜欢简约风的我还是喜欢在 terminal 内敲命令来进行 git 的相关操作，本文把这几年来常用的命令和经验分享一下。
-鉴于是老生常谈的东西了，分为老手和新手两块。
-老手命令换电脑或者重做系统后，需要重新配置 git 命令别名，帮助简化命令（复制进 terminal 执行一下即可）。
-sh
-# 普通流程 git config --global alias.g git # 只 clone 对应分支, g cloneb [br] [url], 对于 react 之类的大仓库，就很舒服~ git config --global alias.cloneb &#39;clone --single-branch --branch&#39; git config --global alias.ad &#39;add -A&#39; git config --global alias.cm &#39;commit -m&#39; git config --global alias.ps push git config --global alias.pso &#39;push origin&#39; git config --global alias.pl pull git config --global alias." />
+当然，许多人选择使用 SourceTree 这样的图形界面来管理版本，但我作为一个习惯使用命令行和喜欢简约风格的人，更喜欢在终端中输入命令来进行 Git 相关操作。在这篇文章中，我将分享我这几年来常用的命令和经验。（一些基础的知识就不在本文中赘述了，可以自行网上搜索资料。）
+基础配置 配置别名别名可以极大简化命令号的操作复杂度~~~，是我换电脑或者重做系统后的必做的待办项之一。
+常用别名
+# 请直接复制进 terminal 执行一下即可。提高幸福度的别名使用⭐️标记。 # -------------------------------------------------------------------------------------- # 常规 git config --global alias.g git git config --global alias.c &#39;config&#39; # g c user.name eric git config --global alias.cg &#39;config --global&#39; # g cg user.email eric@gmail.com # 对于大型仓库只 clone 对应分支, g cloneb [bracnchName | tagName] [url] ⭐️ g cg alias.cloneb &#39;clone --single-branch --branch&#39; g cg alias.st status # 常用，提交前看一眼大致变化 g cg alias." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/" /><meta property="og:image" content="http://localhost:1313/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-09-19T20:36:01+08:00" />
-<meta property="article:modified_time" content="2022-09-19T20:36:01+08:00" />
+<meta property="article:published_time" content="2022-09-19T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-05-07T00:00:00+00:00" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="http://localhost:1313/" /><meta name="twitter:title" content="Git自用手册"/>
+<meta name="twitter:image" content="http://localhost:1313/" /><meta name="twitter:title" content="Git 自用手册"/>
 <meta name="twitter:description" content="本文基于 git version 2.32.0
-我知道有很多人在使用 SourceTree 之类的图形界面进行版本管理，但是从入行就习惯使用命令行和喜欢简约风的我还是喜欢在 terminal 内敲命令来进行 git 的相关操作，本文把这几年来常用的命令和经验分享一下。
-鉴于是老生常谈的东西了，分为老手和新手两块。
-老手命令换电脑或者重做系统后，需要重新配置 git 命令别名，帮助简化命令（复制进 terminal 执行一下即可）。
-sh
-# 普通流程 git config --global alias.g git # 只 clone 对应分支, g cloneb [br] [url], 对于 react 之类的大仓库，就很舒服~ git config --global alias.cloneb &#39;clone --single-branch --branch&#39; git config --global alias.ad &#39;add -A&#39; git config --global alias.cm &#39;commit -m&#39; git config --global alias.ps push git config --global alias.pso &#39;push origin&#39; git config --global alias.pl pull git config --global alias."/>
+当然，许多人选择使用 SourceTree 这样的图形界面来管理版本，但我作为一个习惯使用命令行和喜欢简约风格的人，更喜欢在终端中输入命令来进行 Git 相关操作。在这篇文章中，我将分享我这几年来常用的命令和经验。（一些基础的知识就不在本文中赘述了，可以自行网上搜索资料。）
+基础配置 配置别名别名可以极大简化命令号的操作复杂度~~~，是我换电脑或者重做系统后的必做的待办项之一。
+常用别名
+# 请直接复制进 terminal 执行一下即可。提高幸福度的别名使用⭐️标记。 # -------------------------------------------------------------------------------------- # 常规 git config --global alias.g git git config --global alias.c &#39;config&#39; # g c user.name eric git config --global alias.cg &#39;config --global&#39; # g cg user.email eric@gmail.com # 对于大型仓库只 clone 对应分支, g cloneb [bracnchName | tagName] [url] ⭐️ g cg alias.cloneb &#39;clone --single-branch --branch&#39; g cg alias.st status # 常用，提交前看一眼大致变化 g cg alias."/>
 <meta name="application-name" content="前端后花园">
 <meta name="apple-mobile-web-app-title" content="前端后花园">
 
@@ -36,13 +34,13 @@ sh
 <link rel="canonical" href="http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/" /><link rel="prev" href="http://localhost:1313/%E8%80%81%E7%94%9F%E5%B8%B8%E8%B0%88-%E9%9A%90%E5%BC%8F%E8%BD%AC%E6%8D%A2/" /><link rel="next" href="http://localhost:1313/promisea/" />
 <link rel="stylesheet" href="/css/main.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
         <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">{"@context": "https://schema.org","@type": "BlogPosting",
-        "headline": "Git自用手册",
+        "headline": "Git 自用手册",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/"
-        },"genre": "posts","keywords":["git"],"wordcount":  592 ,
-        "url": "http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/","datePublished": "2022-09-19T20:36:01+08:00","dateModified": "2022-09-19T20:36:01+08:00","publisher": {
+        },"genre": "posts","wordcount":  567 ,
+        "url": "http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/","datePublished": "2022-09-19T00:00:00+00:00","dateModified": "2024-05-07T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
@@ -184,34 +182,31 @@ sh
         <h2 class="toc-title">目录</h2>
         <div class="toc-content always-active" id="toc-content-auto"><nav id="TableOfContents">
   <ul>
-    <li><a href="#老手命令">老手命令</a>
+    <li><a href="#基础配置">基础配置</a>
       <ul>
-        <li><a href="#处理-fatal-refusing-to-merge-unrelated-histories">处理 fatal: refusing to merge unrelated histories</a></li>
+        <li><a href="#配置别名">配置别名</a></li>
+        <li><a href="#配置用户信息">配置用户信息</a></li>
+        <li><a href="#head-知多少">HEAD 知多少</a></li>
       </ul>
     </li>
-    <li><a href="#新手概念">新手概念</a>
+    <li><a href="#提交规范">提交规范</a></li>
+    <li><a href="#常见问题">常见问题</a>
       <ul>
-        <li><a href="#四态三区">四态三区</a></li>
-        <li><a href="#分支">分支</a></li>
-      </ul>
-    </li>
-    <li><a href="#提交规范">提交规范</a>
-      <ul>
-        <li><a href="#解决-vscode-git-log-中文字符乱码">解决 vscode git log 中文字符乱码</a></li>
-        <li><a href="#补充">补充</a></li>
+        <li><a href="#git-log-中文字符乱码">git log 中文字符乱码</a></li>
+        <li><a href="#处理拒绝合并不相关历史">处理拒绝合并不相关历史</a></li>
       </ul>
     </li>
     <li><a href="#参考">参考</a></li>
   </ul>
 </nav></div>
-    </div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Git自用手册</h1><div class="post-meta">
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Git 自用手册</h1><div class="post-meta">
             <div class="post-meta-line">
                 <span class="post-author"><svg class="icon"
     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><a href="/" title="Author" rel=" author" class="author">EricYuan</a>
-                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/git/"><i class="far fa-folder fa-fw"></i>Git</a></span><span id="busuanzi_container_page_pv">&nbsp;
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/tool/"><i class="far fa-folder fa-fw"></i>Tool</a></span><span id="busuanzi_container_page_pv">&nbsp;
                         <span><i class="far fa-eye"></i></span>&nbsp;阅读量<span id="busuanzi_value_page_pv"></span>次</span>
             </div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-09-19">2022-09-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-09-19">2022-09-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 592 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-09-19">2022-09-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2024-05-07">2024-05-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 567 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -220,43 +215,30 @@ sh
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#老手命令">老手命令</a>
+    <li><a href="#基础配置">基础配置</a>
       <ul>
-        <li><a href="#处理-fatal-refusing-to-merge-unrelated-histories">处理 fatal: refusing to merge unrelated histories</a></li>
+        <li><a href="#配置别名">配置别名</a></li>
+        <li><a href="#配置用户信息">配置用户信息</a></li>
+        <li><a href="#head-知多少">HEAD 知多少</a></li>
       </ul>
     </li>
-    <li><a href="#新手概念">新手概念</a>
+    <li><a href="#提交规范">提交规范</a></li>
+    <li><a href="#常见问题">常见问题</a>
       <ul>
-        <li><a href="#四态三区">四态三区</a></li>
-        <li><a href="#分支">分支</a></li>
-      </ul>
-    </li>
-    <li><a href="#提交规范">提交规范</a>
-      <ul>
-        <li><a href="#解决-vscode-git-log-中文字符乱码">解决 vscode git log 中文字符乱码</a></li>
-        <li><a href="#补充">补充</a></li>
+        <li><a href="#git-log-中文字符乱码">git log 中文字符乱码</a></li>
+        <li><a href="#处理拒绝合并不相关历史">处理拒绝合并不相关历史</a></li>
       </ul>
     </li>
     <li><a href="#参考">参考</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><div class="details admonition warning open">
-                <div class="details-summary admonition-title">
-                    <span class="icon warning"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></svg></span>警告<span class="details-icon"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span>
-                </div>
-                <div class="details-content">
-                    <div class="admonition-content">
-                        本文最后更新于 <span class="timeago" datetime="2022-09-19T20:36:01" title="September 19, 2022">2022-09-19</span>，文中内容可能已过时。</div>
-                </div>
-            </div><p><strong>本文基于 git version 2.32.0</strong></p>
+            </div><div class="content" id="content"><p><strong>本文基于 git version 2.32.0</strong></p>
 <hr>
-<p>我知道有很多人在使用 SourceTree 之类的图形界面进行版本管理，但是从入行就习惯使用命令行和喜欢简约风的我还是喜欢在 terminal 内敲命令来进行 git 的相关操作，本文把这几年来常用的命令和经验分享一下。</p>
-<p>鉴于是老生常谈的东西了，分为老手和新手两块。</p>
-<h2 id="老手命令" class="headerLink">
-    <a href="#%e8%80%81%e6%89%8b%e5%91%bd%e4%bb%a4" class="header-mark"></a>老手命令</h2><p>换电脑或者重做系统后，需要重新配置 git 命令别名，帮助简化命令（复制进 terminal 执行一下即可）。</p>
-<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+<p>当然，许多人选择使用 SourceTree 这样的图形界面来管理版本，但我作为一个习惯使用命令行和喜欢简约风格的人，更喜欢在终端中输入命令来进行 Git 相关操作。在这篇文章中，我将分享我这几年来常用的命令和经验。（一些基础的知识就不在本文中赘述了，可以自行网上搜索资料。）</p>
+<h2 id="基础配置" class="headerLink">
+    <a href="#%e5%9f%ba%e7%a1%80%e9%85%8d%e7%bd%ae" class="header-mark"></a>基础配置</h2><h3 id="配置别名" class="headerLink">
+    <a href="#%e9%85%8d%e7%bd%ae%e5%88%ab%e5%90%8d" class="header-mark"></a>配置别名</h3><p>别名可以极大简化命令号的操作复杂度~~~，是我换电脑或者重做系统后的必做的待办项之一。</p>
+<div class="code-block highlight is-open   tw-group tw-my-2">
   <div class="
     code-block-title 
     
@@ -279,7 +261,7 @@ sh
     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button>
 
     <div class="code-block-title-bar tw-w-full">
-      <p class="tw-select-none !tw-my-1">sh</p>
+      <p class="tw-select-none !tw-my-1">常用别名</p>
     </div>
     <div class="tw-flex">
       <button 
@@ -347,62 +329,89 @@ sh
       group-[.is-closed]:!tw-max-h-0 
       group-[.is-wrap]:tw-text-wrap
       tw-overflow-y-hidden
-      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="c1"># 普通流程</span>
+      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="c1"># 请直接复制进 terminal 执行一下即可。提高幸福度的别名使用⭐️标记。</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --------------------------------------------------------------------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 常规</span>
 </span></span><span class="line"><span class="cl">git config --global alias.g git
-</span></span><span class="line"><span class="cl"><span class="c1"># 只 clone 对应分支, g cloneb [br] [url], 对于 react 之类的大仓库，就很舒服~</span>
-</span></span><span class="line"><span class="cl">git config --global alias.cloneb <span class="s1">&#39;clone --single-branch --branch&#39;</span>
-</span></span><span class="line"><span class="cl">git config --global alias.ad <span class="s1">&#39;add -A&#39;</span>
-</span></span><span class="line"><span class="cl">git config --global alias.cm <span class="s1">&#39;commit -m&#39;</span>
-</span></span><span class="line"><span class="cl">git config --global alias.ps push
-</span></span><span class="line"><span class="cl">git config --global alias.pso <span class="s1">&#39;push origin&#39;</span>
-</span></span><span class="line"><span class="cl">git config --global alias.pl pull
-</span></span><span class="line"><span class="cl">git config --global alias.plo <span class="s1">&#39;pull origin&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 修改最后一次commit（会变更commitId）</span>
-</span></span><span class="line"><span class="cl">git config --global alias.cam <span class="s1">&#39;commit --amend -m&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 追加修改，不加新commit</span>
-</span></span><span class="line"><span class="cl">git config --global alias.can <span class="s1">&#39;commit --amend --no-edit&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 任意commit删/改 git ri cmid</span>
-</span></span><span class="line"><span class="cl">git config --global alias.ri <span class="s1">&#39;rebase -i&#39;</span>
+</span></span><span class="line"><span class="cl">git config --global alias.c <span class="s1">&#39;config&#39;</span> <span class="c1"># g c user.name eric</span>
+</span></span><span class="line"><span class="cl">git config --global alias.cg <span class="s1">&#39;config --global&#39;</span> <span class="c1"># g cg user.email eric@gmail.com</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 分支相关</span>
-</span></span><span class="line"><span class="cl">git config --global alias.br branch
-</span></span><span class="line"><span class="cl">git config --global alias.rn <span class="s1">&#39;branch --move&#39;</span> <span class="c1"># g rn oldname newname</span>
-</span></span><span class="line"><span class="cl">git config --global alias.ck checkout <span class="c1"># 常用命令 g ck -, 快速返回上一个分支</span>
-</span></span><span class="line"><span class="cl">git config --global alias.cb <span class="s1">&#39;checkout -b&#39;</span>
-</span></span><span class="line"><span class="cl">git config --global alias.cp cherry-pick <span class="c1"># g cp [commit/brname] 如果是brname则是把该分支最新commit合并</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># cherry-pick 可以与 reflog (查看HEAD指针的行走轨迹,包括因为reset被移出的commit) 配合，来找回被删除的 commit</span>
-</span></span><span class="line"><span class="cl">git config --global alias.db <span class="s1">&#39;branch -d&#39;</span>
-</span></span><span class="line"><span class="cl">git config --global alias.fdb <span class="s1">&#39;branch -D&#39;</span> <span class="c1"># 强制删除</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 删除远程 g drb brname; 也可以推送一个空本地分支: g po :brname</span>
-</span></span><span class="line"><span class="cl">git config --global alias.drb <span class="s1">&#39;push origin --delete&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 对于大型仓库只 clone 对应分支, g cloneb [bracnchName | tagName] [url] ⭐️</span>
+</span></span><span class="line"><span class="cl">g cg alias.cloneb <span class="s1">&#39;clone --single-branch --branch&#39;</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># tag 相关 g tag [tname]</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 推送某个 tag: g po [tag]</span>
-</span></span><span class="line"><span class="cl">git config --global alias.psot <span class="s1">&#39;push origin --tags&#39;</span>
-</span></span><span class="line"><span class="cl">git config --global alias.dt <span class="s1">&#39;tag -d&#39;</span>
-</span></span><span class="line"><span class="cl">git config --global alias.drt <span class="s1">&#39;push origin --delete&#39;</span> <span class="c1"># 也可以推送空tag g po :refs/tags/[version]</span>
+</span></span><span class="line"><span class="cl">g cg alias.st status <span class="c1"># 常用，提交前看一眼大致变化</span>
+</span></span><span class="line"><span class="cl">g cg alias.ad <span class="s1">&#39;add -A&#39;</span>
+</span></span><span class="line"><span class="cl">g cg alias.cm <span class="s1">&#39;commit -m&#39;</span>
+</span></span><span class="line"><span class="cl">g cg alias.ps push
+</span></span><span class="line"><span class="cl">g cg alias.pso <span class="s1">&#39;push origin&#39;</span>
+</span></span><span class="line"><span class="cl">g cg alias.pl pull
+</span></span><span class="line"><span class="cl">g cg alias.plo <span class="s1">&#39;pull origin&#39;</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">git config --global alias.st status
-</span></span><span class="line"><span class="cl">git config --global alias.ss <span class="s1">&#39;status -s&#39;</span>
+</span></span><span class="line"><span class="cl">g cg alias.cam <span class="s1">&#39;commit --amend -m&#39;</span>        <span class="c1"># 修改最后一次 commit（⭐️会变更commitId）</span>
+</span></span><span class="line"><span class="cl">g cg alias.can <span class="s1">&#39;commit --amend --no-edit&#39;</span> <span class="c1"># 追加修改，不加新 commit（g can ⭐️ 经常使用了属于是）</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 查看配置</span>
-</span></span><span class="line"><span class="cl">git config --global alias.cl <span class="s1">&#39;config --list&#39;</span>
-</span></span><span class="line"><span class="cl">git config --global alias.cgl <span class="s1">&#39;config --global --list&#39;</span>
-</span></span><span class="line"><span class="cl">git config --global alias.cll <span class="s1">&#39;config --local  --list&#39;</span>
+</span></span><span class="line"><span class="cl">g cg alias.cl <span class="s1">&#39;config --list&#39;</span>
+</span></span><span class="line"><span class="cl">g cg alias.cgl <span class="s1">&#39;config --global --list&#39;</span>
+</span></span><span class="line"><span class="cl">g cg alias.cll <span class="s1">&#39;config --local  --list&#39;</span>  <span class="c1"># 查看当前仓库下的 git 配置</span>
 </span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># --------------------------------------------------------------------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 分支相关 (对于很多新手都不清楚的是：branchName 也只是一个指针!!!s)</span>
+</span></span><span class="line"><span class="cl">g cg alias.br branch
+</span></span><span class="line"><span class="cl">g cg alias.rename <span class="s1">&#39;branch --move&#39;</span>     <span class="c1"># g rename oldname newname</span>
+</span></span><span class="line"><span class="cl">g cg alias.ck checkout                <span class="c1"># 带着 HEAD 到处跑~（⭐️ g ck - 快速返回上一个分支，同理 g merge -）</span>
+</span></span><span class="line"><span class="cl">g cg alias.cb <span class="s1">&#39;checkout -b&#39;</span>
+</span></span><span class="line"><span class="cl">g cg alias.db <span class="s1">&#39;branch -d&#39;</span>             <span class="c1"># 删除分支</span>
+</span></span><span class="line"><span class="cl">g cg alias.fdb <span class="s1">&#39;branch -D&#39;</span>            <span class="c1"># 强制删除</span>
+</span></span><span class="line"><span class="cl">g cg alias.drb <span class="s1">&#39;push origin --delete&#39;</span> <span class="c1"># 删除远程 g drb brname ⭐️; 也可以推送一个空本地分支: g pso :brname</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># --------------------------------------------------------------------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># tag 相关</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 打 tag： g tag [tagName]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 推 tag： tag: g pso [tagName]</span>
+</span></span><span class="line"><span class="cl">g cg alias.psot <span class="s1">&#39;push origin --tags&#39;</span>  <span class="c1"># 推多个 tag</span>
+</span></span><span class="line"><span class="cl">g cg alias.dt <span class="s1">&#39;tag -d&#39;</span>                <span class="c1"># 删除 tag</span>
+</span></span><span class="line"><span class="cl">g cg alias.drt <span class="s1">&#39;push origin --delete&#39;</span> <span class="c1"># 删除远程 tag 也可以推送空tag g pso :refs/tags/[version]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># --------------------------------------------------------------------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 进阶操作</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 常用 ⭐️，开发到一半要去改 bug 🙅🏻‍♀️</span>
+</span></span><span class="line"><span class="cl">g cg alias.sta stash
+</span></span><span class="line"><span class="cl">g cg alias.stap <span class="s1">&#39;stash pop&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">g cg alias.rv <span class="s1">&#39;revert&#39;</span>         <span class="c1"># 反向操作，产生新的 commit</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 下面的 reset 是移动分支指针，并移出之后的 commit，同时还带有一点副作用</span>
+</span></span><span class="line"><span class="cl">g cg alias.rh <span class="s1">&#39;reset --hard&#39;</span>    <span class="c1"># 副作用：会重置暂存区和工作区</span>
+</span></span><span class="line"><span class="cl">g cg alias.rs <span class="s1">&#39;reset --soft&#39;</span>    <span class="c1"># 副作用：不会重置暂存区和工作区</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># g reset --mixed commitId      # 副作用：重置暂存区,工作区不变，是 reset 的默认方式</span>
+</span></span><span class="line"><span class="cl">g cg alias.cp cherry-pick       <span class="c1"># g cp [commit/brname] 如果是 brname 则是把该分支最新commit合并(再次验证 brname 也就是一个指针~)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># cp 区间 g cp  commitA..commitB  把区间 (A, B] 的 commit 都合进来，A 早于 B 的</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># cp 区间 g cp  commitA^..commitB 把区间 [A, B] 的 commit 都合进来</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># git reflog  时光机神器~~~~~~~~~~~~~~能查看HEAD指针行走的所有轨迹,包括因为reset而被移出的commit</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 有了 reflog：cherry-pick 轻松找回被删除的 commit，reset 后悔了也可以轻松地回到未来</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 变基开启交互模式 g ri cmid</span>
+</span></span><span class="line"><span class="cl">g cg alias.ri <span class="s1">&#39;rebase -i&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># --------------------------------------------------------------------------------------</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># log 美化</span>
-</span></span><span class="line"><span class="cl">git config --global alias.lg <span class="s2">&#34;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&#34;</span>
+</span></span><span class="line"><span class="cl">g cg alias.lg <span class="s2">&#34;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># 根据 commit 内容查找 commit</span>
-</span></span><span class="line"><span class="cl">git config --global alias.find <span class="s2">&#34;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit --grep&#34;</span>
+</span></span><span class="line"><span class="cl">g cg alias.find <span class="s2">&#34;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit --grep&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># 根据 commit 用户查找 commit</span>
-</span></span><span class="line"><span class="cl">git config --global alias.findby <span class="s2">&#34;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit --author&#34;</span>
+</span></span><span class="line"><span class="cl">g cg alias.findby <span class="s2">&#34;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit --author&#34;</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 下面两个命令倒是不常用，一般用 vscode 里的可视化操作</span>
-</span></span><span class="line"><span class="cl">git config --global alias.res restore
-</span></span><span class="line"><span class="cl">git config --global alias.rss <span class="s1">&#39;restore --staged&#39;</span></span></span></code></pre>
+</span></span><span class="line"><span class="cl"><span class="c1"># --------------------------------------------------------------------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 不常用命令(2.23 新增)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># git restore / restore --staged [filename]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># get switch / switch -c [brname]</span></span></span></code></pre>
 </div>
-<p>命令简化完后，需要配置下个人信息，我个人习惯是公司的项目都单独配置，全局给自己用。</p>
-<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+<blockquote>
+<p>注意：reflog 查看的是本地历史，在别的电脑上是看不见的，同理如果电脑坏了，那么再也回不到未来了&hellip;另外，git reflog 不会永远保持，Git 会定期清理那些 “用不到的” 对象，不要指望几个月前的提交还一直在那里。</p>
+</blockquote>
+<h3 id="配置用户信息" class="headerLink">
+    <a href="#%e9%85%8d%e7%bd%ae%e7%94%a8%e6%88%b7%e4%bf%a1%e6%81%af" class="header-mark"></a>配置用户信息</h3><p>命令简化完后，需要配置下个人信息，我个人习惯是公司的项目都单独配置，全局给自己用。</p>
+<div class="code-block highlight is-open   tw-group tw-my-2">
   <div class="
     code-block-title 
     
@@ -494,14 +503,51 @@ sh
       group-[.is-wrap]:tw-text-wrap
       tw-overflow-y-hidden
       tw-overflow-x-auto"><span class="line"><span class="cl"><span class="c1"># 全局配置</span>
-</span></span><span class="line"><span class="cl">git config --global user.name <span class="s1">&#39;yourname&#39;</span>
-</span></span><span class="line"><span class="cl">git config --global user.email <span class="s1">&#39;yourmail@163.com&#39;</span>
+</span></span><span class="line"><span class="cl">g cg user.name <span class="s1">&#39;yourname&#39;</span>
+</span></span><span class="line"><span class="cl">g cg user.email <span class="s1">&#39;yourmail@xx.com&#39;</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 单个项目配置 (cd到根目录)</span>
-</span></span><span class="line"><span class="cl">git config user.name <span class="s1">&#39;name&#39;</span>
-</span></span><span class="line"><span class="cl">git config user.email <span class="s1">&#39;mail&#39;</span></span></span></code></pre>
+</span></span><span class="line"><span class="cl"><span class="c1"># 独立配置</span>
+</span></span><span class="line"><span class="cl">g c user.name <span class="s1">&#39;yourname&#39;</span>
+</span></span><span class="line"><span class="cl">g c user.email <span class="s1">&#39;yourmail@xx.com&#39;</span></span></span></code></pre>
 </div>
-<p>其它的一些实用命令：</p>
+<h3 id="head-知多少" class="headerLink">
+    <a href="#head-%e7%9f%a5%e5%a4%9a%e5%b0%91" class="header-mark"></a>HEAD 知多少</h3><p>说一下个人的认知：</p>
+<ul>
+<li>git 整个 commit 就是一个多叉树</li>
+<li>每一个 branch 就是一条新的分支，它的 branchName 也是一个指针，指向的这条分支上最新的 commit</li>
+<li>每一个 tag 也都可以看成是对应 commit 的别名</li>
+</ul>
+<p>而 HEAD 是特殊的指针，指向的是当前所在 commit。平时 checkout 操作的就是 HEAD，而 reset 一般操作的是 branchName(HEAD 被迫跟着一起回退)</p>
+<p>常用的 HEAD 简写 <code>HEAD^n</code> 与 <code>HEAD~n</code>：</p>
+<ul>
+<li>HEAD^^^ 等价于 HEAD~3 表示父父父提交</li>
+<li>HEAD^3 表示的是父提交的第三个提交，即合并进来的其他提交</li>
+</ul>
+<hr>
+<!--
+## 新手概念
+
+### 四态三区
+
+git 目录下的所有文件一共有四种状态：
+
+-   untracked (就是新增但是未 add 的文件)
+-   unmodified
+-   unstaged
+-   staged
+
+本地三个 git 分区：
+
+-   工作区：存放着`untracked`、`unmodified`、`unstaged`的文件
+-   暂存区：当工作区文件被`git add` 后加入，文件状态为 `unstaged`
+-   仓库区：当暂存区文件被`commit` 后加入
+
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/017fb508b89d45a88c33383cdc4681eb~tplv-k3u1fbpfcp-zoom-1.image) -->
+<h2 id="提交规范" class="headerLink">
+    <a href="#%e6%8f%90%e4%ba%a4%e8%a7%84%e8%8c%83" class="header-mark"></a>提交规范</h2><p>通过 <code>husky</code> + <code>lint-staged</code> 配合来进行约束，详细配置根据项目来设定。</p>
+<h2 id="常见问题" class="headerLink">
+    <a href="#%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98" class="header-mark"></a>常见问题</h2><h3 id="git-log-中文字符乱码" class="headerLink">
+    <a href="#git-log-%e4%b8%ad%e6%96%87%e5%ad%97%e7%ac%a6%e4%b9%b1%e7%a0%81" class="header-mark"></a>git log 中文字符乱码</h3><p>当 vscode terminal 内使用 <code>g lg</code> 出现中文字符乱码问题， 可以去这么配置</p>
 <div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
   <div class="
     code-block-title 
@@ -525,7 +571,7 @@ sh
     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button>
 
     <div class="code-block-title-bar tw-w-full">
-      <p class="tw-select-none !tw-my-1">sh</p>
+      <p class="tw-select-none !tw-my-1">yml</p>
     </div>
     <div class="tw-flex">
       <button 
@@ -593,34 +639,14 @@ sh
       group-[.is-closed]:!tw-max-h-0 
       group-[.is-wrap]:tw-text-wrap
       tw-overflow-y-hidden
-      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="c1"># 临时将工作区文件的修改保存至堆栈中 (常用于开发到一半要去改个bug)</span>
-</span></span><span class="line"><span class="cl">git stash
-</span></span><span class="line"><span class="cl"><span class="c1"># 将之前保存至堆栈中的文件取出来</span>
-</span></span><span class="line"><span class="cl">git stash pop
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># HEAD 指针回退某个版本并基于那个版本修改bug</span>
-</span></span><span class="line"><span class="cl">git checkout <span class="o">[</span>commit<span class="o">]</span> <span class="c1"># HEAD 将处于 detached (游离) 状态 g st 可查看</span>
-</span></span><span class="line"><span class="cl">git checkout <span class="o">[</span>current brname<span class="o">]</span> <span class="c1"># 当希望HEAD回到分支最初状态，这样即可</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 一般可以用 checkout 回退版本，查看历史代码，测试 bug 在哪，</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 如果checkout的commit下修改了bug，提交了commit，签回分支末端时，会提示要不要建一个新分支</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 这时候可以新建一个临时分支，然后你本地自己的开发主分支去合并它，合并完后删除临时分支</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 对某次 commit 做反向操作, 生成新的 commit, 常用来撤销中间的某一次提交</span>
-</span></span><span class="line"><span class="cl">git revert <span class="o">[</span>commit<span class="o">]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># rebase 用来变基合并的作用可能没有 rebase -i 使用的频繁</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 执行下面的命令就能对 commit 进行一系列操作了</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 常用的如 编辑，合并, 删除commit等</span>
-</span></span><span class="line"><span class="cl">git rebase -i <span class="o">[</span>HEAD~3<span class="o">]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 把分支指针指向对应的commit，移除之后的提交</span>
-</span></span><span class="line"><span class="cl">git reset --hard <span class="o">[</span>commit<span class="o">]</span> <span class="c1"># 重置暂存区和工作区</span>
-</span></span><span class="line"><span class="cl">git reset --soft <span class="o">[</span>commit<span class="o">]</span> <span class="c1"># 保持暂存区和工作区不变</span>
-</span></span><span class="line"><span class="cl">git reset --mixed <span class="o">[</span>commit<span class="o">]</span> <span class="c1"># 重置暂存区,工作区不变，是reset的默认方式</span></span></span></code></pre>
+      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="c"># ~/.gitconfig</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="l">export LC_ALL=zh_CN.UTF-8</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="l">export LANG=zh_CN.UTF-8</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="l">export LESSHARESET=utf-8</span></span></span></code></pre>
 </div>
-<p>上面的命令基本是够用了，不过 git 2.23 后有一些新命令：</p>
-<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+<h3 id="处理拒绝合并不相关历史" class="headerLink">
+    <a href="#%e5%a4%84%e7%90%86%e6%8b%92%e7%bb%9d%e5%90%88%e5%b9%b6%e4%b8%8d%e7%9b%b8%e5%85%b3%e5%8e%86%e5%8f%b2" class="header-mark"></a>处理拒绝合并不相关历史</h3><p><code>fatal: refusing to merge unrelated histories</code></p>
+<div class="code-block highlight is-open   tw-group tw-my-2">
   <div class="
     code-block-title 
     
@@ -711,262 +737,14 @@ sh
       group-[.is-closed]:!tw-max-h-0 
       group-[.is-wrap]:tw-text-wrap
       tw-overflow-y-hidden
-      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="c1"># switch 和 restore 都是来帮 checkout 分担压力的</span>
-</span></span><span class="line"><span class="cl">git switch <span class="o">[</span>branchname<span class="o">]</span>
-</span></span><span class="line"><span class="cl">git switch -c <span class="o">[</span>branchname<span class="o">]</span> <span class="c1"># -c 表示创建</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">git restore <span class="o">[</span>filename<span class="o">]</span>
-</span></span><span class="line"><span class="cl">git restore --staged <span class="o">[</span>filename<span class="o">]</span></span></span></code></pre>
-</div>
-<blockquote>
-<p>注意：reflog 查看的是本地历史，在别的电脑上是看不见的，同理如果电脑坏了，那么也回不到未来了&hellip;另外，git reflog 不会永远保持，Git 会定期清理那些 “用不到的” 对象，不要指望几个月前的提交还一直在那里。</p>
-</blockquote>
-<h3 id="处理-fatal-refusing-to-merge-unrelated-histories" class="headerLink">
-    <a href="#%e5%a4%84%e7%90%86-fatal-refusing-to-merge-unrelated-histories" class="header-mark"></a>处理 fatal: refusing to merge unrelated histories</h3><div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
-  <div class="
-    code-block-title 
-    
-    tw-flex 
-    tw-flex-row 
-    tw-justify-between 
-    tw-w-full tw-bg-bgColor-secondary
-    ">      
-    <button 
-      class="
-        tw-select-none 
-        tw-mx-2 
-        tw-block
-        group-[.is-open]:tw-rotate-90
-        tw-transition-[transform] 
-        tw-duration-500 
-        tw-ease-in-out
-        print:!tw-hidden"
-      disabled><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button>
-
-    <div class="code-block-title-bar tw-w-full">
-      <p class="tw-select-none !tw-my-1">sh</p>
-    </div>
-    <div class="tw-flex">
-      <button 
-        class="
-          line-number-button
-          tw-select-none 
-          tw-mx-2 
-          tw-hidden 
-          group-[.is-open]:tw-block 
-          group-[.show-line-numbers]:tw-text-fgColor-link 
-          print:!tw-hidden" 
-        title="Toggle line numbers"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M61.77 401l17.5-20.15a19.92 19.92 0 0 0 5.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h22.83a157.41 157.41 0 0 0-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33 0 15.94 2.44 15.94 9.09 0 4.72-4.2 8.22-14.36 8.22a41.54 41.54 0 0 1-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16 0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-160H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16zm0 320H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zM16 160h64a8 8 0 0 0 8-8v-16a8 8 0 0 0-8-8H64V40a8 8 0 0 0-8-8H32a8 8 0 0 0-7.14 4.42l-8 16A8 8 0 0 0 24 64h8v64H16a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8zm-3.91 160H80a8 8 0 0 0 8-8v-16a8 8 0 0 0-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44 0-29.06-25-39.56-44.47-39.56-21.36 0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44 0 0 1 9.46-3.84c3.33 0 9.28 1.56 9.28 8.75C51 248.19 0 257.31 0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
-
-      <button 
-        class="
-          wrap-code-button
-          tw-select-none 
-          tw-mx-2 
-          tw-hidden 
-          group-[.is-open]:tw-block 
-          group-[.is-wrap]:tw-text-fgColor-link 
-          print:!tw-hidden" 
-        title="Toggle code wrap"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
-      
-      <button 
-        class="
-          copy-code-button
-          tw-select-none
-          tw-mx-2 
-          tw-hidden
-          group-[.is-open]:tw-block
-          hover:tw-text-fgColor-link 
-          print:!tw-hidden"
-        title="Copy code">
-          <span class="copy-icon tw-block"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z"/></svg></span>
-          <span class="check-icon tw-hidden"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
-      </button>
-        
-      <button 
-        class="
-          tw-select-none 
-          tw-mx-2 
-          tw-block 
-          group-[.is-open]:tw-hidden 
-          print:!tw-hidden" 
-        disabled
-        aria-hidden="true"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button>
-    </div>
-  </div>
-  <pre style="counter-reset: codeblock;" class="tw-block tw-m-0 tw-p-0"><code 
-    id="codeblock-id-5" 
-    class="
-      chroma 
-      !tw-block 
-      tw-p-0
-      tw-m-0
-      tw-transition-[max-height] 
-      tw-duration-500 
-      tw-ease-in-out 
-      group-[.is-closed]:!tw-max-h-0 
-      group-[.is-wrap]:tw-text-wrap
-      tw-overflow-y-hidden
       tw-overflow-x-auto"><span class="line"><span class="cl">g plo develop --allow-unrelated-histories</span></span></code></pre>
 </div>
-<hr>
-<h2 id="新手概念" class="headerLink">
-    <a href="#%e6%96%b0%e6%89%8b%e6%a6%82%e5%bf%b5" class="header-mark"></a>新手概念</h2><h3 id="四态三区" class="headerLink">
-    <a href="#%e5%9b%9b%e6%80%81%e4%b8%89%e5%8c%ba" class="header-mark"></a>四态三区</h3><p>git 目录下的所有文件一共有四种状态：</p>
-<ul>
-<li>untracked (就是新增但是未 add 的文件)</li>
-<li>unmodified</li>
-<li>unstaged</li>
-<li>staged</li>
-</ul>
-<p>本地三个 git 分区：</p>
-<ul>
-<li>工作区：存放着<code>untracked</code>、<code>unmodified</code>、<code>unstaged</code>的文件</li>
-<li>暂存区：当工作区文件被<code>git add</code> 后加入，文件状态为 <code>unstaged</code></li>
-<li>仓库区：当暂存区文件被<code>commit</code> 后加入</li>
-</ul>
-<p><figure><img
-        
-        loading="lazy"
-        src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/017fb508b89d45a88c33383cdc4681eb~tplv-k3u1fbpfcp-zoom-1.image"
-        srcset="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/017fb508b89d45a88c33383cdc4681eb~tplv-k3u1fbpfcp-zoom-1.image, https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/017fb508b89d45a88c33383cdc4681eb~tplv-k3u1fbpfcp-zoom-1.image 1.5x, https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/017fb508b89d45a88c33383cdc4681eb~tplv-k3u1fbpfcp-zoom-1.image 2x"
-        title="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/017fb508b89d45a88c33383cdc4681eb~tplv-k3u1fbpfcp-zoom-1.image" ></figure></p>
-<h3 id="分支" class="headerLink">
-    <a href="#%e5%88%86%e6%94%af" class="header-mark"></a>分支</h3><p>分支是很重要的一个概念，其实就是一个快照，创建的分支名只不过是指针而已，每一次提交就是指针往前移动。</p>
-<p>HEAD 是特殊的分支指针，指向的是当前所在分支。这里得说一下 HEAD^n 与 HEAD~n：</p>
-<p>长话短说：</p>
-<ul>
-<li>HEAD^^^ 等价于 HEAD~3 表示父父父提交</li>
-<li>HEAD^3 表示的是父提交的第三个提交，即合并进来的其他提交</li>
-</ul>
-<h2 id="提交规范" class="headerLink">
-    <a href="#%e6%8f%90%e4%ba%a4%e8%a7%84%e8%8c%83" class="header-mark"></a>提交规范</h2><p>通过 <code>husky</code> + <code>lint-staged</code> 配合来进行约束，详细配置根据项目来设定。</p>
-<h3 id="解决-vscode-git-log-中文字符乱码" class="headerLink">
-    <a href="#%e8%a7%a3%e5%86%b3-vscode-git-log-%e4%b8%ad%e6%96%87%e5%ad%97%e7%ac%a6%e4%b9%b1%e7%a0%81" class="header-mark"></a>解决 vscode git log 中文字符乱码</h3><div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
-  <div class="
-    code-block-title 
-    
-    tw-flex 
-    tw-flex-row 
-    tw-justify-between 
-    tw-w-full tw-bg-bgColor-secondary
-    ">      
-    <button 
-      class="
-        tw-select-none 
-        tw-mx-2 
-        tw-block
-        group-[.is-open]:tw-rotate-90
-        tw-transition-[transform] 
-        tw-duration-500 
-        tw-ease-in-out
-        print:!tw-hidden"
-      disabled><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button>
-
-    <div class="code-block-title-bar tw-w-full">
-      <p class="tw-select-none !tw-my-1">yml</p>
-    </div>
-    <div class="tw-flex">
-      <button 
-        class="
-          line-number-button
-          tw-select-none 
-          tw-mx-2 
-          tw-hidden 
-          group-[.is-open]:tw-block 
-          group-[.show-line-numbers]:tw-text-fgColor-link 
-          print:!tw-hidden" 
-        title="Toggle line numbers"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M61.77 401l17.5-20.15a19.92 19.92 0 0 0 5.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h22.83a157.41 157.41 0 0 0-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33 0 15.94 2.44 15.94 9.09 0 4.72-4.2 8.22-14.36 8.22a41.54 41.54 0 0 1-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16 0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-160H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16zm0 320H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zM16 160h64a8 8 0 0 0 8-8v-16a8 8 0 0 0-8-8H64V40a8 8 0 0 0-8-8H32a8 8 0 0 0-7.14 4.42l-8 16A8 8 0 0 0 24 64h8v64H16a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8zm-3.91 160H80a8 8 0 0 0 8-8v-16a8 8 0 0 0-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44 0-29.06-25-39.56-44.47-39.56-21.36 0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44 0 0 1 9.46-3.84c3.33 0 9.28 1.56 9.28 8.75C51 248.19 0 257.31 0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
-
-      <button 
-        class="
-          wrap-code-button
-          tw-select-none 
-          tw-mx-2 
-          tw-hidden 
-          group-[.is-open]:tw-block 
-          group-[.is-wrap]:tw-text-fgColor-link 
-          print:!tw-hidden" 
-        title="Toggle code wrap"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
-      
-      <button 
-        class="
-          copy-code-button
-          tw-select-none
-          tw-mx-2 
-          tw-hidden
-          group-[.is-open]:tw-block
-          hover:tw-text-fgColor-link 
-          print:!tw-hidden"
-        title="Copy code">
-          <span class="copy-icon tw-block"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z"/></svg></span>
-          <span class="check-icon tw-hidden"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
-      </button>
-        
-      <button 
-        class="
-          tw-select-none 
-          tw-mx-2 
-          tw-block 
-          group-[.is-open]:tw-hidden 
-          print:!tw-hidden" 
-        disabled
-        aria-hidden="true"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button>
-    </div>
-  </div>
-  <pre style="counter-reset: codeblock;" class="tw-block tw-m-0 tw-p-0"><code 
-    id="codeblock-id-6" 
-    class="
-      chroma 
-      !tw-block 
-      tw-p-0
-      tw-m-0
-      tw-transition-[max-height] 
-      tw-duration-500 
-      tw-ease-in-out 
-      group-[.is-closed]:!tw-max-h-0 
-      group-[.is-wrap]:tw-text-wrap
-      tw-overflow-y-hidden
-      tw-overflow-x-auto"><span class="line"><span class="cl"><span class="c">#.gitconfig</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="l">gui]</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">encoding = utf-8</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 代码库统一使用utf-8</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="l">i18n]</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">commitencoding = utf-8</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># log编码</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="l">svn]</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">pathnameencoding = utf-8</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 支持中文路径</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="l">core]</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">quotepath = false</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># status引用路径不再是八进制（反过来说就是允许显示中文了）</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 解决 vscode terminal git log 中文乱码</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="l">export LC_ALL=en_US.UTF-8</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="l">export LANG=en_US.UTF-8</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="l">export LESSHARESET=utf-8</span></span></span></code></pre>
-</div>
-<h3 id="补充" class="headerLink">
-    <a href="#%e8%a1%a5%e5%85%85" class="header-mark"></a>补充</h3><ul>
-<li><a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules" target="_blank" rel="noopener noreferrer">Git Tools - Submodules</a></li>
-<li><a href="https://www.jianshu.com/p/9000cd49822c" target="_blank" rel="noopener noreferrer">Git submodule 子模块的管理和使用</a></li>
-</ul>
 <h2 id="参考" class="headerLink">
     <a href="#%e5%8f%82%e8%80%83" class="header-mark"></a>参考</h2><ul>
 <li><a href="https://git-scm.com" target="_blank" rel="noopener noreferrer">Pro Git 2nd Edition</a></li>
 <li><a href="https://mp.weixin.qq.com/s/FSBEM2GqhpVJ6yw9FkxnGA" target="_blank" rel="noopener noreferrer">“纸上谈兵”之 Git 原理</a></li>
+<li><a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules" target="_blank" rel="noopener noreferrer">Git Tools - Submodules</a></li>
+<li><a href="https://www.jianshu.com/p/9000cd49822c" target="_blank" rel="noopener noreferrer">Git submodule 子模块的管理和使用</a></li>
 </ul>
 </div>
 
@@ -974,25 +752,24 @@ sh
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>更新于 2022-09-19</span>
+                <span>更新于 2024-05-07</span>
             </div>
             <div class="post-info-license"></div>
         </div>
         <div class="post-info-line print:!tw-hidden">
             <div class="post-info-md"><span><a class="link-to-mardown" href=/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
                     </span></div>
-            <div class="post-info-share"><button title="分享到 Twitter" data-sharer="twitter" data-url="http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/" data-title="Git自用手册" data-hashtags="git"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></button><button title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/" data-hashtag="git"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg></button><button title="分享到 WhatsApp" data-sharer="whatsapp" data-url="http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/" data-title="Git自用手册" data-web><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></button><button title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/" data-title="Git自用手册"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg></button><button title="分享到 Evernote" data-sharer="evernote" data-url="http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/" data-title="Git自用手册"><svg class="icon"
+            <div class="post-info-share"><button title="分享到 Twitter" data-sharer="twitter" data-url="http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/" data-title="Git 自用手册"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></button><button title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg></button><button title="分享到 WhatsApp" data-sharer="whatsapp" data-url="http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/" data-title="Git 自用手册" data-web><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></button><button title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/" data-title="Git 自用手册"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg></button><button title="分享到 Evernote" data-sharer="evernote" data-url="http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/" data-title="Git 自用手册"><svg class="icon"
     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M120.82 132.21c1.6 22.31-17.55 21.59-21.61 21.59-68.93 0-73.64-1-83.58 3.34-.56.22-.74 0-.37-.37L123.79 46.45c.38-.37.6-.22.38.37-4.35 9.99-3.35 15.09-3.35 85.39zm79 308c-14.68-37.08 13-76.93 52.52-76.62 17.49 0 22.6 23.21 7.95 31.42-6.19 3.3-24.95 1.74-25.14 19.2-.05 17.09 19.67 25 31.2 24.89A45.64 45.64 0 0 0 312 393.45v-.08c0-11.63-7.79-47.22-47.54-55.34-7.72-1.54-65-6.35-68.35-50.52-3.74 16.93-17.4 63.49-43.11 69.09-8.74 1.94-69.68 7.64-112.92-36.77 0 0-18.57-15.23-28.23-57.95-3.38-15.75-9.28-39.7-11.14-62 0-18 11.14-30.45 25.07-32.2 81 0 90 2.32 101-7.8 9.82-9.24 7.8-15.5 7.8-102.78 1-8.3 7.79-30.81 53.41-24.14 6 .86 31.91 4.18 37.48 30.64l64.26 11.15c20.43 3.71 70.94 7 80.6 57.94 22.66 121.09 8.91 238.46 7.8 238.46C362.15 485.53 267.06 480 267.06 480c-18.95-.23-54.25-9.4-67.27-39.83zm80.94-204.84c-1 1.92-2.2 6 .85 7 14.09 4.93 39.75 6.84 45.88 5.53 3.11-.25 3.05-4.43 2.48-6.65-3.53-21.85-40.83-26.5-49.24-5.92z"/></svg></button></div>
         </div>
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg>&nbsp;<a href="/tags/git/">Git</a></section>
+        <section class="post-tags"></section>
         <section class="print:!tw-hidden">
             <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
         </section>

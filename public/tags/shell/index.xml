@@ -17,19 +17,5 @@
 sh
 # 比如 demo.sh 文件内容如下 # ------------------------ #! /bin/zsh echo &#34;hello world&#34; # 执行两步走 chmod +x demo.sh ./demo.sh # 如果是如下执行，内文件内的 第一行#！xxx 是无效的，写了也没用 /bin/zsh demo.sh 变量 sh
 # 声明 variable_name=&#39;demo&#39; readonly variable_name # 只读变量 # 使用 $variable_name # 可以加上{}来确认边界 ${variable_name} # 删除变量 unset variable_name # 不能删除只读变量 字符串 sh]]></description>
-</item><item>
-    <title>Mac上bash/zsh</title>
-    <link>http://localhost:1313/mac%E4%B8%8Abash%E5%92%8Czsh/</link>
-    <pubDate>Fri, 25 Nov 2022 10:27:55 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/mac%E4%B8%8Abash%E5%92%8Czsh/</guid>
-    <description><![CDATA[基本概念 shell，就是人机交互的接口 bash/zsh 是执行 shell 的程序，输入 shell 命令，输出结果 在 mac 上，我们常用的就是 bash 和 zsh 了。其它还有 sh，csh 等。
-查看本机上所有 shell 程序 sh
-cat /etc/shells 查看目前使用的 shell 程序 sh
-echo $SHELL 设置默认 shell 程序 sh
-# change shell 缩写 chsh chsh -s /bin/[bash/zsh...] bash 和 zsh 的区别都是 shell 程序，但是 zsh 基本完美兼容 bash，并且安装 oh-my-zsh 有自动列出目录/自动目录名简写补全/自动大小写更正/自动命令补全/自动补全命令参数的内置功能，还可以配置插件。
-bash 读取 ~/.bash_profile zsh 读取 ~/.zshrc 在 .zshrc 中添加 source ~/.bash_profile 就可以直接使用 .bash_profile 中的配置，无需再配置一遍。
-小技巧：
-对于常用的命令，一定要配置别名，git 可以，所有 shell 命令都可以]]></description>
 </item></channel>
 </rss>
