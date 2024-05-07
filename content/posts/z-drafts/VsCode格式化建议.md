@@ -1,9 +1,11 @@
 ······················---
-title: 'VsCode格式化建议'
+title: 'VsCode 格式化建议'
 date: 2022-09-18T20:37:14+08:00
 tags: [tool, vscode]
 series: [format]
 categories: [tool]
+draft: true
+
 ---
 
 ## 前言
@@ -14,8 +16,8 @@ categories: [tool]
 
 进行配置前，确保安装了以下两个插件：
 
-- ESLint
-- Prettier - Code formatter
+-   ESLint
+-   Prettier - Code formatter
 
 ## 配置
 
@@ -23,10 +25,10 @@ categories: [tool]
 
     ```json
     {
-      "editor.formatOnSave": true, // 保存时自动格式化
-      "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true // 保存时自动修复
-      }
+        "editor.formatOnSave": true, // 保存时自动格式化
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": true // 保存时自动修复
+        }
     }
     ```
 
@@ -34,16 +36,16 @@ categories: [tool]
 
     ```json
     {
-      "printWidth": 80,
-      "tabWidth": 2,
-      "useTabs": false,
-      "semi": false,
-      "singleQuote": true,
-      "trailingComma": "none",
-      "bracketSpacing": true,
-      "arrowParens": "always",
-      "htmlWhitespaceSensitivity": "ignore",
-      "endOfLine": "auto"
+        "printWidth": 80,
+        "tabWidth": 2,
+        "useTabs": false,
+        "semi": false,
+        "singleQuote": true,
+        "trailingComma": "none",
+        "bracketSpacing": true,
+        "arrowParens": "always",
+        "htmlWhitespaceSensitivity": "ignore",
+        "endOfLine": "auto"
     }
     ```
 
@@ -54,8 +56,8 @@ categories: [tool]
 
     好在社区有了比较好的解决方案：
 
-    - `eslint-config-prettier` 让 eslint 忽略与 prettier 产生的冲突
-    - `eslint-plugin-prettier` 让 eslint 具有 prettier 格式化的能力
+    -   `eslint-config-prettier` 让 eslint 忽略与 prettier 产生的冲突
+    -   `eslint-plugin-prettier` 让 eslint 具有 prettier 格式化的能力
 
     ```sh
     npm i eslint-config-prettier eslint-plugin-prettier -D
@@ -72,21 +74,21 @@ categories: [tool]
     ```js
     // node_modules/eslint-plugin-prettier/eslint-plugin-prettier.js
     module.exports = {
-      configs: {
-        recommended: {
-          extends: ['prettier'],
-          plugins: ['prettier'],
-          rules: {
-            // 让代码文件中不符合prettier格式化规则的都标记为错误，
-            // 结合vscode-eslint插件便可以看到这些错误被标记为红色，
-            // 当运行eslint --fix 命令时，将自动修复这些错误。
-            'prettier/prettier': 'error',
-            'arrow-body-style': 'off',
-            'prefer-arrow-callback': 'off'
-          }
+        configs: {
+            recommended: {
+                extends: ['prettier'],
+                plugins: ['prettier'],
+                rules: {
+                    // 让代码文件中不符合prettier格式化规则的都标记为错误，
+                    // 结合vscode-eslint插件便可以看到这些错误被标记为红色，
+                    // 当运行eslint --fix 命令时，将自动修复这些错误。
+                    'prettier/prettier': 'error',
+                    'arrow-body-style': 'off',
+                    'prefer-arrow-callback': 'off'
+                }
+            }
         }
-      }
-      // ...
+        // ...
     }
     ```
 

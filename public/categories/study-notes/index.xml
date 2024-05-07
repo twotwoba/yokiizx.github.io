@@ -4,20 +4,7 @@
         <link>http://localhost:1313/categories/study-notes/</link>
         <description>Study Notes - 分类 - Hello World</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
-            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Fri, 08 Dec 2023 22:10:34 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/study-notes/" rel="self" type="application/rss+xml" /><item>
-    <title>Mysql_1_基础</title>
-    <link>http://localhost:1313/mysql_1/</link>
-    <pubDate>Thu, 30 Nov 2023 15:42:23 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/mysql_1/</guid>
-    <description><![CDATA[安装本人 m1 的 mac，下载地址，选择合适自己的版本下载安装。
-据说 mysql5.x 的版本比较稳定，比如 5.7，很多公司在用；那我现在的公司使用的是 8.x 的版本，而且有 arm 版。
-起停 shell
-# 基本命令 sudo /usr/local/mysql/support-files/mysql.server start sudo /usr/local/mysql/support-files/mysql.server restart sudo /usr/local/mysql/support-files/mysql.server stop sudo /usr/local/mysql/support-files/mysql.server status # 查看状态 环境配置，简化命令:
-shell
-# .zshrc export MYSQL_HOME=/usr/local/mysql export PATH=$MYSQL_HOME/support-files:$MYSQL_HOME/bin:$PATH # 按需配置 sudo mysql.server start sudo mysql.server restart sudo mysql.server stop 登录 shell
-# 登录 mysql [-h 主机] [-P 端口] -u 用户 -p 密码 # mysql 端口默认 3306 # 退出 exit 也可使用图形化软件进行连接，我选择了 DataGrip，当然也可以使用 navicat。]]></description>
-</item><item>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Thu, 07 Dec 2023 16:10:47 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/study-notes/" rel="self" type="application/rss+xml" /><item>
     <title>Mysql_2_索引和事务</title>
     <link>http://localhost:1313/mysql_2/</link>
     <pubDate>Thu, 07 Dec 2023 16:10:47 &#43;0800</pubDate><author>
@@ -29,38 +16,5 @@ sql
 副作用：
 索引自身也是占用空间的，添加索引后，表占用空间会变大 对 DML (insert into, update, delete) 语句有效率影响 (因为需要重新构建索引) 原理 没有索引时：从头到尾全表扫描 创建索引后：存储引擎 innodb，B+树，牺牲空间换时间～ TODO 索引类型 主键索引，主键自动地为主索引 唯一索引，unique 修饰的列 普通索引，index 全文索引，FULLTEXT，一般不用 mysql 自带的全文索引 开发中考虑使用全文搜索 solr，或者 ElasticSearch（即 es） 使用 sql
 # 查询是否有索引 SHOW INDEXES FROM tb_name # 创建或修改 create [unique] index index_name on tb_name (col_name [(length)]) alter table tb_name add index index_name (col_name) # 删除索引 drop index index_name on tb_name # 删除主键索引 alter table tb_name drop primary key 场景 一般频繁查询的字段应该创建索引 唯一性太差的字段不适合创建索引 更新非常频繁的字段不适合创建索引 不会出现在 where 子句中的字段不该创建索引 事务事务 用于保证数据的一致性，它由一组 dml 语句组成，该组的 dml 语句，要么全部成功，要么全部失败。&ndash; 比如转账，如果转出成功，转入失败，是很恐怖的事情。这就需要事务确保了。]]></description>
-</item><item>
-    <title>Mysql_3_视图和管理</title>
-    <link>http://localhost:1313/mysql_3/</link>
-    <pubDate>Thu, 07 Dec 2023 22:01:21 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/mysql_3/</guid>
-    <description><![CDATA[视图 基本概念MySQL 中的视图是虚拟的表，是基于 SELECT 查询结果的表。视图包含行和列，就像一个真实的表一样，但实际上并不存储任何数据。视图的数据是从基本表中检索出来的，每当使用视图时，都会动态地检索基本表中的数据。
-视图的使用可以简化复杂的查询操作，隐藏基本表的复杂性，提供安全性和简化权限管理。视图还可以用于重用 SQL 查询，减少重复编写相同的查询语句。
-基本语法如下：
-sql
-# 创建 CREATE VIEW view_name AS SELECT 语句 # 删除 DROP VIEW view_name; # 改 alter vie view_name as select 语句 # 查 show create view view_name 创建视图后，可以像操作普通表一样使用视图。
-注意：修改基表和视图，会互相影响。
-最佳实践 安全：一些数据表的重要信息，有些字段保密，不能让用户直接看到，就可以创建视图只保留部分字段。 性能：关系数据库的数据通常会分表存储，使用外键建立这些表之间的关系。这样做不但麻烦，而且效率相对较低，如果建立一个视图，将相关的表和字段组合在一起，就可以避免使用 join 查询数据。 灵活：如果有一张旧表，由于设计问题，需要废弃，然而很多应用基于这张表，不易修改。就可以建立一张视图，视图中的数据直接映射新建的表。这样既轻改动，又升级了数据表。 管理当做项目开发时，需要根据不同的开发人员，赋予相应的 mysql 权限。
-用户管理一个 DBMS 的用户都存储在系统数据库 mysql 的 user 表中。
-user 表中重要的三个字段：
-host, 允许登陆的位置，localhost &ndash; 本机登陆；可以指定 ip user, 用户名 authentication_string，密码，通过 PASSWORD() 机密过的 sql
-# 创建用户 create user &#39;user_name&#39;@&#39;host&#39; identified by &#39;password_str&#39; # 删除用户 drop user &#39;user_name&#39;@&#39;host&#39; # 修改自己密码 set password = PASSWORD(&#39;ps_str&#39;) # 修改别人密码 set password for &#39;user_name&#39;@&#39;host&#39; = PASSWORD(&#39;ps_str&#39;) 权限管理 常用权限 权限字段 意义 SELECT 允许用户读取数据库中的数据 INSERT 允许用户向数据库中的表中插入新的行 UPDATE 允许用户修改数据库中表中已有的行 DELETE 允许用户删除数据库中表中的行 CREATE 允许用户创建新的数据库或表 DROP 允许用户删除数据库或表 ALTER 允许用户修改数据库或表的结构 GRANT 允许用户授予或撤销权限给其他用户 REFERENCES 允许用户定义外键 INDEX 允许用户创建或删除索引 ALL 允许用户执行所有权限操作 USAGE 允许用户登录到服务器，但没有其他权限 基本操作 sql]]></description>
-</item><item>
-    <title>jdbc</title>
-    <link>http://localhost:1313/jdbc/</link>
-    <pubDate>Fri, 08 Dec 2023 22:10:34 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/jdbc/</guid>
-    <description><![CDATA[公司项目用的是 MybatisPlus，在此之前，先了解下 JDBC
-JDBC全称： Java Database Connectivity。
-基本概念JDBC 是 Java 编程语言的数据库连接 API，用于实现 Java 与数据库之间的连接和交互。它提供了一种机制来查询和更新数据库中的数据，并且支持关系型数据库。通过 JDBC，开发人员可以轻松地在 Java 应用程序中访问和操作数据库。
-简单说，有了 JDBC， java 就可以与所有的提供了 JDBC 驱动的数据库的交互统一。
-JDBC API相关类和借口在 java.sql 和 javax.sql 包中。自行查手册。
-快速入门 注册驱动 - 加载 Driver 类 获取连接 - 得到 Connection，DriverManager.getConnection(url,user,password); 执行增删改查 - 发送 SQL 给 mysql 执行 释放资源 - 关闭相关连接 鉴于只是了解，就看老韩的这个视频吧 JDBC 快速入门
-StatementJDBC 在建立连接后，有三个访问数据库 API： Statement, PreparedStatement, CallableStatement.
-Statement 对象用于执行静态 SQL 语句并返回其生成的结果的对象
-Statement 有 Sql 注入风险，为了防范建议使用 PreparedStatement.
-PreparedStatement，sql 语句中的参数使用 ?]]></description>
 </item></channel>
 </rss>

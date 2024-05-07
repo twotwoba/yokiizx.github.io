@@ -4,24 +4,5 @@
         <link>http://localhost:1313/tags/rollup/</link>
         <description>Rollup - 标签 - Hello World</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
-            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Wed, 21 Sep 2022 17:15:49 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/rollup/" rel="self" type="application/rss+xml" /><item>
-    <title>Rollup</title>
-    <link>http://localhost:1313/rollup/</link>
-    <pubDate>Wed, 21 Sep 2022 17:15:49 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/rollup/</guid>
-    <description><![CDATA[Rollup 的六种输出 官网例子 说不清 rollup 能输出哪 6 种格式 😥 差点被鄙视 插件支持 Plugin Development 常用插件 官方推荐插件列表
-基础必要的插件：
-@rollup/plugin-node-resolve，node 解析算法，辅助模块引入 @rollup/plugin-commonjs，辅助 CJS 的模块引入 @rollup/plugin-babel，具体集成方式参见官网：rollup - babel @rollup/plugin-typescript，按照残酷要求安装所有包后，tsc --init 初始化 ts 配置文件 @babel/preset-typescript， @rollup/plugin-terser 个人常用的的插件：
-@rollup/plugin-alias
-@rollup/plugin-run
-rollup-plugin-serve
-rollup-plugin-less
-@rollup/plugin-json question：即使装了插件，这么导入 import pkg from './package.json' 也会报错，需要按照下面方式导入：
-JS
-import { readFileSync } from &#39;fs&#39; // now, read package.json like this: const pkg = JSON.parse(readFileSync(new URL(&#39;./package.json&#39;, import.meta.url), &#39;utf8&#39;)); @rollup/plugin-image
-@rollup/plugin-url
-@rollup/plugin-strip，移出 debugger 类的语句，如：console.log()
-@rollup/plugin-run和rollup-plugin-serve和rollup-plugin-liveload @rollup/plugin-run ：用于在打包完成后自动运行生成的代码（包括命令行工具和服务等），可以帮助开发者快速地运行和测试项目。比如，你可以在 npm script 中使用这个插件来启动构建后的打包文件。 rollup-plugin-serve ：用于在开发过程中实时地提供一个 Web 服务器，可以使开发者在本地预览调试代码，具有文件监听、自动刷新等功能。 rollup-plugin-liveload ：也是用于实现实时预览和自动刷新的插件，但与 rollup-plugin-serve 不同的是，它并不包含 Web 服务器，而是会打开指定的 HTML 文件，并在其中注入一个 WebSocket 客户端来实现实时刷新的效果。 因此，这三个插件的主要区别在于它们的作用和使用方式。@rollup/plugin-run 是一个命令行工具，可以在打包后自动运行生成的代码，rollup-plugin-serve 和 rollup-plugin-liveload 则都是用于开发过程中的实时预览和自动刷新，但 rollup-plugin-serve 提供了一个 Web 服务器，而 rollup-plugin-liveload 则需要手动在 HTML 文件中添加 WebSocket 客户端代码。]]></description>
-</item></channel>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><atom:link href="http://localhost:1313/tags/rollup/" rel="self" type="application/rss+xml" /></channel>
 </rss>

@@ -2,15 +2,9 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>http://localhost:1313/mysql_1/</loc><lastmod>2023-11-30T15:42:23&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/react_hooks--usestateusereducer/</loc><lastmod>2023-07-25T11:47:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/mac%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%92%8C%E6%95%88%E7%8E%87/</loc><lastmod>2022-09-13T11:24:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/mysql_2/</loc><lastmod>2023-12-07T16:10:47&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/react_hooks--useeffectuselayouteffect/</loc><lastmod>2023-07-25T21:47:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/mysql_3/</loc><lastmod>2023-12-07T22:01:21&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/react_hooks--useref/</loc><lastmod>2023-07-26T11:47:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/react_hooks--usecontext/</loc><lastmod>2023-07-27T11:47:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/react_hooks--usememousecallback/</loc><lastmod>2023-07-27T11:47:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/</loc><lastmod>2024-05-07T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://localhost:1313/categories/algorithm/</loc><lastmod>2024-04-25T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
             <loc>http://localhost:1313/categories/</loc><lastmod>2024-05-07T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
@@ -25,19 +19,14 @@
             <loc>http://localhost:1313/%E9%93%BE%E8%A1%A8/</loc><lastmod>2024-03-04T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/%E5%BF%85%E6%8E%8C%E6%8F%A1%E7%9A%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</loc><lastmod>2024-01-04T15:37:23&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/new_life/</loc><lastmod>2024-01-03T14:33:13&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/jdbc/</loc><lastmod>2023-12-08T22:10:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/categories/study-notes/</loc><lastmod>2023-12-08T22:10:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/series/mysql/</loc><lastmod>2023-12-07T22:01:21&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://localhost:1313/series/mysql/</loc><lastmod>2023-12-07T16:10:47&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://localhost:1313/categories/study-notes/</loc><lastmod>2023-12-07T16:10:47&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/categories/bug/</loc><lastmod>2023-10-10T23:40:56&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/%E6%9C%89%E8%B6%A3%E7%9A%84bug/</loc><lastmod>2023-10-10T23:40:56&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/series/hooks/</loc><lastmod>2023-07-27T11:47:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/categories/react-hooks/</loc><lastmod>2023-07-27T11:47:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/tags/cli/</loc><lastmod>2023-03-30T16:50:12&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/series/format/</loc><lastmod>2023-03-30T16:50:12&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/tags/node/</loc><lastmod>2023-03-30T16:50:12&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/tags/</loc><lastmod>2024-02-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AA%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7/</loc><lastmod>2023-03-30T16:50:12&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://localhost:1313/series/hooks/</loc><lastmod>2023-07-25T11:47:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://localhost:1313/categories/react-hooks/</loc><lastmod>2023-07-25T11:47:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/tags/package.json/</loc><lastmod>2023-03-24T14:16:10&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://localhost:1313/tags/</loc><lastmod>2024-02-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/%E6%B7%B1%E5%85%A5package.json/</loc><lastmod>2023-03-24T14:16:10&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/tags/design-patterns/</loc><lastmod>2023-03-15T11:41:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F--%E8%A1%8C%E4%B8%BA%E5%9E%8B/</loc><lastmod>2023-03-15T11:41:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
@@ -59,7 +48,6 @@
             <loc>http://localhost:1313/tags/mac/</loc><lastmod>2022-12-01T11:31:39&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/tags/shell/</loc><lastmod>2022-12-01T11:31:39&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/shell%E5%9F%BA%E7%A1%80/</loc><lastmod>2022-12-01T11:31:39&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/linux%E5%9F%BA%E7%A1%80/</loc><lastmod>2022-12-01T08:08:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</loc><lastmod>2024-04-24T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
             <loc>http://localhost:1313/%E6%9A%B4%E5%8A%9B%E9%80%92%E5%BD%92-bfs/</loc><lastmod>2024-03-27T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/%E6%9A%B4%E5%8A%9B%E9%80%92%E5%BD%92-dfs%E5%9B%9E%E6%BA%AF/</loc><lastmod>2024-03-27T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
@@ -72,6 +60,7 @@
             <loc>http://localhost:1313/bfc/</loc><lastmod>2022-09-27T17:11:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/flex/</loc><lastmod>2022-09-27T17:10:53&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/eventloop/</loc><lastmod>2022-09-26T21:22:27&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://localhost:1313/tags/node/</loc><lastmod>2022-09-26T21:22:27&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/v8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</loc><lastmod>2022-09-25T23:42:56&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/map%E5%92%8Cset/</loc><lastmod>2022-09-25T23:24:07&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/curry%E5%92%8Ccompose/</loc><lastmod>2022-09-25T19:28:38&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
@@ -85,15 +74,10 @@
             <loc>http://localhost:1313/%E9%A1%B5%E9%9D%A2%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</loc><lastmod>2022-09-23T23:15:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/lru/</loc><lastmod>2024-02-27T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/</loc><lastmod>2024-04-25T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
-            <loc>http://localhost:1313/lerna/</loc><lastmod>2022-09-21T17:16:09&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/tags/rollup/</loc><lastmod>2022-09-21T17:15:49&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/rollup/</loc><lastmod>2022-09-21T17:15:49&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/js%E5%85%B3%E4%BA%8Edom%E9%83%A8%E5%88%862/</loc><lastmod>2022-09-20T21:51:51&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/node%E5%9F%BA%E7%A1%80/</loc><lastmod>2022-09-20T18:15:40&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/koa%E6%B4%8B%E8%91%B1%E6%A8%A1%E5%9E%8B/</loc><lastmod>2022-09-20T17:56:47&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/tags/babel/</loc><lastmod>2022-09-20T17:16:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/babel/</loc><lastmod>2022-09-20T17:16:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/node%E7%9A%84%E7%89%B9%E7%82%B9/</loc><lastmod>2022-09-20T17:13:40&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/commonjs%E5%92%8Cesm/</loc><lastmod>2022-09-20T17:09:03&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/tags/module/</loc><lastmod>2022-09-20T17:09:03&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/script%E6%A0%87%E7%AD%BE/</loc><lastmod>2022-09-20T17:07:56&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
@@ -115,5 +99,8 @@
             <loc>http://localhost:1313/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/</loc><lastmod>2022-04-26T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/vscode%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%BB%BA%E8%AE%AE/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/authors/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://localhost:1313/tags/cli/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/about/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://localhost:1313/series/format/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://localhost:1313/tags/rollup/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://localhost:1313/sponsor/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url></urlset>

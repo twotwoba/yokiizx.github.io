@@ -21,23 +21,16 @@
 </item><item>
     <title>Mysql</title>
     <link>http://localhost:1313/series/mysql/</link>
-    <pubDate>Thu, 07 Dec 2023 22:01:21 &#43;0800</pubDate><author>
+    <pubDate>Thu, 07 Dec 2023 16:10:47 &#43;0800</pubDate><author>
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/series/mysql/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>Hooks</title>
     <link>http://localhost:1313/series/hooks/</link>
-    <pubDate>Thu, 27 Jul 2023 11:47:25 &#43;0800</pubDate><author>
+    <pubDate>Tue, 25 Jul 2023 11:47:25 &#43;0800</pubDate><author>
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/series/hooks/</guid>
-    <description><![CDATA[]]></description>
-</item><item>
-    <title>Format</title>
-    <link>http://localhost:1313/series/format/</link>
-    <pubDate>Thu, 30 Mar 2023 16:50:12 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/series/format/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>Npm</title>
@@ -45,6 +38,13 @@
     <pubDate>Fri, 02 Dec 2022 20:40:32 &#43;0800</pubDate><author>
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/series/npm/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Format</title>
+    <link>http://localhost:1313/series/format/</link>
+    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/series/format/</guid>
     <description><![CDATA[]]></description>
 </item></channel>
 </rss>

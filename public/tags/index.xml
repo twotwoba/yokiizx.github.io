@@ -4,21 +4,7 @@
         <link>http://localhost:1313/tags/</link>
         <description>Tags - 标签 - Hello World</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
-            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Thu, 30 Mar 2023 16:50:12 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/" rel="self" type="application/rss+xml" /><item>
-    <title>Cli</title>
-    <link>http://localhost:1313/tags/cli/</link>
-    <pubDate>Thu, 30 Mar 2023 16:50:12 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/tags/cli/</guid>
-    <description><![CDATA[]]></description>
-</item><item>
-    <title>Node</title>
-    <link>http://localhost:1313/tags/node/</link>
-    <pubDate>Thu, 30 Mar 2023 16:50:12 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/tags/node/</guid>
-    <description><![CDATA[]]></description>
-</item><item>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Fri, 24 Mar 2023 14:16:10 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/" rel="self" type="application/rss+xml" /><item>
     <title>Package.json</title>
     <link>http://localhost:1313/tags/package.json/</link>
     <pubDate>Fri, 24 Mar 2023 14:16:10 &#43;0800</pubDate><author>
@@ -73,6 +59,20 @@
     <pubDate>Thu, 01 Dec 2022 11:31:39 &#43;0800</pubDate><author>
         <name>EricYuan</name>
     </author><guid>http://localhost:1313/tags/shell/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Design Mode</title>
+    <link>http://localhost:1313/tags/design-mode/</link>
+    <pubDate>Thu, 29 Sep 2022 17:19:13 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/tags/design-mode/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>JavaScript</title>
+    <link>http://localhost:1313/tags/javascript/</link>
+    <pubDate>Thu, 29 Sep 2022 17:19:13 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/tags/javascript/</guid>
     <description><![CDATA[]]></description>
 </item></channel>
 </rss>
