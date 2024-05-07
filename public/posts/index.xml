@@ -4,7 +4,7 @@
         <link>http://localhost:1313/posts/</link>
         <description>所有文章 | Hello World</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
-            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Wed, 21 Feb 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://localhost:1313/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Wed, 08 May 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://localhost:1313/posts/" rel="self" type="application/rss+xml" /><item>
     <title>Mysql_1_基础</title>
     <link>http://localhost:1313/mysql_1/</link>
     <pubDate>Thu, 30 Nov 2023 15:42:23 &#43;0800</pubDate><author>
@@ -31,10 +31,10 @@ tsx
 const [number, setNumber] = useState(0) const plus = () =&gt; { setNumber(number + 1) setNumber(number + 1) setNumber(number + 1) console.log(&#39;plus ---&#39;, number) // 输出仍然为 0, 就像一个快照 } useEffect(() =&gt; { console.log(&#39;effect ---&#39;, number) // 输出为 1，因为setNumber(number + 1) 的number在这次渲染流程中始终都是 0 !!! }, [number]) /* ---------- 如果依赖于前一次的状态那么应该使用函数式写法 ---------- */ const plus = () =&gt; { setNumber((prev) =&gt; prev + 1) // 更新函数 prev 准确的说是pending state setNumber((prev) =&gt; prev + 1) setNumber((prev) =&gt; prev + 1) console.]]></description>
 </item><item>
     <title>Mac上的高效软件与配置</title>
-    <link>http://localhost:1313/mac%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%92%8C%E6%95%88%E7%8E%87/</link>
+    <link>http://localhost:1313/mac%E4%B8%8A%E7%9A%84%E9%AB%98%E6%95%88%E8%BD%AF%E4%BB%B6%E4%B8%8E%E9%85%8D%E7%BD%AE/</link>
     <pubDate>Tue, 13 Sep 2022 11:24:00 &#43;0800</pubDate><author>
         <name>EricYuan</name>
-    </author><guid>http://localhost:1313/mac%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%92%8C%E6%95%88%E7%8E%87/</guid>
+    </author><guid>http://localhost:1313/mac%E4%B8%8A%E7%9A%84%E9%AB%98%E6%95%88%E8%BD%AF%E4%BB%B6%E4%B8%8E%E9%85%8D%E7%BD%AE/</guid>
     <description><![CDATA[工欲善其事，必先利其器 🥷
 文章取自本人日常使用习惯，不一定适合每个人，如您有更好的提效工具或技巧，欢迎留言 👏🏻
 软件推荐 Homebrew官网
@@ -131,15 +131,15 @@ useMemo 是加在数据上的缓存，而 memo api 是加在组件上的，只�
 useCallbackconst cachedFn = useCallback(fn, dependencies)
 reference useMemo useCallback ]]></description>
 </item><item>
-    <title>滑动窗口</title>
-    <link>http://localhost:1313/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
-    <pubDate>Wed, 21 Feb 2024 00:00:00 &#43;0000</pubDate><author>
+    <title>Vite自用手册</title>
+    <link>http://localhost:1313/vite%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/</link>
+    <pubDate>Wed, 08 May 2024 00:00:00 &#43;0000</pubDate><author>
         <name>EricYuan</name>
-    </author><guid>http://localhost:1313/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</guid>
-    <description><![CDATA[核心滑动窗口的核心就是维持一个 [i..j) 的区间窗口，在数据上游走，来获取到需要的信息，在数组,字符串等中的表现，往往如下：
-js
-function slideWindow() { // 前后快慢双指针 let left = 0 let right = 0 /** 具体的条件逻辑根据实际问题实际处理，多做练习 */ while(slide condition) { window.push(s[left]) // s 为总数据（字符串、数组） right++ while(shrink condition) { window.shift(s[left]) left++ } } } 滑动窗口的算法时间复杂度为 O(n)，适用于处理大型数据集
-练一练 lc.3 无重复字符的最长子串 js
-/** * @param {string} s * @return {number} */ var lengthOfLongestSubstring = function (s) { let max = 0 let l = 0, r = 0 let window = {} while (r &lt; s.]]></description>
+    </author><guid>http://localhost:1313/vite%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/</guid>
+    <description><![CDATA[本文基于 Vite 5.2.11，node18/20+，按照官方文档做一个个人的小总结，涵盖主要理念、注意点和主要功能配置。
+开始 开发 &amp; 生产 Vite 开发基于 ES module &amp; esbuild esm 依赖模块地图，静态分析，便于动态加载，能让 vite 能做到最小范围的 HMR 的基础 esbuild 进行依赖预构建提升性能 Vite 打包基于 Rollup，不使用 esbuild 是因为与插件 API 不兼容，后续有 rust 版本的 Rollup &ndash; Rolldown Vite 以 原生 ESM 方式提供源码，只需要在浏览器请求源码时进行转换并按需提供源码
+为什么生产环境仍然需要打包？
+如果不打包，浏览器端处理 ESM 嵌套导入会导致额外的网络往返，浪费性能 生产打包可以进行 tree shaking，懒加载和代码分割（可以获得更好的缓存） ESM 必知必会ESM 自动采用严格模式
+浏览器端创建 ESM：&lt;script type='module' src='xxx'&gt;&lt;/script&gt;，会延迟执行脚本，通过 CORS 请求外部 JS Node 环境创建 ESM：文件名后缀 .mjs 或者 package.json 添加 &quot;type&quot;:&quot;module&quot; 在 ESM 中可以动态导入模块，由此也产生了 top-level await 提案: 将整个文件模块视为一个巨大的 async 函数，打破了 await 必须跟随在 async 内的定律：const moduleA = await import('path/module.]]></description>
 </item></channel>
 </rss>

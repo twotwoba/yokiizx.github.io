@@ -4,12 +4,12 @@
         <link>http://localhost:1313/categories/tool/</link>
         <description>Tool - 分类 - Hello World</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
-            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Mon, 19 Sep 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://localhost:1313/categories/tool/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Wed, 08 May 2024 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://localhost:1313/categories/tool/" rel="self" type="application/rss+xml" /><item>
     <title>Mac上的高效软件与配置</title>
-    <link>http://localhost:1313/mac%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%92%8C%E6%95%88%E7%8E%87/</link>
+    <link>http://localhost:1313/mac%E4%B8%8A%E7%9A%84%E9%AB%98%E6%95%88%E8%BD%AF%E4%BB%B6%E4%B8%8E%E9%85%8D%E7%BD%AE/</link>
     <pubDate>Tue, 13 Sep 2022 11:24:00 &#43;0800</pubDate><author>
         <name>EricYuan</name>
-    </author><guid>http://localhost:1313/mac%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%92%8C%E6%95%88%E7%8E%87/</guid>
+    </author><guid>http://localhost:1313/mac%E4%B8%8A%E7%9A%84%E9%AB%98%E6%95%88%E8%BD%AF%E4%BB%B6%E4%B8%8E%E9%85%8D%E7%BD%AE/</guid>
     <description><![CDATA[工欲善其事，必先利其器 🥷
 文章取自本人日常使用习惯，不一定适合每个人，如您有更好的提效工具或技巧，欢迎留言 👏🏻
 软件推荐 Homebrew官网
@@ -21,6 +21,17 @@ sh
 ~/.zshrc 配置文件的部分配置：
 sh
 # zsh theme；default robbyrussell，prefer miloshadzic ZSH_THEME=&#34;miloshadzic&#34; # plugins plugins=( # 默认的,配置了很多别名 ~/.oh-my-zsh/plugins/git/git.plugin.zsh git # 语法高亮 # https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh zsh-syntax-highlighting # 输入命令的时候给出提示 # https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh zsh-autosuggestions ) # 让terminal标题干净 DISABLE_AUTO_TITLE=&#34;true&#34; 当VsCode终端出现git乱码问题，添加以下代码进 `~/.]]></description>
+</item><item>
+    <title>Vite自用手册</title>
+    <link>http://localhost:1313/vite%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/</link>
+    <pubDate>Wed, 08 May 2024 00:00:00 &#43;0000</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/vite%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/</guid>
+    <description><![CDATA[本文基于 Vite 5.2.11，node18/20+，按照官方文档做一个个人的小总结，涵盖主要理念、注意点和主要功能配置。
+开始 开发 &amp; 生产 Vite 开发基于 ES module &amp; esbuild esm 依赖模块地图，静态分析，便于动态加载，能让 vite 能做到最小范围的 HMR 的基础 esbuild 进行依赖预构建提升性能 Vite 打包基于 Rollup，不使用 esbuild 是因为与插件 API 不兼容，后续有 rust 版本的 Rollup &ndash; Rolldown Vite 以 原生 ESM 方式提供源码，只需要在浏览器请求源码时进行转换并按需提供源码
+为什么生产环境仍然需要打包？
+如果不打包，浏览器端处理 ESM 嵌套导入会导致额外的网络往返，浪费性能 生产打包可以进行 tree shaking，懒加载和代码分割（可以获得更好的缓存） ESM 必知必会ESM 自动采用严格模式
+浏览器端创建 ESM：&lt;script type='module' src='xxx'&gt;&lt;/script&gt;，会延迟执行脚本，通过 CORS 请求外部 JS Node 环境创建 ESM：文件名后缀 .mjs 或者 package.json 添加 &quot;type&quot;:&quot;module&quot; 在 ESM 中可以动态导入模块，由此也产生了 top-level await 提案: 将整个文件模块视为一个巨大的 async 函数，打破了 await 必须跟随在 async 内的定律：const moduleA = await import('path/module.]]></description>
 </item><item>
     <title>Git 自用手册</title>
     <link>http://localhost:1313/git%E8%87%AA%E7%94%A8%E6%89%8B%E5%86%8C/</link>

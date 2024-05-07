@@ -1,7 +1,7 @@
 ---
 title: 'Mac上的高效软件与配置'
 date: 2022-09-13T11:24:00+08:00
-tags: [mac, efficiency]
+tags: []
 categories: [tool]
 weight: 1
 ---

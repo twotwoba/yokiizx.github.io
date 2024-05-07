@@ -5,23 +5,6 @@
         <description>Mac - 标签 - Hello World</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ericyuanovo@gmail.com (EricYuan)</managingEditor>
             <webMaster>ericyuanovo@gmail.com (EricYuan)</webMaster><lastBuildDate>Thu, 01 Dec 2022 11:31:39 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/mac/" rel="self" type="application/rss+xml" /><item>
-    <title>Mac上的高效软件与配置</title>
-    <link>http://localhost:1313/mac%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%92%8C%E6%95%88%E7%8E%87/</link>
-    <pubDate>Tue, 13 Sep 2022 11:24:00 &#43;0800</pubDate><author>
-        <name>EricYuan</name>
-    </author><guid>http://localhost:1313/mac%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%92%8C%E6%95%88%E7%8E%87/</guid>
-    <description><![CDATA[工欲善其事，必先利其器 🥷
-文章取自本人日常使用习惯，不一定适合每个人，如您有更好的提效工具或技巧，欢迎留言 👏🏻
-软件推荐 Homebrew官网
-懂得都懂，mac 的包管理器，可以直接去官网按照提示安装即可。
-安装完成后记得替换一下镜像源，推荐腾讯镜像源。
-sh
-# 替换brew.git cd &#34;$(brew --repo)&#34; git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/brew.git # 替换homebrew-core.git cd &#34;$(brew --repo)/Library/Taps/homebrew/homebrew-core&#34; git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/homebrew-core.git 如果没有 🪜，可以使用国内大神的脚本傻瓜式安装： sh
-# 按照提示操作下去即可 /bin/zsh -c &#34;$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)&#34; oh-my-zsh直接点击官网安装即可。
-~/.zshrc 配置文件的部分配置：
-sh
-# zsh theme；default robbyrussell，prefer miloshadzic ZSH_THEME=&#34;miloshadzic&#34; # plugins plugins=( # 默认的,配置了很多别名 ~/.oh-my-zsh/plugins/git/git.plugin.zsh git # 语法高亮 # https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh zsh-syntax-highlighting # 输入命令的时候给出提示 # https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh zsh-autosuggestions ) # 让terminal标题干净 DISABLE_AUTO_TITLE=&#34;true&#34; 当VsCode终端出现git乱码问题，添加以下代码进 `~/.]]></description>
-</item><item>
     <title>Shell 基础</title>
     <link>http://localhost:1313/shell%E5%9F%BA%E7%A1%80/</link>
     <pubDate>Thu, 01 Dec 2022 11:31:39 &#43;0800</pubDate><author>
