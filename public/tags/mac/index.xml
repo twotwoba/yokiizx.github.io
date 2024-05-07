@@ -34,5 +34,17 @@ sh
 sh
 # 比如 demo.sh 文件内容如下 # ------------------------ #! /bin/zsh echo &#34;hello world&#34; # 执行两步走 chmod +x demo.sh ./demo.sh # 如果是如下执行，内文件内的 第一行#！xxx 是无效的，写了也没用 /bin/zsh demo.sh 变量 sh
 # 声明 variable_name=&#39;demo&#39; readonly variable_name # 只读变量 # 使用 $variable_name # 可以加上{}来确认边界 ${variable_name} # 删除变量 unset variable_name # 不能删除只读变量 字符串 sh]]></description>
+</item><item>
+    <title>Linux基础</title>
+    <link>http://localhost:1313/linux%E5%9F%BA%E7%A1%80/</link>
+    <pubDate>Thu, 01 Dec 2022 08:08:31 &#43;0800</pubDate><author>
+        <name>EricYuan</name>
+    </author><guid>http://localhost:1313/linux%E5%9F%BA%E7%A1%80/</guid>
+    <description><![CDATA[前言使用 mac 很多地方和 linux 是很像的，配置环境的时候总是去各种百度，让我很不爽，虽然本人只是个小前端，但是谁规定我只能学前端呢？计算机是个广阔的天地，只要我感兴趣，必拿下~
+linux 系统目录记录一下&quot;常识&quot;目录：
+/bin， Binaries (二进制文件) 的缩写, 存放着最经常使用的基本命令 /sbin，s 为 super，管理员权限，存放的是最基本系统命令 /etc， Etcetera（等等）的缩写，存放所有系统管理所需要的配置文件和子目录 /lib， Library（库）的缩写，存放着系统最基本的动态连接共享库，与 windows 的 DLL 文件作用类似。 /usr， Unix Shared resources（共享资源） 的缩写，存放用户的应用程序和文件 /opt， Optional（可选）的缩写，安装额外软件的目录 /var， Variable（变量）的缩写，一般存放经常修改的东西，比如各种日志文件 /home，用户的主目录，在 mac 上是~，等价于Users/主机名 /usr/bin，系统用户使用的应用程序(后续安装的程序) /usr/sbin，管理员使用的应用程序(但不是必须的) linux 文件属性查看文件完整属性命令
+sh
+ls -l # 或者 ll sh
+total 0 drwx------ 5 yokiizx staff 160B Mar 15 2022 Applications drwx------ 42 yokiizx staff 1.3K Dec 3 21:27 Desktop drwxr-xr-x 4 yokiizx staff 128B Aug 7 2021 Public drwxr-xr-x：文件属性就是由这十个字符来表示的，r-可读，w-可写，x-可执行。]]></description>
 </item></channel>
 </rss>
