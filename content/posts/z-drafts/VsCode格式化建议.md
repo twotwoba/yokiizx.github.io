@@ -27,7 +27,11 @@ draft: true
     {
         "editor.formatOnSave": true, // 保存时自动格式化
         "editor.codeActionsOnSave": {
-            "source.fixAll.eslint": true // 保存时自动修复
+            "editor.codeActionsOnSave": {
+                "source.fixAll": "always", // 保存时自动修复 explict只有手动显示保存才会自动修复
+                "source.fixAll.eslint": "always",
+                "source.fixAll.stylelint": "always"
+            }
         }
     }
     ```
@@ -36,14 +40,14 @@ draft: true
 
     ```json
     {
-        "printWidth": 80,
-        "tabWidth": 2,
+        "printWidth": 120,
+        "tabWidth": 4,
         "useTabs": false,
-        "semi": false,
+        "semi": false, // 末尾分号
         "singleQuote": true,
-        "trailingComma": "none",
+        "trailingComma": "none", // 对象数组末尾逗号
         "bracketSpacing": true,
-        "arrowParens": "always",
+        "arrowParens": "avoid", // 箭头函数只有一个参数 省略括号
         "htmlWhitespaceSensitivity": "ignore",
         "endOfLine": "auto"
     }
