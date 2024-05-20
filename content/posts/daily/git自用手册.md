@@ -176,6 +176,12 @@ export LESSHARESET=utf-8
 g plo develop --allow-unrelated-histories
 ```
 
+## Git error on git pull (unable to update local ref)
+
+```sh
+g remote prune origin
+```
+
 ## 参考
 
 -   [Pro Git 2nd Edition](https://git-scm.com)
