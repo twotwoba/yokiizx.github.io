@@ -27,10 +27,15 @@ git config --global alias.g git
 git config --global alias.c 'config' # g c user.name eric
 git config --global alias.cg 'config --global' # g cg user.email eric@gmail.com
 
+# 查看配置
+g cg alias.cl 'config --list'
+g cg alias.cgl 'config --global --list'
+g cg alias.cll 'config --local  --list'  # 查看当前仓库下的 git 配置
+
 # 对于大型仓库只 clone 对应分支, g cloneb [bracnchName | tagName] [url] ⭐️
 g cg alias.cloneb 'clone --single-branch --branch'
 
-g cg alias.st status # 常用，提交前看一眼大致变化
+g cg alias.st status
 g cg alias.ad 'add -A'
 g cg alias.cm 'commit -m'
 g cg alias.ps push
@@ -40,11 +45,6 @@ g cg alias.plo 'pull origin'
 
 g cg alias.cam 'commit --amend -m'        # 修改最后一次 commit（⭐️会变更commitId）
 g cg alias.can 'commit --amend --no-edit' # 追加修改，不加新 commit（g can ⭐️ 经常使用了属于是）
-
-# 查看配置
-g cg alias.cl 'config --list'
-g cg alias.cgl 'config --global --list'
-g cg alias.cll 'config --local  --list'  # 查看当前仓库下的 git 配置
 
 # --------------------------------------------------------------------------------------
 # 分支相关 (对于很多新手都不清楚的是：branchName 也只是一个指针!!!s)
@@ -74,6 +74,7 @@ g cg alias.rv 'revert'         # 反向操作，产生新的 commit
 # 下面的 reset 是移动分支指针，并移出之后的 commit，同时还带有一点副作用
 g cg alias.rh 'reset --hard'    # 副作用：会重置暂存区和工作区
 g cg alias.rs 'reset --soft'    # 副作用：不会重置暂存区和工作区
+# 常用场景： g rs HEAD^ ,想要修改创建了 commit 还未提交的内容
 # g reset --mixed commitId      # 副作用：重置暂存区,工作区不变，是 reset 的默认方式
 g cg alias.cp cherry-pick       # g cp [commit/brname] 如果是 brname 则是把该分支最新commit合并(再次验证 brname 也就是一个指针~)
 # cp 区间 g cp  commitA..commitB  把区间 (A, B] 的 commit 都合进来，A 早于 B 的
