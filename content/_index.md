@@ -1,6 +1,4 @@
 ---
 ---
 
-<!-- {{<youtube wnHW6o8WMas>}} -->
-
-{{<bilibili BV1Cg4y187uN >}}
+本博客已迁移, 请移步 [twotwoba.site](https://www.twotwoba.site)
