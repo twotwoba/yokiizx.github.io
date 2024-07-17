@@ -5,14 +5,14 @@ languageCode = "zh-CN"
 theme = "DoIt"
 
 [menu]
-[[menu.main]]
-identifier = "posts"
-pre = ""
-post = ""
-name = "文章"
-url = "/posts/"
-title = ""           # 当你将鼠标悬停在此菜单链接上时, 将显示的标题
-weight = 1
+# [[menu.main]]
+# identifier = "posts"
+# pre = ""
+# post = ""
+# name = "文章"
+# url = "/posts/"
+# title = ""           # 当你将鼠标悬停在此菜单链接上时, 将显示的标题
+# weight = 1
 # [[menu.main]]
 #   identifier = "tags"
 #   pre = ""
@@ -21,14 +21,14 @@ weight = 1
 #   url = "/tags/"
 #   title = ""
 #   weight = 2
-[[menu.main]]
-identifier = "categories"
-pre = ""
-post = ""
-name = "分类"
-url = "/categories/"
-title = ""
-weight = 3
+# [[menu.main]]
+# identifier = "categories"
+# pre = ""
+# post = ""
+# name = "分类"
+# url = "/categories/"
+# title = ""
+# weight = 3
 # [[menu.main]]
 # identifier = "algorithm"
 # pre = ""
